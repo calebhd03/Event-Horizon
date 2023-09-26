@@ -4,26 +4,42 @@ using UnityEngine;
 
 public class BulletProjectile : MonoBehaviour
 {
-
     private Rigidbody bulletRigidbody;
 
-    private void Awake() {
+    private void Awake()
+    {
         bulletRigidbody = GetComponent<Rigidbody>();
     }
 
-    private void Start() {
+    private void Start()
+    {
         float speed = 10f;
         bulletRigidbody.velocity = transform.forward * speed;
     }
 
-    private void OntriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if(other.GetComponent<target>() != null)
+        if (other.GetComponent<HealthMetrics>() != null)
         {
-            //Hit target
-        }else {
-            //Hit somthing else
+            HealthMetrics healthMetrics = other.GetComponent<HealthMetrics>();
+
+            if (healthMetrics != null)
+            {
+                healthMetrics.ModifyHealth(-20f); // Apply 20 damage to the object
+            }
+            // Handle the hit target logic here, if needed.
         }
+        else
+        {
+            // Handle hitting something else logic here, if needed.
+        }
+
         Destroy(gameObject);
     }
 }
+
+
+
+
+
+
