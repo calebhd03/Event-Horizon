@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class ThirdPersonShooterController : MonoBehaviour 
 {
 
-    [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
+    [SerializeField] public CinemachineVirtualCamera aimVirtualCamera;
     [SerializeField] private float normalSensitivity;
     [SerializeField] private float aimSensitivity;
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
@@ -37,7 +37,9 @@ public class ThirdPersonShooterController : MonoBehaviour
             mouseWorldPosition = raycastHit.point;
         }
 
-        if(starterAssetsInputs.aim){
+        Scanner scnScr = GetComponent<Scanner>();
+        if(starterAssetsInputs.aim && scnScr.Scan == false){
+
             aimVirtualCamera.gameObject.SetActive(true);
             thirdPersonController.SetSensitivity(aimSensitivity);
             thirdPersonController.SetRotateOnMove(false);
