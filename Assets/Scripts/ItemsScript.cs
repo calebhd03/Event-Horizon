@@ -12,11 +12,13 @@ public class ItemsScript : MonoBehaviour
     private Color highlightColor = Color.cyan;
     private Color normalColor = Color.white;
     private Color scanColor = Color.blue;
+    
 
 
     void Start()
     {
         CylinderText.SetActive(false);
+        
 
     }
 
@@ -28,7 +30,6 @@ public class ItemsScript : MonoBehaviour
         {
             ObjectRef.GetComponent<Renderer>().material.SetColor("_Color", normalColor);
         }
-
     }
 
     public void ScriptActive()

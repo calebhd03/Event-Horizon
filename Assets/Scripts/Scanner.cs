@@ -21,10 +21,10 @@ public class Scanner : MonoBehaviour
     //public Camera ScanCam;
     public CinemachineVirtualCamera ScanCamObj;
     public CinemachineVirtualCamera ScanCamZoom;
-    public CinemachineVirtualCamera NormalZoom;
+    //public CinemachineVirtualCamera NormalZoom;
     //public Camera MainCam;
     //public GameObject MainCamObj;
-    public KeyCode ScanCamKey = KeyCode.P;
+    //public KeyCode ScanCamKey = KeyCode.P;
     public float defausltFov = 100;
     public bool ScanDisabled;
     public bool Scan;
@@ -53,22 +53,23 @@ public class Scanner : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         Scan1 = Scan;
-        if(Input.GetKeyDown(ScanCamKey) && ScanDisabled == true)
+        if (starterAssetsInputs.scan)
         {
-            
+            starterAssetsInputs.scan = false;
+            if (ScanDisabled == true){
             Enablescan();
             Invoke("ScanEnabled", 1.0f);
-            
-
-        }
-        if(Input.GetKeyDown(ScanCamKey) && ScanDisabled == false)
-        {
+            }
+            if (ScanDisabled == false){
             ScanDisabled = true;
             Disablescan();
+            }
+
         }
+
 
             Vector3 mouseWorldPosition = Vector3.zero;
 
