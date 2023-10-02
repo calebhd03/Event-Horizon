@@ -35,14 +35,20 @@ public class ObjectivesScript : MonoBehaviour
 
     void Update()
     {
-        Scanner scnScr = Playerobject.GetComponent<Scanner>();
+        Scanning scnScr = Playerobject.GetComponent<Scanning>();
+
+        if (scnScr.Scan == true)
+        {
+            ScanColor();
+            Debug.Log("it tried to change color");
+        }
         if (scnScr.Scan == false)
         {
-            ObjectRef.GetComponent<Renderer>().material.SetColor("_Color", normalColor);
+            ObjectRef.GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
         }
         
         //progress bar
-        progressBar.value = elapsed;
+     /*   progressBar.value = elapsed;
         if(Input.GetMouseButtonUp(0))
         {
             Invoke("Scriptdisabled", 1.0f);
@@ -51,7 +57,7 @@ public class ObjectivesScript : MonoBehaviour
         if(progressBar.value >= 5.0f)
         {
             Scanned = true;
-        }
+        }*/
     }
 
     public void ScriptActive()
@@ -81,14 +87,14 @@ public class ObjectivesScript : MonoBehaviour
 
     public void ScanColor()
     {
-        ObjectRef.GetComponent<Renderer>().material.SetColor("_Color", scanColor);
+        ObjectRef.GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
         //Debug.Log("cube should highlight");
     }
     
     public void highlight()
     {
         //Should highlight the object when looked at
-        ObjectRef.GetComponent<Renderer>().material.SetColor("_Color", highlightColor);
+        ObjectRef.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
     }
 
         public void Unhighlight()

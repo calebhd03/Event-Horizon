@@ -37,8 +37,8 @@ public class ThirdPersonShooterController : MonoBehaviour
             mouseWorldPosition = raycastHit.point;
         }
 
-        Scanner scnScr = GetComponent<Scanner>();
-        if(starterAssetsInputs.aim && scnScr.Scan == false){
+
+        if(starterAssetsInputs.aim){
 
             aimVirtualCamera.gameObject.SetActive(true);
             thirdPersonController.SetSensitivity(aimSensitivity);

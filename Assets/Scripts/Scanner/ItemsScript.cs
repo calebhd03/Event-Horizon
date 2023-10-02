@@ -12,24 +12,27 @@ public class ItemsScript : MonoBehaviour
     private Color highlightColor = Color.cyan;
     private Color normalColor = Color.white;
     private Color scanColor = Color.blue;
-    
 
 
     void Start()
     {
         CylinderText.SetActive(false);
-        
 
     }
 
 
     void Update()
     {
-        Scanner scnScr = Playerobject.GetComponent<Scanner>();
+        Scanning scnScr = Playerobject.GetComponent<Scanning>();
+        if (scnScr.Scan == true)
+        {
+            ScanColor();
+        }
         if (scnScr.Scan == false)
         {
-            ObjectRef.GetComponent<Renderer>().material.SetColor("_Color", normalColor);
+            ObjectRef.GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
         }
+
     }
 
     public void ScriptActive()
@@ -46,13 +49,13 @@ public class ItemsScript : MonoBehaviour
     public void ScanColor()
     {
         //Debug.Log("cylinder should highlight");
-        ObjectRef.GetComponent<Renderer>().material.SetColor("_Color", scanColor);
+        ObjectRef.GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
     }
     
     public void highlight()
     {
         //Should highlight the object when looked at
-        ObjectRef.GetComponent<Renderer>().material.SetColor("_Color", highlightColor);
+        ObjectRef.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
     }
 
     public void Unhighlight()

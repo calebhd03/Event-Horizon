@@ -15,6 +15,7 @@ namespace StarterAssets
 		public bool aim;
 		public bool shoot;
 		public bool scan;
+		public bool scanaim;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -54,7 +55,7 @@ namespace StarterAssets
 
 		public void OnShoot(InputValue value)
 		{
-			if( aim = true)
+			if( aim == true)
 			{
 			ShootInput(value.isPressed);
 			}
@@ -62,6 +63,13 @@ namespace StarterAssets
 		public void OnScan(InputValue value)
 		{
 			ScanInput(value.isPressed);
+		}
+		public void OnScanaim(InputValue value)
+		{
+			if( scanaim == true)
+			{
+			ScanaimInput(value.isPressed);
+			}
 		}
 #endif
 
@@ -99,7 +107,10 @@ namespace StarterAssets
 		{
 			scan = newScanState;
 		}
-
+		public void ScanaimInput(bool newScanaimState)
+		{
+			scan = newScanaimState;
+		}
 		private void OnApplicationFocus(bool hasFocus)
 		{
 			SetCursorState(cursorLocked);
