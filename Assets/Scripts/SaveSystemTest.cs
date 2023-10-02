@@ -15,8 +15,7 @@ public class SaveSystemTest : MonoBehaviour
         }
         if (Input.GetKeyDown("o"))
         {
-            SaveSystem.SavePlayer(this);
-            Debug.Log("Game Save input pressed.");
+            SaveGame();
         }
 
         if (Input.GetKeyDown("p"))
@@ -32,5 +31,11 @@ public class SaveSystemTest : MonoBehaviour
             Debug.Log(position);
             Debug.Log("Game Load input pressed.");
         }
+    }
+
+    public void SaveGame()
+    {
+        SaveSystem.SavePlayer(this);
+        Debug.Log("Game Saved.");
     }
 }
