@@ -33,8 +33,10 @@ public class SaveSystemTest : MonoBehaviour
 
         if(Input.GetKeyDown("]"))
         {
+            //Debug.Log("Player position before change:" + transform.position);
             transform.position = new Vector3(0,0,0);
-            Debug.Log("Player Moved!");
+            //Debug.Log("Player Moved to (0, 0, 0)");
+            //Debug.Log("Player position after change:" + transform.position);
         }
     }
 
