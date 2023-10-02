@@ -5,7 +5,6 @@ using UnityEngine;
 public class SaveSystemTest : MonoBehaviour
 {
     public int testData = 1;
-    public GameObject player;
     
     void Update()
     {
@@ -29,7 +28,8 @@ public class SaveSystemTest : MonoBehaviour
             position.x = data.position[0];
             position.y = data.position[1];
             position.z = data.position[2];
-            player.transform.position = position;
+            transform.position = position;
+            Debug.Log(position);
             Debug.Log("Game Load input pressed.");
         }
     }
