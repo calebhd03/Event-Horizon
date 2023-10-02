@@ -8,17 +8,17 @@ public class SaveSystemTest : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKeyDown("["))
+        if (Input.GetKeyDown("[")) //Add value to test variable
         {
             testData += 1;
             Debug.Log(testData);
         }
-        if (Input.GetKeyDown("o"))
+        if (Input.GetKeyDown("o")) //Debug input to test save
         {
             SaveGame();
         }
 
-        if (Input.GetKeyDown("p"))
+        if (Input.GetKeyDown("p")) //Debug input to test loading
         {
             PlayerData data = SaveSystem.LoadPlayer();
 
@@ -29,6 +29,12 @@ public class SaveSystemTest : MonoBehaviour
             position.z = data.position[2];
             transform.position = position;
             Debug.Log(position);
+        }
+
+        if(Input.GetKeyDown("]"))
+        {
+            transform.position = new Vector3(0,0,0);
+            Debug.Log("Player Moved!");
         }
     }
 
