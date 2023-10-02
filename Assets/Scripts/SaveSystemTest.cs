@@ -29,13 +29,11 @@ public class SaveSystemTest : MonoBehaviour
             position.z = data.position[2];
             transform.position = position;
             Debug.Log(position);
-            Debug.Log("Game Load input pressed.");
         }
     }
 
     public void SaveGame()
     {
         SaveSystem.SavePlayer(this);
-        Debug.Log("Game Saved.");
     }
 }
