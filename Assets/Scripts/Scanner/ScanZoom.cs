@@ -30,7 +30,7 @@ public class ScanZoom : MonoBehaviour
 
     private void ScanZoomPriority()
     {
-        Debug.Log("Scanzoom pressed");
+        //Debug.Log("Scanzoom pressed");
         Scanning ScnScr = GetComponent<Scanning>();
 
 

@@ -19,6 +19,10 @@ public class ThirdPersonShooterController : MonoBehaviour
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
 
+    public GameObject Scanningobject;
+    public GameObject Scannercamera;
+
+
     private void Awake()
     {
         thirdPersonController = GetComponent<ThirdPersonController>();

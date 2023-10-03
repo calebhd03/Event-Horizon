@@ -20,6 +20,7 @@ public class Scanning : MonoBehaviour
     public bool Scan = false;
 
 
+
     private void OnEnable()
     {
         action.Enable();
@@ -40,19 +41,19 @@ public class Scanning : MonoBehaviour
             Scan = true;
             MainCam.Priority = 0;
             ScanCam.Priority = 1;
-            Debug.Log("Scanning true");
+            //Debug.Log("Scanning true");
         }
         else{
             Scan = false;
             MainCam.Priority = 10;
             ScanCam.Priority = 0;
-            Debug.Log("Scanning false");
+            //Debug.Log("Scanning false");
         }
         MainCamera = !MainCamera;
 
     }    
     void Update()
     {
-                
+         
     }
 }

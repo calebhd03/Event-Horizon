@@ -641,7 +641,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &863290541
 RectTransform:
   m_ObjectHideFlags: 0
@@ -880,7 +880,7 @@ GameObject:
   - component: {fileID: 983655368}
   m_Layer: 7
   m_Name: Cylinder
-  m_TagString: Untagged
+  m_TagString: Cylinder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1225,6 +1225,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 978891664, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
+      propertyPath: Scannercamera
+      value: 
+      objectReference: {fileID: 1458057777}
+    - target: {fileID: 978891664, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
+      propertyPath: Scanningobject
+      value: 
+      objectReference: {fileID: 631398663}
     - target: {fileID: 978891664, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
       propertyPath: pfBulletProjectile
       value: 
@@ -1686,7 +1694,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Scanningobject: {fileID: 631398663}
-  range: 5
+  Objectives:
+    serializedVersion: 2
+    m_Bits: 256
+  range: 50
 --- !u!1 &1676689664
 GameObject:
   m_ObjectHideFlags: 0
@@ -1721,7 +1732,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using StarterAssets;
 
 public class ObjectivesScript : MonoBehaviour
 {
@@ -20,6 +21,15 @@ public class ObjectivesScript : MonoBehaviour
     private float elapsed;
     public bool Scanned;
     public GameObject ProgressSlider;
+
+    private ThirdPersonController thirdPersonController;
+    private StarterAssetsInputs starterAssetsInputs;
+
+    private void Awake()
+    {
+        thirdPersonController = GetComponent<ThirdPersonController>();
+        starterAssetsInputs = GetComponent<StarterAssetsInputs>();
+    }
 
 
     void Start()
@@ -40,7 +50,7 @@ public class ObjectivesScript : MonoBehaviour
         if (scnScr.Scan == true)
         {
             ScanColor();
-            Debug.Log("it tried to change color");
+            //Debug.Log("it tried to change color");
         }
         if (scnScr.Scan == false)
         {
@@ -63,7 +73,7 @@ public class ObjectivesScript : MonoBehaviour
     public void ScriptActive()
     {
         //progress bar
-        if(Input.GetMouseButton(0) && Scanned == false)
+        if(starterAssetsInputs.scanobj && Scanned == false)
         {
             elapsed += Time.deltaTime;
             ProgressSlider.SetActive(true);
