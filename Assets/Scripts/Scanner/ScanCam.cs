@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using StarterAssets;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -14,14 +13,8 @@ public class ScanCam : MonoBehaviour
     
     public float range = 5;
 
-    private ThirdPersonController thirdPersonController;
-    private StarterAssetsInputs starterAssetsInputs;
 
-    private void Awake()
-    {
-        thirdPersonController = GetComponent<ThirdPersonController>();
-        starterAssetsInputs = GetComponent<StarterAssetsInputs>();
-    }
+
     void Update()
     {
         Scanning scnScr = Scanningobject.GetComponent<Scanning>();
@@ -91,13 +84,6 @@ public class ScanCam : MonoBehaviour
                 }
             }
         }
-
-
-        if (starterAssetsInputs.scanobj)
-        {
-            Debug.Log("scanning");
-        }
-
     }
 
     public void ScanObj()
@@ -120,9 +106,11 @@ public class ScanCam : MonoBehaviour
             ItemsScript cylScr = hit.collider.GetComponent<ItemsScript>();
             if (hit.collider.tag == "Cylinder")
             {
-                cylScr.ScriptActive();
+                cylScr.ScriptActive();    
             }  
           
         }   
     }
+
+
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using Cinemachine;
 using StarterAssets;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class ThirdPersonShooterController : MonoBehaviour 
 {
@@ -19,8 +20,12 @@ public class ThirdPersonShooterController : MonoBehaviour
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
 
+
+    [Header("Scanner Necessities")]
     public GameObject Scanningobject;
     public GameObject Scannercamera;
+    public bool Scanenabled = false;
+    
 
 
     private void Awake()
@@ -68,7 +73,28 @@ public class ThirdPersonShooterController : MonoBehaviour
             starterAssetsInputs.shoot = false;
         }
         
+        if (starterAssetsInputs.scan)
+        {
+            starterAssetsInputs.scan = true;
+            Scanning scnScr = Scanningobject.GetComponent<Scanning>();
+            scnScr.ScanCamPriority();
+            if (starterAssetsInputs.scan == true)
+            {
+                starterAssetsInputs.scan = false;
+            }
+        }
 
+        if (starterAssetsInputs.scanobj)
+        {
+            ScanCam scnCam = Scannercamera.GetComponent<ScanCam>();
+            
+            scnCam.ScanObj();
+        }
+
+        if(starterAssetsInputs.scanaim)
+        {
+           // ScanZoomPriority();
+        }
     }
     
 }

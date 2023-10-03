@@ -14,8 +14,7 @@ public class ScanZoom : MonoBehaviour
     [SerializeField]
     private CinemachineVirtualCamera ScanAim;
 
-    private ThirdPersonController thirdPersonController;
-    private StarterAssetsInputs starterAssetsInputs;
+
 
     /*private void OnEnable()
     {
@@ -25,11 +24,7 @@ public class ScanZoom : MonoBehaviour
     {
         action.Disable();
     }*/
-    private void Awake()
-    {
-        thirdPersonController = GetComponent<ThirdPersonController>();
-        starterAssetsInputs = GetComponent<StarterAssetsInputs>();
-    }
+
 
     void Start()
     {
@@ -38,11 +33,7 @@ public class ScanZoom : MonoBehaviour
 
     void Update()
     {
-        if(starterAssetsInputs.scanaim)
-        {
-            ScanZoomPriority();
-        }
-
+        
     }
 
 

@@ -58,31 +58,33 @@ public class ObjectivesScript : MonoBehaviour
         }
         
         //progress bar
-     /*   progressBar.value = elapsed;
-        if(Input.GetMouseButtonUp(0))
+        progressBar.value = elapsed;
+        /*if(Input.GetMouseButtonUp(0))
         {
             Invoke("Scriptdisabled", 1.0f);
-        }
+        }*/
 
         if(progressBar.value >= 5.0f)
         {
             Scanned = true;
-        }*/
+        }
     }
 
     public void ScriptActive()
     {
         //progress bar
-        if(starterAssetsInputs.scanobj && Scanned == false)
+        if(Scanned == false)
         {
             elapsed += Time.deltaTime;
             ProgressSlider.SetActive(true);
+            Invoke("Scriptdisabled", 1.0f);
         }
 
         if(Scanned == true)
         {
             ProgressSlider.SetActive(false);
             CubeText.SetActive(true);
+            Invoke("Scriptdisabled", 1.0f);
         }
         
         

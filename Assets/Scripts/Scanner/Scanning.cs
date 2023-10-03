@@ -41,7 +41,7 @@ public class Scanning : MonoBehaviour
     {
         //action.performed += P => ScanCamPriority();
     }
-    private void ScanCamPriority()
+    public void ScanCamPriority()
     {
         
         if (MainCamera)
@@ -62,12 +62,6 @@ public class Scanning : MonoBehaviour
     }    
     void Update()
     {
-        if (starterAssetsInputs.scan)
-        {
-            Debug.Log("scanpressed");
-            //ScanCamPriority();
-        }
-
 
     }
 }
