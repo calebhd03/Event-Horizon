@@ -67,6 +67,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             
             starterAssetsInputs.shoot = false;
         }
+        
 
     }
     

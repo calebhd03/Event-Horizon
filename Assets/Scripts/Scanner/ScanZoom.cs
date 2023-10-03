@@ -3,28 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.InputSystem;
+using StarterAssets;
 
 public class ScanZoom : MonoBehaviour
 {
     [SerializeField]
     private CinemachineVirtualCamera ScanCam;
-    [SerializeField]
-    private InputAction action;
+    //[SerializeField]
+    //private InputAction action;
     [SerializeField]
     private CinemachineVirtualCamera ScanAim;
 
-    private void OnEnable()
+    private ThirdPersonController thirdPersonController;
+    private StarterAssetsInputs starterAssetsInputs;
+
+    /*private void OnEnable()
     {
         action.Enable();
     }
     private void OnDisable()
     {
         action.Disable();
+    }*/
+    private void Awake()
+    {
+        thirdPersonController = GetComponent<ThirdPersonController>();
+        starterAssetsInputs = GetComponent<StarterAssetsInputs>();
     }
 
     void Start()
     {
-         action.performed += O => ScanZoomPriority();
+         //action.performed += O => ScanZoomPriority();
+    }
+
+    void Update()
+    {
+        if(starterAssetsInputs.scanaim)
+        {
+            ScanZoomPriority();
+        }
+
     }
 
 

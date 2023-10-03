@@ -442,6 +442,7 @@ GameObject:
   m_Component:
   - component: {fileID: 631398664}
   - component: {fileID: 631398665}
+  - component: {fileID: 631398666}
   m_Layer: 0
   m_Name: Scanning
   m_TagString: Untagged
@@ -456,8 +457,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 631398663}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.51047516, y: 3.630275, z: 3.3954916}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.5104754, y: 3.630275, z: 3.3954916}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -477,25 +478,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainCam: {fileID: 683531919}
-  action:
-    m_Name: Action
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: d64e2d0d-63b2-432b-a53b-2cf7e2796f4a
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 09b0f809-9dad-4df0-8af2-8e3086ecd60a
-      m_Path: <Keyboard>/p
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Action
-      m_Flags: 0
-    m_Flags: 0
   ScanCam: {fileID: 1458057778}
   Scan: 0
+--- !u!114 &631398666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631398663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e087ecce43ebbff45a1b360637807d93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  move: {x: 0, y: 0}
+  look: {x: 0, y: 0}
+  jump: 0
+  sprint: 0
+  aim: 0
+  shoot: 0
+  scan: 0
+  scanaim: 0
+  scanobj: 0
+  analogMovement: 0
+  cursorLocked: 1
+  cursorInputForLook: 1
 --- !u!1 &680152329
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,6 +744,7 @@ GameObject:
   m_Component:
   - component: {fileID: 876474939}
   - component: {fileID: 876474940}
+  - component: {fileID: 876474941}
   m_Layer: 0
   m_Name: ScanningZoom
   m_TagString: Untagged
@@ -750,8 +759,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 876474938}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.51047516, y: 3.630275, z: 3.3954916}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.5104754, y: 3.630275, z: 3.3954916}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -771,24 +780,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ScanCam: {fileID: 1458057778}
-  action:
-    m_Name: Action
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 3a034506-05ea-4dc3-a447-d4a2cde8e7c8
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 058c01d9-4996-452a-ba59-5e3a61b7383e
-      m_Path: <Keyboard>/o
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Action
-      m_Flags: 0
-    m_Flags: 0
   ScanAim: {fileID: 1034853399}
+--- !u!114 &876474941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876474938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e087ecce43ebbff45a1b360637807d93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  move: {x: 0, y: 0}
+  look: {x: 0, y: 0}
+  jump: 0
+  sprint: 0
+  aim: 0
+  shoot: 0
+  scan: 0
+  scanaim: 0
+  scanobj: 0
+  analogMovement: 0
+  cursorLocked: 1
+  cursorInputForLook: 1
 --- !u!1 &907170018
 GameObject:
   m_ObjectHideFlags: 0
@@ -1171,7 +1187,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1034853398}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -3.8401477, y: 3.154, z: 2.7841835}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1620,6 +1636,7 @@ GameObject:
   - component: {fileID: 1458057779}
   - component: {fileID: 1458057778}
   - component: {fileID: 1458057780}
+  - component: {fileID: 1458057781}
   m_Layer: 0
   m_Name: ScanCam
   m_TagString: Untagged
@@ -1698,6 +1715,30 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   range: 50
+--- !u!114 &1458057781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458057777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e087ecce43ebbff45a1b360637807d93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  move: {x: 0, y: 0}
+  look: {x: 0, y: 0}
+  jump: 0
+  sprint: 0
+  aim: 0
+  shoot: 0
+  scan: 0
+  scanaim: 0
+  scanobj: 0
+  analogMovement: 0
+  cursorLocked: 1
+  cursorInputForLook: 1
 --- !u!1 &1676689664
 GameObject:
   m_ObjectHideFlags: 0

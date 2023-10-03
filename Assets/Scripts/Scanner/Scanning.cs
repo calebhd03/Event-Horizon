@@ -9,29 +9,37 @@ public class Scanning : MonoBehaviour
 {
     [SerializeField]
     private CinemachineVirtualCamera MainCam;
-    [SerializeField]
-    private InputAction action;
+    //[SerializeField]
+    //private InputAction action;
     [SerializeField]
     private CinemachineVirtualCamera ScanCam;
+
+    private ThirdPersonController thirdPersonController;
+    private StarterAssetsInputs starterAssetsInputs;
 
 
 
     private bool MainCamera = true;
     public bool Scan = false;
 
+    private void Awake()
+    {
+        thirdPersonController = GetComponent<ThirdPersonController>();
+        starterAssetsInputs = GetComponent<StarterAssetsInputs>();
+    }
 
 
-    private void OnEnable()
+    /*private void OnEnable()
     {
         action.Enable();
     }
     private void OnDisable()
     {
         action.Disable();
-    }
+    }*/
     void Start()
     {
-        action.performed += P => ScanCamPriority();
+        //action.performed += P => ScanCamPriority();
     }
     private void ScanCamPriority()
     {
@@ -54,6 +62,12 @@ public class Scanning : MonoBehaviour
     }    
     void Update()
     {
-         
+        if (starterAssetsInputs.scan)
+        {
+            Debug.Log("scanpressed");
+            //ScanCamPriority();
+        }
+
+
     }
 }
