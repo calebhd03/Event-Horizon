@@ -9,6 +9,7 @@ public class MenuScript : MonoBehaviour
     public GameObject creditsScreen;
     public GameObject settingsScreen;
     public GameObject extrasScreen;
+    public GameObject dataScreen;
 
     //The three functions here open their respective menus and close out the main
     public void OpenSettings()
@@ -26,6 +27,12 @@ public class MenuScript : MonoBehaviour
             extrasScreen.SetActive(true);
             menuScreen.SetActive(false);
         }
+    public void OpenSaves()
+        {
+            dataScreen.SetActive(true);
+            menuScreen.SetActive(false);
+        }
+
         
     //The next three functions all close our their respective menus and return to Main
     public void CloseSettings()
@@ -41,6 +48,11 @@ public class MenuScript : MonoBehaviour
     public void CloseExtras()
     {
         extrasScreen.SetActive(false);
+        menuScreen.SetActive(true);
+    }
+    public void CloseSaves()
+    {
+        dataScreen.SetActive(false);
         menuScreen.SetActive(true);
     }
 
