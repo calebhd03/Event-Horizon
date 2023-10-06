@@ -6,14 +6,14 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using StarterAssets;
 
-public class ObjectivesScript : MonoBehaviour
+public class EnemiesScanScript : MonoBehaviour
 {
-    public GameObject ObjectiveText;
+    public GameObject EnemiesText;
     public GameObject ObjectRef;
     public GameObject Scanningobject;
-    private Color highlightColor = Color.yellow;
+    private Color highlightColor = Color.red;
     private Color normalColor = Color.white;
-    private Color scanColor = Color.green;
+    private Color scanColor = Color.magenta;
 
     //progress bar
     public Slider progressBar;
@@ -22,9 +22,10 @@ public class ObjectivesScript : MonoBehaviour
     public bool Scanned;
     public GameObject ProgressSlider;
 
+
     void Start()
     {
-        ObjectiveText.SetActive(false);
+        EnemiesText.SetActive(false);
         ProgressSlider.SetActive(false);
         
         //progress bar
@@ -49,12 +50,7 @@ public class ObjectivesScript : MonoBehaviour
         
         //progress bar
         progressBar.value = elapsed;
-        /*if(Input.GetMouseButtonUp(0))
-        {
-            Invoke("Scriptdisabled", 1.0f);
-        }*/
-
-        if(progressBar.value >= 5.0f)
+        if(progressBar.value >= 10.0f)
         {
             Scanned = true;
         }
@@ -62,7 +58,6 @@ public class ObjectivesScript : MonoBehaviour
 
     public void ScriptActive()
     {
-
         //progress bar
         if(Scanned == false)
         {
@@ -73,7 +68,7 @@ public class ObjectivesScript : MonoBehaviour
         if(Scanned == true)
         {
             ProgressSlider.SetActive(false);
-            ObjectiveText.SetActive(true);
+            EnemiesText.SetActive(true);
         }
         
         
@@ -83,7 +78,7 @@ public class ObjectivesScript : MonoBehaviour
     public void Scriptdisabled()
     {
         ProgressSlider.SetActive(false);
-        ObjectiveText.SetActive(false);
+        EnemiesText.SetActive(false);
     }
 
     public void ScanColor()

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ItemsScript : MonoBehaviour
 {
-    public GameObject CylinderText;
+    public GameObject ItemsText;
     public GameObject ObjectRef;
     public GameObject Playerobject;
 
@@ -16,7 +16,7 @@ public class ItemsScript : MonoBehaviour
 
     void Start()
     {
-        CylinderText.SetActive(false);
+        ItemsText.SetActive(false);
 
     }
 
@@ -37,13 +37,12 @@ public class ItemsScript : MonoBehaviour
 
     public void ScriptActive()
     {
-        CylinderText.SetActive(true);
-        Invoke("Scriptdisabled", 1.0f);
+        ItemsText.SetActive(true);
     }
 
     public void Scriptdisabled()
     {
-        CylinderText.SetActive(false);
+        ItemsText.SetActive(false);
     }
 
     public void ScanColor()

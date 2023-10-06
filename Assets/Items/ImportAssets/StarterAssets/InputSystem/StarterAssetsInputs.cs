@@ -67,10 +67,7 @@ namespace StarterAssets
 		}
 		public void OnScanaim(InputValue value)
 		{
-			if( scanaim == true)
-			{
 			ScanaimInput(value.isPressed);
-			}
 		}
 		public void OnScanobj(InputValue value)
 		{

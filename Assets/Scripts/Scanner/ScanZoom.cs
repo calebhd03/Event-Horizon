@@ -9,37 +9,16 @@ public class ScanZoom : MonoBehaviour
 {
     [SerializeField]
     private CinemachineVirtualCamera ScanCam;
-    //[SerializeField]
-    //private InputAction action;
+
     [SerializeField]
     private CinemachineVirtualCamera ScanAim;
+    [SerializeField]
+    private CinemachineVirtualCamera AimCam;
 
 
-
-    /*private void OnEnable()
+    public void ScanZoomPriority()
     {
-        action.Enable();
-    }
-    private void OnDisable()
-    {
-        action.Disable();
-    }*/
-
-
-    void Start()
-    {
-         //action.performed += O => ScanZoomPriority();
-    }
-
-    void Update()
-    {
-        
-    }
-
-
-    private void ScanZoomPriority()
-    {
-        //Debug.Log("Scanzoom pressed");
+        //Debug.Log("Scanzoom tried to change the camera");
         Scanning ScnScr = GetComponent<Scanning>();
 
 
@@ -47,10 +26,12 @@ public class ScanZoom : MonoBehaviour
         {
             ScanCam.Priority = 0;
             ScanAim.Priority = 2;
+            AimCam.Priority = 0;
         }
         else{
             ScanCam.Priority = 1;
             ScanAim.Priority = 0;
+            AimCam.Priority = 0;
         }
 
     }

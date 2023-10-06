@@ -24,6 +24,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     [Header("Scanner Necessities")]
     public GameObject Scanningobject;
     public GameObject Scannercamera;
+    public GameObject ScannerZoomCamera;
     public bool Scanenabled = false;
     
 
@@ -32,10 +33,14 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         thirdPersonController = GetComponent<ThirdPersonController>();
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
+
     }
 
     private void Update()
     {
+        Scanning scnScr = Scanningobject.GetComponent<Scanning>();
+        ScanCam scnCam = Scannercamera.GetComponent<ScanCam>();
+
         Vector3 mouseWorldPosition = Vector3.zero;
 
         Vector2 screenCenterPoint = new Vector2(Screen.width /2f, Screen.height / 2f);
@@ -49,9 +54,13 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         if(starterAssetsInputs.aim){
 
+
+            if (scnScr.Scan == false)
+            {
             aimVirtualCamera.gameObject.SetActive(true);
             thirdPersonController.SetSensitivity(aimSensitivity);
             thirdPersonController.SetRotateOnMove(false);
+            }
 
             Vector3 worldAimTarget = mouseWorldPosition;
             worldAimTarget.y = transform.position.y;
@@ -68,32 +77,54 @@ public class ThirdPersonShooterController : MonoBehaviour
         {
              // Projectile Shoot
             Vector3 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
+
+            if (scnScr.Scan == false)
+            {
             Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
-            
+            }
             starterAssetsInputs.shoot = false;
         }
         
         if (starterAssetsInputs.scan)
         {
+            ThirdPersonController TPC = GetComponent<ThirdPersonController>();
+            TPC.MoveSpeed = 0;
             starterAssetsInputs.scan = true;
-            Scanning scnScr = Scanningobject.GetComponent<Scanning>();
+
             scnScr.ScanCamPriority();
+            
             if (starterAssetsInputs.scan == true)
             {
                 starterAssetsInputs.scan = false;
+
+            }
+            if (scnScr.Scan == false)
+            {
+                    TPC.MoveSpeed = TPC.NormalMovespeed;
             }
         }
 
         if (starterAssetsInputs.scanobj)
         {
-            ScanCam scnCam = Scannercamera.GetComponent<ScanCam>();
             
             scnCam.ScanObj();
+
+        }
+        else{
+            scnCam.DisableScript();
         }
 
         if(starterAssetsInputs.scanaim)
         {
-           // ScanZoomPriority();
+            starterAssetsInputs.scanaim = true;
+            //Debug.Log("scanzoom pressed");
+            ScanZoom scnzCam = ScannerZoomCamera.GetComponent<ScanZoom>();
+            scnzCam.ScanZoomPriority();
+
+            if (starterAssetsInputs.scanaim == true)
+            {
+                starterAssetsInputs.scanaim = false;
+            }
         }
     }
     
