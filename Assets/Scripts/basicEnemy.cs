@@ -5,6 +5,10 @@ using UnityEngine.AI;
 
 public class basicEnemy : MonoBehaviour
 {
+    //mesh coolider with kinamatic rigid body fixes some bugs
+    //moving navemesh and shooting bullets fixes
+
+
     public Transform player;
     public NavMeshAgent agent;
 
