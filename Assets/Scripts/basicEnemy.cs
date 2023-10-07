@@ -13,7 +13,7 @@ public class basicEnemy : MonoBehaviour
     public NavMeshAgent agent;
 
     private Rigidbody rb;
-    public GameObject projectile;
+    //public GameObject projectile;
 
     //layer check
     public LayerMask enemyWalkZone;
@@ -53,6 +53,8 @@ public class basicEnemy : MonoBehaviour
     //meleeTest
     private Vector3 swordTest;
     public GameObject sword;
+
+    public GameObject bullet;
 
 
     private void Awake()
@@ -148,7 +150,7 @@ public class basicEnemy : MonoBehaviour
         }
     }
 
-    private void findWhereToWalk() //randomly generated enemy where to walk on layer. NEEDS TO BE FIXED
+    private void findWhereToWalk() //randomly generated enemy where to walk on layer. 
     {
         float randomX = Random.Range(-patrolRange, patrolRange);
         float randomZ = Random.Range(-patrolRange, patrolRange);
@@ -173,10 +175,12 @@ public class basicEnemy : MonoBehaviour
         if (attackAgainCoolDown == false && rangeAttack == true)
         {
             //temp attack code for range attack
-            Rigidbody bullet = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            bullet.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            bullet.AddForce(transform.up * 8f, ForceMode.Impulse);
-            //Destroy(bullet, 0.1f);
+            Rigidbody newBullet = Instantiate(bullet, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
+            newBullet.AddForce(transform.forward * 32f, ForceMode.Impulse);
+            newBullet.AddForce(transform.up * 8f, ForceMode.Impulse);
+
+            //destroy bullet properly for now
+            Destroy(newBullet.gameObject, 5f);
 
             attackAgainCoolDown = true;
             Invoke(nameof(attackCoolDown), attackAgainTimer);
