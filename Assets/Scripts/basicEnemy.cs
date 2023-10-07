@@ -17,12 +17,12 @@ public class basicEnemy : MonoBehaviour
     public LayerMask obstacleZone;
 
     //check to find player
-    public bool iSeeYou;
-    public bool iHearYou;
+    private bool iSeeYou;
+    private bool iHearYou;
 
     //attack
-    public bool attackAgainCoolDown;
-    public bool withInAttackRange;
+    private bool attackAgainCoolDown;
+    private bool withInAttackRange;
     public float attackRange;
     public float attackAgainTimer;
 
@@ -34,14 +34,17 @@ public class basicEnemy : MonoBehaviour
     public float hearDistance;
 
     //patrol, monitor and move
-    public Vector3 walkPoint3D;
-    public bool walkPointIndicator;
+    private Vector3 walkPoint3D;
+    private bool walkPointIndicator;
     public float patrolRange;
 
     //health
     public float maxHealth;
     public float currentHealth;
     [SerializeField] EnemyHealthBar healthBar;
+
+    public bool rangeAttack;
+    public bool meleeAttack;
 
     private void Awake()
     {
@@ -157,7 +160,7 @@ public class basicEnemy : MonoBehaviour
         agent.SetDestination(transform.position);
         transform.LookAt(player);
      
-        if (attackAgainCoolDown == false)
+        if (attackAgainCoolDown == false && rangeAttack == true)
         {
             //temp attack code 
             Rigidbody bullet = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
