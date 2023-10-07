@@ -50,6 +50,11 @@ public class basicEnemy : MonoBehaviour
     public bool rangeAttack;
     public bool meleeAttack;
 
+    //meleeTest
+    private Vector3 swordTest;
+    public GameObject sword;
+
+
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -63,6 +68,7 @@ public class basicEnemy : MonoBehaviour
     {
         currentHealth = maxHealth;
         healthBar.updateHealthBar(currentHealth, maxHealth);
+        swordTest = sword.transform.position;
     }
 
     // Update is called once per frame
@@ -179,6 +185,9 @@ public class basicEnemy : MonoBehaviour
         if (attackAgainCoolDown == false && meleeAttack == true)
         {
             //temp attack code for melee attack
+            Vector3 newPosition = swordTest + new Vector3(0f, 0f, Mathf.PingPong(Time.time * 2f, 2f) - 1f);
+            sword.transform.position = newPosition;
+
         }
     }
     private void attackCoolDown()
