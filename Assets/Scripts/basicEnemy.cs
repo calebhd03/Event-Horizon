@@ -13,12 +13,14 @@ public class basicEnemy : MonoBehaviour
     public NavMeshAgent agent;
 
     private Rigidbody rb;
-    //public GameObject projectile;
-
+   
     //layer check
     public LayerMask enemyWalkZone;
     public LayerMask playerZone;
     public LayerMask obstacleZone;
+
+    public Transform[] movePoints;
+    private int destinationPoints = 0;
 
     //check to find player
     private bool iSeeYou;
@@ -70,7 +72,6 @@ public class basicEnemy : MonoBehaviour
     {
         currentHealth = maxHealth;
         healthBar.updateHealthBar(currentHealth, maxHealth);
-        swordTest = sword.transform.position;
     }
 
     // Update is called once per frame
@@ -113,7 +114,7 @@ public class basicEnemy : MonoBehaviour
         //The three states of enemy, Patrol, Chase, and attack
         if (iSeeYou == false && withInAttackRange == false)
         {
-            walkPatrol();
+            pointMovement();
         }
 
         if (iSeeYou == true && withInAttackRange == false)
@@ -129,7 +130,23 @@ public class basicEnemy : MonoBehaviour
         //Debug field of view of enemy, shows raycast
         DrawFieldOfVision();
     }
-    private void walkPatrol() //finds where to walk
+
+    //new movement between points but would have to manually add for each enemy
+    private void pointMovement()
+    {
+        //resets movement
+        if(movePoints.Length == 0)
+        {
+            return;
+        }
+
+        agent.destination = movePoints[destinationPoints].position;
+
+        destinationPoints = (destinationPoints + 1) % movePoints.Length;
+    }
+
+    //old movement is buggy
+    /*private void walkPatrol() //finds where to walk
     {
         if(walkPointIndicator == false)
         {
@@ -161,7 +178,7 @@ public class basicEnemy : MonoBehaviour
         {
             walkPointIndicator = true;
         }
-    }
+    }*/
 
     private void chasePlayer() //chase player once found
     {
@@ -181,7 +198,7 @@ public class basicEnemy : MonoBehaviour
 
             //destroy bullet properly for now
             Destroy(newBullet.gameObject, 5f);
-
+            
             attackAgainCoolDown = true;
             Invoke(nameof(attackCoolDown), attackAgainTimer);
         }
@@ -189,8 +206,10 @@ public class basicEnemy : MonoBehaviour
         if (attackAgainCoolDown == false && meleeAttack == true)
         {
             //temp attack code for melee attack
-            Vector3 newPosition = swordTest + new Vector3(0f, 0f, Mathf.PingPong(Time.time * 2f, 2f) - 1f);
+            Vector3 newPosition = swordTest + new Vector3(0f, 0f, Mathf.PingPong(Time.time * 2f, 2f));
             sword.transform.position = newPosition;
+
+            newPosition = agent.nextPosition;
 
         }
     }
