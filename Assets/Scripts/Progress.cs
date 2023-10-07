@@ -16,13 +16,13 @@ public class Progress : MonoBehaviour
     public TextMeshProUGUI countdownText; // Assign this in the Inspector
 
     private float currentProgress = 0f;
-    private float currentTimeRemaining;
+    private float countdownTimer;
     private bool isPlayerInside = false;
 
     private void Start()
     {
         ResetHighlight();
-        currentTimeRemaining = progressTime;
+        countdownTimer = progressTime;
     }
 
     private void Update()
@@ -30,36 +30,21 @@ public class Progress : MonoBehaviour
         if (isPlayerInside)
         {
             currentProgress += Time.deltaTime / progressTime;
-            UpdateCountdownText();
-            if (currentProgress >= 1.0f)
+            if (countdownTimer <= 1.0f)
             {
                 LoadNextScene();
             }
         }
 
-        
+        UpdateCountdownText();
         UpdateHighlight();
-
-        if (!isPlayerInside)
-        {
-            DecreaseTimeRemaining();
-        }
     }
 
     private void UpdateCountdownText()
     {
-        if (currentTimeRemaining > 0)
-        {
-            currentTimeRemaining -= Time.deltaTime;
-        }
-        else
-        {
-            currentTimeRemaining = 0;
-        }
-
         if (countdownText != null)
         {
-            countdownText.text = "Time Remaining: " + currentTimeRemaining.ToString("F1");
+            countdownText.text = "Time Remaining: " + countdownTimer.ToString("F1");
         }
     }
 
@@ -68,15 +53,20 @@ public class Progress : MonoBehaviour
         if (isPlayerInside)
         {
             SetHighlightColor(blueHighlightColor);
+            countdownTimer -= Time.deltaTime;
         }
         else if (Physics.CheckBox(transform.position, transform.localScale / 2, transform.rotation))
         {
             SetHighlightColor(redHighlightColor);
+            countdownTimer += Time.deltaTime;
         }
         else
         {
             ResetHighlight();
+            countdownTimer += Time.deltaTime;
         }
+
+        countdownTimer = Mathf.Clamp(countdownTimer, 0f, progressTime); // Ensure countdownTimer stays within [0, progressTime]
     }
 
     private void SetHighlightColor(Color color)
@@ -105,14 +95,6 @@ public class Progress : MonoBehaviour
                 materials[i] = null; // Reset material to default
             }
             renderer.materials = materials;
-        }
-    }
-
-    private void DecreaseTimeRemaining()
-    {
-        if (currentTimeRemaining < progressTime)
-        {
-            currentTimeRemaining += Time.deltaTime;
         }
     }
 
