@@ -162,7 +162,7 @@ public class basicEnemy : MonoBehaviour
      
         if (attackAgainCoolDown == false && rangeAttack == true)
         {
-            //temp attack code 
+            //temp attack code for range attack
             Rigidbody bullet = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
             bullet.AddForce(transform.forward * 32f, ForceMode.Impulse);
             bullet.AddForce(transform.up * 8f, ForceMode.Impulse);
@@ -170,6 +170,11 @@ public class basicEnemy : MonoBehaviour
 
             attackAgainCoolDown = true;
             Invoke(nameof(attackCoolDown), attackAgainTimer);
+        }
+
+        if (attackAgainCoolDown == false && meleeAttack == true)
+        {
+            //temp attack code for melee attack
         }
     }
     private void attackCoolDown()

@@ -12,29 +12,21 @@ public class HealthMetrics : MonoBehaviour
     public delegate void HealthChangeAction(float currentHealth, float maxHealth);
     public event HealthChangeAction OnHealthChanged;
 
-    //Debug visual health bar
-    private playerHealthBarTest playerHealthBar;
-
     private void Awake()
     {
-        //test
-        playerHealthBar = GetComponent<playerHealthBarTest>();
+       
     }
     // Initialization
     private void Start()
     {
+        //comment to test
          //currentHealth = maxHealth; // Initialize current health to max health
-
-        //test
-        playerHealthBar.updateHealthBar(currentHealth, maxHealth);
     }
 
     // Modify health points
     public void ModifyHealth(float amount)
     {
         currentHealth = Mathf.Clamp(currentHealth + amount, 0f, maxHealth);
-
-        playerHealthBar.updateHealthBar(currentHealth, maxHealth);
 
         // Trigger the event
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
