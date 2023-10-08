@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -58,6 +59,8 @@ public class basicEnemy : MonoBehaviour
 
     public GameObject bullet;
 
+    //Scanning
+    public GameObject Scanningobject;
 
     private void Awake()
     {
@@ -76,7 +79,7 @@ public class basicEnemy : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {  
 
         //enemy field of view in a coned shaped
         Vector3 playerTarget = (player.position - transform.position).normalized;
@@ -129,10 +132,23 @@ public class basicEnemy : MonoBehaviour
 
         //Debug field of view of enemy, shows raycast
         DrawFieldOfVision();
+
+
+        //stop enemy movement in scanner
+        Scanning scnScr = Scanningobject.GetComponent<Scanning>();
+        if(scnScr.Scan == true)
+        {
+            agent.isStopped = true;
+        }
+        else
+        {
+            agent.isStopped = false;
+        }
+
     }
 
     //new movement between points but would have to manually add for each enemy
-    private void pointMovement()
+    public void pointMovement()
     {
         //resets movement
         if(movePoints.Length == 0)

@@ -22,6 +22,13 @@ public class EnemiesScanScript : MonoBehaviour
     public bool Scanned;
     public GameObject ProgressSlider;
 
+    //Weak points
+    public GameObject criticalPointReveal;
+
+    public GameObject criticalPoint1Reveal;
+
+    //public GameObject criticalPoint2;
+
 
     void Start()
     {
@@ -31,6 +38,10 @@ public class EnemiesScanScript : MonoBehaviour
         //progress bar
         elapsed = 0f;
         Scanned = false;
+
+        //weak points
+        criticalPointReveal.SetActive(false);
+        criticalPoint1Reveal.SetActive(false);
         
     }
 
@@ -59,16 +70,17 @@ public class EnemiesScanScript : MonoBehaviour
     public void ScriptActive()
     {
         //progress bar
-        if(Scanned == false)
-        {
-            elapsed += Time.deltaTime;
-            ProgressSlider.SetActive(true);
-        }
+        if (Scanned == false)
+    {
+        elapsed += Time.deltaTime;
+        ProgressSlider.SetActive(true);
+    }
 
         if(Scanned == true)
         {
             ProgressSlider.SetActive(false);
             EnemiesText.SetActive(true);
+            WeakPoints();
         }
         
         
@@ -93,10 +105,18 @@ public class EnemiesScanScript : MonoBehaviour
         ObjectRef.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
     }
 
-        public void Unhighlight()
+    public void Unhighlight()
     {
         //Should highlight the object when looked at
         ScanColor();
+    }
+    
+    public void WeakPoints()
+    {
+            criticalPointReveal.SetActive(true);
+            criticalPoint1Reveal.SetActive(true);
+            criticalPointReveal.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor); 
+            criticalPoint1Reveal.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);           
     }
 
 }

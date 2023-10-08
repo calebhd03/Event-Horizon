@@ -22,6 +22,10 @@ public class ObjectivesScript : MonoBehaviour
     public bool Scanned;
     public GameObject ProgressSlider;
 
+    //Cutscene
+    //public GameObject cutsceneCam;
+    //public GameObject playerObject;
+
     void Start()
     {
         ObjectiveText.SetActive(false);
@@ -30,6 +34,7 @@ public class ObjectivesScript : MonoBehaviour
         //progress bar
         elapsed = 0f;
         Scanned = false;
+        //cutsceneCam.SetActive(false);
         
     }
 
@@ -49,14 +54,15 @@ public class ObjectivesScript : MonoBehaviour
         
         //progress bar
         progressBar.value = elapsed;
-        /*if(Input.GetMouseButtonUp(0))
-        {
-            Invoke("Scriptdisabled", 1.0f);
-        }*/
 
         if(progressBar.value >= 5.0f)
         {
             Scanned = true;
+        }
+
+        if (Scanned == true)
+        {
+            //Cutscene();
         }
     }
 
@@ -103,5 +109,19 @@ public class ObjectivesScript : MonoBehaviour
         //Should highlight the object when looked at
         ScanColor();
     }
+
+    /*public void Cutscene()
+    {
+        playerObject.SetActive(false);
+        cutsceneCam.SetActive(true);
+        StartCoroutine(FinishCutscene());
+    }
+    IEnumerator FinishCutscene()
+    {
+        yield return new WaitForSeconds(10);
+        playerObject.SetActive(true);
+        cutsceneCam.SetActive(false);
+    }
+*/
 
 }

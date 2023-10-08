@@ -77,6 +77,7 @@ namespace StarterAssets
 		public void OnScanobj(InputValue value)
 		{
 			OnScanobjInput(value.isPressed);
+		}
 
 		public void OnSave(InputValue value) //Save System Test input
 		{

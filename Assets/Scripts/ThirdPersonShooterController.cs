@@ -5,6 +5,7 @@ using Cinemachine;
 using StarterAssets;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEditor.Callbacks;
 
 public class ThirdPersonShooterController : MonoBehaviour 
 {
@@ -40,7 +41,8 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         Scanning scnScr = Scanningobject.GetComponent<Scanning>();
         ScanCam scnCam = Scannercamera.GetComponent<ScanCam>();
-
+        ScanZoom scnzCam = ScannerZoomCamera.GetComponent<ScanZoom>();
+        ThirdPersonController TPC = GetComponent<ThirdPersonController>();
         Vector3 mouseWorldPosition = Vector3.zero;
 
         Vector2 screenCenterPoint = new Vector2(Screen.width /2f, Screen.height / 2f);
@@ -87,8 +89,8 @@ public class ThirdPersonShooterController : MonoBehaviour
         
         if (starterAssetsInputs.scan)
         {
-            ThirdPersonController TPC = GetComponent<ThirdPersonController>();
             TPC.MoveSpeed = 0;
+            TPC.SprintSpeed = 0;
             starterAssetsInputs.scan = true;
 
             scnScr.ScanCamPriority();
@@ -101,10 +103,11 @@ public class ThirdPersonShooterController : MonoBehaviour
             if (scnScr.Scan == false)
             {
                     TPC.MoveSpeed = TPC.NormalMovespeed;
+                    TPC.SprintSpeed = TPC.NormalSprintSpeed;
             }
         }
 
-        if (starterAssetsInputs.scanobj)
+        if (starterAssetsInputs.scanobj && scnScr.Scan == true)
         {
             
             scnCam.ScanObj();
@@ -118,7 +121,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         {
             starterAssetsInputs.scanaim = true;
             //Debug.Log("scanzoom pressed");
-            ScanZoom scnzCam = ScannerZoomCamera.GetComponent<ScanZoom>();
+
             scnzCam.ScanZoomPriority();
 
             if (starterAssetsInputs.scanaim == true)

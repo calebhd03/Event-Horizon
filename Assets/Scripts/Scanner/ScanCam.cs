@@ -61,7 +61,7 @@ public class ScanCam : MonoBehaviour
                 //Debug.Log("raycast hitting object");
 
                 if (hit.collider != null)
-                {
+                {Debug.Log("hitting enemy with raycast");
                     ItemsScript itmScr = hit.collider.GetComponent<ItemsScript>();
                     if (itmScr != null)
                     {
@@ -70,7 +70,7 @@ public class ScanCam : MonoBehaviour
                 }
             }
             else
-            {
+            {Debug.Log("not hitting enemy with raycast");
                 //Debug.Log("raycast leaving object"); 
                 if (hit.collider != null)
                 {
@@ -95,6 +95,7 @@ public class ScanCam : MonoBehaviour
 
                 if (hit.collider != null)
                 {
+                    
                     EnemiesScanScript eneScr = hit.collider.GetComponent<EnemiesScanScript>();
                     if (eneScr != null)
                     {
@@ -107,6 +108,7 @@ public class ScanCam : MonoBehaviour
                 //Debug.Log("raycast leaving object"); 
                 if (hit.collider != null)
                 {
+                    
                     EnemiesScanScript eneScr = hit.collider.GetComponent<EnemiesScanScript>();
                     if (eneScr != null)
                     {
