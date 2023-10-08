@@ -19,8 +19,8 @@ public class BulletProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<HealthMetrics>() != null)
-        {
+        if (other.CompareTag("WeakPoint"))
+        { 
             HealthMetrics healthMetrics = other.GetComponent<HealthMetrics>();
 
             if (healthMetrics != null)
@@ -36,6 +36,7 @@ public class BulletProjectile : MonoBehaviour
 
         Destroy(gameObject);
     }
+
 }
 
 

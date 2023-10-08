@@ -45,9 +45,9 @@ public class basicEnemy : MonoBehaviour
     public float patrolRange;
 
     //health
-    public float maxHealth;
-    public float currentHealth;
-    [SerializeField] EnemyHealthBar healthBar;
+    //public float maxHealth;
+    //public float currentHealth;
+    //[SerializeField] EnemyHealthBar healthBar;
 
     public bool rangeAttack;
     public bool meleeAttack;
@@ -63,15 +63,15 @@ public class basicEnemy : MonoBehaviour
     {
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
-        healthBar = GetComponentInChildren<EnemyHealthBar>();
+        //healthBar = GetComponentInChildren<EnemyHealthBar>();
         rb = GetComponent<Rigidbody>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth = maxHealth;
-        healthBar.updateHealthBar(currentHealth, maxHealth);
+        //currentHealth = maxHealth;
+        //healthBar.updateHealthBar(currentHealth, maxHealth);
     }
 
     // Update is called once per frame
@@ -218,7 +218,8 @@ public class basicEnemy : MonoBehaviour
         attackAgainCoolDown = false;
     }
 
-    public void takeDamage(int damage)
+    //Test to use health system in different script
+    /*public void takeDamage(int damage)
     {
         currentHealth -= damage;
         healthBar.updateHealthBar(currentHealth, maxHealth);
@@ -226,9 +227,7 @@ public class basicEnemy : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-
+    }*/
 
 
     //DEBUG BELOW
