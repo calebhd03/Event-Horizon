@@ -11,7 +11,7 @@ namespace StarterAssets
 		public Vector2 move;
 		public Vector2 look;
 		public bool jump;
-		public bool sprint;
+		public bool sprint; 
 		public bool aim;
 		public bool shoot;
 		public bool scan;
@@ -24,6 +24,11 @@ namespace StarterAssets
 		[Header("Mouse Cursor Settings")]
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
+
+		[Header ("Game Save System Testing")] //Save System Test inputs
+		public bool save;
+		public bool load;
+		public bool value;
 
 #if ENABLE_INPUT_SYSTEM
 		public void OnMove(InputValue value)
@@ -72,6 +77,20 @@ namespace StarterAssets
 		public void OnScanobj(InputValue value)
 		{
 			OnScanobjInput(value.isPressed);
+
+		public void OnSave(InputValue value) //Save System Test input
+		{
+			SaveInput(value.isPressed);
+		}
+
+		public void OnLoad(InputValue value) //Save System Test input
+		{
+			LoadInput(value.isPressed);
+		}
+
+		public void OnValue(InputValue value) //Save System Test input
+		{
+			ValueInput(value.isPressed);
 		}
 #endif
 
@@ -126,6 +145,21 @@ namespace StarterAssets
 		private void SetCursorState(bool newState)
 		{
 			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+		}
+
+		public void SaveInput(bool newSaveState) //Save System Test input
+		{
+			save = newSaveState;
+		}
+
+		public void LoadInput(bool newLoadState) //Save System Test input
+		{
+			load = newLoadState;
+		}
+
+		public void ValueInput(bool newValueState) //Save System Test input
+		{
+			value = newValueState;
 		}
 	}
 	
