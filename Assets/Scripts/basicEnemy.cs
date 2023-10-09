@@ -189,7 +189,7 @@ public class basicEnemy : MonoBehaviour
         agent.SetDestination(transform.position);
         transform.LookAt(player);
      
-        if (attackAgainCoolDown == false && rangeAttack == true)
+        if (attackAgainCoolDown == false && rangeAttack == true) 
         {
             //temp attack code for range attack
             Rigidbody newBullet = Instantiate(bullet, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
@@ -198,11 +198,19 @@ public class basicEnemy : MonoBehaviour
 
             //destroy bullet properly for now
             Destroy(newBullet.gameObject, 5f);
+
+            //testing decreasing health when hit by 
+            HealthMetrics healthMetrics = player.GetComponent<HealthMetrics>();
+            if(healthMetrics != null)
+            {
+                healthMetrics.ModifyHealth(-20f);
+            }
             
             attackAgainCoolDown = true;
             Invoke(nameof(attackCoolDown), attackAgainTimer);
         }
 
+        //need to add player health decrease for melee attack
         if (attackAgainCoolDown == false && meleeAttack == true)
         {
             //temp attack code for melee attack
