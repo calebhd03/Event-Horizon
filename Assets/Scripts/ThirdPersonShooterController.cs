@@ -57,14 +57,14 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         if (starterAssetsInputs.scroll != Vector2.zero)
         {
-            if(equippedWeapon == 0)
+            if(equippedWeapon == 1)
             {
-                equippedWeapon = 1;
+                equippedWeapon = 0;
                 Debug.Log("Standard Gun Equipped");
             }
             else
             {
-                equippedWeapon = 0;
+                equippedWeapon = 1;
                 Debug.Log("Black Hole Gun Equipped");
             }
         }
