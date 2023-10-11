@@ -80,6 +80,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 Vector3 direction = (mouseWorldPosition - spawnBulletPosition.position).normalized;
                 Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(direction, Vector3.up));
 
+                          thirdPersonController.Recoil(0.1f);
                 
             }
             else if (equippedWeapon == 1) // Black Hole Projectile Shoot
@@ -90,29 +91,33 @@ public class ThirdPersonShooterController : MonoBehaviour
             else if (equippedWeapon == 2) // Shotgun Projectile Shoot
             {
                if (equippedWeapon == 2) // Shotgun Projectile Shoot
-{
-    if (Time.time - lastShotgunTime >= shotgunCooldown) // Check cooldown
-    {
-        for (int i = 0; i < 4; i++) // Fire 4 pellets in a cone
-        {
-            // Calculate a random spread angle within the specified shotgunSpreadAngle
-            float horizontalSpread = Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle);
-            float verticalSpread = Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle);
+            {
+                if (Time.time - lastShotgunTime >= shotgunCooldown) // Check cooldown
+                {
+                    thirdPersonController.Recoil(0.2f);
+                    for (int i = 0; i < 4; i++) // Fire 4 pellets in a cone
+                    {
+                        // Calculate a random spread angle within the specified shotgunSpreadAngle
+                        float horizontalSpread = Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle);
+                        float verticalSpread = Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle);
 
-            // Calculate the direction to the target
-            Vector3 directionToTarget = (mouseWorldPosition - spawnBulletPosition.position).normalized;
+                        // Calculate the direction to the target
+                        Vector3 directionToTarget = (mouseWorldPosition - spawnBulletPosition.position).normalized;
 
-            // Create a spreadDirection by rotating the direction to the target by the spread angles
-            Vector3 spreadDirection = Quaternion.Euler(verticalSpread, horizontalSpread, 0) * directionToTarget;
+                        // Create a spreadDirection by rotating the direction to the target by the spread angles
+                        Vector3 spreadDirection = Quaternion.Euler(verticalSpread, horizontalSpread, 0) * directionToTarget;
 
-            // Instantiate the shotgun pellet with the randomized direction
-            Instantiate(pfShotgunProjectile, spawnBulletPosition.position, Quaternion.LookRotation(spreadDirection, Vector3.up));
-        }
-        lastShotgunTime = Time.time;
-    }
-}
+                        // Instantiate the shotgun pellet with the randomized direction
+                        Instantiate(pfShotgunProjectile, spawnBulletPosition.position, Quaternion.LookRotation(spreadDirection, Vector3.up));
+                    }
+                    lastShotgunTime = Time.time;
+                }
+            }
             }
             starterAssetsInputs.shoot = false;
         }
+
     }
+
+    
 } 
