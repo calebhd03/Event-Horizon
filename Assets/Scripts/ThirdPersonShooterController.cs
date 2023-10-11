@@ -6,6 +6,7 @@ using StarterAssets;
 using UnityEngine.InputSystem;
 using TMPro;
 using UnityEditor.Callbacks;
+using UnityEngine.UI;
 
 public class ThirdPersonShooterController : MonoBehaviour 
 {
@@ -22,7 +23,10 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
-
+    
+    public int standardAmmo;
+    public int blackHoleAmmo;
+    public Text ammoCounter;
 
     [Header("Scanner Necessities")]
     public GameObject Scanningobject;
@@ -56,9 +60,8 @@ public class ThirdPersonShooterController : MonoBehaviour
         }
 
 
-        if(starterAssetsInputs.aim){
-
-
+        if(starterAssetsInputs.aim)
+        {
             if (scnScr.Scan == false)
             {
             aimVirtualCamera.gameObject.SetActive(true);
@@ -71,7 +74,9 @@ public class ThirdPersonShooterController : MonoBehaviour
             Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
 
             transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime *20f);
-        } else {
+        } 
+        else 
+        {
             aimVirtualCamera.gameObject.SetActive(false);
             thirdPersonController.SetSensitivity(normalSensitivity);
             thirdPersonController.SetRotateOnMove(true);
@@ -82,11 +87,13 @@ public class ThirdPersonShooterController : MonoBehaviour
             if(equippedWeapon == 1)
             {
                 equippedWeapon = 0;
+                ammoCounter.text = "Ammo: " + standardAmmo;
                 Debug.Log("Standard Gun Equipped");
             }
             else
             {
                 equippedWeapon = 1;
+                ammoCounter.text = "Ammo: " + blackHoleAmmo;
                 Debug.Log("Black Hole Gun Equipped");
             }
         }
@@ -97,13 +104,17 @@ public class ThirdPersonShooterController : MonoBehaviour
 
             if (scnScr.Scan == false)
             {
-                if(equippedWeapon == 0)//Standard Projectile Shoot
+                if(equippedWeapon == 0 && standardAmmo > 0)//Standard Projectile Shoot
                 {
                     Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+                    standardAmmo -= 1;
+                    UpdateAmmoCount();
                 }
-                else if (equippedWeapon == 1)//Black Hole Projectile Shoot
+                else if (equippedWeapon == 1 && blackHoleAmmo > 0)//Black Hole Projectile Shoot
                 {
                     Instantiate(pfBlackHoleProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+                    blackHoleAmmo -= 1;
+                    UpdateAmmoCount();
                 }
             }
             starterAssetsInputs.shoot = false;
@@ -152,5 +163,30 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
     }
-    
+
+    public void AddAmmo(int ammoType, int ammoAmount)
+    {
+        if (ammoType == 0)
+        {
+            standardAmmo += ammoAmount;
+            UpdateAmmoCount();
+        }
+        else if (ammoType == 1)
+        {
+            blackHoleAmmo += ammoAmount;
+            UpdateAmmoCount();
+        }
+    }
+
+    public void UpdateAmmoCount()
+    {
+        if(equippedWeapon == 0)
+        {
+            ammoCounter.text = "Ammo: " + standardAmmo;
+        }
+        else if(equippedWeapon == 1)
+        {
+            ammoCounter.text = "Ammo: " + blackHoleAmmo;
+        }
+    }
 }

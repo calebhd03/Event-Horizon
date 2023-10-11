@@ -6,11 +6,16 @@ using UnityEngine;
 public class PlayerData 
 {
     public int testData;
+    public int standardAmmoSave;
+    public int blackHoleAmmoSave;
+    
     public float[] position;
 
     public PlayerData (SaveSystemTest player)
     {
         testData = player.testData;
+        standardAmmoSave = player.standardAmmoSave;
+        blackHoleAmmoSave = player.blackHoleAmmoSave;
 
         position = new float[3];
         position[0] = player.transform.position.x;

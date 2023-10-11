@@ -5,14 +5,7 @@ using UnityEngine;
 public class healthPickUp : MonoBehaviour
 {
     public float pickUpHealthAmount = 10f;
-
-    //rotating effect can be deleted if wanted
     [SerializeField] private Vector3 rotation;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
