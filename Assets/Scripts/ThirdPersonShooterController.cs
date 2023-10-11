@@ -16,7 +16,9 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private Transform debugTransform;
     [SerializeField] private Transform pfBulletProjectile;
+    [SerializeField] private Transform pfBlackHoleProjectile;
     [SerializeField] private Transform spawnBulletPosition;
+    [SerializeField] private int equippedWeapon;
 
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
@@ -75,14 +77,34 @@ public class ThirdPersonShooterController : MonoBehaviour
             thirdPersonController.SetRotateOnMove(true);
         }
 
+        if (starterAssetsInputs.scroll != Vector2.zero)
+        {
+            if(equippedWeapon == 1)
+            {
+                equippedWeapon = 0;
+                Debug.Log("Standard Gun Equipped");
+            }
+            else
+            {
+                equippedWeapon = 1;
+                Debug.Log("Black Hole Gun Equipped");
+            }
+        }
+
         if (starterAssetsInputs.shoot)
         {
-             // Projectile Shoot
             Vector3 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
 
             if (scnScr.Scan == false)
             {
-            Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+                if(equippedWeapon == 0)//Standard Projectile Shoot
+                {
+                    Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+                }
+                else if (equippedWeapon == 1)//Black Hole Projectile Shoot
+                {
+                    Instantiate(pfBlackHoleProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+                }
             }
             starterAssetsInputs.shoot = false;
         }

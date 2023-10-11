@@ -14,6 +14,8 @@ namespace StarterAssets
 		public bool sprint; 
 		public bool aim;
 		public bool shoot;
+
+		public Vector2 scroll;
 		public bool scan;
 		public bool scanaim;
 		public bool scanobj;
@@ -77,6 +79,11 @@ namespace StarterAssets
 		public void OnScanobj(InputValue value)
 		{
 			OnScanobjInput(value.isPressed);
+		}
+
+		public void OnScroll(InputValue value)
+		{
+			ScrollInput(value.Get<Vector2>());
 		}
 
 		public void OnSave(InputValue value) //Save System Test input
@@ -146,6 +153,11 @@ namespace StarterAssets
 		private void SetCursorState(bool newState)
 		{
 			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+		}
+
+		public void ScrollInput (Vector2 newScrollState)
+		{
+			scroll = newScrollState;
 		}
 
 		public void SaveInput(bool newSaveState) //Save System Test input

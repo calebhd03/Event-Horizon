@@ -69,6 +69,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Save",
+                    "type": "Button",
+                    "id": "8b9e25d0-05b3-489d-baa5-20907e9d85ea",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Load",
                     "type": "Button",
                     "id": "e621361e-a3c6-42be-8b61-411773b8527b",
@@ -85,6 +94,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Scroll",
+                    "type": "Value",
+                    "id": "de43d93e-0caa-4c7c-9932-afd4c94d893a",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Scanaim",
@@ -383,12 +401,34 @@
                 },
                 {
                     "name": "",
+                    "id": "66a4a8a0-46ed-4f64-8f97-571ba6a614ff",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Scroll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "97bd905f-6576-4450-8673-bb9dd6c4ccf9",
                     "path": "<Keyboard>/#(P)",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "Load",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a27b4581-ea84-4822-af45-d7646ad0de62",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Save",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
