@@ -25,13 +25,27 @@ public class BulletProjectile : MonoBehaviour
 
             if (healthMetrics != null)
             {
-                healthMetrics.ModifyHealth(-20f); // Apply 20 damage to the object
+                healthMetrics.ModifyHealth(-20f);// Apply 20 damage to the object
+                Debug.Log("A WeakPoint");
             }
             // Handle the hit target logic here, if needed.
+
+            else
+            {
+                healthMetrics.ModifyHealth(-10f);// Apply 20 damage to the object
+                Debug.Log("Not a WeakPoint");
+            }
         }
+
         else
         {
-            // Handle hitting something else logic here, if needed.
+            HealthMetrics healthMetrics = other.GetComponent<HealthMetrics>();
+
+            if (healthMetrics != null)
+            {
+                healthMetrics.ModifyHealth(-10f);// Apply 20 damage to the object
+                Debug.Log("Not a WeakPoint");
+            }
         }
 
         Destroy(gameObject);
