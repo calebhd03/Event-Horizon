@@ -14,7 +14,11 @@ namespace StarterAssets
 		public bool sprint; 
 		public bool aim;
 		public bool shoot;
+
 		public Vector2 scroll;
+		public bool scan;
+		public bool scanaim;
+		public bool scanobj;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -63,6 +67,18 @@ namespace StarterAssets
 			{
 			ShootInput(value.isPressed);
 			}
+		}
+		public void OnScan(InputValue value)
+		{
+			ScanInput(value.isPressed);
+		}
+		public void OnScanaim(InputValue value)
+		{
+			ScanaimInput(value.isPressed);
+		}
+		public void OnScanobj(InputValue value)
+		{
+			OnScanobjInput(value.isPressed);
 		}
 
 		public void OnScroll(InputValue value)
@@ -115,6 +131,18 @@ namespace StarterAssets
 		public void ShootInput(bool newShootState)
 		{
 			shoot = newShootState;
+		}
+		public void ScanInput(bool newScanState)
+		{
+			scan = newScanState;
+		}
+		public void ScanaimInput(bool newScanaimState)
+		{
+			scanaim = newScanaimState;
+		}
+		public void OnScanobjInput(bool newScanobjState)
+		{
+			scanobj = newScanobjState;
 		}
 
 		private void OnApplicationFocus(bool hasFocus)
