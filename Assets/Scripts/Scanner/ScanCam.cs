@@ -23,6 +23,8 @@ public class ScanCam : MonoBehaviour
 
     void Update()
     {
+
+        
         Scanning scnScr = Scanningobject.GetComponent<Scanning>();
 
         if (scnScr.Scan == true)
@@ -30,57 +32,43 @@ public class ScanCam : MonoBehaviour
             Vector3 direction = Vector3.forward;
             Ray LookRay = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             //Debug.DrawRay(LookRay.origin, LookRay.direction * range, Color.blue);
-
-            if (Physics.Raycast(LookRay, out RaycastHit hit, range) && (hit.collider.tag == "Objective"))
-            {scannerCurrentObject = hit.collider.gameObject;
-                //Debug.Log("raycast hitting object");
-
-                if (hit.collider != null)
-                {
-                    
+            Physics.Raycast(LookRay, out RaycastHit hit, range);
+            if(hit.collider != null)
+            switch(hit.collider.tag)
+            {
+                case "Objective":
+                    scannerCurrentObject = hit.collider.gameObject;                     
                     ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
                     if (objScr != null)
-                    {
-                        
+                        {                        
                         objScr.highlight();
-                    }
-                }
-            }
-            
-            else if (Physics.Raycast(LookRay, out hit, range) && (hit.collider.tag == "Item"))
-            {scannerCurrentObject = hit.collider.gameObject;
+                        }
+                break;
 
-
-                if (hit.collider != null)
-                {Debug.Log("hitting item with raycast");
+                case "Item":
+                    scannerCurrentObject = hit.collider.gameObject;                    
                     ItemsScript itmScr = hit.collider.GetComponent<ItemsScript>();
                     if (itmScr != null)
-                    {
-                        
-                        itmScr.highlight();
-                    }
-                }
-            }
+                        {                        
+                            itmScr.highlight();
+                        }
+                break;
 
-            else if (Physics.Raycast(LookRay, out hit, range) && (hit.collider.tag == "Enemy"))
-            {scannerCurrentObject = hit.collider.gameObject;
-                //Debug.Log("raycast hitting object");
-
-                if (hit.collider != null)
-                {
-                    
+                case "Enemy":
+                    scannerCurrentObject = hit.collider.gameObject;                 
                     EnemiesScanScript eneScr = hit.collider.GetComponent<EnemiesScanScript>();
                     if (eneScr != null)
-                    {
+                        {
+                            eneScr.highlight();
+                        }           
+                break;
 
-                        eneScr.highlight();
-                    }
-                }
+                default:
+                    scannerCurrentObject = null;
+                break;
             }
             else
-            {
-                scannerCurrentObject = null;
-            }
+            scannerCurrentObject = null;            
         }
     }
 
@@ -110,8 +98,7 @@ public class ScanCam : MonoBehaviour
             if (hit.collider.tag == "Enemy")
             {
                 eneScr.ScriptActive();    
-            }  
-          
+            }            
         }   
     }
 
