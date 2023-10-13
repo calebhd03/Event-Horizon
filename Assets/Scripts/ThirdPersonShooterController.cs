@@ -87,13 +87,13 @@ public class ThirdPersonShooterController : MonoBehaviour
             if(equippedWeapon == 1)
             {
                 equippedWeapon = 0;
-                ammoCounter.text = "Ammo: " + standardAmmo;
+//                ammoCounter.text = "Ammo: " + standardAmmo;
                 Debug.Log("Standard Gun Equipped");
             }
             else
             {
                 equippedWeapon = 1;
-                ammoCounter.text = "Ammo: " + blackHoleAmmo;
+//                ammoCounter.text = "Ammo: " + blackHoleAmmo;
                 Debug.Log("Black Hole Gun Equipped");
             }
         }
