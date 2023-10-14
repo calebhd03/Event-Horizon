@@ -55,7 +55,6 @@ public class basicEnemy : MonoBehaviour
 
     //enemy bullets
     public GameObject enemyBulletPrefab;
-    public float playerBulletDamage;
     public Transform bulletSpawn;
     public float bulletSpread = 2f;
     public float maxMag = 20f;

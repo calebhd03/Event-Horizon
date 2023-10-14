@@ -13,7 +13,7 @@ public class hardEnemy : MonoBehaviour
     public NavMeshAgent agent;
 
     private Rigidbody rb;
-   
+
     //layer check
     public LayerMask enemyWalkZone;
     public LayerMask playerZone;
@@ -29,7 +29,7 @@ public class hardEnemy : MonoBehaviour
     //attack
     private bool attackAgainCoolDown;
     private bool withInAttackRange;
-    private bool withInMeleeRange;
+    public bool withInMeleeRange;
     public float attackRange;
     public float meleeRange;
     public float attackAgainTimer;
@@ -53,11 +53,11 @@ public class hardEnemy : MonoBehaviour
     public GameObject sword;
     public float chargeSpeed;
     public float chargeAcceleration;
+    public float meleeRushStopDistance = 12f;
 
 
     //enemy bullets
     public GameObject enemyBulletPrefab;
-    public float playerBulletDamage;
     public Transform bulletSpawn;
     public float bulletSpread = 2f;
     public float maxMag = 20f;
@@ -89,7 +89,7 @@ public class hardEnemy : MonoBehaviour
         {
             float distanceTarget = Vector3.Distance(transform.position, player.position);
 
-            if (distanceTarget <= viewRadius && !Physics.Raycast(transform.position, playerTarget, distanceTarget, obstacleZone)) 
+            if (distanceTarget <= viewRadius && !Physics.Raycast(transform.position, playerTarget, distanceTarget, obstacleZone))
             {
                 iSeeYou = true;
                 Debug.DrawRay(transform.position, playerTarget * viewRadius * viewAngle, Color.blue); //debug raycast line to show if enemy can see the player
@@ -125,26 +125,30 @@ public class hardEnemy : MonoBehaviour
         if (iSeeYou == true && withInAttackRange == false)
         {
             chasePlayer();
-            
-        }
- 
-        if(iSeeYou == true && withInAttackRange == true)
-        {
-            meleeAttack = false;
-            attackPlayer();
         }
 
-        if(iSeeYou == true && withInMeleeRange)
+        if(iSeeYou == true && withInMeleeRange == true)
         {
-            rangeAttack = false;
+
+            attackMelee();
             withInAttackRange = false;
-            attackPlayer();
-            if (meleeAttack == true)
+            Vector3 playerPostion = player.position;
+            Vector3 offset = (playerPostion - agent.transform.position).normalized * meleeRushStopDistance;
+            Vector3 finalStop = playerPostion - offset;
+            agent.SetDestination(finalStop);
+
+            if (iSeeYou == true && withInAttackRange == false)
             {
+                withInAttackRange = false;
                 Debug.Log("Enemy Charging Towards Player");
                 agent.speed = chargeSpeed;
                 agent.acceleration = chargeAcceleration;
             }
+        }
+
+        if (iSeeYou == true && withInAttackRange == true)
+        {
+            attackPlayer();
         }
 
         //Debug field of view of enemy, shows raycast
@@ -155,7 +159,7 @@ public class hardEnemy : MonoBehaviour
     private void pointMovement()
     {
         //resets movement
-        if(movePoints.Length == 0)
+        if (movePoints.Length == 0)
         {
             return;
         }
@@ -208,8 +212,8 @@ public class hardEnemy : MonoBehaviour
     {
         agent.SetDestination(transform.position);
         transform.LookAt(player);
-     
-        if (attackAgainCoolDown == false && rangeAttack == true && Time.time >= nextFire) 
+
+        if (attackAgainCoolDown == false && rangeAttack == true && Time.time >= nextFire)
         {
             //fire Rate
             nextFire = Time.time + 1 / fireRate;
@@ -224,7 +228,7 @@ public class hardEnemy : MonoBehaviour
 
             currentMag--;
 
-            if(currentMag <= 0)
+            if (currentMag <= 0)
             {
                 attackAgainCoolDown = true;
 
@@ -236,12 +240,17 @@ public class hardEnemy : MonoBehaviour
             //destroy bullet properly for now
             Destroy(newBullet.gameObject, 5f);
         }
+    }
 
-        //need to add player health decrease for melee attack
+    private void attackMelee()
+    {
+        //agent.SetDestination(transform.position);
+        //transform.LookAt(player);
+
         if (attackAgainCoolDown == false && meleeAttack == true)
         {
             attackAgainCoolDown = true;
-            
+
             Invoke(nameof(meleeAttackCoolDown), attackAgainTimer);
             Debug.Log("Melee Atack");
 
@@ -258,7 +267,7 @@ public class hardEnemy : MonoBehaviour
         attackAgainCoolDown = false;
         Debug.Log("Sword Recharge");
     }
- 
+
     //DEBUG BELOW
     //show visualization of hear distance and attack distance for debugging
     private void OnDrawGizmos()
@@ -269,10 +278,8 @@ public class hardEnemy : MonoBehaviour
         Gizmos.color = Color.black;
         Gizmos.DrawWireSphere(transform.position, attackRange);
 
-        Gizmos.color = Color.gray;
+        Gizmos.color = Color.grey;
         Gizmos.DrawWireSphere(transform.position, meleeRange);
-
-
     }
 
     //Visual representation for debugging the cone of vision of the enemy. Shows the ray cast for debugging
