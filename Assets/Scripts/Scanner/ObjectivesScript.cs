@@ -11,6 +11,7 @@ public class ObjectivesScript : MonoBehaviour
     public GameObject ObjectiveText;
     public GameObject ObjectRef;
     public GameObject Scanningobject;
+    public GameObject scanCam;
     private Color highlightColor = Color.yellow;
     private Color normalColor = Color.white;
     private Color scanColor = Color.green;
@@ -41,8 +42,8 @@ public class ObjectivesScript : MonoBehaviour
     void Update()
     {
         Scanning scnScr = Scanningobject.GetComponent<Scanning>();
-
-        if (scnScr.Scan == true)
+        ScanCam scnCam = scanCam.GetComponent<ScanCam>();
+        if (scnScr.Scan == true && scnCam.scannerCurrentObject == null)
         {
             ScanColor();
             //Debug.Log("it tried to change color");
