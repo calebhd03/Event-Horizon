@@ -17,9 +17,11 @@ namespace StarterAssets
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
+        public float NormalMovespeed = 2.0f;
 
         [Tooltip("Sprint speed of the character in m/s")]
         public float SprintSpeed = 5.335f;
+        public float NormalSprintSpeed = 5.335f;
 
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
@@ -105,6 +107,7 @@ namespace StarterAssets
         private Animator _animator;
         private CharacterController _controller;
         private StarterAssetsInputs _input;
+        private SaveSystemTest saveSystemTest;  //Save System Test Inputs
         private GameObject _mainCamera;
         private bool _rotateOnMove =true;
 
@@ -141,6 +144,7 @@ namespace StarterAssets
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
+            saveSystemTest = GetComponent<SaveSystemTest>();    //Save System Test Inputs
 #if ENABLE_INPUT_SYSTEM 
             _playerInput = GetComponent<PlayerInput>();
 #else
@@ -161,6 +165,7 @@ namespace StarterAssets
             JumpAndGravity();
             GroundedCheck();
             Move();
+            SaveTestInputs();
         }
 
         private void LateUpdate()
@@ -402,6 +407,30 @@ namespace StarterAssets
         public void SetRotateOnMove(bool newRotateOnMove)
         {
             _rotateOnMove = newRotateOnMove;
+        }
+
+        private void SaveTestInputs() //Save System Test Inputs
+        {
+            if (_input.save)
+            {
+                _input.save = false;
+                saveSystemTest.SaveGame();
+                Debug.Log("Save Input Pressed!");
+            }
+
+            if (_input.load)
+            {
+                _input.load = false;
+                saveSystemTest.LoadGame();
+                Debug.Log("Load Input Pressed!");
+            }
+
+            if (_input.value)
+            {
+                _input.value = false;
+                saveSystemTest.TestValue();
+                Debug.Log("Test Value Input Pressed!");
+            }
         }
     }
 }
