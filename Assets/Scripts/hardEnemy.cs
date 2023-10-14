@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class basicEnemy : MonoBehaviour
+public class hardEnemy : MonoBehaviour
 {
     //mesh coolider with kinamatic rigid body fixes some bugs
     //moving navemesh and shooting bullets fixes
@@ -29,7 +29,9 @@ public class basicEnemy : MonoBehaviour
     //attack
     private bool attackAgainCoolDown;
     private bool withInAttackRange;
+    private bool withInMeleeRange;
     public float attackRange;
+    public float meleeRange;
     public float attackAgainTimer;
 
     //enemy view in coned shaped
@@ -106,6 +108,7 @@ public class basicEnemy : MonoBehaviour
 
         //sphere for attack range and hearing distance
         withInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerZone);
+        withInMeleeRange = Physics.CheckSphere(transform.position, meleeRange, playerZone);
         iHearYou = Physics.CheckSphere(transform.position, hearDistance, playerZone);
 
         if (iHearYou == true)
@@ -122,17 +125,26 @@ public class basicEnemy : MonoBehaviour
         if (iSeeYou == true && withInAttackRange == false)
         {
             chasePlayer();
-            if(meleeAttack == true)
+            
+        }
+ 
+        if(iSeeYou == true && withInAttackRange == true)
+        {
+            meleeAttack = false;
+            attackPlayer();
+        }
+
+        if(iSeeYou == true && withInMeleeRange)
+        {
+            rangeAttack = false;
+            withInAttackRange = false;
+            attackPlayer();
+            if (meleeAttack == true)
             {
                 Debug.Log("Enemy Charging Towards Player");
                 agent.speed = chargeSpeed;
                 agent.acceleration = chargeAcceleration;
             }
-        }
-
-        if(iSeeYou == true && withInAttackRange == true)
-        {
-            attackPlayer();
         }
 
         //Debug field of view of enemy, shows raycast
@@ -256,6 +268,11 @@ public class basicEnemy : MonoBehaviour
 
         Gizmos.color = Color.black;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+
+        Gizmos.color = Color.gray;
+        Gizmos.DrawWireSphere(transform.position, meleeRange);
+
+
     }
 
     //Visual representation for debugging the cone of vision of the enemy. Shows the ray cast for debugging

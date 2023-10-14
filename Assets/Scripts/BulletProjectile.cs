@@ -17,7 +17,7 @@ public class BulletProjectile : MonoBehaviour
         bulletRigidbody.velocity = transform.forward * speed;
     }
 
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("WeakPoint"))
         { 
@@ -31,7 +31,7 @@ public class BulletProjectile : MonoBehaviour
         }
 
         Destroy(gameObject);
-    }
+    }*/
 
 }
 

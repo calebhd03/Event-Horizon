@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class regularPoint : MonoBehaviour
 {
+    public float regularDamage;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +24,7 @@ public class regularPoint : MonoBehaviour
 
             if (healthMetrics != null)
             {
-                healthMetrics.ModifyHealth(-10f);// Apply 20 damage to the object
+                healthMetrics.ModifyHealth(-regularDamage);// Apply 20 damage to the object
                 Debug.Log("Not a WeakPoint");
             }
 
