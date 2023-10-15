@@ -8,6 +8,7 @@ public class PlayerData
     public int testData;
     public int standardAmmoSave;
     public int blackHoleAmmoSave;
+    public int shotgunAmmoSave;
     
     public float[] position;
 
@@ -16,6 +17,7 @@ public class PlayerData
         testData = player.testData;
         standardAmmoSave = player.standardAmmoSave;
         blackHoleAmmoSave = player.blackHoleAmmoSave;
+        shotgunAmmoSave = player.shotgunAmmoSave;
 
         position = new float[3];
         position[0] = player.transform.position.x;

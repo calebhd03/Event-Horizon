@@ -19,13 +19,15 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private Transform pfBulletProjectile;
     [SerializeField] private Transform pfBlackHoleProjectile;
     [SerializeField] private Transform spawnBulletPosition;
-    [SerializeField] private int equippedWeapon;
 
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
     
+    public int[] allWeapons = new int[]{0, 1, 2};
+    private int equippedWeapon;
     public int standardAmmo;
     public int blackHoleAmmo;
+    public int shotgunAmmo;
     public Text ammoCounter;
 
     [Header("Scanner Necessities")]
@@ -84,18 +86,17 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         if (starterAssetsInputs.scroll != Vector2.zero)
         {
-            if(equippedWeapon == 1)
+            equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon += 1 : equippedWeapon -= 1;
+            if (equippedWeapon > allWeapons.Length - 1)
             {
                 equippedWeapon = 0;
-//                ammoCounter.text = "Ammo: " + standardAmmo;
-                Debug.Log("Standard Gun Equipped");
             }
-            else
+            else if (equippedWeapon < 0)
             {
-                equippedWeapon = 1;
-//                ammoCounter.text = "Ammo: " + blackHoleAmmo;
-                Debug.Log("Black Hole Gun Equipped");
+                equippedWeapon = allWeapons.Length - 1;
             }
+            UpdateAmmoCount();
+            Debug.Log(equippedWeapon);
         }
 
         if (starterAssetsInputs.shoot)
@@ -114,6 +115,11 @@ public class ThirdPersonShooterController : MonoBehaviour
                 {
                     Instantiate(pfBlackHoleProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                     blackHoleAmmo -= 1;
+                    UpdateAmmoCount();
+                }
+                else if (equippedWeapon == 2 && shotgunAmmo > 0)
+                {
+                    shotgunAmmo -= 1;
                     UpdateAmmoCount();
                 }
             }
@@ -176,6 +182,11 @@ public class ThirdPersonShooterController : MonoBehaviour
             blackHoleAmmo += ammoAmount;
             UpdateAmmoCount();
         }
+        else if (ammoType == 2)
+        {
+            shotgunAmmo += ammoAmount;
+            UpdateAmmoCount();
+        }
     }
 
     public void UpdateAmmoCount()
@@ -187,6 +198,10 @@ public class ThirdPersonShooterController : MonoBehaviour
         else if(equippedWeapon == 1)
         {
             ammoCounter.text = "Ammo: " + blackHoleAmmo;
+        }
+        else if(equippedWeapon == 2)
+        {
+            ammoCounter.text = "Ammo: " + shotgunAmmo;
         }
     }
 }
