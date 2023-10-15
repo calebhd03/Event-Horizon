@@ -105,6 +105,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             {
                 equippedWeapon = allWeapons.Length - 1;
             }
+            shotCooldown = currentCooldown;
             UpdateAmmoCount();
             Debug.Log(equippedWeapon);
         }
