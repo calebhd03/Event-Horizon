@@ -167,7 +167,7 @@ namespace StarterAssets
             GroundedCheck();
             Move();
             SaveTestInputs();
-            //Crouch();
+            Crouch();
         }
 
         private void LateUpdate()
@@ -439,18 +439,22 @@ namespace StarterAssets
         }
 
         //private void Crouch() => _animator.SetBool(_animIDCrouch, _input.crouch);
-        /*private void Crouch()
+        private void Crouch()
         {
-            if(_input.crouch == true)
+            if (_input.crouch == true)
             {
                 _animator.SetBool(_animIDCrouch, true);
+                Debug.Log("Crouch is true");
             }
 
             else
             {
                 _animator.SetBool(_animIDCrouch, false);
+                _input.crouch = false;
             }
-        }*/
 
-    }
+            _input.crouch = false;
+        }
+
+    }     
 }

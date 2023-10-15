@@ -14,7 +14,7 @@ namespace StarterAssets
 		public bool sprint; 
 		public bool aim;
 		public bool shoot;
-		public bool Crouch;
+		public bool crouch;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -106,7 +106,7 @@ namespace StarterAssets
 
 		public void CrouchInput(bool newCrouchState)
 		{
-			Crouch = newCrouchState;
+			crouch = newCrouchState;
 		}
 
 		public void SprintInput(bool newSprintState)
