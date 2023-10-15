@@ -113,7 +113,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         {
             Vector3 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
 
-            if (scnScr.Scan == false && shotCooldown >= currentCooldown)
+             if (scnScr.Scan == false && shotCooldown >= currentCooldown)
             {
                 if (equippedWeapon == 0 && standardAmmo > 0)//Standard Projectile Shoot
                 {
@@ -172,38 +172,40 @@ public class ThirdPersonShooterController : MonoBehaviour
         }
         shotCooldown += Time.deltaTime;
 
-        if (starterAssetsInputs.scan)
+if (starterAssetsInputs.scan)
         {
             TPC.MoveSpeed = 0;
             TPC.SprintSpeed = 0;
             starterAssetsInputs.scan = true;
 
             scnScr.ScanCamPriority();
-
+            
             if (starterAssetsInputs.scan == true)
             {
                 starterAssetsInputs.scan = false;
+
             }
             if (scnScr.Scan == false)
             {
-                TPC.MoveSpeed = TPC.NormalMovespeed;
-                TPC.SprintSpeed = TPC.NormalSprintSpeed;
+                    TPC.MoveSpeed = TPC.NormalMovespeed;
+                    TPC.SprintSpeed = TPC.NormalSprintSpeed;
             }
         }
 
         if (starterAssetsInputs.scanobj && scnScr.Scan == true)
         {
+            
             scnCam.ScanObj();
+
         }
-        else
-        {
+        else{
             scnCam.DisableScript();
         }
 
-        if (starterAssetsInputs.scanaim)
+        if(starterAssetsInputs.scanaim)
         {
             starterAssetsInputs.scanaim = true;
-            // Debug.Log("scanzoom pressed");
+            //Debug.Log("scanzoom pressed");
 
             scnzCam.ScanZoomPriority();
 
