@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class ThirdPersonShooterController : MonoBehaviour 
 {
-  [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
+    [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
     [SerializeField] private float normalSensitivity;
     [SerializeField] private float aimSensitivity;
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
@@ -18,19 +18,24 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private Transform pfBlackHoleProjectile;
     [SerializeField] private Transform pfShotgunProjectile;
     [SerializeField] private Transform spawnBulletPosition;
+    [SerializeField] private Transform debugTransform;
+    
+    [SerializeField] private int equippedWeapon;
+    [SerializeField] private float shotgunCooldown = 1.0f;
+    [SerializeField] private float shotgunSpreadAngle = 3f; // Spread angle for shotgun pellets
+    private float lastShotgunTime;
 
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
-    
+
     [Header("Weapon Settings")]
     public int[] allWeapons = new int[]{0, 1, 2};
-    private int equippedWeapon;
 
     private float shotCooldown;
     private float currentCooldown;
     public float standardCooldown;
     public float blackHoleCooldown;
-    public float shotgunCooldown;
+  //  public float shotgunCooldown;
     public Image cooldownMeter;
 
     public int standardAmmo;
@@ -43,15 +48,6 @@ public class ThirdPersonShooterController : MonoBehaviour
     public GameObject Scannercamera;
     public GameObject ScannerZoomCamera;
     public bool Scanenabled = false;
-    
-
-    [SerializeField] private int equippedWeapon;
-    [SerializeField] private float shotgunCooldown = 1.0f;
-    [SerializeField] private float shotgunSpreadAngle = 3f; // Spread angle for shotgun pellets
-    private float lastShotgunTime;
-    private ThirdPersonController thirdPersonController;
-    private StarterAssetsInputs starterAssetsInputs;
-    
 
     private void Awake()
     {
@@ -73,24 +69,22 @@ public class ThirdPersonShooterController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
         if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask))
         {
+            debugTransform.position = raycastHit.point;
             mouseWorldPosition = raycastHit.point;
         }
 
-
-        if(starterAssetsInputs.aim)
+        if (starterAssetsInputs.aim)
         {
             if (scnScr.Scan == false)
             {
-            aimVirtualCamera.gameObject.SetActive(true);
-            thirdPersonController.SetSensitivity(aimSensitivity);
-            thirdPersonController.SetRotateOnMove(false);
+                aimVirtualCamera.gameObject.SetActive(true);
+                thirdPersonController.SetSensitivity(aimSensitivity);
+                thirdPersonController.SetRotateOnMove(false);
             }
-
             Vector3 worldAimTarget = mouseWorldPosition;
             worldAimTarget.y = transform.position.y;
             Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
-
-            transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime *20f);
+            transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
         } 
         else 
         {
@@ -105,20 +99,6 @@ public class ThirdPersonShooterController : MonoBehaviour
             if (equippedWeapon > allWeapons.Length - 1)
             {
                 equippedWeapon = 0;
-            if (equippedWeapon == 0)
-            {
-                equippedWeapon = 1;
-                Debug.Log("Black Hole Gun Equipped");
-            }
-            else if (equippedWeapon == 1)
-            {
-                equippedWeapon = 2;
-                Debug.Log("Shotgun Equipped");
-            }
-            else if (equippedWeapon == 2)
-            {
-                equippedWeapon = 0;
-                Debug.Log("Standard Gun Equipped");
             }
             else if (equippedWeapon < 0)
             {
@@ -131,19 +111,17 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         if (starterAssetsInputs.shoot)
         {
-            if (equippedWeapon == 0) // Standard Projectile Shoot
-            {
-                Vector3 direction = (mouseWorldPosition - spawnBulletPosition.position).normalized;
-                Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(direction, Vector3.up));
+            Vector3 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
 
             if (scnScr.Scan == false && shotCooldown >= currentCooldown)
             {
-                if(equippedWeapon == 0 && standardAmmo > 0)//Standard Projectile Shoot
+                if (equippedWeapon == 0 && standardAmmo > 0)//Standard Projectile Shoot
                 {
                     Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                     standardAmmo -= 1;
                     currentCooldown = standardCooldown;
                     UpdateAmmoCount();
+                    thirdPersonController.Recoil(0.1f);
                 }
                 else if (equippedWeapon == 1 && blackHoleAmmo > 0)//Black Hole Projectile Shoot
                 {
@@ -151,26 +129,15 @@ public class ThirdPersonShooterController : MonoBehaviour
                     blackHoleAmmo -= 1;
                     currentCooldown = blackHoleCooldown;
                     UpdateAmmoCount();
+                    thirdPersonController.Recoil(0.1f);
                 }
                 else if (equippedWeapon == 2 && shotgunAmmo > 0)
                 {
+                   
                     shotgunAmmo -= 1;
                     currentCooldown = shotgunCooldown;
                     UpdateAmmoCount();
-                }
-                shotCooldown = 0;
-                          thirdPersonController.Recoil(0.1f);
-                
-            }
-            else if (equippedWeapon == 1) // Black Hole Projectile Shoot
-            {
-                Vector3 direction = (mouseWorldPosition - spawnBulletPosition.position).normalized;
-                Instantiate(pfBlackHoleProjectile, spawnBulletPosition.position, Quaternion.LookRotation(direction, Vector3.up));
-            }
-            else if (equippedWeapon == 2) // Shotgun Projectile Shoot
-            {
-               if (equippedWeapon == 2) // Shotgun Projectile Shoot
-            {
+                   {
                 if (Time.time - lastShotgunTime >= shotgunCooldown) // Check cooldown
                 {
                     thirdPersonController.Recoil(0.2f);
@@ -192,16 +159,19 @@ public class ThirdPersonShooterController : MonoBehaviour
                     lastShotgunTime = Time.time;
                 }
             }
+                }
+                shotCooldown = 0;
+                //thirdPersonController.Recoil(0.1f);
             }
             starterAssetsInputs.shoot = false;
         }
 
-        if(shotCooldown <= currentCooldown)
+        if (shotCooldown <= currentCooldown)
         {
-            cooldownMeter.transform.localScale = new Vector3 ((shotCooldown / currentCooldown) * 0.96f, .8f, 1);
+            cooldownMeter.transform.localScale = new Vector3((shotCooldown / currentCooldown) * 0.96f, 0.8f, 1);
         }
         shotCooldown += Time.deltaTime;
-       
+
         if (starterAssetsInputs.scan)
         {
             TPC.MoveSpeed = 0;
@@ -209,33 +179,31 @@ public class ThirdPersonShooterController : MonoBehaviour
             starterAssetsInputs.scan = true;
 
             scnScr.ScanCamPriority();
-            
+
             if (starterAssetsInputs.scan == true)
             {
                 starterAssetsInputs.scan = false;
-
             }
             if (scnScr.Scan == false)
             {
-                    TPC.MoveSpeed = TPC.NormalMovespeed;
-                    TPC.SprintSpeed = TPC.NormalSprintSpeed;
+                TPC.MoveSpeed = TPC.NormalMovespeed;
+                TPC.SprintSpeed = TPC.NormalSprintSpeed;
             }
         }
 
         if (starterAssetsInputs.scanobj && scnScr.Scan == true)
         {
-            
             scnCam.ScanObj();
-
         }
-        else{
+        else
+        {
             scnCam.DisableScript();
         }
 
-        if(starterAssetsInputs.scanaim)
+        if (starterAssetsInputs.scanaim)
         {
             starterAssetsInputs.scanaim = true;
-            //Debug.Log("scanzoom pressed");
+            // Debug.Log("scanzoom pressed");
 
             scnzCam.ScanZoomPriority();
 
@@ -267,20 +235,17 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     public void UpdateAmmoCount()
     {
-        if(equippedWeapon == 0)
+        if (equippedWeapon == 0)
         {
             ammoCounter.text = "Ammo: " + standardAmmo;
         }
-        else if(equippedWeapon == 1)
+        else if (equippedWeapon == 1)
         {
             ammoCounter.text = "Ammo: " + blackHoleAmmo;
         }
-        else if(equippedWeapon == 2)
+        else if (equippedWeapon == 2)
         {
             ammoCounter.text = "Ammo: " + shotgunAmmo;
         }
     }
-
-    
-} 
-    }
+}
