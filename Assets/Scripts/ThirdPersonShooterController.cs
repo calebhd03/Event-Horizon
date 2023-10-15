@@ -23,8 +23,17 @@ public class ThirdPersonShooterController : MonoBehaviour
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
     
+    [Header("Weapon Settings")]
     public int[] allWeapons = new int[]{0, 1, 2};
     private int equippedWeapon;
+
+    private float shotCooldown;
+    private float currentCooldown;
+    public float standardCooldown;
+    public float blackHoleCooldown;
+    public float shotgunCooldown;
+    public Image cooldownMeter;
+
     public int standardAmmo;
     public int blackHoleAmmo;
     public int shotgunAmmo;
@@ -42,7 +51,8 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         thirdPersonController = GetComponent<ThirdPersonController>();
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
-
+        UpdateAmmoCount();
+        currentCooldown = standardCooldown;
     }
 
     private void Update()
@@ -86,7 +96,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         if (starterAssetsInputs.scroll != Vector2.zero)
         {
-            equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon += 1 : equippedWeapon -= 1;
+            equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon -= 1 : equippedWeapon += 1;
             if (equippedWeapon > allWeapons.Length - 1)
             {
                 equippedWeapon = 0;
@@ -103,29 +113,39 @@ public class ThirdPersonShooterController : MonoBehaviour
         {
             Vector3 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
 
-            if (scnScr.Scan == false)
+            if (scnScr.Scan == false && shotCooldown >= currentCooldown)
             {
                 if(equippedWeapon == 0 && standardAmmo > 0)//Standard Projectile Shoot
                 {
                     Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                     standardAmmo -= 1;
+                    currentCooldown = standardCooldown;
                     UpdateAmmoCount();
                 }
                 else if (equippedWeapon == 1 && blackHoleAmmo > 0)//Black Hole Projectile Shoot
                 {
                     Instantiate(pfBlackHoleProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                     blackHoleAmmo -= 1;
+                    currentCooldown = blackHoleCooldown;
                     UpdateAmmoCount();
                 }
                 else if (equippedWeapon == 2 && shotgunAmmo > 0)
                 {
                     shotgunAmmo -= 1;
+                    currentCooldown = shotgunCooldown;
                     UpdateAmmoCount();
                 }
+                shotCooldown = 0;
             }
             starterAssetsInputs.shoot = false;
         }
-        
+
+        if(shotCooldown <= currentCooldown)
+        {
+            cooldownMeter.transform.localScale = new Vector3 ((shotCooldown / currentCooldown) * 0.96f, .8f, 1);
+        }
+        shotCooldown += Time.deltaTime;
+       
         if (starterAssetsInputs.scan)
         {
             TPC.MoveSpeed = 0;

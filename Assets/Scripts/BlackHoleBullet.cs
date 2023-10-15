@@ -7,7 +7,7 @@ public class BlackHoleBullet : MonoBehaviour
     private Rigidbody bulletRigidbody;
     private Renderer bulletRenderer;
     public int eventHorizonRadius;
-    public float growthTime;
+    public float effectTime;
 
     private void Awake()
     {
@@ -23,15 +23,15 @@ public class BlackHoleBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        bulletRigidbody.constraints = RigidbodyConstraints.FreezePosition;
-        StartCoroutine(ScaleOverTime(growthTime));
+        bulletRigidbody.constraints = RigidbodyConstraints.FreezePosition; //Stops projectile
+        StartCoroutine(ScaleOverTime(effectTime));
         transform.localScale = new Vector3 (eventHorizonRadius, eventHorizonRadius, eventHorizonRadius);
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, eventHorizonRadius);
         foreach (var hitCollider in hitColliders)
         {
             if(hitCollider.tag == "Enemy")
             {
-                Debug.Log("Woah an enemy!");
+                StartCoroutine(DestroyTarget(hitCollider));
             }
         }
     }
@@ -51,8 +51,20 @@ public class BlackHoleBullet : MonoBehaviour
             currentTime += Time.deltaTime;
             yield return null;
         }
-
         Destroy(gameObject);
+    }
+
+    IEnumerator DestroyTarget(Collider target)
+    {
+        float currentTime = 0.0f;
+        Vector3 startPosition = target.transform.position;
+        while(currentTime < (effectTime * .75))
+        {
+            target.transform.position = Vector3.Lerp(startPosition, transform.position, currentTime / (effectTime * .75f));
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+        Destroy(target.gameObject);
     }
 
     private void OnDrawGizmos()
