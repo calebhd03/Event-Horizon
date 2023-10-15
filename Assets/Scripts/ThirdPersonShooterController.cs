@@ -144,7 +144,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         if(shotCooldown <= currentCooldown)
         {
-            cooldownMeter.transform.localScale = new Vector3 ((shotCooldown / currentCooldown) * 0.96f, .8f, 1);
+//            cooldownMeter.transform.localScale = new Vector3 ((shotCooldown / currentCooldown) * 0.96f, .8f, 1);
         }
         shotCooldown += Time.deltaTime;
        
@@ -215,15 +215,15 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         if(equippedWeapon == 0)
         {
-            ammoCounter.text = "Ammo: " + standardAmmo;
+//            ammoCounter.text = "Ammo: " + standardAmmo;
         }
         else if(equippedWeapon == 1)
         {
-            ammoCounter.text = "Ammo: " + blackHoleAmmo;
+ //           ammoCounter.text = "Ammo: " + blackHoleAmmo;
         }
         else if(equippedWeapon == 2)
         {
-            ammoCounter.text = "Ammo: " + shotgunAmmo;
+ //           ammoCounter.text = "Ammo: " + shotgunAmmo;
         }
     }
 }
