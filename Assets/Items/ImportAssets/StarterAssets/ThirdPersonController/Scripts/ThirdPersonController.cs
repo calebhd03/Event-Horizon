@@ -99,6 +99,9 @@ namespace StarterAssets
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
 
+        //crouch test animation ID
+        private int _animIDCrouch;
+
 #if ENABLE_INPUT_SYSTEM 
         private PlayerInput _playerInput;
 #endif
@@ -107,7 +110,7 @@ namespace StarterAssets
         private StarterAssetsInputs _input;
         private SaveSystemTest saveSystemTest;  //Save System Test Inputs
         private GameObject _mainCamera;
-        private bool _rotateOnMove =true;
+        private bool _rotateOnMove = true;
 
         private const float _threshold = 0.01f;
 
@@ -138,7 +141,7 @@ namespace StarterAssets
         private void Start()
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-            
+
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
@@ -164,6 +167,7 @@ namespace StarterAssets
             GroundedCheck();
             Move();
             SaveTestInputs();
+            //Crouch();
         }
 
         private void LateUpdate()
@@ -178,6 +182,9 @@ namespace StarterAssets
             _animIDJump = Animator.StringToHash("Jump");
             _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+
+            //crouch test
+            _animIDCrouch = Animator.StringToHash("Crouch");
         }
 
         private void GroundedCheck()
@@ -266,9 +273,9 @@ namespace StarterAssets
                     RotationSmoothTime);
 
                 // rotate to face input direction relative to camera position
-                if(_rotateOnMove)
+                if (_rotateOnMove)
                 {
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
                 }
             }
 
@@ -430,5 +437,20 @@ namespace StarterAssets
                 Debug.Log("Test Value Input Pressed!");
             }
         }
+
+        //private void Crouch() => _animator.SetBool(_animIDCrouch, _input.crouch);
+        /*private void Crouch()
+        {
+            if(_input.crouch == true)
+            {
+                _animator.SetBool(_animIDCrouch, true);
+            }
+
+            else
+            {
+                _animator.SetBool(_animIDCrouch, false);
+            }
+        }*/
+
     }
 }
