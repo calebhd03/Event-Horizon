@@ -1,6 +1,7 @@
 ﻿ using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
+using System.Collections;
 #endif
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -78,6 +79,15 @@ namespace StarterAssets
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
 
+        public GameObject finalRecoilPositionObject;
+        private Vector3 currentRecoilPosition; // Current recoil position
+        private Vector3 finalRecoilPosition; // Final recoil position
+        private float kickbackSpeed = 10f; // Speed for applying recoil
+        private float returnSpeed = 20f;   // Speed for returning to finalRecoilPosition
+        private bool isRecoiling = false;
+
+
+
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
@@ -140,6 +150,12 @@ namespace StarterAssets
         private void Start()
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
+
+            // Store the original position of CinemachineCameraTarget
+            finalRecoilPosition = CinemachineCameraTarget.transform.position;
+
+            // Initialize currentRecoilPosition to the finalRecoilPosition
+            currentRecoilPosition = finalRecoilPosition;
             
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
@@ -408,6 +424,51 @@ namespace StarterAssets
         {
             _rotateOnMove = newRotateOnMove;
         }
+
+        public void Recoil(float kickbackAmount)
+        {
+            // Apply recoil if not already recoiling
+            if (!isRecoiling)
+            {
+                // Calculate the recoil direction based on the player's forward direction
+                Vector3 recoilDirection = -transform.forward * kickbackAmount;
+
+                // Update the finalRecoilPosition
+                finalRecoilPosition = transform.position + recoilDirection;
+
+                // Smoothly move the player along the recoil direction
+                StartCoroutine(ApplyRecoil());
+            }
+        }
+
+        private IEnumerator ApplyRecoil()
+        {
+            isRecoiling = true;
+            Vector3 initialPosition = transform.position;
+            
+            while (Vector3.Distance(transform.position, finalRecoilPosition) > 0.01f)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, finalRecoilPosition, kickbackSpeed * Time.deltaTime);
+                yield return null;
+            }
+
+            // Now, wait for a brief moment to simulate the recoil effect
+            yield return new WaitForSeconds(0.1f);
+
+            // Smoothly return the player to the initial position
+            StartCoroutine(ReturnToInitialPosition(initialPosition));
+        }
+
+        private IEnumerator ReturnToInitialPosition(Vector3 initialPosition)
+        {
+            while (Vector3.Distance(transform.position, initialPosition) > 0.01f)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, initialPosition, returnSpeed * Time.deltaTime);
+                yield return null;
+            }
+            isRecoiling = false;
+        }
+
 
         private void SaveTestInputs() //Save System Test Inputs
         {
