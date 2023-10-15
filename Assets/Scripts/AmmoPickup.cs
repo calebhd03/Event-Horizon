@@ -6,7 +6,7 @@ public class AmmoPickup : MonoBehaviour
 {
     private ThirdPersonShooterController thirdPersonShooterController;
 
-    public enum mode {standardAmmo, blackHoleAmmo}
+    public enum mode {standardAmmo, blackHoleAmmo, shotgunAmmo}
     public mode ammoType;
     private int ammoCode;
 
@@ -22,7 +22,10 @@ public class AmmoPickup : MonoBehaviour
         {
             ammoCode = 1;
         }
-        
+        else if (ammoType == mode.shotgunAmmo)
+        {
+            ammoCode = 2;
+        }
     }
     
     void OnTriggerEnter(Collider other)

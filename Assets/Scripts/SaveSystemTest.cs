@@ -7,6 +7,7 @@ public class SaveSystemTest : MonoBehaviour
     public int testData = 1;
     public int standardAmmoSave;
     public int blackHoleAmmoSave;
+    public int shotgunAmmoSave;
 
     private CharacterController _controller;
     private ThirdPersonShooterController thirdPersonShooterController;
@@ -26,6 +27,7 @@ public class SaveSystemTest : MonoBehaviour
         testData = data.testData;
         thirdPersonShooterController.standardAmmo = data.standardAmmoSave;
         thirdPersonShooterController.blackHoleAmmo = data.blackHoleAmmoSave;
+        thirdPersonShooterController.shotgunAmmo = data.shotgunAmmoSave;
         thirdPersonShooterController.UpdateAmmoCount();
 
         Vector3 position;
@@ -43,6 +45,7 @@ public class SaveSystemTest : MonoBehaviour
     {
         standardAmmoSave = thirdPersonShooterController.standardAmmo;
         blackHoleAmmoSave = thirdPersonShooterController.blackHoleAmmo;
+        shotgunAmmoSave = thirdPersonShooterController.shotgunAmmo;
         SaveSystem.SavePlayer(this);
     }
 
