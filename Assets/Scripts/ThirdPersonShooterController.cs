@@ -132,6 +132,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 }
                 else if (equippedWeapon == 2 && shotgunAmmo > 0)
                 {
+                    //insert shotgun effect
                     shotgunAmmo -= 1;
                     currentCooldown = shotgunCooldown;
                     UpdateAmmoCount();
