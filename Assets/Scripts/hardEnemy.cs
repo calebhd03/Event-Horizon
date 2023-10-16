@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -49,6 +50,11 @@ namespace StarterAssets
         //private bool walkPointIndicator;
         //public float patrolRange;
 
+        //health
+        //public float maxHealth;
+        //public float currentHealth;
+        //[SerializeField] EnemyHealthBar healthBar;
+
         public bool rangeAttack;
         public bool meleeAttack;
 
@@ -67,6 +73,9 @@ namespace StarterAssets
         private float currentMag;
         public float fireRate = 1.0f;
         private float nextFire;
+
+        //scanning
+        public GameObject Scanningobject;
 
         private void Awake()
         {
@@ -167,6 +176,17 @@ namespace StarterAssets
 
             //Debug field of view of enemy, shows raycast
             DrawFieldOfVision();
+
+            //stop enemy movement in scanner
+            Scanning scnScr = Scanningobject.GetComponent<Scanning>();
+            if (scnScr.Scan == true)
+            {
+                agent.isStopped = true;
+            }
+            else
+            {
+                agent.isStopped = false;
+            }
         }
 
         //new movement between points but would have to manually add for each enemy
