@@ -439,7 +439,7 @@ namespace StarterAssets
         }
 
         //private void Crouch() => _animator.SetBool(_animIDCrouch, _input.crouch);
-        private void Crouch()
+        public void Crouch()
         {
             if (_input.crouch == true)
             {
@@ -453,7 +453,7 @@ namespace StarterAssets
                 _input.crouch = false;
             }
 
-            _input.crouch = false;
+            //_input.crouch = false;
         }
 
     }     
