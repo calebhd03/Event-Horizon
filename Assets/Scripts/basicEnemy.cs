@@ -233,6 +233,7 @@ namespace StarterAssets
             {
                 //fire Rate
                 nextFire = Time.time + 1 / fireRate;
+ 
                 //attack code for range attack
                 Rigidbody newBullet = Instantiate(enemyBulletPrefab, bulletSpawn.position, Quaternion.identity).GetComponent<Rigidbody>();
 
@@ -240,7 +241,8 @@ namespace StarterAssets
                 bulletDirection = Quaternion.Euler(0, bulletSpread, 0) * bulletDirection;
 
                 newBullet.AddForce(transform.forward * 32f, ForceMode.Impulse);
-                newBullet.AddForce(transform.up * 8f, ForceMode.Impulse);
+                newBullet.AddForce(transform.up * 5f, ForceMode.Impulse);
+                
 
                 currentMag--;
 

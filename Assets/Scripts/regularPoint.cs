@@ -4,18 +4,7 @@ using UnityEngine;
 
 public class regularPoint : MonoBehaviour
 {
-    public float regularDamage;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    public float regularDamage = 10f;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Bullet"))
@@ -24,7 +13,7 @@ public class regularPoint : MonoBehaviour
 
             if (healthMetrics != null)
             {
-                healthMetrics.ModifyHealth(-regularDamage);// Apply 20 damage to the object
+                healthMetrics.ModifyHealth(-regularDamage);
                 Debug.Log("Not a WeakPoint");
             }
 
