@@ -120,7 +120,6 @@ public class ThirdPersonShooterController : MonoBehaviour
                     Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                     standardAmmo -= 1;
                     currentCooldown = standardCooldown;
-                    UpdateAmmoCount();
                     thirdPersonController.Recoil(0.1f);
                 }
                 else if (equippedWeapon == 1 && blackHoleAmmo > 0)//Black Hole Projectile Shoot
@@ -128,18 +127,12 @@ public class ThirdPersonShooterController : MonoBehaviour
                     Instantiate(pfBlackHoleProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                     blackHoleAmmo -= 1;
                     currentCooldown = blackHoleCooldown;
-                    UpdateAmmoCount();
                     thirdPersonController.Recoil(0.1f);
                 }
                 else if (equippedWeapon == 2 && shotgunAmmo > 0)
-                {
-                   
+                {        
                     shotgunAmmo -= 1;
                     currentCooldown = shotgunCooldown;
-                    UpdateAmmoCount();
-                   {
-                if (Time.time - lastShotgunTime >= shotgunCooldown) // Check cooldown
-                {
                     thirdPersonController.Recoil(0.2f);
                     for (int i = 0; i < 4; i++) // Fire 4 pellets in a cone
                     {
@@ -156,10 +149,8 @@ public class ThirdPersonShooterController : MonoBehaviour
                         // Instantiate the shotgun pellet with the randomized direction
                         Instantiate(pfShotgunProjectile, spawnBulletPosition.position, Quaternion.LookRotation(spreadDirection, Vector3.up));
                     }
-                    lastShotgunTime = Time.time;
                 }
-            }
-                }
+                UpdateAmmoCount();
                 shotCooldown = 0;
                 //thirdPersonController.Recoil(0.1f);
             }
