@@ -16,6 +16,11 @@ namespace StarterAssets
 		public bool shoot;
 		public bool crouch;
 
+		public Vector2 scroll;
+		public bool scan;
+		public bool scanaim;
+		public bool scanobj;
+
 		[Header("Movement Settings")]
 		public bool analogMovement;
 
@@ -68,6 +73,23 @@ namespace StarterAssets
 			{
 			ShootInput(value.isPressed);
 			}
+		}
+		public void OnScan(InputValue value)
+		{
+			ScanInput(value.isPressed);
+		}
+		public void OnScanaim(InputValue value)
+		{
+			ScanaimInput(value.isPressed);
+		}
+		public void OnScanobj(InputValue value)
+		{
+			OnScanobjInput(value.isPressed);
+		}
+
+		public void OnScroll(InputValue value)
+		{
+			ScrollInput(value.Get<Vector2>());
 		}
 
 		public void OnSave(InputValue value) //Save System Test input
@@ -123,6 +145,18 @@ namespace StarterAssets
 		{
 			shoot = newShootState;
 		}
+		public void ScanInput(bool newScanState)
+		{
+			scan = newScanState;
+		}
+		public void ScanaimInput(bool newScanaimState)
+		{
+			scanaim = newScanaimState;
+		}
+		public void OnScanobjInput(bool newScanobjState)
+		{
+			scanobj = newScanobjState;
+		}
 
 		private void OnApplicationFocus(bool hasFocus)
 		{
@@ -132,6 +166,11 @@ namespace StarterAssets
 		private void SetCursorState(bool newState)
 		{
 			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+		}
+
+		public void ScrollInput (Vector2 newScrollState)
+		{
+			scroll = newScrollState;
 		}
 
 		public void SaveInput(bool newSaveState) //Save System Test input

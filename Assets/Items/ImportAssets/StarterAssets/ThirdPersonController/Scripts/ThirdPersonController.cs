@@ -1,6 +1,7 @@
 ﻿ using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
+using System.Collections;
 #endif
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -17,9 +18,11 @@ namespace StarterAssets
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
+        public float NormalMovespeed = 2.0f;
 
         [Tooltip("Sprint speed of the character in m/s")]
         public float SprintSpeed = 5.335f;
+        public float NormalSprintSpeed = 5.335f;
 
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
@@ -76,6 +79,15 @@ namespace StarterAssets
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
 
+        public GameObject finalRecoilPositionObject;
+        private Vector3 currentRecoilPosition; // Current recoil position
+        private Vector3 finalRecoilPosition; // Final recoil position
+        private float kickbackSpeed = 10f; // Speed for applying recoil
+        private float returnSpeed = 20f;   // Speed for returning to finalRecoilPosition
+        private bool isRecoiling = false;
+
+
+
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
@@ -99,9 +111,6 @@ namespace StarterAssets
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
 
-        //crouch test animation ID
-        private int _animIDCrouch;
-
 #if ENABLE_INPUT_SYSTEM 
         private PlayerInput _playerInput;
 #endif
@@ -110,7 +119,7 @@ namespace StarterAssets
         private StarterAssetsInputs _input;
         private SaveSystemTest saveSystemTest;  //Save System Test Inputs
         private GameObject _mainCamera;
-        private bool _rotateOnMove = true;
+        private bool _rotateOnMove =true;
 
         private const float _threshold = 0.01f;
 
@@ -142,6 +151,12 @@ namespace StarterAssets
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
+            // Store the original position of CinemachineCameraTarget
+            finalRecoilPosition = CinemachineCameraTarget.transform.position;
+
+            // Initialize currentRecoilPosition to the finalRecoilPosition
+            currentRecoilPosition = finalRecoilPosition;
+            
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
@@ -167,7 +182,6 @@ namespace StarterAssets
             GroundedCheck();
             Move();
             SaveTestInputs();
-            Crouch();
         }
 
         private void LateUpdate()
@@ -182,9 +196,6 @@ namespace StarterAssets
             _animIDJump = Animator.StringToHash("Jump");
             _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
-
-            //crouch test
-            _animIDCrouch = Animator.StringToHash("CrouchAnim");
         }
 
         private void GroundedCheck()
@@ -273,9 +284,9 @@ namespace StarterAssets
                     RotationSmoothTime);
 
                 // rotate to face input direction relative to camera position
-                if (_rotateOnMove)
+                if(_rotateOnMove)
                 {
-                    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
                 }
             }
 
@@ -414,6 +425,51 @@ namespace StarterAssets
             _rotateOnMove = newRotateOnMove;
         }
 
+        public void Recoil(float kickbackAmount)
+        {
+            // Apply recoil if not already recoiling
+            if (!isRecoiling)
+            {
+                // Calculate the recoil direction based on the player's forward direction
+                Vector3 recoilDirection = -transform.forward * kickbackAmount;
+
+                // Update the finalRecoilPosition
+                finalRecoilPosition = transform.position + recoilDirection;
+
+                // Smoothly move the player along the recoil direction
+                StartCoroutine(ApplyRecoil());
+            }
+        }
+
+        private IEnumerator ApplyRecoil()
+        {
+            isRecoiling = true;
+            Vector3 initialPosition = transform.position;
+            
+            while (Vector3.Distance(transform.position, finalRecoilPosition) > 0.01f)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, finalRecoilPosition, kickbackSpeed * Time.deltaTime);
+                yield return null;
+            }
+
+            // Now, wait for a brief moment to simulate the recoil effect
+            yield return new WaitForSeconds(0.1f);
+
+            // Smoothly return the player to the initial position
+            StartCoroutine(ReturnToInitialPosition(initialPosition));
+        }
+
+        private IEnumerator ReturnToInitialPosition(Vector3 initialPosition)
+        {
+            while (Vector3.Distance(transform.position, initialPosition) > 0.01f)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, initialPosition, returnSpeed * Time.deltaTime);
+                yield return null;
+            }
+            isRecoiling = false;
+        }
+
+
         private void SaveTestInputs() //Save System Test Inputs
         {
             if (_input.save)
@@ -437,24 +493,5 @@ namespace StarterAssets
                 Debug.Log("Test Value Input Pressed!");
             }
         }
-
-        //private void Crouch() => _animator.SetBool(_animIDCrouch, _input.crouch);
-        public void Crouch()
-        {
-            if (_input.crouch == true)
-            {
-                _animator.SetBool(_animIDCrouch, true);
-                Debug.Log("Crouch is true");
-            }
-
-            else
-            {
-                _animator.SetBool(_animIDCrouch, false);
-                _input.crouch = false;
-            }
-
-            //_input.crouch = false;
-        }
-
-    }     
+    }
 }
