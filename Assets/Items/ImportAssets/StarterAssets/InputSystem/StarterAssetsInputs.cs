@@ -11,9 +11,14 @@ namespace StarterAssets
 		public Vector2 move;
 		public Vector2 look;
 		public bool jump;
-		public bool sprint;
+		public bool sprint; 
 		public bool aim;
 		public bool shoot;
+
+		public Vector2 scroll;
+		public bool scan;
+		public bool scanaim;
+		public bool scanobj;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -21,6 +26,11 @@ namespace StarterAssets
 		[Header("Mouse Cursor Settings")]
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
+
+		[Header ("Game Save System Testing")] //Save System Test inputs
+		public bool save;
+		public bool load;
+		public bool value;
 
 #if ENABLE_INPUT_SYSTEM
 		public void OnMove(InputValue value)
@@ -53,10 +63,42 @@ namespace StarterAssets
 
 		public void OnShoot(InputValue value)
 		{
-			if( aim = true)
+			if( aim == true)
 			{
 			ShootInput(value.isPressed);
 			}
+		}
+		public void OnScan(InputValue value)
+		{
+			ScanInput(value.isPressed);
+		}
+		public void OnScanaim(InputValue value)
+		{
+			ScanaimInput(value.isPressed);
+		}
+		public void OnScanobj(InputValue value)
+		{
+			OnScanobjInput(value.isPressed);
+		}
+
+		public void OnScroll(InputValue value)
+		{
+			ScrollInput(value.Get<Vector2>());
+		}
+
+		public void OnSave(InputValue value) //Save System Test input
+		{
+			SaveInput(value.isPressed);
+		}
+
+		public void OnLoad(InputValue value) //Save System Test input
+		{
+			LoadInput(value.isPressed);
+		}
+
+		public void OnValue(InputValue value) //Save System Test input
+		{
+			ValueInput(value.isPressed);
 		}
 #endif
 
@@ -90,6 +132,18 @@ namespace StarterAssets
 		{
 			shoot = newShootState;
 		}
+		public void ScanInput(bool newScanState)
+		{
+			scan = newScanState;
+		}
+		public void ScanaimInput(bool newScanaimState)
+		{
+			scanaim = newScanaimState;
+		}
+		public void OnScanobjInput(bool newScanobjState)
+		{
+			scanobj = newScanobjState;
+		}
 
 		private void OnApplicationFocus(bool hasFocus)
 		{
@@ -99,6 +153,26 @@ namespace StarterAssets
 		private void SetCursorState(bool newState)
 		{
 			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+		}
+
+		public void ScrollInput (Vector2 newScrollState)
+		{
+			scroll = newScrollState;
+		}
+
+		public void SaveInput(bool newSaveState) //Save System Test input
+		{
+			save = newSaveState;
+		}
+
+		public void LoadInput(bool newLoadState) //Save System Test input
+		{
+			load = newLoadState;
+		}
+
+		public void ValueInput(bool newValueState) //Save System Test input
+		{
+			value = newValueState;
 		}
 	}
 	
