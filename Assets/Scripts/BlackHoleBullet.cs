@@ -6,8 +6,9 @@ public class BlackHoleBullet : MonoBehaviour
 {
     private Rigidbody bulletRigidbody;
     private Renderer bulletRenderer;
-    public int eventHorizonRadius;
+    public float eventHorizonRadius;
     public float effectTime;
+    public float speed = 50f;
 
     private void Awake()
     {
@@ -16,7 +17,6 @@ public class BlackHoleBullet : MonoBehaviour
 
     private void Start()
     {
-        float speed = 50f;
         bulletRigidbody.velocity = transform.forward * speed;
         Object.Destroy(gameObject,2.0f);
     }
@@ -25,7 +25,6 @@ public class BlackHoleBullet : MonoBehaviour
     {
         bulletRigidbody.constraints = RigidbodyConstraints.FreezePosition; //Stops projectile
         StartCoroutine(ScaleOverTime(effectTime));
-        transform.localScale = new Vector3 (eventHorizonRadius, eventHorizonRadius, eventHorizonRadius);
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, eventHorizonRadius);
         foreach (var hitCollider in hitColliders)
         {
@@ -42,6 +41,8 @@ public class BlackHoleBullet : MonoBehaviour
         Vector3 destinationScale = new Vector3(eventHorizonRadius, eventHorizonRadius, eventHorizonRadius);
         float currentTime = 0.0f;
 
+        transform.localScale = new Vector3 (eventHorizonRadius, eventHorizonRadius, eventHorizonRadius);
+        
         while(currentTime <= time)
         {
             Color objectColor = GetComponent<Renderer>().material.color;

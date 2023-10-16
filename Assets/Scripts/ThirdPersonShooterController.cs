@@ -121,22 +121,20 @@ public class ThirdPersonShooterController : MonoBehaviour
                     Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                     standardAmmo -= 1;
                     currentCooldown = standardCooldown;
-                    UpdateAmmoCount();
                 }
                 else if (equippedWeapon == 1 && blackHoleAmmo > 0)//Black Hole Projectile Shoot
                 {
                     Instantiate(pfBlackHoleProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                     blackHoleAmmo -= 1;
                     currentCooldown = blackHoleCooldown;
-                    UpdateAmmoCount();
                 }
                 else if (equippedWeapon == 2 && shotgunAmmo > 0)
                 {
                     //insert shotgun effect
                     shotgunAmmo -= 1;
                     currentCooldown = shotgunCooldown;
-                    UpdateAmmoCount();
                 }
+                UpdateAmmoCount();
                 shotCooldown = 0;
             }
             starterAssetsInputs.shoot = false;
