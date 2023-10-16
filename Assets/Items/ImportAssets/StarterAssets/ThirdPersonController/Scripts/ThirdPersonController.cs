@@ -184,7 +184,7 @@ namespace StarterAssets
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
 
             //crouch test
-            _animIDCrouch = Animator.StringToHash("Crouch");
+            _animIDCrouch = Animator.StringToHash("CrouchAnim");
         }
 
         private void GroundedCheck()

@@ -49,6 +49,10 @@ namespace StarterAssets
         public bool rangeAttack;
         public bool meleeAttack;
 
+        //a bool to fix a bug if player is too close
+        //private bool closeCheckAttack;
+        //private float closeAttack = 2f;
+
         //meleeTest
         public GameObject sword;
         public float chargeSpeed;
@@ -91,6 +95,7 @@ namespace StarterAssets
                 if (distanceTarget <= viewRadius && !Physics.Raycast(transform.position, playerTarget, distanceTarget, obstacleZone))
                 {
                     iSeeYou = true;
+                    hearDistance = 0f;
                     Debug.DrawRay(transform.position, playerTarget * viewRadius * viewAngle, Color.blue); //debug raycast line to show if enemy can see the player
                 }
 
@@ -108,6 +113,7 @@ namespace StarterAssets
             //sphere for attack range and hearing distance
             withInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerZone);
             iHearYou = Physics.CheckSphere(transform.position, hearDistance, playerZone);
+            //closeCheckAttack = Physics.CheckSphere(transform.position, closeAttack, playerZone);
 
             if (iHearYou == true)
             {
