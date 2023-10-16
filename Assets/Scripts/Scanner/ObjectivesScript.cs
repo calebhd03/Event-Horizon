@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using StarterAssets;
+using UnityEngine.Video;
 
 public class ObjectivesScript : MonoBehaviour
 {
@@ -24,8 +25,8 @@ public class ObjectivesScript : MonoBehaviour
     public GameObject ProgressSlider;
 
     //Cutscene
-    //public GameObject cutsceneCam;
-    //public GameObject playerObject;
+    public GameObject VideoPlayer;
+    public GameObject playerObject;
 
     void Start()
     {
@@ -34,9 +35,7 @@ public class ObjectivesScript : MonoBehaviour
         
         //progress bar
         elapsed = 0f;
-        Scanned = false;
-        //cutsceneCam.SetActive(false);
-        
+        Scanned = false;      
     }
 
     void Update()
@@ -46,7 +45,6 @@ public class ObjectivesScript : MonoBehaviour
         if (scnScr.Scan == true && scnCam.scannerCurrentObject == null)
         {
             ScanColor();
-            //Debug.Log("it tried to change color");
         }
         if (scnScr.Scan == false)
         {
@@ -59,11 +57,6 @@ public class ObjectivesScript : MonoBehaviour
         if(progressBar.value >= 5.0f)
         {
             Scanned = true;
-        }
-
-        if (Scanned == true)
-        {
-            //Cutscene();
         }
     }
 
@@ -81,10 +74,8 @@ public class ObjectivesScript : MonoBehaviour
         {
             ProgressSlider.SetActive(false);
             ObjectiveText.SetActive(true);
+            Cutscene();            
         }
-        
-        
-
     }
 
     public void Scriptdisabled()
@@ -111,18 +102,9 @@ public class ObjectivesScript : MonoBehaviour
         ScanColor();
     }
 
-    /*public void Cutscene()
-    {
+    public void Cutscene()
+    {   
         playerObject.SetActive(false);
-        cutsceneCam.SetActive(true);
-        StartCoroutine(FinishCutscene());
+        VideoPlayer.SetActive(true);
     }
-    IEnumerator FinishCutscene()
-    {
-        yield return new WaitForSeconds(10);
-        playerObject.SetActive(true);
-        cutsceneCam.SetActive(false);
-    }
-*/
-
 }
