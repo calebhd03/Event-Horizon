@@ -20,7 +20,7 @@ public class HealthMetrics : MonoBehaviour
     private void Start()
     {
         //comment to test
-         //currentHealth = maxHealth; // Initialize current health to max health
+         currentHealth = maxHealth; // Initialize current health to max health
     }
 
     // Modify health points
@@ -36,6 +36,9 @@ public class HealthMetrics : MonoBehaviour
         {
             Die();
         }
+
+        Debug.Log("ModifyHealth called");
+
     }
 
     // Method to handle character death

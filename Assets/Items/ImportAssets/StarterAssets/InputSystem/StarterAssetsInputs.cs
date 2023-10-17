@@ -14,6 +14,7 @@ namespace StarterAssets
 		public bool sprint; 
 		public bool aim;
 		public bool shoot;
+		public bool crouch;
 
 		public Vector2 scroll;
 		public bool scan;
@@ -54,6 +55,11 @@ namespace StarterAssets
 		public void OnSprint(InputValue value)
 		{
 			SprintInput(value.isPressed);
+		}
+
+		public void OnCrouch(InputValue value)
+		{
+			CrouchInput(value.isPressed);
 		}
 
 		public void OnAim(InputValue value)
@@ -100,6 +106,8 @@ namespace StarterAssets
 		{
 			ValueInput(value.isPressed);
 		}
+
+		
 #endif
 
 
@@ -116,6 +124,11 @@ namespace StarterAssets
 		public void JumpInput(bool newJumpState)
 		{
 			jump = newJumpState;
+		}
+
+		public void CrouchInput(bool newCrouchState)
+		{
+			crouch = newCrouchState;
 		}
 
 		public void SprintInput(bool newSprintState)
