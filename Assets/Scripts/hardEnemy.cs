@@ -258,7 +258,7 @@ namespace StarterAssets
                 bulletDirection = Quaternion.Euler(0, bulletSpread, 0) * bulletDirection;
 
                 newBullet.AddForce(transform.forward * 32f, ForceMode.Impulse);
-                newBullet.AddForce(transform.up * 8f, ForceMode.Impulse);
+                newBullet.AddForce(transform.up * 5f, ForceMode.Impulse);
 
                 currentMag--;
 
