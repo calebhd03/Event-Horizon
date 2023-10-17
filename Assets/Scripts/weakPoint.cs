@@ -9,7 +9,7 @@ public class weakPoint : MonoBehaviour
     {
         if (other.CompareTag("Bullet"))
         {
-            HealthMetrics healthMetrics = GetComponent<HealthMetrics>();
+            HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
 
             if (healthMetrics != null)
             {
