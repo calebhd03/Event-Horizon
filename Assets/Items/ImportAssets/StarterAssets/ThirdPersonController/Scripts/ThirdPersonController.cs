@@ -110,6 +110,7 @@ namespace StarterAssets
         private int _animIDJump;
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
+        private int _animIDCrouch;
 
 #if ENABLE_INPUT_SYSTEM 
         private PlayerInput _playerInput;
@@ -182,6 +183,7 @@ namespace StarterAssets
             GroundedCheck();
             Move();
             SaveTestInputs();
+            Crouch();
         }
 
         private void LateUpdate()
@@ -196,6 +198,7 @@ namespace StarterAssets
             _animIDJump = Animator.StringToHash("Jump");
             _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+            _animIDCrouch = Animator.StringToHash("CrouchAnim");
         }
 
         private void GroundedCheck()
@@ -493,5 +496,24 @@ namespace StarterAssets
                 Debug.Log("Test Value Input Pressed!");
             }
         }
+
+        public void Crouch()
+        {
+            if (_input.crouch == true)
+            {
+                _animator.SetBool(_animIDCrouch, true);
+                Debug.Log("Crouch is true");
+            }
+
+            else
+            {
+                _animator.SetBool(_animIDCrouch, false);
+                _input.crouch = false;
+            }
+
+            //_input.crouch = false;
+        }
+
+    
     }
 }
