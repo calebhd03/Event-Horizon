@@ -21,7 +21,7 @@ public class BulletProjectile : MonoBehaviour
         bulletRigidbody.velocity = transform.forward * speed;
     }
 
-    private void OnTriggerEnter(Collider other)
+   private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<HealthMetrics>() != null)
         {
@@ -30,7 +30,8 @@ public class BulletProjectile : MonoBehaviour
             if (healthMetrics != null)
             {
                 Instantiate(vfxHit, transform.position, Quaternion.identity);
-                healthMetrics.ModifyHealth(-20f); // Apply 20 damage to the object
+                //damage done on enemy hit boxes with tag bullets
+                //healthMetrics.ModifyHealth(-20f); // Apply 20 damage to the object
             }
             // Handle the hit target logic here, if needed.
         }

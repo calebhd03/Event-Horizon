@@ -26,7 +26,7 @@ public class EnemiesScanScript : MonoBehaviour
     //Weak points
     public GameObject criticalPointReveal;
 
-    public GameObject criticalPoint1Reveal;
+    //public GameObject criticalPoint1Reveal;
 
     //public GameObject criticalPoint2;
 
@@ -42,7 +42,7 @@ public class EnemiesScanScript : MonoBehaviour
 
         //weak points
         criticalPointReveal.SetActive(false);
-        criticalPoint1Reveal.SetActive(false);
+        //criticalPoint1Reveal.SetActive(false);
         
     }
 
@@ -115,9 +115,9 @@ public class EnemiesScanScript : MonoBehaviour
     public void WeakPoints()
     {
             criticalPointReveal.SetActive(true);
-            criticalPoint1Reveal.SetActive(true);
+            //criticalPoint1Reveal.SetActive(true);
             criticalPointReveal.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor); 
-            criticalPoint1Reveal.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);           
+            //criticalPoint1Reveal.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);           
     }
 
 }
