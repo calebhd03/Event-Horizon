@@ -802,11 +802,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2975911728744769807, guid: 9215a50474c1066498728fed01af6d4a, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2975911728744769807, guid: 9215a50474c1066498728fed01af6d4a, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2975911728890364027, guid: 9215a50474c1066498728fed01af6d4a, type: 3}
       propertyPath: m_RootOrder
@@ -855,6 +855,14 @@ PrefabInstance:
     - target: {fileID: 2975911728890364031, guid: 9215a50474c1066498728fed01af6d4a, type: 3}
       propertyPath: m_Name
       value: HardEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 2975911728890364031, guid: 9215a50474c1066498728fed01af6d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2975911729373055873, guid: 9215a50474c1066498728fed01af6d4a, type: 3}
+      propertyPath: meleeRange
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2975911729373055873, guid: 9215a50474c1066498728fed01af6d4a, type: 3}
       propertyPath: Scanningobject
@@ -2294,9 +2302,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 986633095995325600, guid: 2f7d4fe621205094b80874646f2e3dbc, type: 3}
+      propertyPath: chargeSpeed
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 986633095995325600, guid: 2f7d4fe621205094b80874646f2e3dbc, type: 3}
       propertyPath: Scanningobject
       value: 
       objectReference: {fileID: 2017492003}
+    - target: {fileID: 986633095995325600, guid: 2f7d4fe621205094b80874646f2e3dbc, type: 3}
+      propertyPath: chargeAcceleration
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 986633096713724793, guid: 2f7d4fe621205094b80874646f2e3dbc, type: 3}
       propertyPath: m_RootOrder
       value: 16
@@ -2344,6 +2360,10 @@ PrefabInstance:
     - target: {fileID: 986633096713724794, guid: 2f7d4fe621205094b80874646f2e3dbc, type: 3}
       propertyPath: m_Name
       value: MeleeEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 986633096713724794, guid: 2f7d4fe621205094b80874646f2e3dbc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2949462118663573504, guid: 2f7d4fe621205094b80874646f2e3dbc, type: 3}
       propertyPath: scanCam
@@ -2534,17 +2554,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: RamgeEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 6111425174447714650, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6111425175308292228, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
       propertyPath: Scanningobject
       value: 
       objectReference: {fileID: 2017492003}
     - target: {fileID: 6111425176541768365, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111425176541768365, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}

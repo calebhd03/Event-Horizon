@@ -279,7 +279,7 @@ namespace StarterAssets
         private void attackMelee()
         {
             //agent.SetDestination(transform.position);
-            //transform.LookAt(player);
+            transform.LookAt(player);
 
             if (attackAgainCoolDown == false && meleeAttack == true)
             {

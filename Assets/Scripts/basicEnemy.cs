@@ -147,11 +147,19 @@ namespace StarterAssets
             if (iSeeYou == true && withInAttackRange == false)
             {
                 chasePlayer();
+                if (meleeAttack == true)
+                {
+                    withInAttackRange = false;
+                    Debug.Log("Enemy Charging Towards Player");
+                    agent.speed = chargeSpeed;
+                    agent.acceleration = chargeAcceleration;
+                }
             }
 
             if (iSeeYou == true && withInAttackRange == true)
             {
                 attackPlayer();
+                
             }
 
             //Debug field of view of enemy, shows raycast
