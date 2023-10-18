@@ -6,9 +6,10 @@ using UnityEngine;
 public class ItemsScript : MonoBehaviour
 {
     public GameObject ItemsText;
-    public GameObject ObjectRef;
-    public GameObject Scanningobject;
-    public GameObject scanCam;
+    private GameObject ObjectRef;
+    //public GameObject Scanningobject;
+    //public GameObject scanCam;
+    private Renderer renderer;
 
     private Color highlightColor = Color.cyan;
     private Color normalColor = Color.white;
@@ -18,14 +19,14 @@ public class ItemsScript : MonoBehaviour
     void Start()
     {
         ItemsText.SetActive(false);
-
+        ObjectRef = gameObject;
     }
 
 
     void Update()
     {
-        Scanning scnScr = Scanningobject.GetComponent<Scanning>();
-        ScanCam scnCam = scanCam.GetComponent<ScanCam>();
+        Scanning scnScr = FindObjectOfType<Scanning>();
+        ScanCam scnCam = FindObjectOfType<ScanCam>();
         if (scnScr.Scan == true && scnCam.scannerCurrentObject == null)
         {
             ScanColor();

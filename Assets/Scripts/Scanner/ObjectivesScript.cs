@@ -10,9 +10,9 @@ using UnityEngine.Video;
 public class ObjectivesScript : MonoBehaviour
 {
     public GameObject ObjectiveText;
-    public GameObject ObjectRef;
-    public GameObject Scanningobject;
-    public GameObject scanCam;
+    private GameObject ObjectRef;
+    //public GameObject Scanningobject;
+    //public GameObject scanCam;
     private Color highlightColor = Color.yellow;
     private Color normalColor = Color.white;
     private Color scanColor = Color.green;
@@ -20,28 +20,33 @@ public class ObjectivesScript : MonoBehaviour
     //progress bar
     public Slider progressBar;
 
-    private float elapsed;
+    public float elapsed;
     public bool Scanned;
     public GameObject ProgressSlider;
 
     //Cutscene
-    public GameObject VideoPlayer;
+    private GameObject VideoPlayer;
     //public GameObject playerObject;
 
     void Start()
     {
+        ObjectRef = gameObject;
         ObjectiveText.SetActive(false);
         ProgressSlider.SetActive(false);
         
         //progress bar
-        elapsed = 0f;
-        Scanned = false;      
+        //elapsed = 0f;
+        Scanned = false;
+
+        //cutscene
+        //Cutscene cutScr = FindObjectOfType<Cutscene>();
+        //VideoPlayer = cutScr.videoPlayer;
     }
 
     void Update()
     {
-        Scanning scnScr = Scanningobject.GetComponent<Scanning>();
-        ScanCam scnCam = scanCam.GetComponent<ScanCam>();
+        Scanning scnScr = FindObjectOfType<Scanning>();
+        ScanCam scnCam = FindObjectOfType<ScanCam>();
         if (scnScr.Scan == true && scnCam.scannerCurrentObject == null)
         {
             ScanColor();

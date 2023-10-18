@@ -70,7 +70,7 @@ namespace StarterAssets
         private float nextFire;
 
         //Scanning
-        public GameObject Scanningobject;
+        //public GameObject Scanningobject;
 
         private void Awake()
         {
@@ -167,7 +167,7 @@ namespace StarterAssets
 
 
             //stop enemy movement in scanner
-          /*  Scanning scnScr = Scanningobject.GetComponent<Scanning>();
+            Scanning scnScr = FindObjectOfType<Scanning>();
             if (scnScr.Scan == true)
             {
                 agent.isStopped = true;
@@ -175,7 +175,7 @@ namespace StarterAssets
             else
             {
                 agent.isStopped = false;
-            }*/
+            }
 
         }
 

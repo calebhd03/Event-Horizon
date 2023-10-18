@@ -9,9 +9,9 @@ using StarterAssets;
 public class EnemiesScanScript : MonoBehaviour
 {
     public GameObject EnemiesText;
-    public GameObject ObjectRef;
-    public GameObject Scanningobject;
-    public GameObject scanCam;
+    private GameObject ObjectRef;
+    //public GameObject Scanningobject;
+    //public GameObject scanCam;
     private Color highlightColor = Color.red;
     private Color normalColor = Color.white;
     private Color scanColor = Color.magenta;
@@ -19,7 +19,7 @@ public class EnemiesScanScript : MonoBehaviour
     //progress bar
     public Slider progressBar;
 
-    private float elapsed;
+    public float elapsed;
     public bool Scanned;
     public GameObject ProgressSlider;
 
@@ -33,11 +33,12 @@ public class EnemiesScanScript : MonoBehaviour
 
     void Start()
     {
+        ObjectRef = gameObject;
         EnemiesText.SetActive(false);
         ProgressSlider.SetActive(false);
         
         //progress bar
-        elapsed = 0f;
+        //elapsed = 0f;
         Scanned = false;
 
         //weak points
@@ -48,8 +49,8 @@ public class EnemiesScanScript : MonoBehaviour
 
     void Update()
     {
-        Scanning scnScr = Scanningobject.GetComponent<Scanning>();
-        ScanCam scnCam = scanCam.GetComponent<ScanCam>();
+        Scanning scnScr = FindObjectOfType<Scanning>();
+        ScanCam scnCam = FindObjectOfType<ScanCam>();
         if (scnScr.Scan == true && scnCam.scannerCurrentObject == null)
         {
             ScanColor();
