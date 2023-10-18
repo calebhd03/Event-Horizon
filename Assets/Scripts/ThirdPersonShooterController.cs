@@ -127,7 +127,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                     Instantiate(pfBlackHoleProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                     blackHoleAmmo -= 1;
                     currentCooldown = blackHoleCooldown;
-                    thirdPersonController.Recoil(0.1f);
+                    thirdPersonController.Recoil(0f);
                 }
                 else if (equippedWeapon == 2 && shotgunAmmo > 0)
                 {        
