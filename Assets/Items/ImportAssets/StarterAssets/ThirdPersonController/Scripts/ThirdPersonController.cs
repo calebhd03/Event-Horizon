@@ -502,18 +502,11 @@ namespace StarterAssets
             if (_input.crouch == true)
             {
                 _animator.SetBool(_animIDCrouch, true);
-                Debug.Log("Crouch is true");
             }
-
-            else
+            else if(_input.crouch == false)
             {
                 _animator.SetBool(_animIDCrouch, false);
-                _input.crouch = false;
             }
-
-            //_input.crouch = false;
         }
-
-    
     }
 }
