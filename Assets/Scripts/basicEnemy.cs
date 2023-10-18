@@ -167,7 +167,7 @@ namespace StarterAssets
 
 
             //stop enemy movement in scanner
-            Scanning scnScr = Scanningobject.GetComponent<Scanning>();
+          /*  Scanning scnScr = Scanningobject.GetComponent<Scanning>();
             if (scnScr.Scan == true)
             {
                 agent.isStopped = true;
@@ -175,7 +175,7 @@ namespace StarterAssets
             else
             {
                 agent.isStopped = false;
-            }
+            }*/
 
         }
 
