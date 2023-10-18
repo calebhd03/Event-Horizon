@@ -48,9 +48,7 @@ namespace StarterAssets
         //public float patrolRange;
 
         //health
-        //public float maxHealth;
-        //public float currentHealth;
-        //[SerializeField] EnemyHealthBar healthBar;
+        [SerializeField] EnemyHealthBar healthBar;
 
         public bool rangeAttack;
         public bool meleeAttack;
@@ -78,21 +76,22 @@ namespace StarterAssets
             agent = GetComponent<NavMeshAgent>();
             rb = GetComponent<Rigidbody>();
 
-            //healthBar = GetComponentInChildren<EnemyHealthBar>();
+            healthBar = GetComponentInChildren<EnemyHealthBar>();
         }
 
         // Start is called before the first frame update
         void Start()
         {
-            //currentHealth = maxHealth;
-            //healthBar.updateHealthBar(currentHealth, maxHealth);
-
+            HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+            healthMetrics.currentHealth = healthMetrics.maxHealth;
+            healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
             currentMag = maxMag;
         }
 
         // Update is called once per frame
         void Update()
         {
+            updateHealth();
 
             //enemy field of view in a coned shaped
             Vector3 playerTarget = (player.position - transform.position).normalized;
@@ -141,7 +140,10 @@ namespace StarterAssets
             //The three states of enemy, Patrol, Chase, and attack
             if (iSeeYou == false && withInAttackRange == false)
             {
-                pointMovement();
+                if (!agent.pathPending && agent.remainingDistance < 0.1f)
+                {
+                    pointMovement();
+                }
             }
 
             if (iSeeYou == true && withInAttackRange == false)
@@ -184,9 +186,8 @@ namespace StarterAssets
         {
             //resets movement
             if (movePoints.Length == 0)
-            {
                 return;
-            }
+            
 
             agent.destination = movePoints[destinationPoints].position;
 
@@ -287,16 +288,12 @@ namespace StarterAssets
             Debug.Log("Sword Recharge");
         }
 
-
-        /*public void takeDamage(int damage)
+        public void updateHealth()
         {
-            currentHealth -= damage;
-            healthBar.updateHealthBar(currentHealth, maxHealth);
-            if (currentHealth <= 0)
-            {
-                Destroy(gameObject);
-            }
-        }*/
+            HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+            healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
+           
+        }
 
         //DEBUG BELOW
         //show visualization of hear distance and attack distance for debugging
