@@ -25,6 +25,13 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private float shotgunSpreadAngle = 3f; // Spread angle for shotgun pellets
     private float lastShotgunTime;
 
+    [Header("Weapon Game Objects")]
+    public GameObject standardWeaponObject;
+    public GameObject blackHoleWeaponObject;
+    public GameObject shotgunWeaponObject;
+
+    private Quaternion originalRotation;
+
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
 
@@ -37,6 +44,8 @@ public class ThirdPersonShooterController : MonoBehaviour
     public float blackHoleCooldown;
   //  public float shotgunCooldown;
     public Image cooldownMeter;
+
+    
 
     public int standardAmmo;
     public int blackHoleAmmo;
@@ -51,6 +60,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void Awake()
     {
+        originalRotation = transform.rotation;
         thirdPersonController = GetComponent<ThirdPersonController>();
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         UpdateAmmoCount();
@@ -73,29 +83,68 @@ public class ThirdPersonShooterController : MonoBehaviour
             mouseWorldPosition = raycastHit.point;
         }
 
-        if (starterAssetsInputs.aim)
+     if (starterAssetsInputs.aim)
+    {
+        if (scnScr.Scan == false)
         {
-            if (scnScr.Scan == false)
-            {
-                aimVirtualCamera.gameObject.SetActive(true);
-                thirdPersonController.SetSensitivity(aimSensitivity);
-                thirdPersonController.SetRotateOnMove(false);
-            }
-            Vector3 worldAimTarget = mouseWorldPosition;
-            worldAimTarget.y = transform.position.y;
-            Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
-            transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
-        } 
-        else 
-        {
-            aimVirtualCamera.gameObject.SetActive(false);
-            thirdPersonController.SetSensitivity(normalSensitivity);
-            thirdPersonController.SetRotateOnMove(true);
+            aimVirtualCamera.gameObject.SetActive(true);
+            thirdPersonController.SetSensitivity(aimSensitivity);
+            thirdPersonController.SetRotateOnMove(false);
         }
 
-        if (starterAssetsInputs.scroll != Vector2.zero)
+        Vector3 worldAimTarget = mouseWorldPosition;
+        worldAimTarget.y = transform.position.y;
+        Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
+
+        // Use Lerp to smoothly interpolate between the original rotation and a tilted rotation
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(aimDirection), Time.deltaTime * 5f);
+
+        // Disable all weapon objects first
+        standardWeaponObject.SetActive(false);
+        blackHoleWeaponObject.SetActive(false);
+        shotgunWeaponObject.SetActive(false);
+
+        // Activate the game object for the currently equipped weapon
+        switch (equippedWeapon)
         {
-            equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon -= 1 : equippedWeapon += 1;
+            case 0:
+                standardWeaponObject.SetActive(true);
+                // Rotate the weapon object to point at the center of the screen
+                Vector3 weaponDirection = mouseWorldPosition - standardWeaponObject.transform.position;
+                standardWeaponObject.transform.forward = weaponDirection.normalized;
+                break;
+            case 1:
+                blackHoleWeaponObject.SetActive(true);
+                // Rotate the weapon object to point at the center of the screen
+                Vector3 weaponDirection2 = mouseWorldPosition - blackHoleWeaponObject.transform.position;
+                blackHoleWeaponObject.transform.forward = weaponDirection2.normalized;
+                break;
+            case 2:
+                shotgunWeaponObject.SetActive(true);
+                // Rotate the weapon object to point at the center of the screen
+                Vector3 weaponDirection3 = mouseWorldPosition - shotgunWeaponObject.transform.position;
+                shotgunWeaponObject.transform.forward = weaponDirection3.normalized;
+                break;
+        }
+             }
+                else
+            {
+                aimVirtualCamera.gameObject.SetActive(false);
+                thirdPersonController.SetSensitivity(normalSensitivity);
+                thirdPersonController.SetRotateOnMove(true);
+
+                // Set the character's rotation back to its original rotation when not aiming
+                transform.rotation = Quaternion.Lerp(transform.rotation, originalRotation, Time.deltaTime * 5f);
+
+                // Disable all weapon objects when not aiming
+                standardWeaponObject.SetActive(false);
+                blackHoleWeaponObject.SetActive(false);
+                shotgunWeaponObject.SetActive(false);
+            }
+
+            if (starterAssetsInputs.scroll != Vector2.zero && starterAssetsInputs.aim)
+        {
+            equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon - 1 : equippedWeapon + 1;
             if (equippedWeapon > allWeapons.Length - 1)
             {
                 equippedWeapon = 0;
@@ -107,6 +156,28 @@ public class ThirdPersonShooterController : MonoBehaviour
             shotCooldown = currentCooldown;
             UpdateAmmoCount();
             Debug.Log(equippedWeapon);
+
+            // Enable the game object for the currently equipped weapon
+            switch (equippedWeapon)
+            {
+                case 0:
+                    standardWeaponObject.SetActive(true);
+                    blackHoleWeaponObject.SetActive(false);
+                    shotgunWeaponObject.SetActive(false);
+                    break;
+                case 1:
+                    standardWeaponObject.SetActive(false);
+                    blackHoleWeaponObject.SetActive(true);
+                    shotgunWeaponObject.SetActive(false);
+                    break;
+                case 2:
+                    standardWeaponObject.SetActive(false);
+                    blackHoleWeaponObject.SetActive(false);
+                    shotgunWeaponObject.SetActive(true);
+                    break;
+                default:
+                    break;
+            }
         }
 
         if (starterAssetsInputs.shoot)
