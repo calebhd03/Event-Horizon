@@ -25,9 +25,8 @@ public class ObjectivesScript : MonoBehaviour
     public GameObject ProgressSlider;
 
     //Cutscene
-    private GameObject VideoPlayer;
-    //public GameObject playerObject;
-
+    public int CutsceneNumber;
+    
     void Start()
     {
         ObjectRef = gameObject;
@@ -37,10 +36,6 @@ public class ObjectivesScript : MonoBehaviour
         //progress bar
         //elapsed = 0f;
         Scanned = false;
-
-        //cutscene
-        //Cutscene cutScr = FindObjectOfType<Cutscene>();
-        //VideoPlayer = cutScr.videoPlayer;
     }
 
     void Update()
@@ -108,8 +103,7 @@ public class ObjectivesScript : MonoBehaviour
     }
 
     public void Cutscene()
-    {   
-        //playerObject.SetActive(false);
-        VideoPlayer.SetActive(true);
+    {     
+
     }
 }

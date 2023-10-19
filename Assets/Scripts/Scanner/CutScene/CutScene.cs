@@ -7,16 +7,17 @@ using UnityEngine.Video;
 public class CutScene : MonoBehaviour
 {
     public VideoPlayer VideoPlayer;
-    public GameObject videoPlayer;
+    public GameObject CutscenePlayer;
     public bool isPlayerStarted = false;
     public bool Cutsceneplay = true;
+    
 
     void Start()
     {
-       videoPlayer.SetActive(false);
+       CutscenePlayer.SetActive(false);
     }
 
-    void Update() 
+    /*void Update() 
     {
         if (isPlayerStarted == false && VideoPlayer.isPlaying == true && Cutsceneplay == true) 
         {
@@ -26,8 +27,14 @@ public class CutScene : MonoBehaviour
         if (isPlayerStarted == true && VideoPlayer.isPlaying == false) 
         {
             // Wehen the player stopped playing, hide it
-            VideoPlayer.gameObject.SetActive(false);
+            CutscenePlayer.SetActive(false);
             Cutsceneplay = false;
         }
-    }   
+    }
+
+    public void ActivateCutscene()
+    {
+        CutscenePlayer.SetActive(true);
+    }   */
+
 }

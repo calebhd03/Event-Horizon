@@ -805,18 +805,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3327325065779069001, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
-      propertyPath: elapsed
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 3327325065779069001, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
-      propertyPath: scanCam
-      value: 
-      objectReference: {fileID: 903536404}
-    - target: {fileID: 3327325065779069001, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
-      propertyPath: ObjectRef
-      value: 
-      objectReference: {fileID: 364733660}
-    - target: {fileID: 3327325065779069001, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
       propertyPath: EnemiesText
       value: 
       objectReference: {fileID: 1394515411}
@@ -829,13 +817,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 771691759}
     - target: {fileID: 3327325065779069001, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
-      propertyPath: Scanningobject
-      value: 
-      objectReference: {fileID: 903536403}
-    - target: {fileID: 3327325065779069001, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
       propertyPath: criticalPointReveal
       value: 
       objectReference: {fileID: 364733661}
+    - target: {fileID: 3327325065779069001, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
+      propertyPath: criticalPoint1Reveal
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6111425174447714644, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
       propertyPath: m_RootOrder
       value: 16
@@ -884,14 +872,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScannerEnemy
       objectReference: {fileID: 0}
-    - target: {fileID: 6111425175308292228, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
-      propertyPath: Scanningobject
-      value: 
-      objectReference: {fileID: 903536403}
-    - target: {fileID: 6111425175308292237, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
-      propertyPath: m_TagString
-      value: Enemy
-      objectReference: {fileID: 0}
     - target: {fileID: 6111425176541768365, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -902,11 +882,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
---- !u!1 &364733660 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6111425175308292237, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
-  m_PrefabInstance: {fileID: 364733658}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &364733661 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3787874207407574268, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
@@ -1820,6 +1795,7 @@ MonoBehaviour:
   elapsed: 4
   Scanned: 0
   ProgressSlider: {fileID: 1977620469}
+  CutsceneNumber: 1
 --- !u!1001 &903536402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1879,6 +1855,26 @@ PrefabInstance:
       propertyPath: pfBlackHoleProjectile
       value: 
       objectReference: {fileID: 1313668074735135766, guid: 87db5c4aa8191b6408a7acf8299c5972, type: 3}
+    - target: {fileID: 1458057780, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
+      propertyPath: videos.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458057780, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
+      propertyPath: videos.Array.data[0]
+      value: 
+      objectReference: {fileID: 1568357800}
+    - target: {fileID: 1458057780, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
+      propertyPath: videos.Array.data[1]
+      value: 
+      objectReference: {fileID: 1568357800}
+    - target: {fileID: 1458057780, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
+      propertyPath: videos.Array.data[2]
+      value: 
+      objectReference: {fileID: 1568357800}
+    - target: {fileID: 1458057780, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
+      propertyPath: associatedVideo.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 161919654075529450, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
       propertyPath: m_Name
       value: Player Prefab
@@ -1977,16 +1973,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
---- !u!1 &903536403 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 631398663, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
-  m_PrefabInstance: {fileID: 903536402}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &903536404 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1458057777, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
-  m_PrefabInstance: {fileID: 903536402}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &975873276
 GameObject:
   m_ObjectHideFlags: 0
@@ -2737,6 +2723,7 @@ GameObject:
   - component: {fileID: 1277257308}
   - component: {fileID: 1277257310}
   - component: {fileID: 1277257309}
+  - component: {fileID: 1277257311}
   m_Layer: 5
   m_Name: RawImage
   m_TagString: Untagged
@@ -2784,7 +2771,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: 7fefda37c9bf11346bfb1738218d641c, type: 2}
+  m_Texture: {fileID: 0}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -2799,6 +2786,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1277257307}
   m_CullTransparentMesh: 1
+--- !u!114 &1277257311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277257307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7cbde582df64e4b804671563ab8b85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cutscenes:
+  - {fileID: 0}
+  - {fileID: 8400000, guid: 7fefda37c9bf11346bfb1738218d641c, type: 2}
+  - {fileID: 8400000, guid: aeb1212e57e0875468eecf1f4e58260d, type: 2}
+  whichVid: 0
 --- !u!1001 &1319670084
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3500,7 +3504,7 @@ GameObject:
   - component: {fileID: 1568357800}
   - component: {fileID: 1568357799}
   m_Layer: 0
-  m_Name: Video Player
+  m_Name: CutScene
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3519,7 +3523,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VideoPlayer: {fileID: 1568357800}
-  videoPlayer: {fileID: 1568357798}
+  CutscenePlayer: {fileID: 1568357798}
   isPlayerStarted: 0
   Cutsceneplay: 1
 --- !u!328 &1568357800
