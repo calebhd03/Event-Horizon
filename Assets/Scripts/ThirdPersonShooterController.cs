@@ -19,6 +19,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private Transform pfShotgunProjectile;
         [SerializeField] private Transform spawnBulletPosition;
         [SerializeField] private Transform debugTransform;
+       // private Animator animator;
         
         [SerializeField] private int equippedWeapon;
         [SerializeField] private float shotgunCooldown = 1.0f;
@@ -42,7 +43,6 @@ public class ThirdPersonShooterController : MonoBehaviour
         private float currentCooldown;
         public float standardCooldown;
         public float blackHoleCooldown;
-    //  public float shotgunCooldown;
         public Image cooldownMeter;
 
         
@@ -63,6 +63,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             originalRotation = transform.rotation;
             thirdPersonController = GetComponent<ThirdPersonController>();
             starterAssetsInputs = GetComponent<StarterAssetsInputs>();
+          //  animator = GetComponent<Animator>();
             UpdateAmmoCount();
             currentCooldown = standardCooldown;
         }
@@ -95,6 +96,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             Vector3 worldAimTarget = mouseWorldPosition;
             worldAimTarget.y = transform.position.y;
             Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
+          // animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 10f));
 
             // Use Lerp to smoothly interpolate between the original rotation and a tilted rotation
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(aimDirection), Time.deltaTime * 5f);
@@ -132,7 +134,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                     aimVirtualCamera.gameObject.SetActive(false);
                     thirdPersonController.SetSensitivity(normalSensitivity);
                     thirdPersonController.SetRotateOnMove(true);
-
+                 // animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
                     // Set the character's rotation back to its original rotation when not aiming
                     transform.rotation = Quaternion.Lerp(transform.rotation, originalRotation, Time.deltaTime * 5f);
 
