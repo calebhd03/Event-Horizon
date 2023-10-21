@@ -204,20 +204,21 @@ public class ThirdPersonShooterController : MonoBehaviour
                         Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                         standardAmmo -= 1;
                         currentCooldown = standardCooldown;
-                        thirdPersonController.Recoil(0.1f);
+                        thirdPersonController.CameraTargetSwap();
+                      
                     }
                     else if (equippedWeapon == 1 && blackHoleAmmo > 0)//Black Hole Projectile Shoot
                     {
                         Instantiate(pfBlackHoleProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                         blackHoleAmmo -= 1;
                         currentCooldown = blackHoleCooldown;
-                        thirdPersonController.Recoil(0f);
+                        
                     }
                     else if (equippedWeapon == 2 && shotgunAmmo > 0)
                     {        
                         shotgunAmmo -= 1;
                         currentCooldown = shotgunCooldown;
-                        thirdPersonController.Recoil(0.2f);
+                       
                         for (int i = 0; i < 4; i++) // Fire 4 pellets in a cone
                         {
                             // Calculate a random spread angle within the specified shotgunSpreadAngle

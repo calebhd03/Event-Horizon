@@ -65,7 +65,11 @@ namespace StarterAssets
 
         [Header("Cinemachine")]
         [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
-        public GameObject CinemachineCameraTarget;
+        public GameObject DefaultCameraTarget;
+        public GameObject RecoilCameraTarget;
+        private GameObject currentCameraTarget;
+
+        private bool isRecoilActive = false;
 
         [Tooltip("How far in degrees can you move the camera up")]
         public float TopClamp = 70.0f;
@@ -78,13 +82,6 @@ namespace StarterAssets
 
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
-
-        public GameObject finalRecoilPositionObject;
-        private Vector3 currentRecoilPosition; // Current recoil position
-        private Vector3 finalRecoilPosition; // Final recoil position
-        private float kickbackSpeed = 10f; // Speed for applying recoil
-        private float returnSpeed = 20f;   // Speed for returning to finalRecoilPosition
-        private bool isRecoiling = false;
 
 
 
@@ -150,13 +147,11 @@ namespace StarterAssets
 
         private void Start()
         {
-            _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
+            currentCameraTarget = DefaultCameraTarget; 
+            _cinemachineTargetYaw = currentCameraTarget.transform.rotation.eulerAngles.y;
+            
 
-            // Store the original position of CinemachineCameraTarget
-            finalRecoilPosition = CinemachineCameraTarget.transform.position;
 
-            // Initialize currentRecoilPosition to the finalRecoilPosition
-            currentRecoilPosition = finalRecoilPosition;
             
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
@@ -184,7 +179,17 @@ namespace StarterAssets
             Move();
             SaveTestInputs();
             Crouch();
-        }
+
+                // Check which camera target is active and update currentCameraTarget accordingly
+            if (DefaultCameraTarget.activeSelf)
+            {
+                currentCameraTarget = DefaultCameraTarget;
+            }
+            else
+            {
+                currentCameraTarget = RecoilCameraTarget;
+            }
+                    }
 
         private void LateUpdate()
         {
@@ -233,7 +238,7 @@ namespace StarterAssets
             _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
 
             // Cinemachine will follow this target
-            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
+            currentCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
                 _cinemachineTargetYaw, 0.0f);
         }
 
@@ -428,49 +433,40 @@ namespace StarterAssets
             _rotateOnMove = newRotateOnMove;
         }
 
-        public void Recoil(float kickbackAmount)
+    public void CameraTargetSwap()
+    {
+        if (!isRecoilActive)
         {
-            // Apply recoil if not already recoiling
-            if (!isRecoiling)
-            {
-                // Calculate the recoil direction based on the player's forward direction
-                Vector3 recoilDirection = -transform.forward * kickbackAmount;
+            Debug.Log("Switching to Recoil Camera Target");
 
-                // Update the finalRecoilPosition
-                finalRecoilPosition = transform.position + recoilDirection;
+            // Disable the DefaultCameraTarget game object
+            DefaultCameraTarget.SetActive(false);
 
-                // Smoothly move the player along the recoil direction
-                StartCoroutine(ApplyRecoil());
-            }
+            // Enable the RecoilCameraTarget game object
+            RecoilCameraTarget.SetActive(true);
+
+            isRecoilActive = true;
+
+            // Switch back to the default camera target after 0.1 seconds
+            StartCoroutine(SwitchBackToDefault());
         }
+    }
 
-        private IEnumerator ApplyRecoil()
-        {
-            isRecoiling = true;
-            Vector3 initialPosition = transform.position;
-            
-            while (Vector3.Distance(transform.position, finalRecoilPosition) > 0.01f)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, finalRecoilPosition, kickbackSpeed * Time.deltaTime);
-                yield return null;
-            }
+    private IEnumerator SwitchBackToDefault()
+    {
+        yield return new WaitForSeconds(.1f);
+        Debug.Log("Switching back to Default Camera Target");
 
-            // Now, wait for a brief moment to simulate the recoil effect
-            yield return new WaitForSeconds(0.1f);
+        // Disable the RecoilCameraTarget game object
+        RecoilCameraTarget.SetActive(false);
 
-            // Smoothly return the player to the initial position
-            StartCoroutine(ReturnToInitialPosition(initialPosition));
-        }
+        // Enable the DefaultCameraTarget game object
+        DefaultCameraTarget.SetActive(true);
 
-        private IEnumerator ReturnToInitialPosition(Vector3 initialPosition)
-        {
-            while (Vector3.Distance(transform.position, initialPosition) > 0.01f)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, initialPosition, returnSpeed * Time.deltaTime);
-                yield return null;
-            }
-            isRecoiling = false;
-        }
+        isRecoilActive = false;
+    }
+
+  
 
 
         private void SaveTestInputs() //Save System Test Inputs
