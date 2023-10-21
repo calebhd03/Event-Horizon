@@ -212,12 +212,14 @@ public class ThirdPersonShooterController : MonoBehaviour
                         Instantiate(pfBlackHoleProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                         blackHoleAmmo -= 1;
                         currentCooldown = blackHoleCooldown;
+                        thirdPersonController.SwitchCameraTarget();
                         
                     }
                     else if (equippedWeapon == 2 && shotgunAmmo > 0)
                     {        
                         shotgunAmmo -= 1;
                         currentCooldown = shotgunCooldown;
+                        thirdPersonController.SwitchCameraTarget();
                        
                         for (int i = 0; i < 4; i++) // Fire 4 pellets in a cone
                         {
