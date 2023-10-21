@@ -1,4 +1,4 @@
-﻿ using UnityEngine;
+ using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 using System.Collections;
@@ -67,9 +67,8 @@ namespace StarterAssets
         [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
         public GameObject DefaultCameraTarget;
         public GameObject RecoilCameraTarget;
-        private GameObject currentCameraTarget;
+        private GameObject CurrentCameraTarget; 
 
-        private bool isRecoilActive = false;
 
         [Tooltip("How far in degrees can you move the camera up")]
         public float TopClamp = 70.0f;
@@ -82,6 +81,9 @@ namespace StarterAssets
 
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
+
+
+        
 
 
 
@@ -142,15 +144,14 @@ namespace StarterAssets
             if (_mainCamera == null)
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+                 CurrentCameraTarget = DefaultCameraTarget;
             }
+
         }
 
         private void Start()
         {
-            currentCameraTarget = DefaultCameraTarget; 
-            _cinemachineTargetYaw = currentCameraTarget.transform.rotation.eulerAngles.y;
-            
-
+            _cinemachineTargetYaw = CurrentCameraTarget.transform.rotation.eulerAngles.y;
 
             
             _hasAnimator = TryGetComponent(out _animator);
@@ -179,17 +180,7 @@ namespace StarterAssets
             Move();
             SaveTestInputs();
             Crouch();
-
-                // Check which camera target is active and update currentCameraTarget accordingly
-            if (DefaultCameraTarget.activeSelf)
-            {
-                currentCameraTarget = DefaultCameraTarget;
-            }
-            else
-            {
-                currentCameraTarget = RecoilCameraTarget;
-            }
-                    }
+        }
 
         private void LateUpdate()
         {
@@ -238,7 +229,7 @@ namespace StarterAssets
             _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
 
             // Cinemachine will follow this target
-            currentCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
+            CurrentCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
                 _cinemachineTargetYaw, 0.0f);
         }
 
@@ -433,41 +424,30 @@ namespace StarterAssets
             _rotateOnMove = newRotateOnMove;
         }
 
-    public void CameraTargetSwap()
-    {
-        if (!isRecoilActive)
+        public void SwitchCameraTarget()
         {
-            Debug.Log("Switching to Recoil Camera Target");
+            // Swap the transform positions of DefaultCameraTarget and RecoilCameraTarget
+            Vector3 tempPosition = DefaultCameraTarget.transform.position;
+            DefaultCameraTarget.transform.position = RecoilCameraTarget.transform.position;
+            RecoilCameraTarget.transform.position = tempPosition;
 
-            // Disable the DefaultCameraTarget game object
-            DefaultCameraTarget.SetActive(false);
+            Debug.Log("Swapped camera target positions");
 
-            // Enable the RecoilCameraTarget game object
-            RecoilCameraTarget.SetActive(true);
-
-            isRecoilActive = true;
-
-            // Switch back to the default camera target after 0.1 seconds
-            StartCoroutine(SwitchBackToDefault());
+            // Automatically swap positions again after 0.1 seconds
+            StartCoroutine(AutoSwapCameraTargetPositions(0.1f));
         }
-    }
 
-    private IEnumerator SwitchBackToDefault()
-    {
-        yield return new WaitForSeconds(.1f);
-        Debug.Log("Switching back to Default Camera Target");
+        private IEnumerator AutoSwapCameraTargetPositions(float delay)
+        {
+            yield return new WaitForSeconds(delay);
 
-        // Disable the RecoilCameraTarget game object
-        RecoilCameraTarget.SetActive(false);
+            // Swap the transform positions of DefaultCameraTarget and RecoilCameraTarget
+            Vector3 tempPosition = DefaultCameraTarget.transform.position;
+            DefaultCameraTarget.transform.position = RecoilCameraTarget.transform.position;
+            RecoilCameraTarget.transform.position = tempPosition;
 
-        // Enable the DefaultCameraTarget game object
-        DefaultCameraTarget.SetActive(true);
-
-        isRecoilActive = false;
-    }
-
-  
-
+            Debug.Log("Swapped camera target positions after delay");
+        }
 
         private void SaveTestInputs() //Save System Test Inputs
         {
@@ -504,5 +484,7 @@ namespace StarterAssets
                 _animator.SetBool(_animIDCrouch, false);
             }
         }
+
+        
     }
 }

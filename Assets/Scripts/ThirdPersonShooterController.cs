@@ -204,7 +204,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                         Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                         standardAmmo -= 1;
                         currentCooldown = standardCooldown;
-                        thirdPersonController.CameraTargetSwap();
+                        thirdPersonController.SwitchCameraTarget();
                       
                     }
                     else if (equippedWeapon == 1 && blackHoleAmmo > 0)//Black Hole Projectile Shoot
