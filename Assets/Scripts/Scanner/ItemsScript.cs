@@ -7,7 +7,7 @@ public class ItemsScript : MonoBehaviour
 {
     public GameObject ItemsText;
     public GameObject ObjectRef;
-    public GameObject Playerobject;
+    public GameObject Scanningobject;
     public GameObject scanCam;
 
     private Color highlightColor = Color.cyan;
@@ -24,7 +24,7 @@ public class ItemsScript : MonoBehaviour
 
     void Update()
     {
-        Scanning scnScr = Playerobject.GetComponent<Scanning>();
+        Scanning scnScr = Scanningobject.GetComponent<Scanning>();
         ScanCam scnCam = scanCam.GetComponent<ScanCam>();
         if (scnScr.Scan == true && scnCam.scannerCurrentObject == null)
         {
