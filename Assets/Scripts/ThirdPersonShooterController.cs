@@ -55,6 +55,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         UpdateAmmoCount();
         currentCooldown = standardCooldown;
+        shotCooldown = currentCooldown;
     }
 
     private void Update()

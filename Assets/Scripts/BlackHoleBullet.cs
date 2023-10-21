@@ -41,14 +41,15 @@ public class BlackHoleBullet : MonoBehaviour
         Vector3 destinationScale = new Vector3(eventHorizonRadius, eventHorizonRadius, eventHorizonRadius);
         float currentTime = 0.0f;
 
-        transform.localScale = new Vector3 (eventHorizonRadius, eventHorizonRadius, eventHorizonRadius);
-        
         while(currentTime <= time)
         {
-            Color objectColor = GetComponent<Renderer>().material.color;
-            objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, 1 / (currentTime / time));
-            GetComponent<Renderer>().material.color = objectColor;
-            transform.localScale = Vector3.Lerp(destinationScale, originalScale, currentTime / time);
+            while(currentTime <= time * .1)
+            {
+                transform.localScale = Vector3.Lerp(originalScale, destinationScale, currentTime / time * 10);
+                currentTime += Time.deltaTime;
+                yield return null;
+            }
+            transform.localScale = Vector3.Lerp(destinationScale, Vector3.zero, currentTime / time);
             currentTime += Time.deltaTime;
             yield return null;
         }
@@ -57,16 +58,19 @@ public class BlackHoleBullet : MonoBehaviour
 
     IEnumerator DestroyTarget(Collider target)
     {
-        float currentTime = 0.0f;
-        Vector3 startPosition = target.transform.position;
-        while(currentTime < (effectTime * .75))
+        if(target.tag == "Enemy")
         {
-            target.transform.position = Vector3.Lerp(startPosition, transform.position, currentTime / (effectTime * .75f));
-            currentTime += Time.deltaTime;
-            yield return null;
+            float currentTime = 0.0f;
+            Vector3 startPosition = target.transform.position;
+            while(currentTime < (effectTime * .75))
+            {
+                target.transform.position = Vector3.Lerp(startPosition, transform.position, currentTime / (effectTime * .75f));
+                currentTime += Time.deltaTime;
+                yield return null;
+            }
+            Destroy(target.transform.parent.gameObject);
+            Destroy(target.gameObject);
         }
-        Destroy(target.transform.parent.gameObject);
-        Destroy(target.gameObject);
     }
 
     private void OnDrawGizmos()

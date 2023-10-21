@@ -51,9 +51,7 @@ namespace StarterAssets
         //public float patrolRange;
 
         //health
-        //public float maxHealth;
-        //public float currentHealth;
-        //[SerializeField] EnemyHealthBar healthBar;
+        [SerializeField] EnemyHealthBar healthBar;
 
         public bool rangeAttack;
         public bool meleeAttack;
@@ -82,17 +80,24 @@ namespace StarterAssets
             player = GameObject.Find("Player").transform;
             agent = GetComponent<NavMeshAgent>();
             rb = GetComponent<Rigidbody>();
+
+            healthBar = GetComponentInChildren<EnemyHealthBar>();
         }
 
         // Start is called before the first frame update
         void Start()
         {
+            HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+            healthMetrics.currentHealth = healthMetrics.maxHealth;
+            healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
+
             currentMag = maxMag;
         }
 
         // Update is called once per frame
         void Update()
         {
+            updateHealth();
 
             //enemy field of view in a coned shaped
             Vector3 playerTarget = (player.position - transform.position).normalized;
@@ -300,6 +305,13 @@ namespace StarterAssets
         {
             attackAgainCoolDown = false;
             Debug.Log("Sword Recharge");
+        }
+
+        public void updateHealth()
+        {
+            HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+            healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
+
         }
 
         //DEBUG BELOW
