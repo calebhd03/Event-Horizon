@@ -227,6 +227,7 @@ namespace StarterAssets
             agent.destination = movePoints[destinationPoints].position;
 
             destinationPoints = (destinationPoints + 1) % movePoints.Length;
+            Debug.Log("moving to " + agent.destination);
         }
 
         //old movement is buggy

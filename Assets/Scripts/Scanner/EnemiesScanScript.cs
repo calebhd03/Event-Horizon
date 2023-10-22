@@ -33,15 +33,15 @@ public class EnemiesScanScript : MonoBehaviour
 
     void Start()
     {
-        EnemiesText.SetActive(false);
-        ProgressSlider.SetActive(false);
+        if(EnemiesText!=null) EnemiesText.SetActive(false);
+        if (ProgressSlider != null) ProgressSlider.SetActive(false);
         
         //progress bar
         elapsed = 0f;
         Scanned = false;
 
         //weak points
-        criticalPointReveal.SetActive(false);
+        if (criticalPointReveal != null) criticalPointReveal.SetActive(false);
         //criticalPoint1Reveal.SetActive(false);
         
     }
@@ -59,12 +59,15 @@ public class EnemiesScanScript : MonoBehaviour
         {
             gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
         }
-        
+
         //progress bar
-        progressBar.value = elapsed;
-        if(progressBar.value >= 10.0f)
+        if (ProgressSlider != null)
         {
-            Scanned = true;
+            progressBar.value = elapsed;
+            if (progressBar.value >= 10.0f)
+            {
+                Scanned = true;
+            }
         }
     }
 
@@ -77,12 +80,12 @@ public class EnemiesScanScript : MonoBehaviour
         ProgressSlider.SetActive(true);
     }
 
-        if(Scanned == true)
-        {
-            ProgressSlider.SetActive(false);
-            EnemiesText.SetActive(true);
-            WeakPoints();
-        }
+    if(Scanned == true)
+    {
+        ProgressSlider.SetActive(false);
+        EnemiesText.SetActive(true);
+        WeakPoints();
+    }
         
         
 
