@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.Universal.Internal;
+using UnityEngine.Video;
 
 public class ScanCam : MonoBehaviour
 {
@@ -15,10 +16,12 @@ public class ScanCam : MonoBehaviour
     public float range = 5;
 
     public GameObject scannerCurrentObject;
+    public VideoClip currentObjCutscene;
 
     void Start()
     {
         scannerCurrentObject = null;
+        currentObjCutscene = null;
     }
 
     void Update()
@@ -39,6 +42,7 @@ public class ScanCam : MonoBehaviour
                 case "Objective":
                     scannerCurrentObject = hit.collider.gameObject;                     
                     ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
+                    currentObjCutscene = objScr.MemoryClip;
                     if (objScr != null)
                         {                        
                         objScr.highlight();
@@ -65,6 +69,7 @@ public class ScanCam : MonoBehaviour
 
                 default:
                     scannerCurrentObject = null;
+                    currentObjCutscene = null;
                 break;
             }
             else

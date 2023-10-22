@@ -10,9 +10,6 @@ using UnityEngine.Video;
 public class ObjectivesScript : MonoBehaviour
 {
     public GameObject ObjectiveText;
-    private GameObject ObjectRef;
-    //public GameObject Scanningobject;
-    //public GameObject scanCam;
     private Color highlightColor = Color.yellow;
     private Color normalColor = Color.white;
     private Color scanColor = Color.green;
@@ -25,17 +22,22 @@ public class ObjectivesScript : MonoBehaviour
     public GameObject ProgressSlider;
 
     //Cutscene
+    
     public GameObject CutscenePlayer;
+    public VideoClip MemoryClip;
+    public bool watched = false;
     
     void Start()
     {
-        ObjectRef = gameObject;
+
         ObjectiveText.SetActive(false);
         ProgressSlider.SetActive(false);
         
         //progress bar
         //elapsed = 0f;
         Scanned = false;
+
+        
     }
 
     void Update()
@@ -48,7 +50,7 @@ public class ObjectivesScript : MonoBehaviour
         }
         if (scnScr.Scan == false)
         {
-            ObjectRef.GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
+            gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
         }
         
         //progress bar
@@ -62,12 +64,13 @@ public class ObjectivesScript : MonoBehaviour
 
     public void ScriptActive()
     {
-
         //progress bar
         if(Scanned == false)
         {
             elapsed += Time.deltaTime;
             ProgressSlider.SetActive(true);
+
+
         }
 
         if(Scanned == true)
@@ -86,14 +89,14 @@ public class ObjectivesScript : MonoBehaviour
 
     public void ScanColor()
     {
-        ObjectRef.GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
+        gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
         //Debug.Log("cube should highlight");
     }
     
     public void highlight()
     {
         //Should highlight the object when looked at
-        ObjectRef.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
+        gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
     }
 
         public void Unhighlight()
@@ -104,7 +107,10 @@ public class ObjectivesScript : MonoBehaviour
 
     public void Cutscene()
     {
-
-        CutscenePlayer.SetActive(true);           
+        if(watched == false)
+        {
+        CutscenePlayer.SetActive(true);
+        watched = true;
+        }
     }
 }
