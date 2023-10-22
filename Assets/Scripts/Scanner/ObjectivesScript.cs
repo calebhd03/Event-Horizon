@@ -26,7 +26,7 @@ public class ObjectivesScript : MonoBehaviour
 
     //Cutscene
     public GameObject VideoPlayer;
-    public GameObject playerObject;
+    //public GameObject playerObject;
 
     void Start()
     {
@@ -104,7 +104,7 @@ public class ObjectivesScript : MonoBehaviour
 
     public void Cutscene()
     {   
-        playerObject.SetActive(false);
+        //playerObject.SetActive(false);
         VideoPlayer.SetActive(true);
     }
 }
