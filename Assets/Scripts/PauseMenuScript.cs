@@ -49,6 +49,11 @@ public class PauseMenuScript : MonoBehaviour
         PauseScreen.SetActive(true);
     }
 
+    public void returnPause()
+    {
+        PauseScreen.SetActive(true);
+    }
+
     //Exits from Game
     public void ExitGame()
     {
