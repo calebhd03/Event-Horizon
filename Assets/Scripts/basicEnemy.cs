@@ -14,6 +14,7 @@ namespace StarterAssets
 
         public Transform player;
         public NavMeshAgent agent;
+        public Animator animator;
 
         private Rigidbody rb;
 
@@ -24,6 +25,9 @@ namespace StarterAssets
 
         public Transform[] movePoints;
         private int destinationPoints = 0;
+        public float idleTime = 3.0f;
+        private float idleStart = 0.0f;
+        private bool idle = false;
 
         //check to find player
         private bool iSeeYou;
@@ -73,8 +77,9 @@ namespace StarterAssets
         private void Awake()
         {
             player = GameObject.Find("Player").transform;
-            agent = GetComponent<NavMeshAgent>();
+            agent = GetComponentInParent<NavMeshAgent>();
             rb = GetComponent<Rigidbody>();
+            animator = GetComponent<Animator>();
 
             healthBar = GetComponentInChildren<EnemyHealthBar>();
         }
@@ -142,13 +147,39 @@ namespace StarterAssets
             {
                 if (!agent.pathPending && agent.remainingDistance < 0.1f)
                 {
-                    pointMovement();
+                    if (!agent.pathPending && agent.remainingDistance < 0.1f)
+                    {
+                        if (idle == false)
+                        {
+                            idle = true;
+                            if (idle == true)
+                            {
+                                animator.SetBool("Moving", false);
+                                animator.SetBool("PanningIdle", true);
+                            }
+
+                            idleStart = Time.time;
+
+                        }
+                        if (Time.time - idleStart >= idleTime)
+                        {
+                            idle = false;
+                            animator.SetBool("Moving", true);
+                            animator.SetBool("PanningIdle", false);
+                            pointMovement();
+
+                        }
+                    }
                 }
             }
 
             if (iSeeYou == true && withInAttackRange == false)
             {
                 chasePlayer();
+                idle = false;
+                idleStart = 0f;
+                idleTime = 0f;
+                animator.SetBool("PanningIdle", false);
                 if (meleeAttack == true)
                 {
                     withInAttackRange = false;
@@ -160,6 +191,10 @@ namespace StarterAssets
 
             if (iSeeYou == true && withInAttackRange == true)
             {
+                idle = false;
+                idleStart = 0f;
+                idleTime = 0f;
+                animator.SetBool("PanningIdle", false);
                 attackPlayer();
                 
             }
