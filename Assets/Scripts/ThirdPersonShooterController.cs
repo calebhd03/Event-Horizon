@@ -1,11 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using StarterAssets;
-using UnityEngine.InputSystem;
-using TMPro;
-using UnityEditor.Callbacks;
 using UnityEngine.UI;
 
 public class ThirdPersonShooterController : MonoBehaviour 
