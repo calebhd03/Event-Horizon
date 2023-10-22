@@ -14,6 +14,7 @@ namespace StarterAssets
 
         public Transform player;
         public NavMeshAgent agent;
+        public Animator animator;
 
         private Rigidbody rb;
 
@@ -24,6 +25,9 @@ namespace StarterAssets
 
         public Transform[] movePoints;
         private int destinationPoints = 0;
+        public float idleTime = 3.0f;
+        private float idleStart = 0.0f;
+        private bool idle = false;
 
         //check to find player
         private bool iSeeYou;
@@ -51,9 +55,7 @@ namespace StarterAssets
         //public float patrolRange;
 
         //health
-        //public float maxHealth;
-        //public float currentHealth;
-        //[SerializeField] EnemyHealthBar healthBar;
+        [SerializeField] EnemyHealthBar healthBar;
 
         public bool rangeAttack;
         public bool meleeAttack;
@@ -75,24 +77,32 @@ namespace StarterAssets
         private float nextFire;
 
         //scanning
-        public GameObject Scanningobject;
+        //public GameObject Scanningobject;
 
         private void Awake()
         {
             player = GameObject.Find("Player").transform;
-            agent = GetComponent<NavMeshAgent>();
+            agent = GetComponentInParent<NavMeshAgent>();
             rb = GetComponent<Rigidbody>();
+            animator = GetComponent<Animator>();
+
+            healthBar = GetComponentInChildren<EnemyHealthBar>();
         }
 
         // Start is called before the first frame update
         void Start()
         {
+            HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+            healthMetrics.currentHealth = healthMetrics.maxHealth;
+            healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
+
             currentMag = maxMag;
         }
 
         // Update is called once per frame
         void Update()
         {
+            updateHealth();
 
             //enemy field of view in a coned shaped
             Vector3 playerTarget = (player.position - transform.position).normalized;
@@ -142,17 +152,50 @@ namespace StarterAssets
             //The three states of enemy, Patrol, Chase, and attack
             if (iSeeYou == false && withInAttackRange == false)
             {
-                pointMovement();
+                if (!agent.pathPending && agent.remainingDistance < 0.1f)
+                {
+                    if (!agent.pathPending && agent.remainingDistance < 0.1f)
+                    {
+                        if (idle == false)
+                        {
+                            idle = true;
+                            if (idle == true)
+                            {
+                                animator.SetBool("Moving", false);
+                                animator.SetBool("PanningIdle", true);
+                            }
+
+                            idleStart = Time.time;
+
+                        }
+                        if (Time.time - idleStart >= idleTime)
+                        {
+                            idle = false;
+                            animator.SetBool("Moving", true);
+                            animator.SetBool("PanningIdle", false);
+                            pointMovement();
+
+                        }
+                    }
+                }
             }
 
             if (iSeeYou == true && withInAttackRange == false)
             {
                 chasePlayer();
+                animator.SetBool("PanningIdle", false);
+                idle = false;
+                idleStart = 0f;
+                idleTime = 0f;
             }
 
             if (iSeeYou == true && withInMeleeRange == true)
             {
 
+                animator.SetBool("PanningIdle", false);
+                idle = false;
+                idleStart = 0f;
+                idleTime = 0f;
                 attackMelee();
                 withInAttackRange = false;
                 Vector3 playerPostion = player.position;
@@ -171,6 +214,10 @@ namespace StarterAssets
 
             if (iSeeYou == true && withInAttackRange == true)
             {
+                animator.SetBool("PanningIdle", false);
+                idle = false;
+                idleStart = 0f;
+                idleTime = 0f;
                 attackPlayer();
             }
 
@@ -178,7 +225,7 @@ namespace StarterAssets
             DrawFieldOfVision();
 
             //stop enemy movement in scanner
-            Scanning scnScr = Scanningobject.GetComponent<Scanning>();
+            Scanning scnScr = FindObjectOfType<Scanning>();
             if (scnScr.Scan == true)
             {
                 agent.isStopped = true;
@@ -300,6 +347,13 @@ namespace StarterAssets
         {
             attackAgainCoolDown = false;
             Debug.Log("Sword Recharge");
+        }
+
+        public void updateHealth()
+        {
+            HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+            healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
+
         }
 
         //DEBUG BELOW
