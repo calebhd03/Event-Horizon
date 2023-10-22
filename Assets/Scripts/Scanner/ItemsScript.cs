@@ -6,9 +6,9 @@ using UnityEngine;
 public class ItemsScript : MonoBehaviour
 {
     public GameObject ItemsText;
-    public GameObject ObjectRef;
-    public GameObject Scanningobject;
-    public GameObject scanCam;
+    //public GameObject ObjectRef;
+    //public GameObject Scanningobject;
+    //public GameObject scanCam;
 
     private Color highlightColor = Color.cyan;
     private Color normalColor = Color.white;
@@ -24,15 +24,15 @@ public class ItemsScript : MonoBehaviour
 
     void Update()
     {
-        Scanning scnScr = Scanningobject.GetComponent<Scanning>();
-        ScanCam scnCam = scanCam.GetComponent<ScanCam>();
+        Scanning scnScr = FindObjectOfType<Scanning>();
+        ScanCam scnCam = FindObjectOfType<ScanCam>();
         if (scnScr.Scan == true && scnCam.scannerCurrentObject == null)
         {
             ScanColor();
         }
         if (scnScr.Scan == false)
         {
-            ObjectRef.GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
+            gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
         }
 
     }
@@ -50,13 +50,13 @@ public class ItemsScript : MonoBehaviour
     public void ScanColor()
     {
         //Debug.Log("cylinder should highlight");
-        ObjectRef.GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
+        gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
     }
     
     public void highlight()
     {
         //Should highlight the object when looked at
-        ObjectRef.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
+        gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
     }
 
     public void Unhighlight()
