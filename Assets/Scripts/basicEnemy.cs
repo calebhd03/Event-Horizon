@@ -74,6 +74,8 @@ namespace StarterAssets
         //Scanning
         public GameObject Scanningobject;
 
+        private float crouchSpeed = 2.0f; 
+
         private void Awake()
         {
             player = GameObject.Find("Player").transform;
@@ -134,6 +136,16 @@ namespace StarterAssets
                 {
                     iSeeYou = false;
                     Debug.Log("You are crouching close to the enemy");
+                    ThirdPersonController playerController = player.GetComponent<ThirdPersonController>();
+                    float currentSpeed = playerController._speed;
+                    if(currentSpeed >= crouchSpeed)
+                    {
+                        iSeeYou = true;
+                        //agent.SetDestination(transform.position);
+                        transform.LookAt(player);
+                        Debug.Log("crouched too fast");
+                    }
+
                 }
 
                 else if (_inputs.crouch == false)
@@ -191,11 +203,13 @@ namespace StarterAssets
 
             if (iSeeYou == true && withInAttackRange == true)
             {
+                animator.SetBool("Moving", false);
                 idle = false;
                 idleStart = 0f;
                 idleTime = 0f;
                 animator.SetBool("PanningIdle", false);
                 attackPlayer();
+                transform.LookAt(player);
                 
             }
 
