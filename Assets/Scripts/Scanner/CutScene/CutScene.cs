@@ -17,7 +17,7 @@ public class CutScene : MonoBehaviour
        CutscenePlayer.SetActive(false);
     }
 
-    /*void Update() 
+    void Update() 
     {
         if (isPlayerStarted == false && VideoPlayer.isPlaying == true && Cutsceneplay == true) 
         {
@@ -35,6 +35,6 @@ public class CutScene : MonoBehaviour
     public void ActivateCutscene()
     {
         CutscenePlayer.SetActive(true);
-    }   */
+    }   
 
 }

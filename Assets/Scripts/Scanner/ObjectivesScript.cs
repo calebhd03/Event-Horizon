@@ -104,6 +104,7 @@ public class ObjectivesScript : MonoBehaviour
 
     public void Cutscene()
     {     
-
+        CutScene cuSc = FindObjectOfType<CutScene>();
+        cuSc.ActivateCutscene();
     }
 }
