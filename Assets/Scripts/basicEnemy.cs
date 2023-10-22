@@ -72,7 +72,7 @@ namespace StarterAssets
         private float nextFire;
 
         //Scanning
-        public GameObject Scanningobject;
+        //public GameObject Scanningobject;
 
         private void Awake()
         {
