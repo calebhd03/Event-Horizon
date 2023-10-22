@@ -6,10 +6,12 @@ using UnityEngine.Video;
 
 public class CutScene : MonoBehaviour
 {
-    public VideoPlayer VideoPlayer;
+    public VideoPlayer videoPlayer;
     public GameObject CutscenePlayer;
     public bool isPlayerStarted = false;
     public bool Cutsceneplay = true;
+    //public VideoClip clip;
+    
     
 
     void Start()
@@ -19,12 +21,12 @@ public class CutScene : MonoBehaviour
 
     void Update() 
     {
-        if (isPlayerStarted == false && VideoPlayer.isPlaying == true && Cutsceneplay == true) 
+        if (isPlayerStarted == false && videoPlayer.isPlaying == true && Cutsceneplay == true) 
         {
             // When the player is started, set this information
             isPlayerStarted = true;
         }
-        if (isPlayerStarted == true && VideoPlayer.isPlaying == false) 
+        if (isPlayerStarted == true && videoPlayer.isPlaying == false) 
         {
             // Wehen the player stopped playing, hide it
             CutscenePlayer.SetActive(false);
@@ -33,7 +35,8 @@ public class CutScene : MonoBehaviour
     }
 
     public void ActivateCutscene()
-    {
+    {   
+
         CutscenePlayer.SetActive(true);
     }   
 

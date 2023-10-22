@@ -8,7 +8,7 @@ using UnityEngine.Video;
 
 public class CurrentVideo : MonoBehaviour
 {
-    public Texture[] cutscenes;
+    /*public Texture[] cutscenes;
     public int whichVid;
     void Update()
     {
@@ -20,5 +20,5 @@ public class CurrentVideo : MonoBehaviour
     {
         ObjectivesScript objScr = FindObjectOfType<ObjectivesScript>();
         whichVid = objScr.CutsceneNumber;
-    }
+    }*/
 }

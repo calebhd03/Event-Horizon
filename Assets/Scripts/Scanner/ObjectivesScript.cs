@@ -25,7 +25,7 @@ public class ObjectivesScript : MonoBehaviour
     public GameObject ProgressSlider;
 
     //Cutscene
-    public int CutsceneNumber;
+    public GameObject CutscenePlayer;
     
     void Start()
     {
@@ -103,8 +103,8 @@ public class ObjectivesScript : MonoBehaviour
     }
 
     public void Cutscene()
-    {     
-        CutScene cuSc = FindObjectOfType<CutScene>();
-        cuSc.ActivateCutscene();
+    {
+
+        CutscenePlayer.SetActive(true);           
     }
 }
