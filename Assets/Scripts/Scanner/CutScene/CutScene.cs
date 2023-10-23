@@ -1,41 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class CutScene : MonoBehaviour
 {
-    public VideoPlayer videoPlayer;
-    public GameObject CutscenePlayer;
+    public VideoPlayer VideoPlayer;
+    public GameObject videoPlayer;
     public bool isPlayerStarted = false;
     public bool Cutsceneplay = true;
-    //public VideoClip playThisClip;
 
-    
-    
+    public VideoClip[] videoclips;
+    public int videoclipIndex;
 
     void Start()
     {
-       CutscenePlayer.SetActive(false);
-       //playThisClip = null;
+       videoPlayer.SetActive(false);
     }
 
     void Update() 
     {
-        ScanCam scnCam = FindObjectOfType<ScanCam>();
-        videoPlayer.clip = scnCam.currentObjCutscene;
-        if (isPlayerStarted == false && videoPlayer.isPlaying == true && Cutsceneplay == true) 
+        if (isPlayerStarted == false && VideoPlayer.isPlaying == true && Cutsceneplay == true) 
         {
             // When the player is started, set this information
             isPlayerStarted = true;
         }
-        if (isPlayerStarted == true && videoPlayer.isPlaying == false) 
+        if (isPlayerStarted == true && VideoPlayer.isPlaying == false) 
         {
             // Wehen the player stopped playing, hide it
-            CutscenePlayer.SetActive(false);
+            VideoPlayer.gameObject.SetActive(false);
             Cutsceneplay = false;
         }
+    }
+
+    public void SetVideoClip()
+    {
+        if(videoclipIndex >= videoclips.Length)
+        {
+            videoclipIndex = videoclipIndex % videoclips.Length;
+        }
+
+        VideoPlayer.clip = videoclips [videoclipIndex];
+        
     }   
 }

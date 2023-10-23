@@ -24,8 +24,8 @@ public class ObjectivesScript : MonoBehaviour
     //Cutscene
     
     public GameObject CutscenePlayer;
-    public VideoClip MemoryClip;
-    public bool watched = false;
+    public int number;
+    public bool Watched;
     
     void Start()
     {
@@ -36,6 +36,7 @@ public class ObjectivesScript : MonoBehaviour
         //progress bar
         //elapsed = 0f;
         Scanned = false;
+        Watched = false;
 
         
     }
@@ -77,7 +78,14 @@ public class ObjectivesScript : MonoBehaviour
         {
             ProgressSlider.SetActive(false);
             ObjectiveText.SetActive(true);
-            Cutscene();            
+            Destroy(gameObject);
+          
+        }
+
+        if (Watched == false && Scanned == true)
+        {
+            Cutscene();
+            Scanned = false;
         }
     }
 
@@ -107,10 +115,10 @@ public class ObjectivesScript : MonoBehaviour
 
     public void Cutscene()
     {
-        if(watched == false)
-        {
+        CutScene cuSc = CutscenePlayer.GetComponent<CutScene>();
+        cuSc.videoclipIndex = number;
+        cuSc.SetVideoClip();
         CutscenePlayer.SetActive(true);
-        watched = true;
-        }
+        cuSc.VideoPlayer.Play();
     }
 }

@@ -1796,8 +1796,8 @@ MonoBehaviour:
   Scanned: 0
   ProgressSlider: {fileID: 1977620469}
   CutscenePlayer: {fileID: 1568357798}
-  MemoryClip: {fileID: 32900000, guid: 8103cae5e2864034faea55b588830a36, type: 3}
-  watched: 0
+  number: 0
+  Watched: 0
 --- !u!1001 &903536402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2900,8 +2900,8 @@ MonoBehaviour:
   Scanned: 0
   ProgressSlider: {fileID: 1977620469}
   CutscenePlayer: {fileID: 1568357798}
-  MemoryClip: {fileID: 32900000, guid: 5f16e7b7c23dd434d803276433b7a33f, type: 3}
-  watched: 0
+  number: 1
+  Watched: 0
 --- !u!65 &1368499314
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3505,10 +3505,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1322d800dc174dc45a13015d140dfb52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoPlayer: {fileID: 1568357800}
-  CutscenePlayer: {fileID: 1568357798}
+  VideoPlayer: {fileID: 1568357800}
+  videoPlayer: {fileID: 1568357798}
   isPlayerStarted: 0
   Cutsceneplay: 1
+  videoclips:
+  - {fileID: 32900000, guid: 8103cae5e2864034faea55b588830a36, type: 3}
+  - {fileID: 32900000, guid: 5f16e7b7c23dd434d803276433b7a33f, type: 3}
+  videoclipIndex: 0
 --- !u!328 &1568357800
 VideoPlayer:
   m_ObjectHideFlags: 0
