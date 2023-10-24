@@ -7,10 +7,6 @@ public class ItemsScript : MonoBehaviour
 {
     public GameObject ItemsText;
 
-    //public GameObject ObjectRef;
-    //public GameObject Scanningobject;
-    //public GameObject scanCam;
-
     private Color highlightColor = Color.cyan;
     private Color normalColor = Color.white;
     private Color scanColor = Color.blue;
