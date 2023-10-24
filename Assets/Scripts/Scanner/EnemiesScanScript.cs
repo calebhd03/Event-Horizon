@@ -9,9 +9,9 @@ using StarterAssets;
 public class EnemiesScanScript : MonoBehaviour
 {
     public GameObject EnemiesText;
-    public GameObject ObjectRef;
-    public GameObject Scanningobject;
-    public GameObject scanCam;
+    //public GameObject ObjectRef;
+    //public GameObject Scanningobject;
+    //public GameObject scanCam;
     private Color highlightColor = Color.red;
     private Color normalColor = Color.white;
     private Color scanColor = Color.magenta;
@@ -33,23 +33,23 @@ public class EnemiesScanScript : MonoBehaviour
 
     void Start()
     {
-        EnemiesText.SetActive(false);
-        ProgressSlider.SetActive(false);
+        if(EnemiesText!=null) EnemiesText.SetActive(false);
+        if (ProgressSlider != null) ProgressSlider.SetActive(false);
         
         //progress bar
         elapsed = 0f;
         Scanned = false;
 
         //weak points
-        criticalPointReveal.SetActive(false);
+        if (criticalPointReveal != null) criticalPointReveal.SetActive(false);
         //criticalPoint1Reveal.SetActive(false);
         
     }
 
     void Update()
     {
-        Scanning scnScr = Scanningobject.GetComponent<Scanning>();
-        ScanCam scnCam = scanCam.GetComponent<ScanCam>();
+        Scanning scnScr = FindObjectOfType<Scanning>();
+        ScanCam scnCam = FindObjectOfType<ScanCam>();
         if (scnScr.Scan == true && scnCam.scannerCurrentObject == null)
         {
             ScanColor();
@@ -57,14 +57,17 @@ public class EnemiesScanScript : MonoBehaviour
         }
         if (scnScr.Scan == false)
         {
-            ObjectRef.GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
+            gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
         }
-        
+
         //progress bar
-        progressBar.value = elapsed;
-        if(progressBar.value >= 10.0f)
+        if (ProgressSlider != null)
         {
-            Scanned = true;
+            progressBar.value = elapsed;
+            if (progressBar.value >= 10.0f)
+            {
+                Scanned = true;
+            }
         }
     }
 
@@ -77,12 +80,12 @@ public class EnemiesScanScript : MonoBehaviour
         ProgressSlider.SetActive(true);
     }
 
-        if(Scanned == true)
-        {
-            ProgressSlider.SetActive(false);
-            EnemiesText.SetActive(true);
-            WeakPoints();
-        }
+    if(Scanned == true)
+    {
+        ProgressSlider.SetActive(false);
+        EnemiesText.SetActive(true);
+        WeakPoints();
+    }
         
         
 
@@ -96,14 +99,14 @@ public class EnemiesScanScript : MonoBehaviour
 
     public void ScanColor()
     {
-        ObjectRef.GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
+        gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
         //Debug.Log("cube should highlight");
     }
     
     public void highlight()
     {
         //Should highlight the object when looked at
-        ObjectRef.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
+        gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
     }
 
     public void Unhighlight()

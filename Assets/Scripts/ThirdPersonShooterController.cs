@@ -146,9 +146,10 @@ public class ThirdPersonShooterController : MonoBehaviour
 
             if (starterAssetsInputs.scroll != Vector2.zero)
                 {
-        
-            
-                equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon - 1 : equippedWeapon + 1;
+
+                equippedWeapon = equippedWeapon++;
+                
+                //equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon - 1 : equippedWeapon + 1;
                 if (equippedWeapon > allWeapons.Length - 1)
                 {
                     equippedWeapon = 0;
@@ -204,20 +205,23 @@ public class ThirdPersonShooterController : MonoBehaviour
                         Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                         standardAmmo -= 1;
                         currentCooldown = standardCooldown;
-                        thirdPersonController.Recoil(0.1f);
+                        thirdPersonController.SwitchCameraTarget();
+                      
                     }
                     else if (equippedWeapon == 1 && blackHoleAmmo > 0)//Black Hole Projectile Shoot
                     {
                         Instantiate(pfBlackHoleProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                         blackHoleAmmo -= 1;
                         currentCooldown = blackHoleCooldown;
-                        thirdPersonController.Recoil(0f);
+                        thirdPersonController.SwitchCameraTarget();
+                        
                     }
                     else if (equippedWeapon == 2 && shotgunAmmo > 0)
                     {        
                         shotgunAmmo -= 1;
                         currentCooldown = shotgunCooldown;
-                        thirdPersonController.Recoil(0.2f);
+                        thirdPersonController.SwitchCameraTarget();
+                       
                         for (int i = 0; i < 4; i++) // Fire 4 pellets in a cone
                         {
                             // Calculate a random spread angle within the specified shotgunSpreadAngle

@@ -1,4 +1,4 @@
-﻿ using UnityEngine;
+ using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 using System.Collections;
@@ -65,7 +65,10 @@ namespace StarterAssets
 
         [Header("Cinemachine")]
         [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
-        public GameObject CinemachineCameraTarget;
+        public GameObject DefaultCameraTarget;
+        public GameObject RecoilCameraTarget;
+        private GameObject CurrentCameraTarget; 
+
 
         [Tooltip("How far in degrees can you move the camera up")]
         public float TopClamp = 70.0f;
@@ -79,12 +82,8 @@ namespace StarterAssets
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
 
-        public GameObject finalRecoilPositionObject;
-        private Vector3 currentRecoilPosition; // Current recoil position
-        private Vector3 finalRecoilPosition; // Final recoil position
-        private float kickbackSpeed = 10f; // Speed for applying recoil
-        private float returnSpeed = 20f;   // Speed for returning to finalRecoilPosition
-        private bool isRecoiling = false;
+
+        
 
 
 
@@ -99,6 +98,13 @@ namespace StarterAssets
         private float _rotationVelocity;
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
+        private float rotationVelocity;
+
+        // Define a rotation speed for the transition
+        public float RotationSpeed = 5.0f;
+
+        // Store the previous input direction
+        private Vector3 previousInputDirection = Vector3.forward;
 
         // timeout deltatime
         private float _jumpTimeoutDelta;
@@ -145,18 +151,15 @@ namespace StarterAssets
             if (_mainCamera == null)
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+                 CurrentCameraTarget = DefaultCameraTarget;
             }
+
         }
 
         private void Start()
         {
-            _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
+            _cinemachineTargetYaw = CurrentCameraTarget.transform.rotation.eulerAngles.y;
 
-            // Store the original position of CinemachineCameraTarget
-            finalRecoilPosition = CinemachineCameraTarget.transform.position;
-
-            // Initialize currentRecoilPosition to the finalRecoilPosition
-            currentRecoilPosition = finalRecoilPosition;
             
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
@@ -233,37 +236,37 @@ namespace StarterAssets
             _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
 
             // Cinemachine will follow this target
-            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
+            CurrentCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
                 _cinemachineTargetYaw, 0.0f);
         }
 
         private void Move()
         {
-            // set target speed based on move speed, sprint speed and if sprint is pressed
+            // Set target speed based on move speed, sprint speed, and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
-            // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
+            // A simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
-            // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-            // if there is no input, set the target speed to 0
+            // Note: Vector2's == operator uses approximation so is not floating point error-prone and is cheaper than magnitude
+            // If there is no input, set the target speed to 0
             if (_input.move == Vector2.zero) targetSpeed = 0.0f;
 
-            // a reference to the players current horizontal velocity
+            // A reference to the player's current horizontal velocity
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
 
             float speedOffset = 0.1f;
             float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
 
-            // accelerate or decelerate to target speed
+            // Accelerate or decelerate to target speed
             if (currentHorizontalSpeed < targetSpeed - speedOffset ||
                 currentHorizontalSpeed > targetSpeed + speedOffset)
             {
-                // creates curved result rather than a linear one giving a more organic speed change
-                // note T in Lerp is clamped, so we don't need to clamp our speed
+                // Creates a curved result rather than a linear one, giving a more organic speed change
+                // Note T in Lerp is clamped, so we don't need to clamp our speed
                 _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
                     Time.deltaTime * SpeedChangeRate);
 
-                // round speed to 3 decimal places
+                // Round speed to 3 decimal places
                 _speed = Mathf.Round(_speed * 1000f) / 1000f;
             }
             else
@@ -274,38 +277,47 @@ namespace StarterAssets
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
             if (_animationBlend < 0.01f) _animationBlend = 0f;
 
-            // normalise input direction
-            Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
+            // Get the camera's forward direction without the vertical component
+            Vector3 cameraForward = Vector3.Scale(_mainCamera.transform.forward, new Vector3(1, 0, 1));
 
-            // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-            // if there is a move input rotate player when the player is moving
-            if (_input.move != Vector2.zero)
+            // Transform the input direction based on the camera's rotation
+            Vector3 inputDirection = Quaternion.LookRotation(cameraForward) * new Vector3(_input.move.x, 0, _input.move.y);
+
+            if (inputDirection != Vector3.zero)
             {
-                _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                                  _mainCamera.transform.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
-                    RotationSmoothTime);
+                // Calculate the target rotation based on user input
+                float targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
 
-                // rotate to face input direction relative to camera position
-                if(_rotateOnMove)
+                if (_rotateOnMove)
                 {
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                    float currentRotation = transform.eulerAngles.y;
+
+                    // Interpolate the rotation towards the target rotation with RotationSpeed
+                    float rotation = Mathf.LerpAngle(currentRotation, targetRotation, RotationSpeed * Time.deltaTime);
+
+                    // Apply the interpolated rotation
+                    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
                 }
+
+                // Gradually adjust the forward direction based on the current and previous input direction
+                Vector3 smoothedForward = Vector3.Slerp(previousInputDirection, inputDirection.normalized, RotationSpeed * Time.deltaTime);
+                previousInputDirection = smoothedForward;
+
+                // Set the player's forward direction to the smoothed direction
+                transform.forward = smoothedForward;
             }
 
+            // Move the player
+            _controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) +
+                            new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
-            Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-
-            // move the player
-            _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
-                             new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-
-            // update animator if using character
+            // Update animator if using character
             if (_hasAnimator)
             {
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
+
         }
 
         private void JumpAndGravity()
@@ -428,50 +440,29 @@ namespace StarterAssets
             _rotateOnMove = newRotateOnMove;
         }
 
-        public void Recoil(float kickbackAmount)
+        public void SwitchCameraTarget()
         {
-            // Apply recoil if not already recoiling
-            if (!isRecoiling)
-            {
-                // Calculate the recoil direction based on the player's forward direction
-                Vector3 recoilDirection = -transform.forward * kickbackAmount;
+            // Swap the transform positions of DefaultCameraTarget and RecoilCameraTarget
+            Vector3 tempPosition = DefaultCameraTarget.transform.position;
+            DefaultCameraTarget.transform.position = RecoilCameraTarget.transform.position;
+            RecoilCameraTarget.transform.position = tempPosition;
 
-                // Update the finalRecoilPosition
-                finalRecoilPosition = transform.position + recoilDirection;
 
-                // Smoothly move the player along the recoil direction
-                StartCoroutine(ApplyRecoil());
-            }
+
+            // Automatically swap positions again after 0.1 seconds
+            StartCoroutine(AutoSwapCameraTargetPositions(0.1f));
         }
 
-        private IEnumerator ApplyRecoil()
+        private IEnumerator AutoSwapCameraTargetPositions(float delay)
         {
-            isRecoiling = true;
-            Vector3 initialPosition = transform.position;
-            
-            while (Vector3.Distance(transform.position, finalRecoilPosition) > 0.01f)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, finalRecoilPosition, kickbackSpeed * Time.deltaTime);
-                yield return null;
-            }
+            yield return new WaitForSeconds(delay);
 
-            // Now, wait for a brief moment to simulate the recoil effect
-            yield return new WaitForSeconds(0.1f);
+            // Swap the transform positions of DefaultCameraTarget and RecoilCameraTarget
+            Vector3 tempPosition = DefaultCameraTarget.transform.position;
+            DefaultCameraTarget.transform.position = RecoilCameraTarget.transform.position;
+            RecoilCameraTarget.transform.position = tempPosition;
 
-            // Smoothly return the player to the initial position
-            StartCoroutine(ReturnToInitialPosition(initialPosition));
         }
-
-        private IEnumerator ReturnToInitialPosition(Vector3 initialPosition)
-        {
-            while (Vector3.Distance(transform.position, initialPosition) > 0.01f)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, initialPosition, returnSpeed * Time.deltaTime);
-                yield return null;
-            }
-            isRecoiling = false;
-        }
-
 
         private void SaveTestInputs() //Save System Test Inputs
         {
@@ -508,5 +499,7 @@ namespace StarterAssets
                 _animator.SetBool(_animIDCrouch, false);
             }
         }
+
+        
     }
 }
