@@ -149,7 +149,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
                 equippedWeapon = equippedWeapon++;
                 
-                //equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon - 1 : equippedWeapon + 1;
+                equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon - 1 : equippedWeapon + 1;
                 if (equippedWeapon > allWeapons.Length - 1)
                 {
                     equippedWeapon = 0;
