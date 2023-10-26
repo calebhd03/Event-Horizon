@@ -9,7 +9,8 @@ using UnityEngine.Video;
 
 public class ObjectivesScript : MonoBehaviour
 {
-    public GameObject ObjectiveText;
+    public delegate void ObjectiveText();
+    public static event ObjectiveText objectiveText;
     private Color highlightColor = Color.yellow;
     private Color normalColor = Color.white;
     private Color scanColor = Color.green;
@@ -30,7 +31,6 @@ public class ObjectivesScript : MonoBehaviour
     void Start()
     {
 
-        ObjectiveText.SetActive(false);
         ProgressSlider.SetActive(false);
         
         //progress bar
@@ -77,9 +77,10 @@ public class ObjectivesScript : MonoBehaviour
         if(Scanned == true)
         {
             ProgressSlider.SetActive(false);
-            ObjectiveText.SetActive(true);
             Destroy(gameObject);
-          
+            
+            if(objectiveText != null)
+                objectiveText();
         }
 
         if (Watched == false && Scanned == true)
@@ -92,7 +93,6 @@ public class ObjectivesScript : MonoBehaviour
     public void Scriptdisabled()
     {
         ProgressSlider.SetActive(false);
-        ObjectiveText.SetActive(false);
     }
 
     public void ScanColor()

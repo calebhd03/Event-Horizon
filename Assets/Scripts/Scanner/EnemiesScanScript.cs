@@ -8,6 +8,8 @@ using StarterAssets;
 
 public class EnemiesScanScript : MonoBehaviour
 {
+    public delegate void ItemText();
+    public static event ItemText itemText;
     public GameObject EnemiesText;
     private GameObject ObjectRef;
     //public GameObject Scanningobject;

@@ -189,9 +189,9 @@ if (starterAssetsInputs.scan)
             scnCam.ScanObj();
 
         }
-        else{
-            scnCam.DisableScript();
-        }
+        //else{
+          //  scnCam.DisableScript();
+        //}
 
         if(starterAssetsInputs.scanaim)
         {

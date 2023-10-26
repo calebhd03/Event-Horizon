@@ -16,6 +16,10 @@ public class ScanCam : MonoBehaviour
     public float range = 5;
 
     public GameObject scannerCurrentObject;
+    public delegate void ScannerEnabled();
+    public static event ScannerEnabled scannerEnabled;
+    public delegate void ScannerDisabled();
+    public static event ScannerDisabled scannerDisabled;
 
     void Start()
     {
@@ -31,6 +35,16 @@ public class ScanCam : MonoBehaviour
 
         if (scnScr.Scan == true)
         {
+            if(scannerEnabled != null)
+            {
+            scannerEnabled();
+            }
+        }
+        else
+        {
+
+            scannerDisabled();
+        }
             Vector3 direction = Vector3.forward;
             Ray LookRay = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             //Debug.DrawRay(LookRay.origin, LookRay.direction * range, Color.blue);
@@ -54,6 +68,7 @@ public class ScanCam : MonoBehaviour
                         {                        
                             itmScr.highlight();
                         }
+                        
                 break;
 
                 case "Enemy":
@@ -64,6 +79,11 @@ public class ScanCam : MonoBehaviour
                             eneScr.highlight();
                         }           
                 break;
+                case "ItemTest":
+                    scannerCurrentObject = hit.collider.gameObject;
+                    TestItem tstScr = hit.collider.GetComponent<TestItem>();
+                    tstScr.Scan();
+                    break;
 
                 default:
                     scannerCurrentObject = null;
@@ -72,7 +92,6 @@ public class ScanCam : MonoBehaviour
             else
             scannerCurrentObject = null;            
         }
-    }
 
     public void ScanObj()
     {
@@ -104,7 +123,7 @@ public class ScanCam : MonoBehaviour
         }   
     }
 
-    public void DisableScript()
+    /*public void DisableScript()
     {
         //Debug.Log("disable scripts");
         Vector3 direction = Vector3.forward;
@@ -133,7 +152,7 @@ public class ScanCam : MonoBehaviour
             }  
           
         }  
-    }
+    }*/
 
 
 }
