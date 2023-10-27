@@ -59,7 +59,16 @@ public class ThirdPersonShooterController : MonoBehaviour
         public GameObject ScannerZoomCamera;
         public bool Scanenabled = false;
 
-        private void Awake()
+        [Header("Gun Audio")]
+        [SerializeField] private AudioClip blasterSound ;
+        [SerializeField] private AudioClip shotgunSound;
+        [SerializeField] private AudioClip blackHoleSound;
+
+
+
+
+
+    private void Awake()
         {
             originalRotation = transform.rotation;
             thirdPersonController = GetComponent<ThirdPersonController>();
@@ -226,23 +235,29 @@ public class ThirdPersonShooterController : MonoBehaviour
                         standardAmmo -= 1;
                         currentCooldown = standardCooldown;
                         thirdPersonController.SwitchCameraTarget();
-                      
-                    }
-                    else if (equippedWeapon == 1 && blackHoleAmmo > 0)//Black Hole Projectile Shoot
+                        AudioSource.PlayClipAtPoint(blasterSound, spawnBulletPosition.position);
+
+
+                }
+                else if (equippedWeapon == 1 && blackHoleAmmo > 0)//Black Hole Projectile Shoot
                     {
                         Instantiate(pfBlackHoleProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                         blackHoleAmmo -= 1;
                         currentCooldown = blackHoleCooldown;
                         thirdPersonController.SwitchCameraTarget();
-                        
-                    }
-                    else if (equippedWeapon == 2 && shotgunAmmo > 0)
+                        AudioSource.PlayClipAtPoint(blackHoleSound, spawnBulletPosition.position);
+
+
+                }
+                else if (equippedWeapon == 2 && shotgunAmmo > 0)
                     {        
                         shotgunAmmo -= 1;
                         currentCooldown = shotgunCooldown;
                         thirdPersonController.SwitchCameraTarget();
-                       
-                        for (int i = 0; i < 4; i++) // Fire 4 pellets in a cone
+                        AudioSource.PlayClipAtPoint(shotgunSound, spawnBulletPosition.position);
+
+
+                    for (int i = 0; i < 4; i++) // Fire 4 pellets in a cone
                         {
                             // Calculate a random spread angle within the specified shotgunSpreadAngle
                             float horizontalSpread = Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle);
