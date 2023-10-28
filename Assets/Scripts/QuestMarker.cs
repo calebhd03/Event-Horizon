@@ -6,12 +6,10 @@ using UnityEngine.UI;
 
 public class QuestMarker : MonoBehaviour
 {
-    public GameObject IconPrefab;
-    List<QuestMaker> questMakers = new List<QuestMaker>();
+
     public Sprite icon;
     public Image image;
 
-    float compassUnit;
 
     public Vector2 position
     {
@@ -19,14 +17,7 @@ public class QuestMarker : MonoBehaviour
         }
     }
 
-    public void AddQuestMaker (QuestMaker marker)
-    {
-        GameObject newMaker = Instantiate(iconPrefab, compassImage.transform);
-        marker.image = newMarker.GetComponent<Image>();
-        marker.image.sprite = marker.icon;
 
-        questMarkers.Add(marker);
-    }
 
 
 
