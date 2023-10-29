@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class BulletProjectile : MonoBehaviour
 {
-[SerializeField] private Transform vfxHit;
+    [SerializeField] private Transform vfxHit;
 
     private Rigidbody bulletRigidbody;
-
     private void Awake()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
@@ -40,9 +39,11 @@ public class BulletProjectile : MonoBehaviour
             Instantiate(vfxHit, transform.position, Quaternion.identity);
             // Handle hitting something else logic here, if needed.
         }
+
         Destroy(gameObject);
     }
 }
+
 
 
 

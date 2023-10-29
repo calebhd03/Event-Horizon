@@ -64,6 +64,13 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private AudioClip shotgunSound;
         [SerializeField] private AudioClip blackHoleSound;
 
+        [Header("Gun Audio")]
+        [SerializeField] private ParticleSystem blassterFlash;
+        [SerializeField] private ParticleSystem shotgunFlash;
+
+
+
+
 
 
 
@@ -236,6 +243,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                         currentCooldown = standardCooldown;
                         thirdPersonController.SwitchCameraTarget();
                         AudioSource.PlayClipAtPoint(blasterSound, spawnBulletPosition.position);
+                        blassterFlash.Play();
 
 
                 }
@@ -255,6 +263,8 @@ public class ThirdPersonShooterController : MonoBehaviour
                         currentCooldown = shotgunCooldown;
                         thirdPersonController.SwitchCameraTarget();
                         AudioSource.PlayClipAtPoint(shotgunSound, spawnBulletPosition.position);
+                        shotgunFlash.Play();
+
 
 
                     for (int i = 0; i < 4; i++) // Fire 4 pellets in a cone
@@ -278,6 +288,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                     //thirdPersonController.Recoil(0.1f);
                 }
                 starterAssetsInputs.shoot = false;
+                
             }
 
             if (shotCooldown <= currentCooldown)
@@ -330,7 +341,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
 
-        public void AddAmmo(int ammoType, int ammoAmount)
+    public void AddAmmo(int ammoType, int ammoAmount)
         {
             if (ammoType == 0)
             {
