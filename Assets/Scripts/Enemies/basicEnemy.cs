@@ -111,6 +111,7 @@ namespace StarterAssets
                 {
                     iSeeYou = true;
                     hearDistance = 0;
+                    transform.LookAt(player);
                     Debug.DrawRay(transform.position, playerTarget * viewRadius * viewAngle, Color.blue); //debug raycast line to show if enemy can see the player
                 }
 
@@ -131,6 +132,7 @@ namespace StarterAssets
 
             if (iHearYou == true)
             {
+                animator.applyRootMotion = true;
                 StarterAssetsInputs _inputs = player.GetComponent<StarterAssetsInputs>();
                 if (_inputs.crouch == true)
                 {
@@ -192,6 +194,7 @@ namespace StarterAssets
                 idleStart = 0f;
                 idleTime = 0f;
                 animator.SetBool("PanningIdle", false);
+
                 if (meleeAttack == true)
                 {
                     withInAttackRange = false;
@@ -209,8 +212,7 @@ namespace StarterAssets
                 idleTime = 0f;
                 animator.SetBool("PanningIdle", false);
                 attackPlayer();
-                transform.LookAt(player);
-                
+                transform.LookAt(player); 
             }
 
             //Debug field of view of enemy, shows raycast
@@ -282,6 +284,7 @@ namespace StarterAssets
         private void chasePlayer() //chase player once found
         {
             agent.SetDestination(player.position);
+            transform.LookAt(player);
         }
         private void attackPlayer() //atacks player if there is no cooldown
         {
