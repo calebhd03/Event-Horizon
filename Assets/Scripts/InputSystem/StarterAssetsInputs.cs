@@ -33,6 +33,9 @@ namespace StarterAssets
 		public bool load;
 		public bool value;
 
+		[Header ("Menu Systems")]
+		public bool pause;
+
 #if ENABLE_INPUT_SYSTEM
 		public void OnMove(InputValue value)
 		{
@@ -103,6 +106,11 @@ namespace StarterAssets
 		}
 
 		public void OnValue(InputValue value) //Save System Test input
+		{
+			ValueInput(value.isPressed);
+		}
+
+		public void OnPause(InputValue value)
 		{
 			ValueInput(value.isPressed);
 		}
@@ -186,6 +194,11 @@ namespace StarterAssets
 		public void ValueInput(bool newValueState) //Save System Test input
 		{
 			value = newValueState;
+		}
+
+		public void PauseInput(bool newPauseState)
+		{
+			pause = newPauseState;
 		}
 	}
 	
