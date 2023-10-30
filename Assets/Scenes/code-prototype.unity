@@ -278,6 +278,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1315195143536251405, guid: 95ac883fb6bb2a7439276d81586770c3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1579976962434185462, guid: 95ac883fb6bb2a7439276d81586770c3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -414,7 +418,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7806257377251524121, guid: 95ac883fb6bb2a7439276d81586770c3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 95ac883fb6bb2a7439276d81586770c3, type: 3}
 --- !u!1 &281565889
 GameObject:
@@ -1905,10 +1910,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f02f3a5c7df2114db8e62451653fa97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progressBar: {fileID: 1443455088}
   elapsed: 4
   Scanned: 0
-  ProgressSlider: {fileID: 1443455086}
   CutscenePlayer: {fileID: 1568357798}
   number: 0
   Watched: 0
@@ -3024,10 +3027,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f02f3a5c7df2114db8e62451653fa97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progressBar: {fileID: 1443455088}
   elapsed: 4
   Scanned: 0
-  ProgressSlider: {fileID: 1443455086}
   CutscenePlayer: {fileID: 1568357798}
   number: 1
   Watched: 0
@@ -3109,22 +3110,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1443455086 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1315195143536251405, guid: 95ac883fb6bb2a7439276d81586770c3, type: 3}
-  m_PrefabInstance: {fileID: 255644778}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1443455088 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8051382980969261481, guid: 95ac883fb6bb2a7439276d81586770c3, type: 3}
-  m_PrefabInstance: {fileID: 255644778}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1443455086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1455866677 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3039729080111682403, guid: 95ac883fb6bb2a7439276d81586770c3, type: 3}

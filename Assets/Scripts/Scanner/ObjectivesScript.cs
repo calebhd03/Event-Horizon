@@ -16,11 +16,11 @@ public class ObjectivesScript : MonoBehaviour
     private Color scanColor = Color.green;
 
     //progress bar
-    public Slider progressBar;
+    //public Slider progressBar;
 
     public float elapsed;
     public bool Scanned;
-    public GameObject ProgressSlider;
+    //private GameObject ProgressSlider;
 
     //Cutscene
     
@@ -28,10 +28,10 @@ public class ObjectivesScript : MonoBehaviour
     public int number;
     public bool Watched;
     
+    //ObjSlider objSlider;
     void Start()
     {
-
-        ProgressSlider.SetActive(false);
+        //objSlider.slider.value = 0f;
         
         //progress bar
         //elapsed = 0f;
@@ -43,6 +43,7 @@ public class ObjectivesScript : MonoBehaviour
 
     void Update()
     {
+        
         Scanning scnScr = FindObjectOfType<Scanning>();
         ScanCam scnCam = FindObjectOfType<ScanCam>();
         if (scnScr.Scan == true && scnCam.scannerCurrentObject == null)
@@ -54,33 +55,34 @@ public class ObjectivesScript : MonoBehaviour
             gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
         }
         
-        //progress bar
-        progressBar.value = elapsed;
+        //progressBar.value = elapsed;
+        //objSlider.SetSliderValue(elapsed);
 
-        if(progressBar.value >= 5.0f)
-        {
-            Scanned = true;
-        }
+        //if(progressBar.value >= 5.0f)
+        //{
+        //    Scanned = true;
+        //}
     }
 
     public void ScriptActive()
     {
+        ObjSlider objSlider = FindObjectOfType<ObjSlider>();
         //progress bar
         if(Scanned == false)
         {
             elapsed += Time.deltaTime;
-            ProgressSlider.SetActive(true);
-
-
+            //objSlider.gameObject.SetActive(true);
+            objSlider.SetSliderValue();
         }
 
         if(Scanned == true)
         {
-            ProgressSlider.SetActive(false);
+            //objSlider.gameObject.SetActive(false);
             Destroy(gameObject);
             
             if(objectiveText != null)
                 objectiveText();
+            objSlider.ResetSliderValue();
         }
 
         if (Watched == false && Scanned == true)
@@ -92,7 +94,7 @@ public class ObjectivesScript : MonoBehaviour
 
     public void Scriptdisabled()
     {
-        ProgressSlider.SetActive(false);
+        //ProgressSlider.SetActive(false);
     }
 
     public void ScanColor()
