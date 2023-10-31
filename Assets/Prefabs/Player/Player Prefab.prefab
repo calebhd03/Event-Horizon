@@ -577,7 +577,7 @@ PrefabInstance:
       objectReference: {fileID: 3378025349938156628}
     - target: {fileID: 2028057003045174183, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2119775930974504096, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_RootOrder
@@ -661,7 +661,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5542111180780342647, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.6860007
+      value: 32.65432
       objectReference: {fileID: 0}
     - target: {fileID: 5542111180780342647, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -669,11 +669,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5542111180780342647, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.5
+      value: 33.229256
+      objectReference: {fileID: 0}
+    - target: {fileID: 5542111180780342647, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.25882143
       objectReference: {fileID: 0}
     - target: {fileID: 5542111180780342647, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5542111180780342647, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9659252
       objectReference: {fileID: 0}
     - target: {fileID: 5563690195687190895, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_DefaultBlend.m_Time
@@ -697,7 +705,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6900890504709024280, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7529949736124734968, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -814,10 +822,14 @@ MonoBehaviour:
   pfBlackHoleProjectile: {fileID: 1313668074735135766, guid: 87db5c4aa8191b6408a7acf8299c5972, type: 3}
   pfShotgunProjectile: {fileID: 5006697782490077287, guid: 620aaea8de89f00469371dd1a96e16a9, type: 3}
   spawnBulletPosition: {fileID: 1930069999}
+  spawnBulletPositionOg: {fileID: 0}
+  spawnBulletPositionCrouch: {fileID: 0}
   debugTransform: {fileID: 2130104047}
   equippedWeapon: 0
   shotgunCooldown: 1
   shotgunSpreadAngle: 3
+  crouchedWeaponObject: {fileID: 0}
+  originalWeaponObject: {fileID: 0}
   standardWeaponObject: {fileID: 3712724281970779349}
   blackHoleWeaponObject: {fileID: 3493226160962026951}
   shotgunWeaponObject: {fileID: 8194045360476332767}
@@ -833,6 +845,11 @@ MonoBehaviour:
   Scannercamera: {fileID: 1458057777}
   ScannerZoomCamera: {fileID: 1034853398}
   Scanenabled: 0
+  blasterSound: {fileID: 8300000, guid: 5df80828dbb26fa4b884abf35b6fba1d, type: 3}
+  shotgunSound: {fileID: 8300000, guid: a35a7a9bbb39f5c469a6f4543d7b0bf6, type: 3}
+  blackHoleSound: {fileID: 8300000, guid: f2b4c440f6ba278438a98994ab20436c, type: 3}
+  blassterFlash: {fileID: 7408974352110299307, guid: 63c4c101dd9ef0749a2ccc6d1f2b59dc, type: 3}
+  shotgunFlash: {fileID: 9057156902556914062, guid: c14369e24bb8e744084d5f3d46f98bcc, type: 3}
 --- !u!4 &7736308612633573301 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 490576248761790154, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
