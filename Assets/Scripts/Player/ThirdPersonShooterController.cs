@@ -13,6 +13,8 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private Transform pfBlackHoleProjectile;
         [SerializeField] private Transform pfShotgunProjectile;
         [SerializeField] private Transform spawnBulletPosition;
+        [SerializeField] private Transform spawnBulletPositionOg;
+        [SerializeField] private Transform spawnBulletPositionCrouch;
         [SerializeField] private Transform debugTransform;
        // private Animator animator;
         
@@ -20,6 +22,10 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private float shotgunCooldown = 1.0f;
         [SerializeField] private float shotgunSpreadAngle = 3f; // Spread angle for shotgun pellets
         private float lastShotgunTime;
+
+        public GameObject crouchedWeaponObject;
+        public GameObject originalWeaponObject;
+        private bool isCrouching;
 
         [Header("Weapon Game Objects")]
         public GameObject standardWeaponObject;
@@ -61,6 +67,8 @@ public class ThirdPersonShooterController : MonoBehaviour
           //  animator = GetComponent<Animator>();
             UpdateAmmoCount();
             currentCooldown = standardCooldown;
+            isCrouching = false;
+            SwitchWeaponObject(originalWeaponObject);
         }
 
         private void Update()
@@ -77,6 +85,23 @@ public class ThirdPersonShooterController : MonoBehaviour
             {
                 debugTransform.position = raycastHit.point;
                 mouseWorldPosition = raycastHit.point;
+            }
+
+            if (starterAssetsInputs.crouch)
+            {
+                if (!isCrouching)
+                {
+                    isCrouching = true;
+                    SwitchWeaponObject(crouchedWeaponObject);
+                }
+            }
+            else
+            {
+                if (isCrouching)
+                {
+                    isCrouching = false;
+                    SwitchWeaponObject(originalWeaponObject);
+                }
             }
 
         if (starterAssetsInputs.aim)
@@ -324,4 +349,51 @@ public class ThirdPersonShooterController : MonoBehaviour
                 ammoCounter.text = "Ammo: " + shotgunAmmo;
             }
         }
-}
+
+         public void SwitchWeaponObject(GameObject newWeaponObject)
+        {
+            // Disable all weapon objects
+            originalWeaponObject.SetActive(false);
+            crouchedWeaponObject.SetActive(false);
+
+            // Enable the specified weapon object
+            newWeaponObject.SetActive(true);
+                    // Disable all weapon objects
+ 
+
+            // Update the transform of the weapon game objects based on the active weapon
+            if (newWeaponObject == originalWeaponObject)
+            {
+                spawnBulletPosition = spawnBulletPositionOg; // Use the crouch bullet position
+            }
+            else if (newWeaponObject == crouchedWeaponObject)
+            {
+                spawnBulletPosition = spawnBulletPositionCrouch; // Use the crouch bullet position
+            }
+
+            // Update the transform of the weapon game objects based on the active weapon
+            if (newWeaponObject == originalWeaponObject)
+            {
+                // Set the transforms for the original weapon here
+                standardWeaponObject.transform.position = originalWeaponObject.transform.position;
+                standardWeaponObject.transform.rotation = originalWeaponObject.transform.rotation;
+                // Update other weapon transforms similarly if needed
+                shotgunWeaponObject.transform.position = originalWeaponObject.transform.position;
+                shotgunWeaponObject.transform.rotation = originalWeaponObject.transform.rotation;
+                blackHoleWeaponObject.transform.position = originalWeaponObject.transform.position;
+                blackHoleWeaponObject.transform.rotation = originalWeaponObject.transform.rotation;
+            }
+            else if (newWeaponObject == crouchedWeaponObject)
+            {
+                // Set the transforms for the crouched weapon here
+                standardWeaponObject.transform.position = crouchedWeaponObject.transform.position;
+                standardWeaponObject.transform.rotation = crouchedWeaponObject.transform.rotation;
+                // Update other weapon transforms similarly if needed
+                shotgunWeaponObject.transform.position = crouchedWeaponObject.transform.position;
+                shotgunWeaponObject.transform.rotation = crouchedWeaponObject.transform.rotation;
+                blackHoleWeaponObject.transform.position = crouchedWeaponObject.transform.position;
+                blackHoleWeaponObject.transform.rotation = crouchedWeaponObject.transform.rotation;
+            }
+        }
+
+    }
