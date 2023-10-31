@@ -6,21 +6,25 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using StarterAssets;
 using UnityEngine.Video;
+using UnityEngine.UIElements;
 
 public class ObjectivesScript : MonoBehaviour
 {
     public delegate void ObjectiveText();
     public static event ObjectiveText objectiveText;
+    public delegate void ObjSlider();
+    public static event ObjSlider objSlider;
     private Color highlightColor = Color.yellow;
     private Color normalColor = Color.white;
     private Color scanColor = Color.green;
 
     //progress bar
-    //public Slider progressBar;
-
-    public float elapsed;
-    public bool Scanned;
+    //private UnityEngine.UI.Slider progressBar;
+    
+    //public float elapsed;
+    private bool Scanned;
     //private GameObject ProgressSlider;
+    //private float timer;
 
     //Cutscene
     
@@ -28,22 +32,23 @@ public class ObjectivesScript : MonoBehaviour
     public int number;
     public bool Watched;
     
-    //ObjSlider objSlider;
     void Start()
     {
-        //objSlider.slider.value = 0f;
+        //ScannerUI scannerUI = GetComponent<ScannerUI>();
+//        progressBar = scannerUI.newSliderProgress;
+    //    ProgressSlider = scannerUI.newSlider;
+        //ProgressSlider.SetActive(false);
         
         //progress bar
         //elapsed = 0f;
         Scanned = false;
         Watched = false;
-
+        
         
     }
 
     void Update()
     {
-        
         Scanning scnScr = FindObjectOfType<Scanning>();
         ScanCam scnCam = FindObjectOfType<ScanCam>();
         if (scnScr.Scan == true && scnCam.scannerCurrentObject == null)
@@ -54,35 +59,18 @@ public class ObjectivesScript : MonoBehaviour
         {
             gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
         }
-        
-        //progressBar.value = elapsed;
-        //objSlider.SetSliderValue(elapsed);
-
-        //if(progressBar.value >= 5.0f)
-        //{
-        //    Scanned = true;
-        //}
     }
 
     public void ScriptActive()
     {
-        ObjSlider objSlider = FindObjectOfType<ObjSlider>();
-        //progress bar
         if(Scanned == false)
         {
-            elapsed += Time.deltaTime;
-            //objSlider.gameObject.SetActive(true);
-            objSlider.SetSliderValue();
+            objSlider();
         }
 
         if(Scanned == true)
         {
-            //objSlider.gameObject.SetActive(false);
-            Destroy(gameObject);
-            
-            if(objectiveText != null)
-                objectiveText();
-            objSlider.ResetSliderValue();
+            Invoke("ResetScanned", 2); 
         }
 
         if (Watched == false && Scanned == true)
@@ -91,12 +79,10 @@ public class ObjectivesScript : MonoBehaviour
             Scanned = false;
         }
     }
-
-    public void Scriptdisabled()
+    void ResetScanned()
     {
-        //ProgressSlider.SetActive(false);
+        Scanned = false;
     }
-
     public void ScanColor()
     {
         gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
@@ -123,4 +109,6 @@ public class ObjectivesScript : MonoBehaviour
         CutscenePlayer.SetActive(true);
         cuSc.VideoPlayer.Play();
     }
+
+
 }

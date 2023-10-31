@@ -14,7 +14,7 @@ public class ObjectiveText : MonoBehaviour
     }
     private void OnEnable()
     {
-        ObjectivesScript.objectiveText += ShowText;
+        ScannerUI.objWasScanned += ShowText;
     }
 
 
@@ -30,4 +30,6 @@ public class ObjectiveText : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         gameObject.SetActive(false);
     }
+
+
 }

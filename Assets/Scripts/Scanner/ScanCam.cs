@@ -79,11 +79,6 @@ public class ScanCam : MonoBehaviour
                             eneScr.highlight();
                         }           
                 break;
-                case "ItemTest":
-                    scannerCurrentObject = hit.collider.gameObject;
-                    TestItem tstScr = hit.collider.GetComponent<TestItem>();
-                    tstScr.Scan();
-                    break;
 
                 default:
                     scannerCurrentObject = null;
