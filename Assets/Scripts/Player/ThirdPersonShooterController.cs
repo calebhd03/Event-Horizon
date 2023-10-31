@@ -59,7 +59,23 @@ public class ThirdPersonShooterController : MonoBehaviour
         public GameObject ScannerZoomCamera;
         public bool Scanenabled = false;
 
-        private void Awake()
+        [Header("Gun Audio")]
+        [SerializeField] private AudioClip blasterSound ;
+        [SerializeField] private AudioClip shotgunSound;
+        [SerializeField] private AudioClip blackHoleSound;
+
+        [Header("Gun Audio")]
+        [SerializeField] private ParticleSystem blassterFlash;
+        [SerializeField] private ParticleSystem shotgunFlash;
+
+
+
+
+
+
+
+
+    private void Awake()
         {
             originalRotation = transform.rotation;
             thirdPersonController = GetComponent<ThirdPersonController>();
@@ -226,23 +242,32 @@ public class ThirdPersonShooterController : MonoBehaviour
                         standardAmmo -= 1;
                         currentCooldown = standardCooldown;
                         thirdPersonController.SwitchCameraTarget();
-                      
-                    }
-                    else if (equippedWeapon == 1 && blackHoleAmmo > 0)//Black Hole Projectile Shoot
+                        AudioSource.PlayClipAtPoint(blasterSound, spawnBulletPosition.position);
+                        blassterFlash.Play();
+
+
+                }
+                else if (equippedWeapon == 1 && blackHoleAmmo > 0)//Black Hole Projectile Shoot
                     {
                         Instantiate(pfBlackHoleProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                         blackHoleAmmo -= 1;
                         currentCooldown = blackHoleCooldown;
                         thirdPersonController.SwitchCameraTarget();
-                        
-                    }
-                    else if (equippedWeapon == 2 && shotgunAmmo > 0)
+                        AudioSource.PlayClipAtPoint(blackHoleSound, spawnBulletPosition.position);
+
+
+                }
+                else if (equippedWeapon == 2 && shotgunAmmo > 0)
                     {        
                         shotgunAmmo -= 1;
                         currentCooldown = shotgunCooldown;
                         thirdPersonController.SwitchCameraTarget();
-                       
-                        for (int i = 0; i < 4; i++) // Fire 4 pellets in a cone
+                        AudioSource.PlayClipAtPoint(shotgunSound, spawnBulletPosition.position);
+                        shotgunFlash.Play();
+
+
+
+                    for (int i = 0; i < 4; i++) // Fire 4 pellets in a cone
                         {
                             // Calculate a random spread angle within the specified shotgunSpreadAngle
                             float horizontalSpread = Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle);
@@ -263,6 +288,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                     //thirdPersonController.Recoil(0.1f);
                 }
                 starterAssetsInputs.shoot = false;
+                
             }
 
             if (shotCooldown <= currentCooldown)
@@ -315,7 +341,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
 
-        public void AddAmmo(int ammoType, int ammoAmount)
+    public void AddAmmo(int ammoType, int ammoAmount)
         {
             if (ammoType == 0)
             {
