@@ -7,6 +7,7 @@ public class BulletProjectile : MonoBehaviour
 [SerializeField] private Transform vfxHit;
 
     private Rigidbody bulletRigidbody;
+    private Vector3 lastPosition;
 
     private void Awake()
     {
@@ -19,6 +20,19 @@ public class BulletProjectile : MonoBehaviour
     {
         float speed = 30f;
         bulletRigidbody.velocity = transform.forward * speed;
+        lastPosition = transform.position;
+    }
+
+    private void FixedUpdate()
+    {
+        int layerMask =~ LayerMask.GetMask("Bullets", "Player");
+        if(Physics.Linecast(transform.position, lastPosition, out RaycastHit hitInfo, layerMask))
+        {
+            transform.position = lastPosition;
+            OnTriggerEnter(hitInfo.collider);
+            Debug.Log("Raycast triggered");
+        }
+        lastPosition = transform.position;
     }
 
    private void OnTriggerEnter(Collider other)
@@ -37,7 +51,7 @@ public class BulletProjectile : MonoBehaviour
         }
         else
         {
-            Instantiate(vfxHit, transform.position, Quaternion.identity);
+            Instantiate(vfxHit, lastPosition, Quaternion.identity);
             // Handle hitting something else logic here, if needed.
         }
         Destroy(gameObject);

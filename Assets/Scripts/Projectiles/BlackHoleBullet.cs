@@ -9,6 +9,7 @@ public class BlackHoleBullet : MonoBehaviour
     public float eventHorizonRadius;
     public float effectTime;
     public float speed = 50f;
+    private Vector3 lastPosition;
 
     private void Awake()
     {
@@ -19,11 +20,24 @@ public class BlackHoleBullet : MonoBehaviour
     {
         bulletRigidbody.velocity = transform.forward * speed;
         Object.Destroy(gameObject,2.0f);
+        lastPosition = transform.position;
+    }
+
+    private void FixedUpdate()
+    {
+        int layerMask =~ LayerMask.GetMask("Bullets", "Player");
+        if(Physics.Linecast(transform.position, lastPosition, out RaycastHit hitInfo, layerMask))
+        {
+            OnTriggerEnter(hitInfo.collider);
+            Debug.Log("Raycast triggered");
+        }
+        lastPosition = transform.position;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         bulletRigidbody.constraints = RigidbodyConstraints.FreezePosition; //Stops projectile
+        transform.position = lastPosition;
         StartCoroutine(ScaleOverTime(effectTime));
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, eventHorizonRadius);
         foreach (var hitCollider in hitColliders)
