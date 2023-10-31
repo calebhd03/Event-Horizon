@@ -28,23 +28,14 @@ public class ObjectivesScript : MonoBehaviour
 
     //Cutscene
     
-    public GameObject CutscenePlayer;
+    //public GameObject CutscenePlayer;
     public int number;
     public bool Watched;
     
     void Start()
     {
-        //ScannerUI scannerUI = GetComponent<ScannerUI>();
-//        progressBar = scannerUI.newSliderProgress;
-    //    ProgressSlider = scannerUI.newSlider;
-        //ProgressSlider.SetActive(false);
-        
-        //progress bar
-        //elapsed = 0f;
         Scanned = false;
-        Watched = false;
-        
-        
+        //Watched = false;
     }
 
     void Update()
@@ -63,8 +54,11 @@ public class ObjectivesScript : MonoBehaviour
 
     public void ScriptActive()
     {
+
         if(Scanned == false)
         {
+        
+            //SetScene();
             objSlider();
         }
 
@@ -73,16 +67,26 @@ public class ObjectivesScript : MonoBehaviour
             Invoke("ResetScanned", 2); 
         }
 
-        if (Watched == false && Scanned == true)
-        {
-            Cutscene();
-            Scanned = false;
-        }
+        //if (Watched == false && Scanned == true)
+        //{
+            //Cutscene();
+            //Scanned = false;
+            //Invoke("ResetWatched",2);
+        //}
     }
+  //  void SetScene()
+   // {
+     //   CutScene cutScene = GameObject.FindWithTag("CutScene").GetComponent<CutScene>();
+       // cutScene.currentClipIndex = number;
+    //}
     void ResetScanned()
     {
         Scanned = false;
     }
+    //void ResetWatched()
+    //{
+        //Watched = false;
+    //}
     public void ScanColor()
     {
         gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
@@ -101,14 +105,14 @@ public class ObjectivesScript : MonoBehaviour
         ScanColor();
     }
 
-    public void Cutscene()
+   /* public void Cutscene()
     {
         CutScene cuSc = CutscenePlayer.GetComponent<CutScene>();
         cuSc.videoclipIndex = number;
         cuSc.SetVideoClip();
         CutscenePlayer.SetActive(true);
         cuSc.VideoPlayer.Play();
-    }
+    }*/
 
 
 }

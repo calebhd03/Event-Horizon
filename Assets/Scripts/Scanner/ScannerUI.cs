@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class ScannerUI : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class ScannerUI : MonoBehaviour
     public GameObject newSlider;
     public Slider newSliderProgress;
     public float elapsed;
+    public VideoPlayer vp;
+    public GameObject videoPlayer;
+    public GameObject newVideoPlayer;
+    public GameObject scannerCurrentObject;
     void Start()
     {   elapsed = 0;
         newSliderProgress.value = elapsed;
@@ -23,19 +28,28 @@ public class ScannerUI : MonoBehaviour
 
         newSlider = Instantiate(sliderPrefab, gameObject.transform);
         newSlider.SetActive(false);
-        
+        newVideoPlayer = Instantiate(videoPlayer, videoPlayer.transform.position, videoPlayer.transform.rotation);
+        newVideoPlayer.SetActive(false);
     }
     public void SetSliderValue()
     {   
         ScanCam ScanCam = FindObjectOfType<ScanCam>();
-        ObjectivesScript objectivesScript = FindObjectOfType<ObjectivesScript>();
+        CutScene cutScene = FindAnyObjectByType<CutScene>();
+
         elapsed += Time.deltaTime;
         
         if (elapsed >= 5)
-        {
+        {               
+            
+            objWasScanned();
             elapsed = 0;
             Destroy(ScanCam.scannerCurrentObject);
             DisableSlider();
+            PlayVideo();
+            
+           // cutScene.PlayNextVideo();
+
+
         }
     }
     void OnEnable()
@@ -49,6 +63,12 @@ public class ScannerUI : MonoBehaviour
     }
     void DisableSlider()
     {
+        
         newSlider.SetActive(false);
+    }
+    void PlayVideo()
+    {
+        newVideoPlayer.SetActive(true);
+        Invoke("vp.Play()", 1);
     }
 }
