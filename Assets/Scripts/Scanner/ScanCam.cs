@@ -35,12 +35,7 @@ public class ScanCam : MonoBehaviour
             {
             scannerEnabled();
             }
-        }
-        else
-        {
 
-            scannerDisabled();
-        }
             Vector3 direction = Vector3.forward;
             Ray LookRay = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             //Debug.DrawRay(LookRay.origin, LookRay.direction * range, Color.blue);
@@ -82,7 +77,14 @@ public class ScanCam : MonoBehaviour
                 break;
             }
             else
-            scannerCurrentObject = null;            
+            scannerCurrentObject = null; 
+        }
+        else
+        {
+
+            scannerDisabled();
+        }
+           
         }
 
     public void ScanObj()

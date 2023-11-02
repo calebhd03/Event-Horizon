@@ -77,9 +77,10 @@ public class ScannerUI : MonoBehaviour
 
         if (enelapsed >= 10)
         {
+            eneScr.Scanned = true;
             eneText();
             DisableEnemySlider();
-            eneScr.Scanned = true;
+            
         }
     }
     void OnEnable()

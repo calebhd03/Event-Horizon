@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using StarterAssets;
+using UnityEngine.ProBuilder.Shapes;
 
 public class EnemiesScanScript : MonoBehaviour
 {
@@ -16,10 +17,20 @@ public class EnemiesScanScript : MonoBehaviour
     public bool Scanned;
     public bool Scannable;
     //Weak points
-    public GameObject criticalPointReveal;
+    private GameObject criticalPointReveal;
 
     void Start()
     {
+        Transform sphereTransform = transform.Find("Sphere");
+
+        if (sphereTransform != null)
+        {
+            criticalPointReveal = sphereTransform.gameObject;
+        }
+        else
+        {
+            Debug.LogWarning("Sphere not found among children.");
+        }
         NormColor();
         Scanned = false;
         Scannable = true;
@@ -46,7 +57,7 @@ public class EnemiesScanScript : MonoBehaviour
         }
         if(Scanned == true)
         {
-            Scannable = false;
+            NotScannable();
             WeakPoints();
             Invoke("ResetScanned", 2);
         }
@@ -80,6 +91,11 @@ public class EnemiesScanScript : MonoBehaviour
     {
             criticalPointReveal.SetActive(true);
             criticalPointReveal.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);          
+    }
+
+    void NotScannable()
+    {
+        Scannable = false;
     }
 
 }
