@@ -5,13 +5,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ObjSlider : MonoBehaviour
-{   
+public class EneSlider : MonoBehaviour
+{
     public Slider slider;
     
     void Update()
     {   
         ScannerUI scannerUI = FindObjectOfType<ScannerUI>();
-        slider.value = scannerUI.elapsed;
+        slider.value = scannerUI.enelapsed;
     }
 }

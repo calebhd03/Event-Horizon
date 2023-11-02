@@ -8,8 +8,10 @@ using StarterAssets;
 
 public class EnemiesScanScript : MonoBehaviour
 {
-    public delegate void ItemText();
-    public static event ItemText itemText;
+    public delegate void EneSlider();
+    public static event EneSlider eneSlider;
+    public delegate void EneText();
+    public static event EneText eneText;
     private Color highlightColor = Color.red;
     private Color normalColor = Color.white;
     private Color scanColor = Color.magenta;
@@ -17,8 +19,6 @@ public class EnemiesScanScript : MonoBehaviour
     public GameObject ProgressSlider;
     //Weak points
     public GameObject criticalPointReveal;
-
-
 
     void Start()
     {
@@ -48,19 +48,23 @@ public class EnemiesScanScript : MonoBehaviour
     {
         //progress bar
         if (Scanned == false)
-    {
-
-    }
+        {
+            eneSlider();
+        }
         if(Scanned == true)
         {
-
             WeakPoints();
+            Invoke("ResetScanned", 2);
         }
     }
 
     public void ScriptDisabled()
     {
         
+    }
+    void ResetScanned()
+    {
+        Scanned = false;
     }
 
     void NormColor()

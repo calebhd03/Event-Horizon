@@ -13,7 +13,7 @@ public class EnemyText : MonoBehaviour
     }
     private void OnEnable()
     {
-        EnemiesScanScript.itemText += ShowText;
+        ScannerUI.objWasScanned += ShowText;
     }
 
 
