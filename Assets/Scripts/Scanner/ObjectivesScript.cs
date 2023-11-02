@@ -24,7 +24,7 @@ public class ObjectivesScript : MonoBehaviour
     void Start()
     {
         Scanned = false;
-
+        NormColor();
     }
     private void OnEnable()
     {

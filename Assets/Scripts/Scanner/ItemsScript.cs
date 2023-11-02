@@ -21,14 +21,12 @@ public class ItemsScript : MonoBehaviour
     {
         ScanCam.scannerEnabled += ScanColor;
         ScanCam.scannerDisabled += NormColor;
-
     }
 
     void OnDisable()
     {
         ScanCam.scannerEnabled -= ScanColor;
         ScanCam.scannerDisabled -= NormColor;
-
     }
     public void ScriptActive()
     {
@@ -38,7 +36,7 @@ public class ItemsScript : MonoBehaviour
 
     public void ScriptDisabled()
     {
-        
+
     }
 
     void NormColor()
