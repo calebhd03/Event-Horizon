@@ -8,119 +8,78 @@ using StarterAssets;
 
 public class EnemiesScanScript : MonoBehaviour
 {
-    public GameObject EnemiesText;
-    //public GameObject ObjectRef;
-    //public GameObject Scanningobject;
-    //public GameObject scanCam;
+    public delegate void EneSlider();
+    public static event EneSlider eneSlider;
     private Color highlightColor = Color.red;
     private Color normalColor = Color.white;
     private Color scanColor = Color.magenta;
-
-    //progress bar
-    public Slider progressBar;
-
-    private float elapsed;
     public bool Scanned;
-    public GameObject ProgressSlider;
-
+    public bool Scannable;
     //Weak points
     public GameObject criticalPointReveal;
 
-    //public GameObject criticalPoint1Reveal;
-
-    //public GameObject criticalPoint2;
-
-
     void Start()
     {
-        if(EnemiesText!=null) EnemiesText.SetActive(false);
-        if (ProgressSlider != null) ProgressSlider.SetActive(false);
-        
-        //progress bar
-        elapsed = 0f;
+        NormColor();
         Scanned = false;
-
-        //weak points
-        if (criticalPointReveal != null) criticalPointReveal.SetActive(false);
-        //criticalPoint1Reveal.SetActive(false);
-        
+        Scannable = true;
+        criticalPointReveal.SetActive(false);
     }
 
-    void Update()
+    private void OnEnable()
     {
-        Scanning scnScr = FindObjectOfType<Scanning>();
-        ScanCam scnCam = FindObjectOfType<ScanCam>();
-        if (scnScr.Scan == true && scnCam.scannerCurrentObject == null)
-        {
-            ScanColor();
-            //Debug.Log("it tried to change color");
-        }
-        if (scnScr.Scan == false)
-        {
-            gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
-        }
+        ScanCam.scannerEnabled += ScanColor;
+        ScanCam.scannerDisabled += NormColor;
+    }
 
-        //progress bar
-        if (ProgressSlider != null)
-        {
-            progressBar.value = elapsed;
-            if (progressBar.value >= 10.0f)
-            {
-                Scanned = true;
-            }
-        }
+    void OnDisable()
+    {
+        ScanCam.scannerEnabled -= ScanColor;
+        ScanCam.scannerDisabled -= NormColor;
     }
 
     public void ScriptActive()
     {
-        //progress bar
-        if (Scanned == false)
+        if (Scanned == false && Scannable == true)
+        {
+            eneSlider();
+        }
+        if(Scanned == true)
+        {
+            Scannable = false;
+            WeakPoints();
+            Invoke("ResetScanned", 2);
+        }
+    }
+
+    void ResetScanned()
     {
-        elapsed += Time.deltaTime;
-        ProgressSlider.SetActive(true);
+        Scanned = false;
     }
 
-    if(Scanned == true)
+    void NormColor()
     {
-        ProgressSlider.SetActive(false);
-        EnemiesText.SetActive(true);
-        WeakPoints();
+        GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
     }
-        
-        
-
-    }
-
-    public void Scriptdisabled()
-    {
-        ProgressSlider.SetActive(false);
-        EnemiesText.SetActive(false);
-    }
-
     public void ScanColor()
     {
-        gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
-        //Debug.Log("cube should highlight");
+        GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
     }
     
     public void highlight()
     {
-        //Should highlight the object when looked at
-        gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
+        GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
     }
 
     public void Unhighlight()
     {
-        //Should highlight the object when looked at
         ScanColor();
     }
     
     public void WeakPoints()
     {
             criticalPointReveal.SetActive(true);
-            //criticalPoint1Reveal.SetActive(true);
-            criticalPointReveal.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor); 
-            //criticalPoint1Reveal.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);           
+            criticalPointReveal.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);          
     }
 
 }
