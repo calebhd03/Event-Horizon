@@ -323,10 +323,6 @@ public class ThirdPersonShooterController : MonoBehaviour
                 scnCam.ScanObj();
 
             }
-            else{
-                scnCam.DisableScript();
-            }
-
             if(starterAssetsInputs.scanaim)
             {
                 starterAssetsInputs.scanaim = true;
