@@ -34,11 +34,6 @@ public class ItemsScript : MonoBehaviour
             itemText();
     }
 
-    public void ScriptDisabled()
-    {
-
-    }
-
     void NormColor()
     {
         GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
@@ -46,19 +41,16 @@ public class ItemsScript : MonoBehaviour
 
     public void ScanColor()
     {
-        //Debug.Log("cylinder should highlight");
         GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
     }
     
     public void highlight()
     {
-        //Should highlight the object when looked at
         GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
     }
 
     public void Unhighlight()
     {
-        //Should highlight the object when looked at
         ScanColor();
     }
 

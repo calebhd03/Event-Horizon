@@ -10,13 +10,11 @@ public class EnemiesScanScript : MonoBehaviour
 {
     public delegate void EneSlider();
     public static event EneSlider eneSlider;
-    public delegate void EneText();
-    public static event EneText eneText;
     private Color highlightColor = Color.red;
     private Color normalColor = Color.white;
     private Color scanColor = Color.magenta;
     public bool Scanned;
-    public GameObject ProgressSlider;
+    public bool Scannable;
     //Weak points
     public GameObject criticalPointReveal;
 
@@ -24,12 +22,8 @@ public class EnemiesScanScript : MonoBehaviour
     {
         NormColor();
         Scanned = false;
+        Scannable = true;
         criticalPointReveal.SetActive(false);
-    }
-
-    void Update()
-    {
-
     }
 
     private void OnEnable()
@@ -46,22 +40,18 @@ public class EnemiesScanScript : MonoBehaviour
 
     public void ScriptActive()
     {
-        //progress bar
-        if (Scanned == false)
+        if (Scanned == false && Scannable == true)
         {
             eneSlider();
         }
         if(Scanned == true)
         {
+            Scannable = false;
             WeakPoints();
             Invoke("ResetScanned", 2);
         }
     }
 
-    public void ScriptDisabled()
-    {
-        
-    }
     void ResetScanned()
     {
         Scanned = false;

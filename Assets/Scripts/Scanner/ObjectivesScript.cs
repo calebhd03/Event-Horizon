@@ -10,8 +10,6 @@ using UnityEngine.UIElements;
 
 public class ObjectivesScript : MonoBehaviour
 {
-    public delegate void ObjectiveText();
-    public static event ObjectiveText objectiveText;
     public delegate void ObjSlider();
     public static event ObjSlider objSlider;
     private Color highlightColor = Color.yellow;
@@ -48,13 +46,6 @@ public class ObjectivesScript : MonoBehaviour
         {
             Invoke("ResetScanned", 2); 
         }
-    }
-
-    public void ScriptDisabled()
-    {
-        Debug.LogWarning("called");
-        ScannerUI scannerUI = FindObjectOfType<ScannerUI>();
-        scannerUI.DisableSlider();
     }
 
     void ResetScanned()

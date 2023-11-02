@@ -14,7 +14,7 @@ public class ObjectiveText : MonoBehaviour
     }
     private void OnEnable()
     {
-        ScannerUI.objWasScanned += ShowText;
+        ScannerUI.objectiveText += ShowText;
     }
 
 

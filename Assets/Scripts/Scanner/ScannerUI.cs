@@ -6,8 +6,10 @@ using UnityEngine.Video;
 
 public class ScannerUI : MonoBehaviour
 {
-    public delegate void ObjWasScanned();
-    public static event ObjWasScanned objWasScanned;
+    public delegate void EneText();
+    public static event EneText eneText;
+    public delegate void ObjectiveText();
+    public static event ObjectiveText objectiveText;
     //ObjectiveSlider
     public GameObject sliderPrefab;
     private GameObject newSlider;
@@ -51,6 +53,7 @@ public class ScannerUI : MonoBehaviour
         if (scannerCurrentObject == null)
         {
             DisableSlider();
+            DisableEnemySlider();
         }
     }
     public void SetSliderValue()
@@ -60,7 +63,7 @@ public class ScannerUI : MonoBehaviour
         
         if (elapsed >= 5)
         {                
-            objWasScanned();
+            objectiveText();
             Destroy(ScanCam.scannerCurrentObject);
             DisableSlider();
             PlayVideo();
@@ -74,7 +77,7 @@ public class ScannerUI : MonoBehaviour
 
         if (enelapsed >= 10)
         {
-            objWasScanned();
+            eneText();
             DisableEnemySlider();
             eneScr.Scanned = true;
         }
