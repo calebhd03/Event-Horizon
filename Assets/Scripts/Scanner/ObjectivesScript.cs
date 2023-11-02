@@ -17,102 +17,59 @@ public class ObjectivesScript : MonoBehaviour
     private Color highlightColor = Color.yellow;
     private Color normalColor = Color.white;
     private Color scanColor = Color.green;
-
-    //progress bar
-    //private UnityEngine.UI.Slider progressBar;
-    
-    //public float elapsed;
     private bool Scanned;
-    //private GameObject ProgressSlider;
-    //private float timer;
-
     //Cutscene
-    
-    //public GameObject CutscenePlayer;
     public int number;
-    public bool Watched;
     
     void Start()
     {
         Scanned = false;
-        //Watched = false;
+
+    }
+    private void OnEnable()
+    {
+        ScanCam.scannerEnabled += ScanColor;
+        ScanCam.scannerDisabled += NormColor;
     }
 
-    void Update()
+    void OnDisable()
     {
-        Scanning scnScr = FindObjectOfType<Scanning>();
-        ScanCam scnCam = FindObjectOfType<ScanCam>();
-        if (scnScr.Scan == true && scnCam.scannerCurrentObject == null)
-        {
-            ScanColor();
-        }
-        if (scnScr.Scan == false)
-        {
-            gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
-        }
+        ScanCam.scannerEnabled -= ScanColor;
+        ScanCam.scannerDisabled -= NormColor;
     }
 
     public void ScriptActive()
     {
-
         if(Scanned == false)
         {
-        
-            //SetScene();
             objSlider();
         }
-
         if(Scanned == true)
         {
             Invoke("ResetScanned", 2); 
         }
-
-        //if (Watched == false && Scanned == true)
-        //{
-            //Cutscene();
-            //Scanned = false;
-            //Invoke("ResetWatched",2);
-        //}
     }
-  //  void SetScene()
-   // {
-     //   CutScene cutScene = GameObject.FindWithTag("CutScene").GetComponent<CutScene>();
-       // cutScene.currentClipIndex = number;
-    //}
+    
     void ResetScanned()
     {
         Scanned = false;
     }
-    //void ResetWatched()
-    //{
-        //Watched = false;
-    //}
+    void NormColor()
+    {
+        GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
+    }
     public void ScanColor()
     {
         gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
-        //Debug.Log("cube should highlight");
     }
     
     public void highlight()
     {
-        //Should highlight the object when looked at
         gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
     }
 
         public void Unhighlight()
     {
-        //Should highlight the object when looked at
         ScanColor();
     }
-
-   /* public void Cutscene()
-    {
-        CutScene cuSc = CutscenePlayer.GetComponent<CutScene>();
-        cuSc.videoclipIndex = number;
-        cuSc.SetVideoClip();
-        CutscenePlayer.SetActive(true);
-        cuSc.VideoPlayer.Play();
-    }*/
-
-
 }

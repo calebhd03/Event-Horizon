@@ -18,18 +18,21 @@ public class ScannerUI : MonoBehaviour
     public GameObject newVideoPlayer;
     public GameObject scannerCurrentObject;
     void Start()
-    {   elapsed = 0;
-        newSliderProgress.value = elapsed;
-    if (gameObject == null)
-    {
-        Debug.LogWarning("target canvas not there");
-        return;
-    }
-
+    {   
+        if (gameObject == null)
+            {
+                Debug.LogWarning("target canvas not there");
+                return;
+            }
+        //New Objective Slider
         newSlider = Instantiate(sliderPrefab, gameObject.transform);
         newSlider.SetActive(false);
+        elapsed = 0;
+        newSliderProgress.value = elapsed;
+        //New Video Player
         newVideoPlayer = Instantiate(videoPlayer, videoPlayer.transform.position, videoPlayer.transform.rotation);
         newVideoPlayer.SetActive(false);
+        //New Enemy Slider
     }
     public void SetSliderValue()
     {   
@@ -39,17 +42,12 @@ public class ScannerUI : MonoBehaviour
         elapsed += Time.deltaTime;
         
         if (elapsed >= 5)
-        {               
-            
+        {                
             objWasScanned();
             elapsed = 0;
             Destroy(ScanCam.scannerCurrentObject);
             DisableSlider();
             PlayVideo();
-            
-           // cutScene.PlayNextVideo();
-
-
         }
     }
     void OnEnable()
@@ -63,7 +61,6 @@ public class ScannerUI : MonoBehaviour
     }
     void DisableSlider()
     {
-        
         newSlider.SetActive(false);
     }
     void PlayVideo()

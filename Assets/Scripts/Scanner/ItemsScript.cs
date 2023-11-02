@@ -8,12 +8,6 @@ public class ItemsScript : MonoBehaviour
 {
     public delegate void ItemText();
     public static event ItemText itemText;
-
-    //public GameObject ItemsText;
-    //private GameObject ObjectRef;
-    //public GameObject Scanningobject;
-    //public GameObject scanCam;
-    //private Renderer renderer;
     private Color highlightColor = Color.cyan;
     private Color normalColor = Color.white;
     private Color scanColor = Color.blue;

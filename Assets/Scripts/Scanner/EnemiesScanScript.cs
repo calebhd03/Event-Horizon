@@ -28,24 +28,13 @@ public class EnemiesScanScript : MonoBehaviour
     //Weak points
     public GameObject criticalPointReveal;
 
-    //public GameObject criticalPoint1Reveal;
-
-    //public GameObject criticalPoint2;
 
 
     void Start()
     {
-        ObjectRef = gameObject;
-        EnemiesText.SetActive(false);
-        ProgressSlider.SetActive(false);
-        
-        //progress bar
-        //elapsed = 0f;
         Scanned = false;
-
-        //weak points
         criticalPointReveal.SetActive(false);
-        //criticalPoint1Reveal.SetActive(false);
+
         
     }
 
@@ -56,19 +45,13 @@ public class EnemiesScanScript : MonoBehaviour
         if (scnScr.Scan == true && scnCam.scannerCurrentObject == null)
         {
             ScanColor();
-            //Debug.Log("it tried to change color");
         }
         if (scnScr.Scan == false)
         {
-            ObjectRef.GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
+            GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
         }
         
-        //progress bar
-        progressBar.value = elapsed;
-        if(progressBar.value >= 10.0f)
-        {
-            Scanned = true;
-        }
+
     }
 
     public void ScriptActive()
@@ -77,13 +60,12 @@ public class EnemiesScanScript : MonoBehaviour
         if (Scanned == false)
     {
         elapsed += Time.deltaTime;
-        ProgressSlider.SetActive(true);
+
     }
 
         if(Scanned == true)
         {
-            ProgressSlider.SetActive(false);
-            EnemiesText.SetActive(true);
+
             WeakPoints();
         }
         
@@ -91,22 +73,17 @@ public class EnemiesScanScript : MonoBehaviour
 
     }
 
-    public void Scriptdisabled()
-    {
-        ProgressSlider.SetActive(false);
-        EnemiesText.SetActive(false);
-    }
 
     public void ScanColor()
     {
-        ObjectRef.GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
+        GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
         //Debug.Log("cube should highlight");
     }
     
     public void highlight()
     {
         //Should highlight the object when looked at
-        ObjectRef.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
+        GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
     }
 
     public void Unhighlight()

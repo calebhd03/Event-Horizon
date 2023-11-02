@@ -10,16 +10,14 @@ using UnityEngine.Video;
 public class ScanCam : MonoBehaviour
 {
     public GameObject Scanningobject;
-
     public LayerMask Objectives;
-    
     public float range = 5;
-
     public GameObject scannerCurrentObject;
     public delegate void ScannerEnabled();
     public static event ScannerEnabled scannerEnabled;
     public delegate void ScannerDisabled();
     public static event ScannerDisabled scannerDisabled;
+    public int currentClipIndex;
 
     void Start()
     {
@@ -29,8 +27,6 @@ public class ScanCam : MonoBehaviour
 
     void Update()
     {
-
-        
         Scanning scnScr = Scanningobject.GetComponent<Scanning>();
 
         if (scnScr.Scan == true)
@@ -58,6 +54,7 @@ public class ScanCam : MonoBehaviour
                     if (objScr != null)
                         {                        
                         objScr.highlight();
+                        currentClipIndex = objScr.number;
                         }
                 break;
 
@@ -90,13 +87,9 @@ public class ScanCam : MonoBehaviour
 
     public void ScanObj()
     {
-        //Debug.Log("Scanning for object");
         Vector3 direction = Vector3.forward;
         Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
         Debug.DrawRay(scanRay.origin, scanRay.direction * range, Color.blue);
-
-        
-
 
         if (Physics.Raycast(scanRay, out RaycastHit hit, range))
         {
@@ -117,37 +110,4 @@ public class ScanCam : MonoBehaviour
             }            
         }   
     }
-
-    /*public void DisableScript()
-    {
-        //Debug.Log("disable scripts");
-        Vector3 direction = Vector3.forward;
-        Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
-        Debug.DrawRay(scanRay.origin, scanRay.direction * range, Color.blue);
-
-        
-
-
-        if (Physics.Raycast(scanRay, out RaycastHit hit, range))
-        {
-            ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
-            if (hit.collider.tag == "Objective")
-            {
-                objScr.Scriptdisabled();
-            }
-            ItemsScript itmScr = hit.collider.GetComponent<ItemsScript>();
-            if (hit.collider.tag == "Item")
-            {
-                itmScr.Scriptdisabled();    
-            } 
-            EnemiesScanScript eneScr = hit.collider.GetComponent<EnemiesScanScript>();
-            if (hit.collider.tag == "Enemy")
-            {
-                eneScr.Scriptdisabled();    
-            }  
-          
-        }  
-    }*/
-
-
-}
+ }  
