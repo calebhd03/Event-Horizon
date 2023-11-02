@@ -34,8 +34,6 @@ public class EnemiesScanScript : MonoBehaviour
     {
         Scanned = false;
         criticalPointReveal.SetActive(false);
-
-        
     }
 
     void Update()
@@ -50,8 +48,6 @@ public class EnemiesScanScript : MonoBehaviour
         {
             GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
         }
-        
-
     }
 
     public void ScriptActive()
@@ -60,19 +56,18 @@ public class EnemiesScanScript : MonoBehaviour
         if (Scanned == false)
     {
         elapsed += Time.deltaTime;
-
     }
-
         if(Scanned == true)
         {
 
             WeakPoints();
         }
-        
-        
-
     }
 
+    public void ScriptDisabled()
+    {
+        
+    }
 
     public void ScanColor()
     {

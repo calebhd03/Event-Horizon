@@ -49,7 +49,14 @@ public class ObjectivesScript : MonoBehaviour
             Invoke("ResetScanned", 2); 
         }
     }
-    
+
+    public void ScriptDisabled()
+    {
+        Debug.LogWarning("called");
+        ScannerUI scannerUI = FindObjectOfType<ScannerUI>();
+        scannerUI.DisableSlider();
+    }
+
     void ResetScanned()
     {
         Scanned = false;

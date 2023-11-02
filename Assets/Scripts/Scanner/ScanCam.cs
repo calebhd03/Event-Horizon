@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using Unity.VisualScripting.ReorderableList;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.Universal.Internal;
@@ -22,7 +23,6 @@ public class ScanCam : MonoBehaviour
     void Start()
     {
         scannerCurrentObject = null;
-
     }
 
     void Update()
@@ -91,23 +91,33 @@ public class ScanCam : MonoBehaviour
         Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
         Debug.DrawRay(scanRay.origin, scanRay.direction * range, Color.blue);
 
-        if (Physics.Raycast(scanRay, out RaycastHit hit, range))
+        Physics.Raycast(scanRay, out RaycastHit hit, range);
+            if(hit.collider != null)
+            switch(hit.collider.tag)
         {
+            case "Objective":
             ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
-            if (hit.collider.tag == "Objective")
-            {
+            if (objScr != null)
+            { 
                 objScr.ScriptActive();
             }
+            break;
+
+            case "Item":
             ItemsScript itmScr = hit.collider.GetComponent<ItemsScript>();
-            if (hit.collider.tag == "Item")
-            {
+            if (itmScr != null)
+            {  
                 itmScr.ScriptActive();    
-            } 
+            }
+            break;
+            
+            case "Enemy":
             EnemiesScanScript eneScr = hit.collider.GetComponent<EnemiesScanScript>();
-            if (hit.collider.tag == "Enemy")
+            if (eneScr != null)
             {
                 eneScr.ScriptActive();    
-            }            
-        }   
+            }
+            break;            
+        }
     }
  }  

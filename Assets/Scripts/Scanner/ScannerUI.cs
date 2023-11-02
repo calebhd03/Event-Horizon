@@ -34,6 +34,15 @@ public class ScannerUI : MonoBehaviour
         newVideoPlayer.SetActive(false);
         //New Enemy Slider
     }
+    void Update()
+    {   
+        ScanCam ScanCam = FindObjectOfType<ScanCam>();
+        scannerCurrentObject = ScanCam.scannerCurrentObject;
+        if (scannerCurrentObject == null)
+        {
+            DisableSlider();
+        }
+    }
     public void SetSliderValue()
     {   
         ScanCam ScanCam = FindObjectOfType<ScanCam>();
@@ -59,9 +68,10 @@ public class ScannerUI : MonoBehaviour
     {
         newSlider.SetActive(true);
     }
-    void DisableSlider()
+    public void DisableSlider()
     {
         newSlider.SetActive(false);
+        elapsed = 0;
     }
     void PlayVideo()
     {

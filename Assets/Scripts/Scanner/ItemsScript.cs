@@ -36,6 +36,11 @@ public class ItemsScript : MonoBehaviour
             itemText();
     }
 
+    public void ScriptDisabled()
+    {
+        
+    }
+
     void NormColor()
     {
         GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
