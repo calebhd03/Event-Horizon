@@ -77,14 +77,14 @@ public class ScanCam : MonoBehaviour
                 break;
             }
             else
-            scannerCurrentObject = null; 
+            scannerCurrentObject = null;     
         }
         else
         {
 
             scannerDisabled();
         }
-           
+       
         }
 
     public void ScanObj()

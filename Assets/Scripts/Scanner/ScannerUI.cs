@@ -44,6 +44,8 @@ public class ScannerUI : MonoBehaviour
         //New Enemy Slider
         newSlider2 = Instantiate(sliderPrefab2, gameObject.transform);
         newSlider2.SetActive(false);
+        enelapsed = 0;
+        newSliderProgress2.value = enelapsed;
 
     }
     void Update()
@@ -77,10 +79,9 @@ public class ScannerUI : MonoBehaviour
 
         if (enelapsed >= 10)
         {
-            eneScr.Scanned = true;
             eneText();
             DisableEnemySlider();
-            
+            WeakPoints();
         }
     }
     void OnEnable()
@@ -111,6 +112,21 @@ public class ScannerUI : MonoBehaviour
     {
         newSlider2.SetActive(false);
         enelapsed = 0;
+    }
+
+    void WeakPoints()
+    {   
+        ScanCam sc = FindObjectOfType<ScanCam>();
+        Vector3 direction = Vector3.forward;
+        Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
+        Debug.DrawRay(scanRay.origin, scanRay.direction * sc.range, Color.blue);
+
+        Physics.Raycast(scanRay, out RaycastHit hit, sc.range);
+        EnemiesScanScript eneScr = hit.collider.GetComponent<EnemiesScanScript>();
+        if(hit.collider != null)
+        {
+            eneScr.WeakPoints();
+        }
     }
     void PlayVideo()
     {

@@ -15,13 +15,11 @@ public class ObjectivesScript : MonoBehaviour
     private Color highlightColor = Color.yellow;
     private Color normalColor = Color.white;
     private Color scanColor = Color.green;
-    private bool Scanned;
     //Cutscene
     public int number;
     
     void Start()
     {
-        Scanned = false;
         NormColor();
     }
     private void OnEnable()
@@ -38,20 +36,9 @@ public class ObjectivesScript : MonoBehaviour
 
     public void ScriptActive()
     {
-        if(Scanned == false)
-        {
             objSlider();
-        }
-        if(Scanned == true)
-        {
-            Invoke("ResetScanned", 2); 
-        }
     }
 
-    void ResetScanned()
-    {
-        Scanned = false;
-    }
     void NormColor()
     {
         GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
