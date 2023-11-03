@@ -15,6 +15,7 @@ namespace StarterAssets
 		public bool aim;
 		public bool shoot;
 		public bool crouch;
+		public bool flashlight;
 
 		public Vector2 scroll;
 		public bool scan;
@@ -114,6 +115,10 @@ namespace StarterAssets
 		{
 			ValueInput(value.isPressed);
 		}
+		public void OnFlashlight(InputValue value)
+        {
+			FlashlightInput(value.isPressed);
+        }
 
 		
 #endif
@@ -199,6 +204,14 @@ namespace StarterAssets
 		public void PauseInput(bool newPauseState)
 		{
 			pause = newPauseState;
+		}
+
+		public void FlashlightInput(bool newFlashlightState)
+        {
+			if (newFlashlightState)
+			{
+				flashlight = !flashlight;
+			}
 		}
 	}
 	

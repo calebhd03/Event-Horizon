@@ -61,10 +61,14 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         [Header("Gun Audio")]
         [SerializeField] private AudioClip blasterSound ;
+        //[SerializeField] private AudioClip blasterReloadSound;
         [SerializeField] private AudioClip shotgunSound;
+        //[SerializeField] private AudioClip shotgunReloadSound;
         [SerializeField] private AudioClip blackHoleSound;
+        //[SerializeField] private AudioClip blackHoleReloadSound;
+        //[SerializeField] private AudioClip blackHoleChargeSound;
 
-        [Header("Gun Audio")]
+        [Header("Gun Affects  ")]
         [SerializeField] private ParticleSystem blassterFlash;
         [SerializeField] private ParticleSystem shotgunFlash;
 
