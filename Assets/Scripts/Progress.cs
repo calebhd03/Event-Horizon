@@ -7,46 +7,84 @@ using TMPro;
 public class Progress : MonoBehaviour
 {
     public float progressTime = 15.0f; // Time in seconds to reach full progress
-    public string nextSceneName; // Name of the scene to load when progress is full
+    private float OriginalProgressTime;
     public string playerTag = "Player"; // Tag for the player object
     public string enemyTag = "Enemy"; // Tag for objects tagged as "Enemy"
     public Material highlightMaterial; // Material for highlighting
     public Color blueHighlightColor = Color.blue;
     public Color redHighlightColor = Color.red;
     public TextMeshProUGUI countdownText; // Assign this in the Inspector
+    public GameObject portal; // Assign the Portal GameObject in the Inspector
 
     private float currentProgress = 0f;
     private float countdownTimer;
     private bool isPlayerInside = false;
+    private bool countdownStopped = false;
+    private bool countdownStarted = false;
 
     private void Start()
     {
         ResetHighlight();
         countdownTimer = progressTime;
+        OriginalProgressTime = progressTime;
+        portal.SetActive(false); // Set the Portal GameObject to inactive at the start
+        countdownText.text = " ";
     }
 
     private void Update()
     {
+        if (countdownStopped)
+            return;
+
         if (isPlayerInside)
         {
             currentProgress += Time.deltaTime / progressTime;
-            if (countdownTimer <= 1.0f)
+            if (countdownTimer <= 0.1f)
             {
-                LoadNextScene();
+                portal.SetActive(true);
             }
         }
 
-        UpdateCountdownText();
+        if (isPlayerInside == false)
+        {
+            if (currentProgress == OriginalProgressTime)
+            {
+                countdownText.text = " ";
+            }
+        }
+        else if (countdownText.text == " ")
+        {
+            UpdateCountdownText();
+            countdownStarted = true;
+        }
+
+        if( countdownStarted == true)
+        {
+             UpdateCountdownText();
+
+        }
+
+
         UpdateHighlight();
+        
     }
 
     private void UpdateCountdownText()
-    {
-        if (countdownText != null)
-        {
-            countdownText.text = "Time Remaining: " + countdownTimer.ToString("F1");
+      {
+            if (countdownText != null && !countdownStopped)
+            {
+                if (countdownTimer > 0f)
+                {
+                    countdownText.text = "Time Remaining: " + countdownTimer.ToString("F1");
+                }
+                else
+                {
+                    countdownText.text = " ";
+                    countdownStopped = true;
+                    countdownStarted = false;
+                }
+            }
         }
-    }
 
     private void UpdateHighlight()
     {
@@ -118,8 +156,4 @@ public class Progress : MonoBehaviour
         }
     }
 
-    private void LoadNextScene()
-    {
-        SceneManager.LoadScene(nextSceneName);
-    }
 }
