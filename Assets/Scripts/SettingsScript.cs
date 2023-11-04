@@ -18,10 +18,10 @@ public class SettingsScript : MonoBehaviour
     Resolution[] resolutions;
 
     public TMPro.TMP_Dropdown resolutionDropdown;
-    public ThirdPersonController player;
+    //public ThirdPersonController player;
     void Start()
     {
-        sensSlider.onValueChanged.AddListener(ChangeSensitivity);
+        //sensSlider.onValueChanged.AddListener(ChangeSensitivity);
         float volume = 0f;
         mainMixer.GetFloat("MasterVol", out volume);
         mastSlider.value = volume;
@@ -102,13 +102,9 @@ public class SettingsScript : MonoBehaviour
         Screen.fullScreen = isFullScreen;
     }
 
-    public void mouseSenssitivity(float newSensitivity)
-    {
-
-    }
-    private void ChangeSensitivity(float newSensitivity)
+    /*private void ChangeSensitivity(float newSensitivity)
     {
         player.SetSensitivity(newSensitivity);
         PlayerPrefs.SetFloat("Sensitivity", sensSlider.value);
-    }
+    }*/
 }
