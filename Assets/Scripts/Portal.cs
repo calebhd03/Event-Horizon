@@ -21,18 +21,25 @@ public class Portal : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             // Check if the colliding object has the "Player" tag
-            SetActive();
+              LoadGameAndLoadScene();
         }
     }
 
-    private void SetActive()
+    private void LoadGameAndLoadScene()
     {
+        // Load the game data (assuming SaveSystemTest is attached to the player)
+        SaveSystemTest saveSystem = FindObjectOfType<SaveSystemTest>();
+        if (saveSystem != null)
+        {
+            saveSystem.SaveGame();
+            saveSystem.LoadGame();
 
+            GameManager.Instance.playerData = SaveSystem.LoadPlayerData();
+        }
 
         // Load the next scene
         SceneManager.LoadScene(nextSceneName);
     }
-
     private void AndDestroy()
     {
 

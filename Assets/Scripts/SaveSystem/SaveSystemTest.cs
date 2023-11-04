@@ -16,15 +16,14 @@ public class SaveSystemTest : MonoBehaviour
     {
         thirdPersonShooterController = GetComponent<ThirdPersonShooterController>();
     }
-    
+
     public void LoadGame()
     {
-        PlayerData data = SaveSystem.LoadPlayer();
+        PlayerData data = SaveSystem.LoadPlayerData();
 
-        _controller = GetComponent<CharacterController>(); 
-        _controller.enabled = false;    //Disables Character Controller, fixes incorrect transform.position execution bug
+        _controller = GetComponent<CharacterController>();
+        _controller.enabled = false;
 
-        testData = data.testData;
         thirdPersonShooterController.standardAmmo = data.standardAmmoSave;
         thirdPersonShooterController.blackHoleAmmo = data.blackHoleAmmoSave;
         thirdPersonShooterController.shotgunAmmo = data.shotgunAmmoSave;
@@ -38,20 +37,20 @@ public class SaveSystemTest : MonoBehaviour
 
         Debug.Log(position);
 
-        _controller.enabled = true; //Reenables Character Controller upon completion
+        _controller.enabled = true;
     }
 
     public void SaveGame()
     {
-        standardAmmoSave = thirdPersonShooterController.standardAmmo;
-        blackHoleAmmoSave = thirdPersonShooterController.blackHoleAmmo;
-        shotgunAmmoSave = thirdPersonShooterController.shotgunAmmo;
-        SaveSystem.SavePlayer(this);
-    }
+        PlayerData playerData = new PlayerData(this);
+        SaveSystem.SavePlayerData(playerData);
 
+        TestValue();
+    }
+    
     public void TestValue()
     {
         testData += 1;
         Debug.Log(testData);
-    }
+}
 }

@@ -4,20 +4,18 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem 
 {
-    public static void SavePlayer(SaveSystemTest player)
+   public static void SavePlayerData(PlayerData data)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/player.data";
         FileStream stream = new FileStream(path, FileMode.Create);
-
-        PlayerData data = new PlayerData(player);
 
         formatter.Serialize(stream, data);
         stream.Close();
         Debug.Log("Game Saved.");
     }
 
-    public static PlayerData LoadPlayer()
+    public static PlayerData LoadPlayerData()
     {
         string path = Application.persistentDataPath + "/player.data";
         if (File.Exists(path))
@@ -28,12 +26,11 @@ public static class SaveSystem
             PlayerData data = formatter.Deserialize(stream) as PlayerData;
             stream.Close();
 
-            Debug.Log("Game Loaded.");
             return data;
         }
         else
         {
-            Debug.LogError("Save file not found in" + path);
+            Debug.LogWarning("Save file not found.");
             return null;
         }
     }

@@ -16,6 +16,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private Transform spawnBulletPositionOg;
         [SerializeField] private Transform spawnBulletPositionCrouch;
         [SerializeField] private Transform debugTransform;
+     
        // private Animator animator;
         
         [SerializeField] private int equippedWeapon;
@@ -36,6 +37,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         private ThirdPersonController thirdPersonController;
         private StarterAssetsInputs starterAssetsInputs;
+       
 
         [Header("Weapon Settings")]
         public int[] allWeapons = new int[]{0, 1, 2};
@@ -339,14 +341,17 @@ public class ThirdPersonShooterController : MonoBehaviour
             if (equippedWeapon == 0)
             {
                 ammoCounter.text = "Ammo: " + standardAmmo;
+                
             }
             else if (equippedWeapon == 1)
             {
                 ammoCounter.text = "Ammo: " + blackHoleAmmo;
+                
             }
             else if (equippedWeapon == 2)
             {
                 ammoCounter.text = "Ammo: " + shotgunAmmo;
+               
             }
         }
 
