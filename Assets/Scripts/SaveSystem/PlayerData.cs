@@ -5,24 +5,16 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData 
 {
-    public int testData;
-    public int standardAmmoSave;
-    public int blackHoleAmmoSave;
-    public int shotgunAmmoSave;
+
     
     public float[] position;
 
-    public PlayerData (SaveSystemTest player)
+    public PlayerData(SaveSystemTest playerP)
     {
-        testData = player.testData;
-        standardAmmoSave = player.standardAmmoSave;
-        blackHoleAmmoSave = player.blackHoleAmmoSave;
-        shotgunAmmoSave = player.shotgunAmmoSave;
-
         position = new float[3];
-        position[0] = player.transform.position.x;
-        position[1] = player.transform.position.y;
-        position[2] = player.transform.position.z;
+        position[0] = playerP.transform.position.x;
+        position[1] = playerP.transform.position.y;
+        position[2] = playerP.transform.position.z;
     }
 
 
