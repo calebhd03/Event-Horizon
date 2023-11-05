@@ -22,8 +22,12 @@ public class Progress : MonoBehaviour
     private bool countdownStopped = false;
     private bool countdownStarted = false;
 
+
+
     private void Start()
     {
+
+
         ResetHighlight();
         countdownTimer = progressTime;
         OriginalProgressTime = progressTime;
