@@ -113,7 +113,7 @@ namespace StarterAssets
 
 		public void OnPause(InputValue value)
 		{
-			ValueInput(value.isPressed);
+			PauseInput(value.isPressed);
 		}
 		public void OnFlashlight(InputValue value)
         {
@@ -203,7 +203,7 @@ namespace StarterAssets
 
 		public void PauseInput(bool newPauseState)
 		{
-			pause = newPauseState;
+			pause =! pause;
 		}
 
 		public void FlashlightInput(bool newFlashlightState)

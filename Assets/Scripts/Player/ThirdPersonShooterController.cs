@@ -263,32 +263,25 @@ public class ThirdPersonShooterController : MonoBehaviour
                         standardAmmo -= 1;
                         currentCooldown = standardCooldown;
                         thirdPersonController.SwitchCameraTarget();
-                        AudioSource.PlayClipAtPoint(blasterSound, spawnBulletPosition.position);
-                        blassterFlash.Play();
-
-
-                }
-                else if (equippedWeapon == 1 && blackHoleAmmo > 0)//Black Hole Projectile Shoot
+                        //AudioSource.PlayClipAtPoint(blasterSound, spawnBulletPosition.position);
+                        //blassterFlash.Play();
+                    }
+                    else if (equippedWeapon == 1 && blackHoleAmmo > 0)//Black Hole Projectile Shoot
                     {
                         Instantiate(pfBlackHoleProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                         blackHoleAmmo -= 1;
                         currentCooldown = blackHoleCooldown;
                         thirdPersonController.SwitchCameraTarget();
                         AudioSource.PlayClipAtPoint(blackHoleSound, spawnBulletPosition.position);
-
-
-                }
-                else if (equippedWeapon == 2 && shotgunAmmo > 0)
+                    }
+                    else if (equippedWeapon == 2 && shotgunAmmo > 0)
                     {        
                         shotgunAmmo -= 1;
                         currentCooldown = shotgunCooldown;
                         thirdPersonController.SwitchCameraTarget();
                         AudioSource.PlayClipAtPoint(shotgunSound, spawnBulletPosition.position);
                         shotgunFlash.Play();
-
-
-
-                    for (int i = 0; i < 4; i++) // Fire 4 pellets in a cone
+                        for (int i = 0; i < 4; i++) // Fire 4 pellets in a cone
                         {
                             // Calculate a random spread angle within the specified shotgunSpreadAngle
                             float horizontalSpread = Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle);

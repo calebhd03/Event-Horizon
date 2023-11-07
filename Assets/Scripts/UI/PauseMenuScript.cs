@@ -9,11 +9,35 @@ public class PauseMenuScript : MonoBehaviour
     public GameObject settingsScreen;
     public GameObject inventoryScreen;
     public GameObject upgradeScreen;
+    
+    public bool paused = false;
 
+    public void SetPause()
+    {
+        if(paused == false)
+        {
+            paused = true;
+            OpenPause();
+        }
+        else
+        {
+            paused = false;
+            settingsScreen.SetActive(false);
+            inventoryScreen.SetActive(false);
+            upgradeScreen.SetActive(false);
+            ClosePause();
+        }
+    }
     //The three functions here open their respective menus and close out the main
+    public void OpenPause()
+        {
+            Time.timeScale = 0;
+            PauseScreen.SetActive(true);
+        }
     public void ClosePause()
         {
             PauseScreen.SetActive(false);
+            Time.timeScale = 1;
         }
     public void OpenSettings()
         {

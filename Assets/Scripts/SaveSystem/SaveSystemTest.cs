@@ -52,6 +52,5 @@ public class SaveSystemTest : MonoBehaviour
     public void TestValue()
     {
         testData += 1;
-        Debug.Log(testData);
     }
 }
