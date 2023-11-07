@@ -11,7 +11,6 @@ using UnityEngine.Video;
 public class ScanCam : MonoBehaviour
 {
     public GameObject Scanningobject;
-    public LayerMask Objectives;
     public float range = 5;
     public GameObject scannerCurrentObject;
     public delegate void ScannerEnabled();
@@ -19,7 +18,6 @@ public class ScanCam : MonoBehaviour
     public delegate void ScannerDisabled();
     public static event ScannerDisabled scannerDisabled;
     public int currentClipIndex;
-
     void Start()
     {
         scannerCurrentObject = null;
@@ -33,7 +31,7 @@ public class ScanCam : MonoBehaviour
         {
             if(scannerEnabled != null)
             {
-            scannerEnabled();
+            scannerEnabled(); 
             }
 
             Vector3 direction = Vector3.forward;
@@ -81,11 +79,9 @@ public class ScanCam : MonoBehaviour
         }
         else
         {
-
             scannerDisabled();
         }
-       
-        }
+    }
 
     public void ScanObj()
     {

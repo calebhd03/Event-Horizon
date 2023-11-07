@@ -8,6 +8,12 @@ using UnityEngine.UI;
 public class ObjSlider : MonoBehaviour
 {   
     public Slider slider;
+    AudioSource audioSource;
+    
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
     
     void Update()
     {   

@@ -26,6 +26,7 @@ public class ScannerUI : MonoBehaviour
     private GameObject newVideoPlayer;
     public GameObject scannerCurrentObject;
 
+
     void Start()
     {   
         if (gameObject == null)
@@ -46,7 +47,6 @@ public class ScannerUI : MonoBehaviour
         newSlider2.SetActive(false);
         enelapsed = 0;
         newSliderProgress2.value = enelapsed;
-
     }
     void Update()
     {   
