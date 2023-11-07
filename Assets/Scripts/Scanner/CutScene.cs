@@ -24,5 +24,12 @@ public class CutScene : MonoBehaviour
     void OnVideoEndReached(VideoPlayer vp)
     {
         gameObject.SetActive(false);
+        Invoke("HideText", 3);
+    }
+
+    void HideText()
+    {
+        ObjectiveText objectiveText = FindObjectOfType<ObjectiveText>();
+        objectiveText.HideText();
     }         
 }

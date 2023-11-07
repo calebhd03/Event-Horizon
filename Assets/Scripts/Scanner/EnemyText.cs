@@ -22,6 +22,7 @@ public class EnemyText : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         gameObject.SetActive(true);
+        Invoke("HideText", 3);
     }
     public void HideText()
     {
