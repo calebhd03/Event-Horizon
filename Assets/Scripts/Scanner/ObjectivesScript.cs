@@ -16,6 +16,7 @@ public class ObjectivesScript : MonoBehaviour
     private Color normalColor = Color.white;
     private Color scanColor = Color.green;
     //Cutscene
+    [Tooltip("Put the number associated with with the cutscene in the array desired to play. The array is located on the video player game object. Array list starts with zero.")]
     public int number;
     
     void Start()
