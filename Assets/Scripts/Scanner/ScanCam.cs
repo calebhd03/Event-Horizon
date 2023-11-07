@@ -2,19 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using Unity.VisualScripting.ReorderableList;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.Universal.Internal;
+using UnityEngine.Video;
 
 public class ScanCam : MonoBehaviour
 {
     public GameObject Scanningobject;
-
     public LayerMask Objectives;
-    
     public float range = 5;
-
     public GameObject scannerCurrentObject;
+    public delegate void ScannerEnabled();
+    public static event ScannerEnabled scannerEnabled;
+    public delegate void ScannerDisabled();
+    public static event ScannerDisabled scannerDisabled;
+    public int currentClipIndex;
 
     void Start()
     {
@@ -23,12 +27,15 @@ public class ScanCam : MonoBehaviour
 
     void Update()
     {
-
-        
         Scanning scnScr = Scanningobject.GetComponent<Scanning>();
 
         if (scnScr.Scan == true)
         {
+            if(scannerEnabled != null)
+            {
+            scannerEnabled();
+            }
+
             Vector3 direction = Vector3.forward;
             Ray LookRay = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             //Debug.DrawRay(LookRay.origin, LookRay.direction * range, Color.blue);
@@ -42,6 +49,7 @@ public class ScanCam : MonoBehaviour
                     if (objScr != null)
                         {                        
                         objScr.highlight();
+                        currentClipIndex = objScr.number;
                         }
                 break;
 
@@ -52,6 +60,7 @@ public class ScanCam : MonoBehaviour
                         {                        
                             itmScr.highlight();
                         }
+                        
                 break;
 
                 case "Enemy":
@@ -68,70 +77,49 @@ public class ScanCam : MonoBehaviour
                 break;
             }
             else
-            scannerCurrentObject = null;            
+            scannerCurrentObject = null;     
         }
-    }
+        else
+        {
+
+            scannerDisabled();
+        }
+       
+        }
 
     public void ScanObj()
     {
-        //Debug.Log("Scanning for object");
         Vector3 direction = Vector3.forward;
         Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
         Debug.DrawRay(scanRay.origin, scanRay.direction * range, Color.blue);
 
-        
-
-
-        if (Physics.Raycast(scanRay, out RaycastHit hit, range))
+        Physics.Raycast(scanRay, out RaycastHit hit, range);
+            if(hit.collider != null)
+            switch(hit.collider.tag)
         {
+            case "Objective":
             ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
-            if (hit.collider.tag == "Objective")
-            {
+            if (objScr != null)
+            { 
                 objScr.ScriptActive();
             }
+            break;
+
+            case "Item":
             ItemsScript itmScr = hit.collider.GetComponent<ItemsScript>();
-            if (hit.collider.tag == "Item")
-            {
+            if (itmScr != null)
+            {  
                 itmScr.ScriptActive();    
-            } 
+            }
+            break;
+            
+            case "Enemy":
             EnemiesScanScript eneScr = hit.collider.GetComponent<EnemiesScanScript>();
-            if (hit.collider.tag == "Enemy")
+            if (eneScr != null)
             {
                 eneScr.ScriptActive();    
-            }            
-        }   
-    }
-
-    public void DisableScript()
-    {
-        //Debug.Log("disable scripts");
-        Vector3 direction = Vector3.forward;
-        Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
-        Debug.DrawRay(scanRay.origin, scanRay.direction * range, Color.blue);
-
-        
-
-
-        if (Physics.Raycast(scanRay, out RaycastHit hit, range))
-        {
-            ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
-            if (hit.collider.tag == "Objective")
-            {
-                objScr.Scriptdisabled();
             }
-            ItemsScript itmScr = hit.collider.GetComponent<ItemsScript>();
-            if (hit.collider.tag == "Item")
-            {
-                itmScr.Scriptdisabled();    
-            } 
-            EnemiesScanScript eneScr = hit.collider.GetComponent<EnemiesScanScript>();
-            if (hit.collider.tag == "Enemy")
-            {
-                eneScr.Scriptdisabled();    
-            }  
-          
-        }  
+            break;            
+        }
     }
-
-
-}
+ }  

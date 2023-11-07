@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,62 +6,51 @@ using UnityEngine;
 
 public class ItemsScript : MonoBehaviour
 {
-    public GameObject ItemsText;
-
+    public delegate void ItemText();
+    public static event ItemText itemText;
     private Color highlightColor = Color.cyan;
     private Color normalColor = Color.white;
     private Color scanColor = Color.blue;
 
-
     void Start()
     {
-        ItemsText.SetActive(false);
-
+        NormColor();
     }
 
-
-    void Update()
+    private void OnEnable()
     {
-
-        Scanning scnScr = FindObjectOfType<Scanning>();
-        ScanCam scnCam = FindObjectOfType<ScanCam>();
-
-        if (scnScr.Scan == true && scnCam.scannerCurrentObject == null)
-        {
-            ScanColor();
-        }
-        if (scnScr.Scan == false)
-        {
-            gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
-        }
-
+        ScanCam.scannerEnabled += ScanColor;
+        ScanCam.scannerDisabled += NormColor;
     }
 
+    void OnDisable()
+    {
+        ScanCam.scannerEnabled -= ScanColor;
+        ScanCam.scannerDisabled -= NormColor;
+    }
     public void ScriptActive()
     {
-        ItemsText.SetActive(true);
+            if(itemText != null)
+            itemText();
     }
 
-    public void Scriptdisabled()
+    void NormColor()
     {
-        ItemsText.SetActive(false);
+        GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
     }
 
     public void ScanColor()
     {
-        //Debug.Log("cylinder should highlight");
-        gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
+        GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
     }
     
     public void highlight()
     {
-        //Should highlight the object when looked at
-        gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
+        GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
     }
 
     public void Unhighlight()
     {
-        //Should highlight the object when looked at
         ScanColor();
     }
 

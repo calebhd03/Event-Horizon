@@ -18,11 +18,11 @@ namespace StarterAssets
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
-        public float NormalMovespeed = 2.0f;
+        public float NormalMovespeed = 2.0f; 
 
         [Tooltip("Sprint speed of the character in m/s")]
         public float SprintSpeed = 5.335f;
-        public float NormalSprintSpeed = 5.335f;
+        public float NormalSprintSpeed = 5.335f; 
 
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
@@ -128,6 +128,8 @@ namespace StarterAssets
         private GameObject _mainCamera;
         private bool _rotateOnMove =true;
 
+        public PauseMenuScript pauseMenuScript;
+
         private const float _threshold = 0.01f;
 
         private bool _hasAnimator;
@@ -182,6 +184,7 @@ namespace StarterAssets
         {
             _hasAnimator = TryGetComponent(out _animator);
 
+            Pause();
             JumpAndGravity();
             GroundedCheck();
             Move();
@@ -222,7 +225,7 @@ namespace StarterAssets
         private void CameraRotation()
         {
             // if there is an input and camera position is not fixed
-            if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
+            if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition && pauseMenuScript.paused == false)
             {
                 //Don't multiply mouse input by Time.deltaTime;
                 float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
@@ -484,7 +487,6 @@ namespace StarterAssets
             {
                 _input.value = false;
                 saveSystemTest.TestValue();
-                Debug.Log("Test Value Input Pressed!");
             }
         }
 
@@ -498,8 +500,16 @@ namespace StarterAssets
             {
                 _animator.SetBool(_animIDCrouch, false);
             }
-        }
+        } 
 
-        
+        public void Pause()
+        {
+            if(_input.pause)
+            {
+                _input.pause = false;
+                pauseMenuScript.SetPause();
+                Debug.Log("Pause input!");
+            }
+        }
     }
 }
