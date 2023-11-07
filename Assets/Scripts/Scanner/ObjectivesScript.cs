@@ -6,105 +6,55 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using StarterAssets;
 using UnityEngine.Video;
+using UnityEngine.UIElements;
 
 public class ObjectivesScript : MonoBehaviour
 {
-    public GameObject ObjectiveText;
-    //public GameObject ObjectRef;
-    //public GameObject Scanningobject;
-    //public GameObject scanCam;
+    public delegate void ObjSlider();
+    public static event ObjSlider objSlider;
     private Color highlightColor = Color.yellow;
     private Color normalColor = Color.white;
     private Color scanColor = Color.green;
-
-    //progress bar
-    public Slider progressBar;
-
-    private float elapsed;
-    public bool Scanned;
-    public GameObject ProgressSlider;
-
     //Cutscene
-    public GameObject VideoPlayer;
-    //public GameObject playerObject;
-
+    public int number;
+    
     void Start()
     {
-        ObjectiveText.SetActive(false);
-        ProgressSlider.SetActive(false);
-        
-        //progress bar
-        elapsed = 0f;
-        Scanned = false;      
+        NormColor();
+    }
+    private void OnEnable()
+    {
+        ScanCam.scannerEnabled += ScanColor;
+        ScanCam.scannerDisabled += NormColor;
     }
 
-    void Update()
+    void OnDisable()
     {
-        Scanning scnScr = FindObjectOfType<Scanning>();
-        ScanCam scnCam = FindObjectOfType<ScanCam>();
-        if (scnScr.Scan == true && scnCam.scannerCurrentObject == null)
-        {
-            ScanColor();
-        }
-        if (scnScr.Scan == false)
-        {
-            gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
-        }
-        
-        //progress bar
-        progressBar.value = elapsed;
-
-        if(progressBar.value >= 5.0f)
-        {
-            Scanned = true;
-        }
+        ScanCam.scannerEnabled -= ScanColor;
+        ScanCam.scannerDisabled -= NormColor;
     }
 
     public void ScriptActive()
     {
-
-        //progress bar
-        if(Scanned == false)
-        {
-            elapsed += Time.deltaTime;
-            ProgressSlider.SetActive(true);
-        }
-
-        if(Scanned == true)
-        {
-            ProgressSlider.SetActive(false);
-            ObjectiveText.SetActive(true);
-            Cutscene();            
-        }
+            objSlider();
     }
 
-    public void Scriptdisabled()
+    void NormColor()
     {
-        ProgressSlider.SetActive(false);
-        ObjectiveText.SetActive(false);
+        GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
     }
-
     public void ScanColor()
     {
         gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
-        //Debug.Log("cube should highlight");
     }
     
     public void highlight()
     {
-        //Should highlight the object when looked at
         gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
     }
 
         public void Unhighlight()
     {
-        //Should highlight the object when looked at
         ScanColor();
-    }
-
-    public void Cutscene()
-    {   
-        //playerObject.SetActive(false);
-        VideoPlayer.SetActive(true);
     }
 }

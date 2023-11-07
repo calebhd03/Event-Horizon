@@ -161,6 +161,8 @@ namespace StarterAssets
                             idle = true;
                             if (idle == true)
                             {
+                                //animator.SetBool("RangeAttack", false);
+                                //animator.SetBool("MeleeAttack", false);
                                 animator.SetBool("Moving", false);
                                 animator.SetBool("PanningIdle", true);
                             }
@@ -173,6 +175,8 @@ namespace StarterAssets
                             idle = false;
                             animator.SetBool("Moving", true);
                             animator.SetBool("PanningIdle", false);
+                            //animator.SetBool("RangeAttack", false);
+                            //animator.SetBool("MeleeAttack", false);
                             pointMovement();
 
                         }
@@ -184,6 +188,8 @@ namespace StarterAssets
             {
                 chasePlayer();
                 animator.SetBool("PanningIdle", false);
+                //animator.SetBool("RangeAttack", false);
+                //animator.SetBool("MeleeAttack", false);
                 idle = false;
                 idleStart = 0f;
                 idleTime = 0f;
@@ -192,7 +198,8 @@ namespace StarterAssets
             if (iSeeYou == true && withInMeleeRange == true)
             {
 
-                animator.SetBool("PanningIdle", false);
+                //animator.SetBool("PanningIdle", false);
+                //animator.SetBool("RangeAttack", false);
                 idle = false;
                 idleStart = 0f;
                 idleTime = 0f;
@@ -205,6 +212,7 @@ namespace StarterAssets
 
                 if (iSeeYou == true && withInAttackRange == false)
                 {
+                    //animator.SetBool("RangeAttack", false);
                     withInAttackRange = false;
                     Debug.Log("Enemy Charging Towards Player");
                     agent.speed = chargeSpeed;
@@ -214,7 +222,9 @@ namespace StarterAssets
 
             if (iSeeYou == true && withInAttackRange == true)
             {
+                animator.SetBool("Moving", false);
                 animator.SetBool("PanningIdle", false);
+                //animator.SetBool("MeleeAttack", false);
                 idle = false;
                 idleStart = 0f;
                 idleTime = 0f;
@@ -307,10 +317,14 @@ namespace StarterAssets
                 newBullet.AddForce(transform.forward * 32f, ForceMode.Impulse);
                 newBullet.AddForce(transform.up * 5f, ForceMode.Impulse);
 
+                //animator.SetBool("RangeAttack", true);
+
                 currentMag--;
 
                 if (currentMag <= 0)
                 {
+                    //animator.SetBool("RangeAttack", false);
+
                     attackAgainCoolDown = true;
 
                     //reload timer
@@ -331,6 +345,15 @@ namespace StarterAssets
             if (attackAgainCoolDown == false && meleeAttack == true)
             {
                 attackAgainCoolDown = true;
+                /*if (attackAgainCoolDown == true)
+                {
+                    animator.SetBool("MeleeAttack", true);
+                }
+
+                else
+                {
+                    animator.SetBool("MeleeAttack", false);
+                }*/
 
                 Invoke(nameof(meleeAttackCoolDown), attackAgainTimer);
                 Debug.Log("Melee Atack");
@@ -339,12 +362,14 @@ namespace StarterAssets
         }
         private void rangeAttackCoolDown()
         {
+            //animator.SetBool("RangeAttack", false);
             attackAgainCoolDown = false;
             currentMag = maxMag;
             Debug.Log("Max Bullets");
         }
         private void meleeAttackCoolDown()
         {
+            //animator.SetBool("MeleeAttack", false);
             attackAgainCoolDown = false;
             Debug.Log("Sword Recharge");
         }

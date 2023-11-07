@@ -568,7 +568,6 @@ MonoBehaviour:
   bulletSpread: 2
   maxMag: 20
   fireRate: 1
-  Scanningobject: {fileID: 0}
 --- !u!114 &986633095995325602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -610,9 +609,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemiesText: {fileID: 0}
-  ObjectRef: {fileID: 0}
-  Scanningobject: {fileID: 0}
-  scanCam: {fileID: 0}
   progressBar: {fileID: 0}
   Scanned: 0
   ProgressSlider: {fileID: 0}
@@ -630,7 +626,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: dcedc1769a5bc7c479043f66a1fd2d31, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -821,6 +817,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  healthBar: {fileID: 0}
+  isHealthBarActive: 1
 --- !u!195 &2992706124359696721
 NavMeshAgent:
   m_ObjectHideFlags: 0
