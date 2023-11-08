@@ -13,6 +13,8 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private Transform pfBlackHoleProjectile;
         [SerializeField] private Transform pfShotgunProjectile;
         [SerializeField] private Transform spawnBulletPosition;
+        [SerializeField] private Transform spawnShotgunBulletPosition;
+        [SerializeField] private Transform spawnBlackHoleBulletPosition;
         [SerializeField] private Transform spawnBulletPositionOg;
         [SerializeField] private Transform spawnBulletPositionCrouch;
         [SerializeField] private Transform debugTransform;
@@ -268,18 +270,18 @@ public class ThirdPersonShooterController : MonoBehaviour
                     }
                     else if (equippedWeapon == 1 && blackHoleAmmo > 0)//Black Hole Projectile Shoot
                     {
-                        Instantiate(pfBlackHoleProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+                        Instantiate(pfBlackHoleProjectile, spawnBlackHoleBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                         blackHoleAmmo -= 1;
                         currentCooldown = blackHoleCooldown;
                         thirdPersonController.SwitchCameraTarget();
-                        AudioSource.PlayClipAtPoint(blackHoleSound, spawnBulletPosition.position);
+                        AudioSource.PlayClipAtPoint(blackHoleSound, spawnBlackHoleBulletPosition.position);
                     }
                     else if (equippedWeapon == 2 && shotgunAmmo > 0)
                     {        
                         shotgunAmmo -= 1;
                         currentCooldown = shotgunCooldown;
                         thirdPersonController.SwitchCameraTarget();
-                        AudioSource.PlayClipAtPoint(shotgunSound, spawnBulletPosition.position);
+                        AudioSource.PlayClipAtPoint(shotgunSound, spawnShotgunBulletPosition.position);
                         shotgunFlash.Play();
                         for (int i = 0; i < 4; i++) // Fire 4 pellets in a cone
                         {
@@ -288,13 +290,13 @@ public class ThirdPersonShooterController : MonoBehaviour
                             float verticalSpread = Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle);
 
                             // Calculate the direction to the target
-                            Vector3 directionToTarget = (mouseWorldPosition - spawnBulletPosition.position).normalized;
+                            Vector3 directionToTarget = (mouseWorldPosition - spawnShotgunBulletPosition.position).normalized;
 
                             // Create a spreadDirection by rotating the direction to the target by the spread angles
                             Vector3 spreadDirection = Quaternion.Euler(verticalSpread, horizontalSpread, 0) * directionToTarget;
 
                             // Instantiate the shotgun pellet with the randomized direction
-                            Instantiate(pfShotgunProjectile, spawnBulletPosition.position, Quaternion.LookRotation(spreadDirection, Vector3.up));
+                            Instantiate(pfShotgunProjectile, spawnShotgunBulletPosition.position, Quaternion.LookRotation(spreadDirection, Vector3.up));
                         }
                     }
                     UpdateAmmoCount();
@@ -398,14 +400,14 @@ public class ThirdPersonShooterController : MonoBehaviour
  
 
             // Update the transform of the weapon game objects based on the active weapon
-            if (newWeaponObject == originalWeaponObject)
+           /* if (newWeaponObject == originalWeaponObject)
             {
                 spawnBulletPosition = spawnBulletPositionOg; // Use the crouch bullet position
             }
             else if (newWeaponObject == crouchedWeaponObject)
             {
                 spawnBulletPosition = spawnBulletPositionCrouch; // Use the crouch bullet position
-            }
+            }*/
 
             // Update the transform of the weapon game objects based on the active weapon
             if (newWeaponObject == originalWeaponObject)
