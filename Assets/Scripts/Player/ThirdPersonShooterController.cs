@@ -184,7 +184,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
                 //equippedWeapon = equippedWeapon++;
                 
-                equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon - 1 : equippedWeapon + 1;
+             /*   equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon - 1 : equippedWeapon + 1;
                 if (equippedWeapon > allWeapons.Length - 1)
                 {
                     equippedWeapon = 0;
@@ -192,21 +192,16 @@ public class ThirdPersonShooterController : MonoBehaviour
                 else if (equippedWeapon < 0)
                 {
                     equippedWeapon = allWeapons.Length - 1;
-                }
-
-                // new weapon selecting
-               /* if (starterAssetsInputs.scroll.y > 0) 
-                {
-                equippedWeapon = 0;
-                } 
-                else 
-                {
-                equippedWeapon = 2;
                 }*/
 
+                // new weapon selecting
+                equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon = 0 : equippedWeapon = 2;
+
+                
                 shotCooldown = currentCooldown;
                 UpdateAmmoCount();
                 Debug.Log(equippedWeapon);
+                
 
         switch (equippedWeapon)
         {
@@ -264,20 +259,44 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
 
-  /*      if (starterAssetsInputs.blackHoleGun)
+        if (starterAssetsInputs.switchWeapon)
         {
-            equippedWeapon = 1;
+            if (equippedWeapon > 0)
+            {
+                equippedWeapon = 0;
+            }
+            else
+            {
+                equippedWeapon = 2;
+            }
+            shotCooldown = currentCooldown;
+            UpdateAmmoCount();
+            Debug.Log(equippedWeapon);
         }
 
         if (starterAssetsInputs.blaster)
         {
             equippedWeapon = 0;
+            shotCooldown = currentCooldown;
+            UpdateAmmoCount();
+            Debug.Log(equippedWeapon);
+        }
+
+        if (starterAssetsInputs.blackHoleGun)
+        {
+            equippedWeapon = 1;
+            shotCooldown = currentCooldown;
+            UpdateAmmoCount();
+            Debug.Log(equippedWeapon);
         }
 
         if (starterAssetsInputs.shotgun)
         {
             equippedWeapon = 2;
-        }*/
+            shotCooldown = currentCooldown;
+            UpdateAmmoCount();
+            Debug.Log(equippedWeapon);
+        }
 
 
             if (starterAssetsInputs.shoot)

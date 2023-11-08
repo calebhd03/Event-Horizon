@@ -36,6 +36,7 @@ public class BlackHoleBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.LogWarning("hit " + other);
         bulletRigidbody.constraints = RigidbodyConstraints.FreezePosition; //Stops projectile
         transform.position = lastPosition;
         StartCoroutine(ScaleOverTime(effectTime));

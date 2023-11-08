@@ -37,6 +37,7 @@ public class BulletProjectile : MonoBehaviour
 
    private void OnTriggerEnter(Collider other)
     {
+        Debug.LogWarning("hit " + other);
         if (other.GetComponent<HealthMetrics>() != null)
         {
             HealthMetrics healthMetrics = other.GetComponent<HealthMetrics>();
