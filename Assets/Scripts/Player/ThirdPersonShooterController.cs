@@ -179,12 +179,12 @@ public class ThirdPersonShooterController : MonoBehaviour
                     shotgunWeaponObject.SetActive(false);
                 }
 
-            if (starterAssetsInputs.scroll != Vector2.zero)
+            if (starterAssetsInputs.scroll != Vector2.zero || starterAssetsInputs.blackHoleGun)
                 {
 
                 //equippedWeapon = equippedWeapon++;
                 
-                equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon - 1 : equippedWeapon + 1;
+               /* equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon - 1 : equippedWeapon + 1;
                 if (equippedWeapon > allWeapons.Length - 1)
                 {
                     equippedWeapon = 0;
@@ -192,7 +192,31 @@ public class ThirdPersonShooterController : MonoBehaviour
                 else if (equippedWeapon < 0)
                 {
                     equippedWeapon = allWeapons.Length - 1;
+                }*/
+
+                // new weapon selecting
+                if (starterAssetsInputs.scroll.y > 0) 
+                {
+                equippedWeapon = 0;
+                } 
+                else 
+                {
+                equippedWeapon = 2;
                 }
+
+                if (starterAssetsInputs.blackHoleGun)
+                {
+                    equippedWeapon = 1;
+                }
+                if (starterAssetsInputs.blaster)
+                {
+                    equippedWeapon = 0;
+                }
+                if (starterAssetsInputs.shotgun)
+                {
+                    equippedWeapon = 2;
+                }
+
                 shotCooldown = currentCooldown;
                 UpdateAmmoCount();
                 Debug.Log(equippedWeapon);

@@ -37,6 +37,11 @@ namespace StarterAssets
 		[Header ("Menu Systems")]
 		public bool pause;
 
+		public bool blackHoleGun;
+		public bool switchWeapon;
+		public bool blaster;
+		public bool shotgun;
+
 #if ENABLE_INPUT_SYSTEM
 		public void OnMove(InputValue value)
 		{
@@ -119,6 +124,22 @@ namespace StarterAssets
         {
 			FlashlightInput(value.isPressed);
         }
+		public void OnBlackHoleGun(InputValue value)
+		{
+			BlackHoleGunInput(value.isPressed);
+		}
+		public void OnSwitchWeapon(InputValue value)
+		{
+			SwitchWeaponInput(value.isPressed);
+		}
+		public void OnBlaster(InputValue value)
+		{
+			BlasterInput(value.isPressed);
+		}
+		public void OnShotgun(InputValue value)
+		{
+			ShotgunInput(value.isPressed);
+		}
 
 		
 #endif
@@ -212,6 +233,23 @@ namespace StarterAssets
 			{
 				flashlight = !flashlight;
 			}
+		}
+		
+		public void BlackHoleGunInput(bool newBlackHoleGunState)
+		{
+			blackHoleGun = newBlackHoleGunState;
+		}
+		public void SwitchWeaponInput(bool newSwitchWeaponState)
+		{
+			switchWeapon = newSwitchWeaponState;
+		}
+		public void BlasterInput(bool newBlasterState)
+		{
+			blaster = newBlasterState;
+		}
+		public void ShotgunInput(bool newShotgunState)
+		{
+			shotgun = newShotgunState;
 		}
 	}
 	
