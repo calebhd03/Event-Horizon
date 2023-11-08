@@ -263,8 +263,8 @@ public class ThirdPersonShooterController : MonoBehaviour
                         standardAmmo -= 1;
                         currentCooldown = standardCooldown;
                         thirdPersonController.SwitchCameraTarget();
-                        //AudioSource.PlayClipAtPoint(blasterSound, spawnBulletPosition.position);
-                        //blassterFlash.Play();
+                        AudioSource.PlayClipAtPoint(blasterSound, spawnBulletPosition.position);
+                        blassterFlash.Play();
                     }
                     else if (equippedWeapon == 1 && blackHoleAmmo > 0)//Black Hole Projectile Shoot
                     {
