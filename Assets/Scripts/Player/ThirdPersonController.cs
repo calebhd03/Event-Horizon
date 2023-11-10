@@ -162,7 +162,6 @@ namespace StarterAssets
         {
             _cinemachineTargetYaw = CurrentCameraTarget.transform.rotation.eulerAngles.y;
 
-            
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
