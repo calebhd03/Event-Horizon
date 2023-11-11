@@ -19,12 +19,19 @@ public class CutScene : MonoBehaviour
     void Update ()
     {
         ScanCam scanCam = FindObjectOfType<ScanCam>();
+        if (currentClipIndex >= 0 && currentClipIndex < videoClips.Length)
+        {
         videoPlayer.clip = videoClips[scanCam.currentClipIndex];
+        }
+        else
+        {
+            Debug.LogWarning("no video to play");
+        }
     }
     void OnVideoEndReached(VideoPlayer vp)
     {
         gameObject.SetActive(false);
-        Invoke("HideText", 3);
+        //Invoke("HideText", 3);
     }
 
     void HideText()

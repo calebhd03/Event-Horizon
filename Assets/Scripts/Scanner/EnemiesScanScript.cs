@@ -16,6 +16,7 @@ public class EnemiesScanScript : MonoBehaviour
     public bool Scanned;
     //Weak points
     public GameObject criticalPointReveal;
+    public int number;
 
     void Start()
     {

@@ -10,6 +10,9 @@ public class ScannerUI : MonoBehaviour
     public static event EneText eneText;
     public delegate void ObjectiveText();
     public static event ObjectiveText objectiveText;
+    public delegate void DisableObjText();
+    public static event DisableObjText disableObjText;
+
     //ObjectiveSlider
     public GameObject sliderPrefab;
     private GameObject newSlider;
@@ -48,6 +51,7 @@ public class ScannerUI : MonoBehaviour
         enelapsed = 0;
         newSliderProgress2.value = enelapsed;
     }
+    
     void Update()
     {   
         ScanCam ScanCam = FindObjectOfType<ScanCam>();
@@ -65,10 +69,17 @@ public class ScannerUI : MonoBehaviour
         
         if (elapsed >= 5)
         {                
-            objectiveText();
             Destroy(ScanCam.scannerCurrentObject);
             DisableSlider();
+            if (ScanCam.scannerCurrentObject.tag == "Memory")
+            {
             PlayVideo();
+            }
+            else 
+            {
+                objectiveText();
+                Invoke("HideText", 3);
+            }
         }
     }
 
@@ -92,6 +103,8 @@ public class ScannerUI : MonoBehaviour
         EnemiesScanScript.eneSlider += EnemySlider;
         EnemiesScanScript.eneSlider += SetEnemySlider;
 
+        ScanCam.scannerDisabled += DisableEnemySlider;
+        ScanCam.scannerDisabled += DisableSlider;
     }
     void ObjectiveSlider()
     {
@@ -132,5 +145,10 @@ public class ScannerUI : MonoBehaviour
     {
         newVideoPlayer.SetActive(true);
         Invoke("vp.Play()", 1);
+    }
+
+    void HideText()
+    {
+        disableObjText();
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using StarterAssets;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,7 +16,6 @@ public class ItemText : MonoBehaviour
     {
         ItemsScript.itemText += ShowText;
     }
-
 
     void ShowText()
     {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using StarterAssets;
 using TMPro;
 using Unity.VisualScripting;
 using Unity.VisualScripting.ReorderableList;
@@ -51,6 +52,16 @@ public class ScanCam : MonoBehaviour
                         }
                 break;
 
+                case "Memory":
+                    scannerCurrentObject = hit.collider.gameObject;                     
+                    ObjectivesScript objScr1 = hit.collider.GetComponent<ObjectivesScript>();
+                    if (objScr1 != null)
+                        {                        
+                        objScr1.highlight();
+                        currentClipIndex = objScr1.number;
+                        }
+                break;
+
                 case "Item":
                     scannerCurrentObject = hit.collider.gameObject;                    
                     ItemsScript itmScr = hit.collider.GetComponent<ItemsScript>();
@@ -67,6 +78,7 @@ public class ScanCam : MonoBehaviour
                     if (eneScr != null)
                         {
                             eneScr.highlight();
+                            currentClipIndex = eneScr.number;
                         }           
                 break;
 
@@ -98,6 +110,14 @@ public class ScanCam : MonoBehaviour
             if (objScr != null)
             { 
                 objScr.ScriptActive();
+            }
+            break;
+
+            case "Memory":
+            ObjectivesScript objScr1 = hit.collider.GetComponent<ObjectivesScript>();
+            if (objScr1 != null)
+            { 
+                objScr1.ScriptActive();
             }
             break;
 
