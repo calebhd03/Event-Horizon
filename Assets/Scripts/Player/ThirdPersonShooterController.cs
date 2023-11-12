@@ -69,6 +69,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private AudioClip blackHoleSound;
         //[SerializeField] private AudioClip blackHoleReloadSound;
         //[SerializeField] private AudioClip blackHoleChargeSound;
+        [SerializeField] private AudioClip weaponSwitchSound;
 
         [Header("Gun Affects  ")]
         [SerializeField] private ParticleSystem blassterFlash;

@@ -17,11 +17,15 @@ public class EnemiesScanScript : MonoBehaviour
     //Weak points
     public GameObject criticalPointReveal;
 
+    private AudioSource alertSound;
+
     void Start()
     {
         NormColor();
         Scanned = false;
         criticalPointReveal.SetActive(false);
+
+        alertSound = GetComponent<AudioSource>();
     }
 
     private void OnEnable()
@@ -67,7 +71,9 @@ public class EnemiesScanScript : MonoBehaviour
     {
             criticalPointReveal.SetActive(true);
             criticalPointReveal.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
-            Scanned = true;          
+            Scanned = true;
+
+            alertSound.Play();          
     }
 
 }
