@@ -886,7 +886,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1129215008634331622, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1316584417313619297, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 2028057003045174183, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_RootOrder
@@ -970,7 +974,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3499322836049822022, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 3675218590941679699, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_RootOrder
@@ -979,6 +983,10 @@ PrefabInstance:
     - target: {fileID: 3855901134913453846, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_RootOrder
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4663488500758425104, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
+      propertyPath: m_RootOrder
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5542111180780342640, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: field of view
@@ -1048,6 +1056,10 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 7044746522785206470, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7529949736124734968, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.98
@@ -1075,11 +1087,6 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 5542111180780342641, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
---- !u!4 &632401667227364149 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7301670048703361610, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
-  m_PrefabInstance: {fileID: 7895377280206182783}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2412674923643474957 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5542111180780342642, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
@@ -1118,16 +1125,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!4 &3625043079167079600 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6907605623536152015, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
-  m_PrefabInstance: {fileID: 7895377280206182783}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &4163419108466760527 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6076882366706287152, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
-  m_PrefabInstance: {fileID: 7895377280206182783}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4748560323210198822 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3203261902030644825, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
@@ -1173,11 +1170,11 @@ MonoBehaviour:
   pfBulletProjectile: {fileID: 5006697782490077287, guid: e50c791edfa539142bdc416685916e64, type: 3}
   pfBlackHoleProjectile: {fileID: 1313668074735135766, guid: 87db5c4aa8191b6408a7acf8299c5972, type: 3}
   pfShotgunProjectile: {fileID: 5006697782490077287, guid: 620aaea8de89f00469371dd1a96e16a9, type: 3}
-  spawnBulletPosition: {fileID: 632401667227364149}
-  spawnShotgunBulletPosition: {fileID: 3625043079167079600}
-  spawnBlackHoleBulletPosition: {fileID: 4163419108466760527}
-  spawnBulletPositionOg: {fileID: 632401667227364149}
-  spawnBulletPositionCrouch: {fileID: 632401667227364149}
+  spawnBulletPosition: {fileID: 0}
+  spawnShotgunBulletPosition: {fileID: 0}
+  spawnBlackHoleBulletPosition: {fileID: 0}
+  spawnBulletPositionOg: {fileID: 0}
+  spawnBulletPositionCrouch: {fileID: 0}
   debugTransform: {fileID: 2130104047}
   equippedWeapon: 0
   shotgunCooldown: 1
@@ -1199,8 +1196,8 @@ MonoBehaviour:
   Scannercamera: {fileID: 1458057777}
   ScannerZoomCamera: {fileID: 1034853398}
   Scanenabled: 0
-  blasterSound: {fileID: 8300000, guid: 5df80828dbb26fa4b884abf35b6fba1d, type: 3}
-  shotgunSound: {fileID: 8300000, guid: a35a7a9bbb39f5c469a6f4543d7b0bf6, type: 3}
+  blasterSound: {fileID: 8300000, guid: 08c65f78fdacb2241919211996f8fd23, type: 3}
+  shotgunSound: {fileID: 8300000, guid: 71cb2568d9f9a194cad21906ed0a3019, type: 3}
   blackHoleSound: {fileID: 8300000, guid: f2b4c440f6ba278438a98994ab20436c, type: 3}
   blassterFlash: {fileID: 7408974352110299307, guid: 63c4c101dd9ef0749a2ccc6d1f2b59dc, type: 3}
   shotgunFlash: {fileID: 9057156902556914062, guid: c14369e24bb8e744084d5f3d46f98bcc, type: 3}
