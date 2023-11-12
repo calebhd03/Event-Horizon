@@ -74,7 +74,10 @@ namespace StarterAssets
         //Scanning
         //public GameObject Scanningobject;
 
-        private float crouchSpeed = 2.0f; 
+        private float crouchSpeed = 2.0f;
+
+        public float moveDistance;
+        //private bool left;
 
         private void Awake()
         {
@@ -109,6 +112,7 @@ namespace StarterAssets
 
                 if (distanceTarget <= viewRadius && !Physics.Raycast(transform.position, playerTarget, distanceTarget, obstacleZone))
                 {
+                    animator.applyRootMotion = true;
                     iSeeYou = true;
                     hearDistance = 0;
                     transform.LookAt(player);
@@ -159,6 +163,7 @@ namespace StarterAssets
             //The three states of enemy, Patrol, Chase, and attack
             if (iSeeYou == false && withInAttackRange == false)
             {
+                animator.applyRootMotion = false;
                 if (!agent.pathPending && agent.remainingDistance < 0.1f)
                 {
                     if (!agent.pathPending && agent.remainingDistance < 0.1f)
@@ -295,8 +300,8 @@ namespace StarterAssets
         }
         private void attackPlayer() //atacks player if there is no cooldown
         {
-            agent.SetDestination(transform.position);
-            transform.LookAt(player);
+            //agent.SetDestination(transform.position);
+            //transform.LookAt(player);
 
             if (attackAgainCoolDown == false && rangeAttack == true && Time.time >= nextFire)
             {
@@ -313,8 +318,7 @@ namespace StarterAssets
                 newBullet.AddForce(transform.up * 5f, ForceMode.Impulse);
 
                 //animator.SetBool("RangeAttack", true);
-
-
+                AttackMoving();
 
                 currentMag--;
 
@@ -351,7 +355,21 @@ namespace StarterAssets
                 Debug.Log("Melee Atack");
             }
         }
-        private void rangeAttackCoolDown()
+        private void AttackMoving()
+        {
+            Vector3 rightDestination = agent.transform.position + transform.right * moveDistance;
+            Vector3 leftDestination = agent.transform.position - transform.right * moveDistance;
+
+            if (Random.value > 0.5f)
+            {
+                agent.SetDestination(leftDestination);
+            }
+            else
+            {
+                agent.SetDestination(rightDestination);
+            }
+        }
+            private void rangeAttackCoolDown()
         {
             //animator.SetBool("RangeAttack", false);
             attackAgainCoolDown = false;

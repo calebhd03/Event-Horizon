@@ -512,7 +512,8 @@ MonoBehaviour:
   bulletSpawn: {fileID: 6111425174583352919}
   bulletSpread: 2
   maxMag: 20
-  fireRate: 1
+  fireRate: 0.5
+  moveDistance: 3
 --- !u!114 &6111425175308292231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -553,11 +554,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5977c48d755b03944a0317b8c0f36099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemiesText: {fileID: 0}
-  progressBar: {fileID: 0}
   Scanned: 0
-  ProgressSlider: {fileID: 0}
   criticalPointReveal: {fileID: 0}
+  number: 0
 --- !u!95 &1199361587979115083
 Animator:
   serializedVersion: 5
@@ -571,7 +570,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: dcedc1769a5bc7c479043f66a1fd2d31, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
