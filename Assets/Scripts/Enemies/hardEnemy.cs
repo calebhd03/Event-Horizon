@@ -64,7 +64,7 @@ namespace StarterAssets
         public GameObject sword;
         public float chargeSpeed;
         public float chargeAcceleration;
-        //public float meleeRushStopDistance = 12f;
+        public float meleeRushStopDistance = 12f;
 
 
         //enemy bullets
@@ -78,9 +78,6 @@ namespace StarterAssets
 
         //scanning
         //public GameObject Scanningobject;
-
-        private float crouchSpeed = 2.0f;
-        public float moveDistance;
 
         private void Awake()
         {
@@ -116,10 +113,8 @@ namespace StarterAssets
 
                 if (distanceTarget <= viewRadius && !Physics.Raycast(transform.position, playerTarget, distanceTarget, obstacleZone))
                 {
-                    animator.applyRootMotion = true;
                     hearDistance = 0f;
                     iSeeYou = true;
-                    transform.LookAt(player);
                     Debug.DrawRay(transform.position, playerTarget * viewRadius * viewAngle, Color.blue); //debug raycast line to show if enemy can see the player
                 }
 
@@ -141,21 +136,11 @@ namespace StarterAssets
 
             if (iHearYou == true)
             {
-                animator.applyRootMotion = true;
                 StarterAssetsInputs _inputs = player.GetComponent<StarterAssetsInputs>();
                 if (_inputs.crouch == true)
                 {
                     iSeeYou = false;
                     Debug.Log("You are crouching close to the enemy");
-                    ThirdPersonController playerController = player.GetComponent<ThirdPersonController>();
-                    float currentSpeed = playerController._speed;
-                    if (currentSpeed >= crouchSpeed)
-                    {
-                        iSeeYou = true;
-                        agent.SetDestination(transform.position);
-                        transform.LookAt(player);
-                        Debug.Log("crouched too fast");
-                    }
                 }
 
                 else if (_inputs.crouch == false)
@@ -167,7 +152,6 @@ namespace StarterAssets
             //The three states of enemy, Patrol, Chase, and attack
             if (iSeeYou == false && withInAttackRange == false)
             {
-                animator.applyRootMotion = false;
                 if (!agent.pathPending && agent.remainingDistance < 0.1f)
                 {
                     if (!agent.pathPending && agent.remainingDistance < 0.1f)
@@ -221,12 +205,10 @@ namespace StarterAssets
                 idleTime = 0f;
                 attackMelee();
                 withInAttackRange = false;
-                transform.LookAt(player);
-
-                /*Vector3 playerPostion = player.position;
+                Vector3 playerPostion = player.position;
                 Vector3 offset = (playerPostion - agent.transform.position).normalized * meleeRushStopDistance;
                 Vector3 finalStop = playerPostion - offset;
-                agent.SetDestination(finalStop);*/
+                agent.SetDestination(finalStop);
 
                 if (iSeeYou == true && withInAttackRange == false)
                 {
@@ -247,7 +229,6 @@ namespace StarterAssets
                 idleStart = 0f;
                 idleTime = 0f;
                 attackPlayer();
-                transform.LookAt(player);
             }
 
             //Debug field of view of enemy, shows raycast
@@ -317,12 +298,11 @@ namespace StarterAssets
         private void chasePlayer() //chase player once found
         {
             agent.SetDestination(player.position);
-            transform.LookAt(player);
         }
         private void attackPlayer() //atacks player if there is no cooldown
         {
-            //agent.SetDestination(transform.position);
-            //transform.LookAt(player);
+            agent.SetDestination(transform.position);
+            transform.LookAt(player);
 
             if (attackAgainCoolDown == false && rangeAttack == true && Time.time >= nextFire)
             {
@@ -338,7 +318,6 @@ namespace StarterAssets
                 newBullet.AddForce(transform.up * 5f, ForceMode.Impulse);
 
                 //animator.SetBool("RangeAttack", true);
-                AttackMoving();
 
                 currentMag--;
 
@@ -358,24 +337,9 @@ namespace StarterAssets
             }
         }
 
-        private void AttackMoving()
-        {
-            Vector3 rightDestination = agent.transform.position + transform.right * moveDistance;
-            Vector3 leftDestination = agent.transform.position - transform.right * moveDistance;
-
-            if (Random.value > 0.5f)
-            {
-                agent.SetDestination(leftDestination);
-            }
-            else
-            {
-                agent.SetDestination(rightDestination);
-            }
-        }
-
         private void attackMelee()
         {
-            agent.SetDestination(transform.position);
+            //agent.SetDestination(transform.position);
             transform.LookAt(player);
 
             if (attackAgainCoolDown == false && meleeAttack == true)
@@ -407,9 +371,6 @@ namespace StarterAssets
         {
             //animator.SetBool("MeleeAttack", false);
             attackAgainCoolDown = false;
-            Vector3 backwardDirection = -agent.transform.forward * moveDistance;
-            agent.Move(backwardDirection);
-            transform.LookAt(player);
             Debug.Log("Sword Recharge");
         }
 
