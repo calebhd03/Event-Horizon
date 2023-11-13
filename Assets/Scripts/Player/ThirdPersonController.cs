@@ -1,4 +1,5 @@
   using UnityEngine;
+  using UnityEngine.SceneManagement;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 using System.Collections;
@@ -125,6 +126,8 @@ namespace StarterAssets
         private CharacterController _controller;
         private StarterAssetsInputs _input;
         private SaveSystemTest saveSystemTest;  //Save System Test Inputs
+        private HealthMetrics healthMetrics;
+        public SceneTransitionController sceneTransition;
         private GameObject _mainCamera;
         private bool _rotateOnMove =true;
 
@@ -165,6 +168,7 @@ namespace StarterAssets
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
+            healthMetrics = GetComponent<HealthMetrics>();
             saveSystemTest = GetComponent<SaveSystemTest>();    //Save System Test Inputs
 #if ENABLE_INPUT_SYSTEM 
             _playerInput = GetComponent<PlayerInput>();
@@ -329,6 +333,10 @@ namespace StarterAssets
                 }
 
                 // Jump
+                if (!_controller.isGrounded)
+                {
+                    _input.jump = false;
+                }
                 if (_input.jump && _jumpTimeoutDelta <= 0.0f)
                 {
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
@@ -461,10 +469,10 @@ namespace StarterAssets
                 Debug.Log("Save Input Pressed!");
             }
 
-            if (_input.load)
+            if (_input.load || healthMetrics.currentHealth <= 0)
             {
                 _input.load = false;
-                saveSystemTest.LoadGame();
+                saveSystemTest.LoadGame();               
                 Debug.Log("Load Input Pressed!");
             }
 
