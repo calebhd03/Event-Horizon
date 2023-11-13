@@ -27,16 +27,19 @@ public class StartMenu : MonoBehaviour
 
     public void LoadCodePrototype()
     {
+        Cursor.visible = false;
         SceneManager.LoadScene("CodePrototype");
     }
 
     public void LoadArtPrototype()
     {
+        Cursor.visible = false;
         SceneManager.LoadScene("ArtPrototype");
     }
 
     public void LoadVerticalSlice()
     {
+        Cursor.visible = false;
         SceneManager.LoadScene("VerticalSlice");
     }
 }
