@@ -265,13 +265,13 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         if (starterAssetsInputs.switchWeapon)
         {
-            if (equippedWeapon > 0)
+            if (equippedWeapon != 0)
             {
-                equippedWeapon = 0;
+                EquipBlaster();
             }
             else
             {
-                equippedWeapon = 2;
+                EquipShotgun();
             }
             shotCooldown = currentCooldown;
             UpdateAmmoCount();
@@ -280,26 +280,17 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         if (starterAssetsInputs.blaster)
         {
-            equippedWeapon = 0;
-            shotCooldown = currentCooldown;
-            UpdateAmmoCount();
-            Debug.Log(equippedWeapon);
+            EquipBlaster();
         }
 
         if (starterAssetsInputs.blackHoleGun)
         {
-            equippedWeapon = 1;
-            shotCooldown = currentCooldown;
-            UpdateAmmoCount();
-            Debug.Log(equippedWeapon);
+            EquipBlackHoleGun();
         }
 
         if (starterAssetsInputs.shotgun)
         {
-            equippedWeapon = 2;
-            shotCooldown = currentCooldown;
-            UpdateAmmoCount();
-            Debug.Log(equippedWeapon);
+            EquipShotgun();
         }
 
 
@@ -402,6 +393,28 @@ public class ThirdPersonShooterController : MonoBehaviour
                 }
             }
         }
+
+    public void EquipBlaster()
+    {
+        equippedWeapon = 0;
+        shotCooldown = currentCooldown;
+        UpdateAmmoCount();
+        Debug.Log(equippedWeapon);
+    }
+    public void EquipShotgun()
+    {
+        equippedWeapon = 2;
+        shotCooldown = currentCooldown;
+        UpdateAmmoCount();
+        Debug.Log(equippedWeapon);
+    }
+    public void EquipBlackHoleGun()
+    {
+        equippedWeapon = 1;
+        shotCooldown = currentCooldown;
+        UpdateAmmoCount();
+        Debug.Log(equippedWeapon);
+    }
 
     public void AddAmmo(int ammoType, int ammoAmount)
         {
