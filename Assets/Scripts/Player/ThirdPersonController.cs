@@ -246,7 +246,7 @@ namespace StarterAssets
 
         private void Move()
         {
-             // Set target speed based on move speed, sprint speed, and if sprint is pressed
+        // Set target speed based on move speed, sprint speed, and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
             // A simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
@@ -308,14 +308,10 @@ namespace StarterAssets
                 // Update last target rotation while there is input
                 lastTargetRotation = targetRotationQuaternion.eulerAngles.y;
             }
-            else
+            else if (_rotateOnMove)
             {
-                // If there's no input, set the forward direction to the last target rotation
-                if (_rotateOnMove)
-                {
-                    // Smoothly interpolate the rotation towards the last target rotation with RotationSpeed
-                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0.0f, lastTargetRotation, 0.0f), RotationSpeed * Time.deltaTime);
-                }
+                // If there's no input, set the forward direction to the last target rotation without interpolation
+                transform.rotation = Quaternion.Euler(0.0f, lastTargetRotation, 0.0f);
             }
 
             // Move the player
@@ -328,7 +324,7 @@ namespace StarterAssets
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
-        } 
+        }
 
         private void JumpAndGravity()
         {
