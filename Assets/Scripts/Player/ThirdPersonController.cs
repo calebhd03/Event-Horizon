@@ -246,7 +246,7 @@ namespace StarterAssets
 
         private void Move()
         {
-        // Set target speed based on move speed, sprint speed, and if sprint is pressed
+             // Set target speed based on move speed, sprint speed, and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
             // A simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
@@ -294,14 +294,8 @@ namespace StarterAssets
 
                 if (_rotateOnMove)
                 {
-                    // Interpolate the rotation towards the target rotation with RotationSpeed
-                    float rotation = Mathf.LerpAngle(transform.eulerAngles.y, targetRotationQuaternion.eulerAngles.y, RotationSpeed * Time.deltaTime);
-
-                    // Apply the interpolated rotation
-                    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-
-                    // Update last target rotation while there is input
-                    lastTargetRotation = targetRotationQuaternion.eulerAngles.y;
+                    // Smoothly interpolate the rotation towards the target rotation with RotationSpeed
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotationQuaternion, RotationSpeed * Time.deltaTime);
                 }
 
                 // Gradually adjust the forward direction based on the current and previous input direction
@@ -310,14 +304,17 @@ namespace StarterAssets
 
                 // Set the player's forward direction to the smoothed direction
                 transform.forward = smoothedForward;
+
+                // Update last target rotation while there is input
+                lastTargetRotation = targetRotationQuaternion.eulerAngles.y;
             }
             else
             {
                 // If there's no input, set the forward direction to the last target rotation
                 if (_rotateOnMove)
                 {
-                    float rotation = Mathf.LerpAngle(transform.eulerAngles.y, lastTargetRotation, RotationSpeed * Time.deltaTime);
-                    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                    // Smoothly interpolate the rotation towards the last target rotation with RotationSpeed
+                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0.0f, lastTargetRotation, 0.0f), RotationSpeed * Time.deltaTime);
                 }
             }
 
@@ -331,7 +328,7 @@ namespace StarterAssets
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
-        }
+        } 
 
         private void JumpAndGravity()
         {
