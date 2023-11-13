@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using StarterAssets;
 using TMPro;
 using Unity.VisualScripting;
-using Unity.VisualScripting.ReorderableList;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.Universal.Internal;
