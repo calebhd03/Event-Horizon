@@ -83,6 +83,8 @@ namespace StarterAssets
         public bool LockCameraPosition = false;
 
         private Vector3 lastForwardDirection = Vector3.forward;
+        private float lastTargetRotation;
+        
         
 
 
@@ -244,31 +246,31 @@ namespace StarterAssets
 
         private void Move()
         {
-            // set target speed based on move speed, sprint speed, and if sprint is pressed
+        // Set target speed based on move speed, sprint speed, and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
-            // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
+            // A simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
-            // note: Vector2's == operator uses approximation so is not floating point error-prone, and is cheaper than magnitude
-            // if there is no input, set the target speed to 0
+            // Note: Vector2's == operator uses approximation so is not floating point error-prone and is cheaper than magnitude
+            // If there is no input, set the target speed to 0
             if (_input.move == Vector2.zero) targetSpeed = 0.0f;
 
-            // a reference to the players current horizontal velocity
+            // A reference to the player's current horizontal velocity
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
 
             float speedOffset = 0.1f;
             float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
 
-            // accelerate or decelerate to target speed
+            // Accelerate or decelerate to target speed
             if (currentHorizontalSpeed < targetSpeed - speedOffset ||
                 currentHorizontalSpeed > targetSpeed + speedOffset)
             {
-                // creates curved result rather than a linear one giving a more organic speed change
-                // note T in Lerp is clamped, so we don't need to clamp our speed
+                // Creates a curved result rather than a linear one, giving a more organic speed change
+                // Note T in Lerp is clamped, so we don't need to clamp our speed
                 _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
                     Time.deltaTime * SpeedChangeRate);
 
-                // round speed to 3 decimal places
+                // Round speed to 3 decimal places
                 _speed = Mathf.Round(_speed * 1000f) / 1000f;
             }
             else
@@ -279,35 +281,58 @@ namespace StarterAssets
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
             if (_animationBlend < 0.01f) _animationBlend = 0f;
 
-            // normalise input direction
-            Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
+            // Get the camera's forward direction without the vertical component
+            Vector3 cameraForward = Vector3.Scale(_mainCamera.transform.forward, new Vector3(1, 0, 1));
 
-            // Calculate target rotation based on input direction and camera rotation
+            // Transform the input direction based on the camera's rotation
+            Vector3 inputDirection = Quaternion.LookRotation(cameraForward) * new Vector3(_input.move.x, 0, _input.move.y);
+
             if (inputDirection != Vector3.zero)
             {
-                float targetAngle = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
-                _targetRotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _rotationVelocity, RotationSmoothTime);
-            }
+                // Use Quaternion.LookRotation to calculate the target rotation
+                Quaternion targetRotationQuaternion = Quaternion.LookRotation(inputDirection.normalized, Vector3.up);
 
-            // rotate to face input direction relative to camera position
-            if (_rotateOnMove)
+                if (_rotateOnMove)
+                {
+                    // Interpolate the rotation towards the target rotation with RotationSpeed
+                    float rotation = Mathf.LerpAngle(transform.eulerAngles.y, targetRotationQuaternion.eulerAngles.y, RotationSpeed * Time.deltaTime);
+
+                    // Apply the interpolated rotation
+                    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+
+                    // Update last target rotation while there is input
+                    lastTargetRotation = targetRotationQuaternion.eulerAngles.y;
+                }
+
+                // Gradually adjust the forward direction based on the current and previous input direction
+                Vector3 smoothedForward = Vector3.Slerp(previousInputDirection, inputDirection.normalized, RotationSpeed * Time.deltaTime);
+                previousInputDirection = smoothedForward;
+
+                // Set the player's forward direction to the smoothed direction
+                transform.forward = smoothedForward;
+            }
+            else
             {
-                transform.rotation = Quaternion.Euler(0.0f, _targetRotation, 0.0f);
+                // If there's no input, set the forward direction to the last target rotation
+                if (_rotateOnMove)
+                {
+                    float rotation = Mathf.LerpAngle(transform.eulerAngles.y, lastTargetRotation, RotationSpeed * Time.deltaTime);
+                    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                }
             }
 
-            Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-
-            // move the player
-            _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
+            // Move the player
+            _controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) +
                             new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
-            // update animator if using character
+            // Update animator if using character
             if (_hasAnimator)
             {
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
         }
+
         private void JumpAndGravity()
         {
             if (Grounded)
