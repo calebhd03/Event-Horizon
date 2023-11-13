@@ -141,6 +141,7 @@ namespace StarterAssets
 
             if (iHearYou == true)
             {
+                animator.applyRootMotion = true;
                 StarterAssetsInputs _inputs = player.GetComponent<StarterAssetsInputs>();
                 if (_inputs.crouch == true)
                 {
@@ -220,6 +221,7 @@ namespace StarterAssets
                 idleTime = 0f;
                 attackMelee();
                 withInAttackRange = false;
+                transform.LookAt(player);
 
                 /*Vector3 playerPostion = player.position;
                 Vector3 offset = (playerPostion - agent.transform.position).normalized * meleeRushStopDistance;
@@ -245,6 +247,7 @@ namespace StarterAssets
                 idleStart = 0f;
                 idleTime = 0f;
                 attackPlayer();
+                transform.LookAt(player);
             }
 
             //Debug field of view of enemy, shows raycast
@@ -314,11 +317,12 @@ namespace StarterAssets
         private void chasePlayer() //chase player once found
         {
             agent.SetDestination(player.position);
+            transform.LookAt(player);
         }
         private void attackPlayer() //atacks player if there is no cooldown
         {
-            agent.SetDestination(transform.position);
-            transform.LookAt(player);
+            //agent.SetDestination(transform.position);
+            //transform.LookAt(player);
 
             if (attackAgainCoolDown == false && rangeAttack == true && Time.time >= nextFire)
             {
@@ -371,7 +375,7 @@ namespace StarterAssets
 
         private void attackMelee()
         {
-            //agent.SetDestination(transform.position);
+            agent.SetDestination(transform.position);
             transform.LookAt(player);
 
             if (attackAgainCoolDown == false && meleeAttack == true)
@@ -403,6 +407,9 @@ namespace StarterAssets
         {
             //animator.SetBool("MeleeAttack", false);
             attackAgainCoolDown = false;
+            Vector3 backwardDirection = -agent.transform.forward * moveDistance;
+            agent.Move(backwardDirection);
+            transform.LookAt(player);
             Debug.Log("Sword Recharge");
         }
 
