@@ -84,6 +84,10 @@ namespace StarterAssets
 
         private Vector3 lastForwardDirection = Vector3.forward;
         private float lastTargetRotation;
+        private float noInputTransitionSpeed = 0.2f; 
+        public float rotationSmoothTime = 0.1f; // Tweak the value
+        private Vector3 rotationVelocity = Vector3.zero;
+
         
         
 
@@ -100,7 +104,7 @@ namespace StarterAssets
         private float _rotationVelocity;
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
-        private float rotationVelocity;
+       // private float rotationVelocity;
 
         // Define a rotation speed for the transition
         public float RotationSpeed = 5.0f;
@@ -246,7 +250,7 @@ namespace StarterAssets
 
         private void Move()
         {
-        // Set target speed based on move speed, sprint speed, and if sprint is pressed
+            // Set target speed based on move speed, sprint speed, and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
             // A simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
@@ -294,8 +298,15 @@ namespace StarterAssets
 
                 if (_rotateOnMove)
                 {
-                    // Smoothly interpolate the rotation towards the target rotation with RotationSpeed
-                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotationQuaternion, RotationSpeed * Time.deltaTime);
+                    // Use SmoothDamp for rotation
+                    Vector3 currentEulerAngles = transform.eulerAngles;
+                    Vector3 targetEulerAngles = targetRotationQuaternion.eulerAngles;
+
+                    // Use Vector3.SmoothDamp to smooth the rotation
+                    Vector3 smoothDampedEulerAngles = Vector3.SmoothDamp(currentEulerAngles, targetEulerAngles, ref rotationVelocity, rotationSmoothTime);
+
+                    // Apply the smoothed rotation
+                    transform.rotation = Quaternion.Euler(smoothDampedEulerAngles);
                 }
 
                 // Gradually adjust the forward direction based on the current and previous input direction
