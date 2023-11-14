@@ -9,18 +9,23 @@ public class Portal : MonoBehaviour
 {
     public string nextSceneName; // Name of the scene to load
     public SceneTransitionController sceneTransition;
-
+    public ParticleSystem portalParticle; // Reference to the Particle System
 
     private void Awake()
     {
         // Disable the Portal object at the start
         gameObject.SetActive(false);
+
+        // Ensure the particle system is not playing on awake
+        if (portalParticle != null)
+        {
+            portalParticle.Stop();
+        }
     }
 
     private void OnEnable()
     {
         AndDestroy();
-       
     }
 
     private void OnTriggerEnter(Collider other)
@@ -35,11 +40,16 @@ public class Portal : MonoBehaviour
                 saveSystem.LoadGame();
             }
 
+            // Play the particle effect
+            if (portalParticle != null)
+            {
+                portalParticle.Play();
+            }
+
             // Trigger the fade-out effect and scene transition
             sceneTransition.StartCoroutine("FadeIn", nextSceneName);
 
             Destroy(other.gameObject);
-
         }
     }
 

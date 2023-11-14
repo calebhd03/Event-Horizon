@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &94383437 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5736994942764834263, guid: a7e959bddca506e4d8e485bec8594a9f, type: 3}
+  m_PrefabInstance: {fileID: 4885300501975518077}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &321920687
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,6 +394,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 446497876}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &835165731 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2855127367499384568, guid: a7e959bddca506e4d8e485bec8594a9f, type: 3}
+  m_PrefabInstance: {fileID: 4885300501975518077}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 398eeb8e98b40de4dbbef1c83f35170f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &874247108
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,6 +459,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 874247108}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &881638633 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7991104512442049287, guid: a7e959bddca506e4d8e485bec8594a9f, type: 3}
+  m_PrefabInstance: {fileID: 4885300501975518077}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &971138118
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,6 +995,16 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1857329640}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1960209046 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4331165070457892982, guid: a7e959bddca506e4d8e485bec8594a9f, type: 3}
+  m_PrefabInstance: {fileID: 4885300501975518077}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1996281126 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6236197977224121704, guid: a7e959bddca506e4d8e485bec8594a9f, type: 3}
+  m_PrefabInstance: {fileID: 4885300501975518077}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4885300501975518077
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -981,6 +1012,42 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 236905611, guid: a7e959bddca506e4d8e485bec8594a9f, type: 3}
+      propertyPath: nextSceneName
+      value: VerticleSlice
+      objectReference: {fileID: 0}
+    - target: {fileID: 236905611, guid: a7e959bddca506e4d8e485bec8594a9f, type: 3}
+      propertyPath: sceneTransition
+      value: 
+      objectReference: {fileID: 835165731}
+    - target: {fileID: 413422482028568271, guid: a7e959bddca506e4d8e485bec8594a9f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 413422482730042039, guid: a7e959bddca506e4d8e485bec8594a9f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4885300502202132479, guid: a7e959bddca506e4d8e485bec8594a9f, type: 3}
+      propertyPath: shotgunWeaponObject
+      value: 
+      objectReference: {fileID: 881638633}
+    - target: {fileID: 4885300502202132479, guid: a7e959bddca506e4d8e485bec8594a9f, type: 3}
+      propertyPath: standardWeaponObject
+      value: 
+      objectReference: {fileID: 1960209046}
+    - target: {fileID: 4885300502202132479, guid: a7e959bddca506e4d8e485bec8594a9f, type: 3}
+      propertyPath: blackHoleWeaponObject
+      value: 
+      objectReference: {fileID: 94383437}
+    - target: {fileID: 4885300502202132479, guid: a7e959bddca506e4d8e485bec8594a9f, type: 3}
+      propertyPath: spawnShotgunBulletPosition
+      value: 
+      objectReference: {fileID: 1996281126}
+    - target: {fileID: 4885300502202132479, guid: a7e959bddca506e4d8e485bec8594a9f, type: 3}
+      propertyPath: spawnBlackHoleBulletPosition
+      value: 
+      objectReference: {fileID: 1996281126}
     - target: {fileID: 5425890718426063857, guid: a7e959bddca506e4d8e485bec8594a9f, type: 3}
       propertyPath: m_RootOrder
       value: 1
