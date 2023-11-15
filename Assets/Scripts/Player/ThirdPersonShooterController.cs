@@ -121,6 +121,11 @@ public class ThirdPersonShooterController : MonoBehaviour
                 }
             }
             
+            if (starterAssetsInputs.quit)
+            {
+                Application.Quit();
+            }
+
             if (scnScr.Scan == false)
             {
                 if (starterAssetsInputs.aim)
