@@ -29,9 +29,9 @@ public class ScannerUI : MonoBehaviour
     private GameObject newVideoPlayer;
     public GameObject scannerCurrentObject;
 
-
     void Start()
     {   
+        AudioSource audioSource = GetComponent<AudioSource>();
         if (gameObject == null)
             {
                 Debug.LogWarning("target canvas not there");
@@ -105,6 +105,9 @@ public class ScannerUI : MonoBehaviour
 
         ScanCam.scannerDisabled += DisableEnemySlider;
         ScanCam.scannerDisabled += DisableSlider;
+
+        ScanCam.stopScan += DisableEnemySlider;
+        ScanCam.stopScan += DisableSlider;
     }
     void ObjectiveSlider()
     {
