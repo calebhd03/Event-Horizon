@@ -18,6 +18,8 @@ public class ScanCam : MonoBehaviour
     public static event ScannerEnabled scannerEnabled;
     public delegate void ScannerDisabled();
     public static event ScannerDisabled scannerDisabled;
+    public delegate void StopScan();
+    public static event StopScan stopScan;
     public int currentClipIndex;
     void Start()
     {
@@ -135,7 +137,12 @@ public class ScanCam : MonoBehaviour
             {
                 eneScr.ScriptActive();    
             }
-            break;            
+            break;        
         }
+    }
+
+    public void StopScanObj()
+    {
+        stopScan();
     }
  }  
