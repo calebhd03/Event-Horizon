@@ -171,7 +171,10 @@ namespace StarterAssets
 
 		public void SprintInput(bool newSprintState)
 		{
-			sprint = newSprintState;
+			if (newSprintState)
+			{
+				sprint = !sprint;
+			}
 		}
 
 			public void AimInput(bool newAimState)
