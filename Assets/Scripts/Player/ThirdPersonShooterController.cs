@@ -70,6 +70,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private AudioClip blackHoleSound;
         //[SerializeField] private AudioClip blackHoleReloadSound;
         //[SerializeField] private AudioClip blackHoleChargeSound;
+        [SerializeField] private AudioClip blackHoleCoolDownSound;
         [SerializeField] private AudioClip weaponSwitchSound;
 
         [Header("Gun Affects  ")]
@@ -321,7 +322,12 @@ public class ThirdPersonShooterController : MonoBehaviour
                         currentCooldown = blackHoleCooldown;
                         thirdPersonController.SwitchCameraTarget();
                         AudioSource.PlayClipAtPoint(blackHoleSound, spawnBlackHoleBulletPosition.position);
-                    }
+
+                        if (currentCooldown == blackHoleCooldown)
+                        {
+                            AudioSource.PlayClipAtPoint(blackHoleCoolDownSound, spawnBlackHoleBulletPosition.position);
+                        }
+                }
                     else if (equippedWeapon == 2 && shotgunAmmo > 0)
                     {        
                         shotgunAmmo -= 1;
