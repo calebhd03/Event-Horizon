@@ -48,10 +48,14 @@ public class ThirdPersonShooterController : MonoBehaviour
         public float standardCooldown;
         public float blackHoleCooldown;
         public Image cooldownMeter;
-
         
+        //Controller Gun Switch
+        private float lastSwitchTime;
+        public float switchCooldown = 0.5f;
 
-        public int standardAmmo;
+
+
+    public int standardAmmo;
         public int blackHoleAmmo;
         public int shotgunAmmo;
         public Text ammoCounter;
@@ -269,7 +273,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
 
-        if (starterAssetsInputs.switchWeapon)
+        if (starterAssetsInputs.switchWeapon && Time.time - lastSwitchTime >= switchCooldown)
         {
             if (equippedWeapon != 0)
             {
@@ -279,6 +283,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             {
                 EquipShotgun();
             }
+            lastSwitchTime = Time.time;
             shotCooldown = currentCooldown;
             UpdateAmmoCount();
             Debug.Log(equippedWeapon);
