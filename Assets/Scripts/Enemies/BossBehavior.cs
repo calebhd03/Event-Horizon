@@ -16,6 +16,10 @@ public class BossBehavior : MonoBehaviour
     private bool iSeeYou;
     public float seeDistance;
 
+    //IfTooCloseStop
+    private bool stopDistance;
+    public float stopDistanceRange = 3.0f;
+
     //Meteor Attack
     public GameObject meteorPrefab;
     public Transform rightMeteor;
@@ -25,6 +29,8 @@ public class BossBehavior : MonoBehaviour
     public float timeBetweenMeteorAttack;
     public float meteorSpeed = 10;
     private bool meteorAttack = false;
+    private float meteorAttackCooldown = 10.0f;
+    private float timeSinceLastMeteorAttack;
 
 
 
@@ -39,15 +45,33 @@ public class BossBehavior : MonoBehaviour
     void Update()
     {
         iSeeYou = Physics.CheckSphere(transform.position, seeDistance, playerZone);
-        if(iSeeYou == true && meteorAttack == false)
+        stopDistance = Physics.CheckSphere(transform.position, stopDistanceRange, playerZone);
+
+        if (iSeeYou == true && meteorAttack == false && Time.time - timeSinceLastMeteorAttack > meteorAttackCooldown)
         {
             transform.LookAt(player);
             StartCoroutine(PerformAttack());
         }
+
+        if(iSeeYou)
+        {
+            followPlayer();
+            if(stopDistance == true)
+            {
+                agent.SetDestination(transform.position);
+            }
+        }
+    }
+
+    public void followPlayer()
+    {
+        agent.SetDestination(player.position);
+        transform.LookAt(player);
     }
 
     IEnumerator PerformAttack()
     {
+        agent.isStopped = true;
         meteorAttack = true;
 
         yield return new WaitForSeconds(meteorWindUp);
@@ -61,7 +85,9 @@ public class BossBehavior : MonoBehaviour
         summonMeteor(middleMeteor.position, Quaternion.identity);
 
         meteorAttack = false;
-        
+        agent.isStopped = false;
+        timeSinceLastMeteorAttack = Time.time;
+
     }
 
     public void summonMeteor(Vector3 position, Quaternion rotation)
@@ -75,5 +101,8 @@ public class BossBehavior : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, seeDistance);
+
+        Gizmos.color = Color.black;
+        Gizmos.DrawWireSphere(transform.position, stopDistanceRange);
     }
 }
