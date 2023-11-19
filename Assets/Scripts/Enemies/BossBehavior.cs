@@ -24,13 +24,19 @@ public class BossBehavior : MonoBehaviour
     public GameObject meteorPrefab;
     public Transform rightMeteor;
     public Transform leftMeteor;
-    public Transform middleMeteor;
+    public Transform middleMeteor; 
     public float meteorWindUp;
     public float timeBetweenMeteorAttack;
     public float meteorSpeed = 10;
     private bool meteorAttack = false;
     private float meteorAttackCooldown = 10.0f;
     private float timeSinceLastMeteorAttack;
+
+    //MeleeAttack
+    public float slashWindUp = 2;
+    private bool slashAttack = false;
+    private Animator armAnim;
+
 
 
 
@@ -39,6 +45,11 @@ public class BossBehavior : MonoBehaviour
     {
         player = GameObject.Find("Player").transform;
         agent = GetComponentInParent<NavMeshAgent>();
+        Transform childTransform = transform.Find("rightArmSlash");
+        if (childTransform != null)
+        {
+            armAnim = childTransform.GetComponent<Animator>();
+        }
     }
 
     // Update is called once per frame
@@ -50,15 +61,20 @@ public class BossBehavior : MonoBehaviour
         if (iSeeYou == true && meteorAttack == false && Time.time - timeSinceLastMeteorAttack > meteorAttackCooldown)
         {
             transform.LookAt(player);
-            StartCoroutine(PerformAttack());
+            StartCoroutine(PerformMeteor());
         }
 
-        if(iSeeYou)
+        if (iSeeYou)
         {
             followPlayer();
             if(stopDistance == true)
             {
                 agent.SetDestination(transform.position);
+                StartCoroutine(slash());
+            }
+            else if(stopDistance == false)
+            {
+                armAnim.SetBool("Slash180", false);
             }
         }
     }
@@ -69,7 +85,7 @@ public class BossBehavior : MonoBehaviour
         transform.LookAt(player);
     }
 
-    IEnumerator PerformAttack()
+    IEnumerator PerformMeteor()
     {
         agent.isStopped = true;
         meteorAttack = true;
@@ -96,6 +112,17 @@ public class BossBehavior : MonoBehaviour
         Vector3 directionToPlayer = (player.position - position).normalized;
         newMeteor.velocity = directionToPlayer * meteorSpeed;
         Destroy(newMeteor.gameObject, 5f);
+    }
+    IEnumerator slash ()
+    {
+        agent.isStopped = true;
+        slashAttack = true;
+
+        yield return new WaitForSeconds(slashWindUp);
+        armAnim.SetBool("Slash180", true);
+
+        slashAttack = false;
+        agent.isStopped = false;
     }
     private void OnDrawGizmos()
     {
