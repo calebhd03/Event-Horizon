@@ -74,6 +74,7 @@ public class ScannerUI : MonoBehaviour
             if (ScanCam.scannerCurrentObject.tag == "Memory")
             {
             PlayVideo();
+            LogMemories();
             }
             else 
             {
@@ -142,8 +143,16 @@ public class ScannerUI : MonoBehaviour
         if(hit.collider != null)
         {
             eneScr.WeakPoints();
+            eneScr.EnemyLog();
         }
     }
+
+    void LogMemories()
+    {
+        LogSystem logSystem = FindObjectOfType<LogSystem>();
+        logSystem.UpdateMemoryLog();
+    }
+
     void PlayVideo()
     {
         newVideoPlayer.SetActive(true);

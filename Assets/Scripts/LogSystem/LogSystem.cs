@@ -1,13 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LogSystem : MonoBehaviour
 {
     [SerializeField] GameObject enemiesButton, memoriesButton, itemButton, returnButton;
-    [SerializeField] GameObject enemiesPage, memoriesPage, itemsPage, pauseMenu;
-    [SerializeField] GameObject[] enemy, memory, item;
+    [SerializeField] GameObject enemiesPage, memoriesPage, itemsPage, pauseMenu, LogPage;
+    [SerializeField] Button[] enemy, memory, item;
     public static int currentTab;
+
+    void Start()
+    {
+        LogPage.SetActive(false);
+        
+        foreach (Button button in enemy)
+        {
+            button.interactable = false;
+        }
+        foreach (Button button in memory)
+        {
+            button.interactable = false;
+        }
+        foreach (Button button in item)
+        {
+            button.interactable = false;
+        }
+    }
 
     void Update()
     {
@@ -49,7 +68,27 @@ public class LogSystem : MonoBehaviour
     
     public void ReturnToPause()
     {
-        gameObject.SetActive(false);
+        LogPage.SetActive(false);
         pauseMenu.SetActive(true);
+    }
+    public void UpdateEnemyLog()
+    {
+        EnemiesScanScript enemiesScanScript = FindObjectOfType<EnemiesScanScript>();
+        enemy[enemiesScanScript.number].interactable = true;
+    }
+    public void UpdateMemoryLog()
+    {
+        ObjectivesScript objectivesScript = FindObjectOfType<ObjectivesScript>();
+        memory[objectivesScript.number].interactable = true;
+    }
+    public void UpdateItemLog()
+    {
+        ItemsScript itemsScript = FindObjectOfType<ItemsScript>();
+        item[itemsScript.number].interactable = true;
+    }
+
+    public void TestButton()
+    {
+        Debug.LogWarning("button works");
     }
 }
