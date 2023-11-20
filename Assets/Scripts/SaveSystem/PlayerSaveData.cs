@@ -7,10 +7,12 @@ public class PlayerSaveData
 {
     public PlayerData playerData;
     public PlayerAmmoData ammoData;
+    public PlayerHealth healthData;
 
-    public PlayerSaveData(PlayerData playerData, PlayerAmmoData ammoData)
+    public PlayerSaveData(PlayerData player, PlayerAmmoData ammo, PlayerHealth health)
     {
-        this.playerData = playerData;
-        this.ammoData = ammoData;
+        playerData = player;
+        ammoData = ammo;
+        healthData = health;
     }
 }

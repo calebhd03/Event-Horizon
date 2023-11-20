@@ -121,6 +121,11 @@ public class ThirdPersonShooterController : MonoBehaviour
                 }
             }
             
+            if (starterAssetsInputs.quit)
+            {
+                Application.Quit();
+            }
+
             if (scnScr.Scan == false)
             {
                 if (starterAssetsInputs.aim)
@@ -376,10 +381,13 @@ public class ThirdPersonShooterController : MonoBehaviour
 
             if (starterAssetsInputs.scanobj && scnScr.Scan == true)
             {
-                
                 scnCam.ScanObj();
-
             }
+            else 
+            {
+                scnCam.StopScanObj();
+            }
+
             if(starterAssetsInputs.scanaim && scnScr.Scan == true)
             {
                 starterAssetsInputs.scanaim = true;
