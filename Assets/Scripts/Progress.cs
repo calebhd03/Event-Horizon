@@ -70,7 +70,7 @@ public class Progress : MonoBehaviour
 
         }
 
-        if (!countdownStopped && countdownStarted == true;)
+        if (!countdownStopped && countdownStarted == true)
         {
             SpawnEnemies();
         }
