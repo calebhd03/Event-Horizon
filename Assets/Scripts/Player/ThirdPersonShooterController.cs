@@ -48,10 +48,14 @@ public class ThirdPersonShooterController : MonoBehaviour
         public float standardCooldown;
         public float blackHoleCooldown;
         public Image cooldownMeter;
-
         
+        //Controller Gun Switch
+        private float lastSwitchTime;
+        public float switchCooldown = 0.5f;
 
-        public int standardAmmo;
+
+
+    public int standardAmmo;
         public int blackHoleAmmo;
         public int shotgunAmmo;
         public Text ammoCounter;
@@ -70,6 +74,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private AudioClip blackHoleSound;
         //[SerializeField] private AudioClip blackHoleReloadSound;
         //[SerializeField] private AudioClip blackHoleChargeSound;
+        [SerializeField] private AudioClip blackHoleCoolDownSound;
         [SerializeField] private AudioClip weaponSwitchSound;
 
         [Header("Gun Affects  ")]
@@ -268,7 +273,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
 
-        if (starterAssetsInputs.switchWeapon)
+        if (starterAssetsInputs.switchWeapon && Time.time - lastSwitchTime >= switchCooldown)
         {
             if (equippedWeapon != 0)
             {
@@ -278,6 +283,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             {
                 EquipShotgun();
             }
+            lastSwitchTime = Time.time;
             shotCooldown = currentCooldown;
             UpdateAmmoCount();
             Debug.Log(equippedWeapon);
@@ -321,7 +327,12 @@ public class ThirdPersonShooterController : MonoBehaviour
                         currentCooldown = blackHoleCooldown;
                         thirdPersonController.SwitchCameraTarget();
                         AudioSource.PlayClipAtPoint(blackHoleSound, spawnBlackHoleBulletPosition.position);
-                    }
+
+                        if (currentCooldown == blackHoleCooldown)
+                        {
+                            AudioSource.PlayClipAtPoint(blackHoleCoolDownSound, spawnBlackHoleBulletPosition.position);
+                        }
+                }
                     else if (equippedWeapon == 2 && shotgunAmmo > 0)
                     {        
                         shotgunAmmo -= 1;
