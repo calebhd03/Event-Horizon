@@ -6,6 +6,7 @@ using UnityEngine.AI;
 
 public class BossBehavior : MonoBehaviour
 {
+    //get variables
     public Transform player;
     public NavMeshAgent agent;
 
@@ -27,18 +28,21 @@ public class BossBehavior : MonoBehaviour
     public Transform middleMeteor; 
     public float meteorWindUp;
     public float timeBetweenMeteorAttack;
-    public float meteorSpeed = 10;
+    public float meteorSpeed = 10f;
     private bool meteorAttack = false;
     private float meteorAttackCooldown = 10.0f;
     private float timeSinceLastMeteorAttack;
 
     //MeleeAttack
-    public float slashWindUp = 2;
+    public float slashWindUp = 12f;
     private bool slashAttack = false;
     private Animator armAnim;
 
-
-
+    //AOEAttack
+    public GameObject aoeRingPrefab; //test object
+    public Transform aoeSpawn;
+    public float aoeWindUp = 2f;
+    private bool aoeAttack = false;
 
     // Start is called before the first frame update
     void Start()
@@ -58,7 +62,7 @@ public class BossBehavior : MonoBehaviour
         iSeeYou = Physics.CheckSphere(transform.position, seeDistance, playerZone);
         stopDistance = Physics.CheckSphere(transform.position, stopDistanceRange, playerZone);
 
-        if (iSeeYou == true && meteorAttack == false && Time.time - timeSinceLastMeteorAttack > meteorAttackCooldown)
+        if (iSeeYou == true && meteorAttack == false && IsPerformingMeteor() == false && Time.time - timeSinceLastMeteorAttack > meteorAttackCooldown)
         {
             transform.LookAt(player);
             StartCoroutine(PerformMeteor());
@@ -67,13 +71,16 @@ public class BossBehavior : MonoBehaviour
         if (iSeeYou)
         {
             followPlayer();
-            if(stopDistance == true)
+            if(stopDistance == true && aoeAttack == false)
             {
+                meteorAttack = true;
                 agent.SetDestination(transform.position);
                 StartCoroutine(slash());
+                StartCoroutine(AOE());
             }
             else if(stopDistance == false)
             {
+                meteorAttack = false;
                 armAnim.SetBool("Slash180", false);
             }
         }
@@ -113,6 +120,11 @@ public class BossBehavior : MonoBehaviour
         newMeteor.velocity = directionToPlayer * meteorSpeed;
         Destroy(newMeteor.gameObject, 5f);
     }
+
+    private bool IsPerformingMeteor()
+    {
+        return agent.isStopped && meteorAttack;
+    }
     IEnumerator slash ()
     {
         agent.isStopped = true;
@@ -122,6 +134,20 @@ public class BossBehavior : MonoBehaviour
         armAnim.SetBool("Slash180", true);
 
         slashAttack = false;
+        agent.isStopped = false;
+    }
+
+    IEnumerator AOE()
+    {
+        agent.isStopped = true;
+        aoeAttack = true;
+
+        yield return new WaitForSeconds(aoeWindUp);
+
+        GameObject newRingAOE = Instantiate(aoeRingPrefab, aoeSpawn.position, Quaternion.identity);
+        Destroy(newRingAOE, 5f);
+
+        aoeAttack = false;
         agent.isStopped = false;
     }
     private void OnDrawGizmos()

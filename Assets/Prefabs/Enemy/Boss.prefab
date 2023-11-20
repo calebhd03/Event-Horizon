@@ -119,6 +119,37 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &724378264
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 724378265}
+  m_Layer: 0
+  m_Name: AOESpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &724378265
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724378264}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.049, y: -1.8, z: -0.029}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5284503938036243685}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3023329569466141639
 GameObject:
   m_ObjectHideFlags: 0
@@ -616,6 +647,7 @@ Transform:
   - {fileID: 1515230720832272189}
   - {fileID: 6441051557245349069}
   - {fileID: 119578701}
+  - {fileID: 724378265}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -744,7 +776,10 @@ MonoBehaviour:
   meteorWindUp: 5
   timeBetweenMeteorAttack: 2
   meteorSpeed: 10
-  slashWindUp: 0
+  slashWindUp: 2
+  aoeRingPrefab: {fileID: 8613125950591768708, guid: c19a88b941941134eb3d562cea68512f, type: 3}
+  aoeSpawn: {fileID: 724378265}
+  aoeWindUp: 2
 --- !u!95 &881826310
 Animator:
   serializedVersion: 5
