@@ -36,7 +36,6 @@ namespace StarterAssets
 
 		[Header ("Menu Systems")]
 		public bool pause;
-		public bool quit;
 
 		public bool blackHoleGun;
 		public bool switchWeapon;
@@ -141,10 +140,7 @@ namespace StarterAssets
 		{
 			ShotgunInput(value.isPressed);
 		}
-		public void OnQuit(InputValue value)
-		{
-			QuitInput(value.isPressed);
-		}
+
 		
 #endif
 
@@ -171,10 +167,7 @@ namespace StarterAssets
 
 		public void SprintInput(bool newSprintState)
 		{
-			if (newSprintState)
-			{
-				sprint = !sprint;
-			}
+			sprint = newSprintState;
 		}
 
 			public void AimInput(bool newAimState)
@@ -257,10 +250,6 @@ namespace StarterAssets
 		public void ShotgunInput(bool newShotgunState)
 		{
 			shotgun = newShotgunState;
-		}
-		public void QuitInput(bool newQuitState)
-		{
-			quit = newQuitState;
 		}
 	}
 	

@@ -9,11 +9,11 @@ public class enemyBullet : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            PlayerHealthMetric playerHealthMetric = other.GetComponent<PlayerHealthMetric>();
+            HealthMetrics healthMetrics = other.GetComponent<HealthMetrics>();
 
-            if(playerHealthMetric != null)
+            if(healthMetrics != null)
             {
-                playerHealthMetric.ModifyHealth(-bulletDamage);
+                healthMetrics.ModifyHealth(-bulletDamage);
             }
             Destroy(gameObject);
         }

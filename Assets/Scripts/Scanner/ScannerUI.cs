@@ -12,7 +12,6 @@ public class ScannerUI : MonoBehaviour
     public static event ObjectiveText objectiveText;
     public delegate void DisableObjText();
     public static event DisableObjText disableObjText;
-    public GameObject screenOverlay;
 
     //ObjectiveSlider
     public GameObject sliderPrefab;
@@ -30,15 +29,14 @@ public class ScannerUI : MonoBehaviour
     private GameObject newVideoPlayer;
     public GameObject scannerCurrentObject;
 
+
     void Start()
     {   
-        AudioSource audioSource = GetComponent<AudioSource>();
         if (gameObject == null)
             {
                 Debug.LogWarning("target canvas not there");
                 return;
             }
-        screenOverlay.SetActive(false);
         //New Objective Slider
         newSlider = Instantiate(sliderPrefab, gameObject.transform);
         newSlider.SetActive(false);
@@ -52,7 +50,6 @@ public class ScannerUI : MonoBehaviour
         newSlider2.SetActive(false);
         enelapsed = 0;
         newSliderProgress2.value = enelapsed;
-
     }
     
     void Update()
@@ -106,13 +103,8 @@ public class ScannerUI : MonoBehaviour
         EnemiesScanScript.eneSlider += EnemySlider;
         EnemiesScanScript.eneSlider += SetEnemySlider;
 
-        ScanCam.scannerEnabled += Overlay;
-        ScanCam.scannerDisabled += CloseOverlay;
         ScanCam.scannerDisabled += DisableEnemySlider;
         ScanCam.scannerDisabled += DisableSlider;
-
-        ScanCam.stopScan += DisableEnemySlider;
-        ScanCam.stopScan += DisableSlider;
     }
     void ObjectiveSlider()
     {
@@ -158,15 +150,5 @@ public class ScannerUI : MonoBehaviour
     void HideText()
     {
         disableObjText();
-    }
-
-    void Overlay()
-    {
-        screenOverlay.SetActive(true);
-    }
-
-    void CloseOverlay()
-    {
-        screenOverlay.SetActive(false);
     }
 }
