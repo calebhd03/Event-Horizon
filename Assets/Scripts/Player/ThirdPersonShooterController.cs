@@ -3,6 +3,7 @@ using Cinemachine;
 using StarterAssets;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using System.Collections;
 
 public class ThirdPersonShooterController : MonoBehaviour 
 {
@@ -15,7 +16,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private Transform pfShotgunProjectile;
         [SerializeField] private Transform spawnBulletPosition;
         [SerializeField] private Transform spawnShotgunBulletPosition;
-        [SerializeField] private Transform spawnBlackHoleBulletPosition;
+        [SerializeField] public Transform spawnBlackHoleBulletPosition;
         [SerializeField] private Transform spawnBulletPositionOg;
         [SerializeField] private Transform spawnBulletPositionCrouch;
         [SerializeField] private Transform debugTransform;
@@ -75,6 +76,13 @@ public class ThirdPersonShooterController : MonoBehaviour
         [Header("Gun Affects  ")]
         [SerializeField] private ParticleSystem blassterFlash;
         [SerializeField] private ParticleSystem shotgunFlash;
+        public ParticleSystem charging, firing, cooldown;
+        public Transform chargingSpawnLocation, firingSpawnLocation, cooldownSpawnLocation;
+
+        private bool isCharging;
+        private bool isCharged;
+        private float chargeTime;
+        private float chargeSpeed = 1f;
 
         private void Awake()
         {
@@ -316,11 +324,21 @@ public class ThirdPersonShooterController : MonoBehaviour
                     }
                     else if (equippedWeapon == 1 && blackHoleAmmo > 0)//Black Hole Projectile Shoot
                     {
+                        if (isCharged == true)
+                       { 
                         Instantiate(pfBlackHoleProjectile, spawnBlackHoleBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                         blackHoleAmmo -= 1;
                         currentCooldown = blackHoleCooldown;
                         thirdPersonController.SwitchCameraTarget();
                         AudioSource.PlayClipAtPoint(blackHoleSound, spawnBlackHoleBulletPosition.position);
+                        BHGfiring();
+                        chargeTime = 0;
+                        isCharged = false;
+                        }
+                        else
+                        {
+                        BHGcharging();
+                        }
                     }
                     else if (equippedWeapon == 2 && shotgunAmmo > 0)
                     {        
@@ -358,6 +376,17 @@ public class ThirdPersonShooterController : MonoBehaviour
                 cooldownMeter.transform.localScale = new Vector3((shotCooldown / currentCooldown) * 0.96f, 0.8f, 1);
             }
             shotCooldown += Time.deltaTime;
+
+            if (isCharging == true)
+        {
+            chargeTime += Time.unscaledDeltaTime * chargeSpeed;
+        }
+
+        if (chargeTime >= 3f)
+        {
+            isCharged = true;
+            isCharging = false;
+        }
 
     if (starterAssetsInputs.scan)
             {
@@ -504,4 +533,36 @@ public class ThirdPersonShooterController : MonoBehaviour
                 blackHoleWeaponObject.transform.rotation = crouchedWeaponObject.transform.rotation;
             }
         }
+
+    public void BHGcharging()
+    {
+        isCharging = true;
+        StartCoroutine(PlayForDuration(charging, chargingSpawnLocation, 3f));
+        
+    }
+
+    public void BHGfiring()
+    {
+        StopAllCoroutines();
+        charging.Stop();
+        StartCoroutine(PlayForDuration(firing, firingSpawnLocation, 2f));
+        StartCoroutine(PlayForDuration(cooldown, cooldownSpawnLocation, 2f));
+        isCharged = false;
+    }
+
+    public void BHGcooldown()
+    {
+        StartCoroutine(PlayForDuration(cooldown, cooldownSpawnLocation, 2f));
+    }
+
+    IEnumerator PlayForDuration(ParticleSystem particleSystem, Transform spawnLocation, float duration)
+    {
+        ParticleSystem newParticleSystem = Instantiate(particleSystem, spawnLocation.position, spawnLocation.rotation);
+        newParticleSystem.GetComponent<BHG>().tpsc = this;
+        newParticleSystem.Play();
+
+        yield return new WaitForSeconds(duration);
+
+        Destroy(newParticleSystem.gameObject);
+    }
     }
