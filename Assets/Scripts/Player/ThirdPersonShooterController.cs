@@ -4,6 +4,7 @@ using StarterAssets;
 using UnityEngine.UI;
 using Unity.VisualScripting;
 using System.Collections;
+using TMPro;
 
 public class ThirdPersonShooterController : MonoBehaviour 
 {
@@ -71,7 +72,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         public int shotgunAmmoMax;
         public float shotgunReloadTime;
 
-        public Text ammoCounter;
+        public TextMeshProUGUI ammoCounter;
         
 
         [Header("Scanner Necessities")]
