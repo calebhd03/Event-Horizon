@@ -595,7 +595,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         if(equippedWeapon == 0 && standardAmmo > 0 && standardAmmoLoaded < standardAmmoMax)
         {
             StartCoroutine(ReloadTimer(standardReloadTime));
-            //AudioSource.PlayClipAtPoint(blasterReloadSound, spawnBulletPosition.position);
+            AudioSource.PlayClipAtPoint(blasterReloadSound, spawnBulletPosition.position);
             ammoDifference = standardAmmoMax - standardAmmoLoaded;
             standardAmmoLoaded += standardAmmo;
             standardAmmo -= ammoDifference;
@@ -611,7 +611,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         else if(equippedWeapon == 1 && blackHoleAmmo > 0 && blackHoleAmmoLoaded < blackHoleAmmoMax)
         {
             StartCoroutine(ReloadTimer(blackHoleReloadTime));
-            //AudioSource.PlayClipAtPoint(blackHoleReloadSound, spawnBlackHoleBulletPosition.position);
+            AudioSource.PlayClipAtPoint(blackHoleReloadSound, spawnBlackHoleBulletPosition.position);
             ammoDifference = blackHoleAmmoMax - blackHoleAmmoLoaded;
             blackHoleAmmoLoaded += blackHoleAmmo;
             blackHoleAmmo -= ammoDifference;
@@ -627,7 +627,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         else if(equippedWeapon == 2 && shotgunAmmo > 0 && shotgunAmmoLoaded < shotgunAmmoMax)
         {
             StartCoroutine(ReloadTimer(shotgunReloadTime));
-            //AudioSource.PlayClipAtPoint(shotgunReloadSound, spawnShotgunBulletPosition.position);
+            AudioSource.PlayClipAtPoint(shotgunReloadSound, spawnShotgunBulletPosition.position);
             ammoDifference = shotgunAmmoMax - shotgunAmmoLoaded;
             shotgunAmmoLoaded += shotgunAmmo;
             shotgunAmmo -= ammoDifference;
