@@ -13,6 +13,7 @@ public class ScannerUI : MonoBehaviour
     public delegate void DisableObjText();
     public static event DisableObjText disableObjText;
     public GameObject screenOverlay;
+    public GameObject screenGradient;
 
     //ObjectiveSlider
     public GameObject sliderPrefab;
@@ -108,6 +109,8 @@ public class ScannerUI : MonoBehaviour
 
         ScanCam.scannerEnabled += Overlay;
         ScanCam.scannerDisabled += CloseOverlay;
+        ScanCam.scannerEnabled += Gradient;
+        ScanCam.scannerDisabled += CloseGradient;
         ScanCam.scannerDisabled += DisableEnemySlider;
         ScanCam.scannerDisabled += DisableSlider;
 
@@ -168,5 +171,15 @@ public class ScannerUI : MonoBehaviour
     void CloseOverlay()
     {
         screenOverlay.SetActive(false);
+    }
+
+    void Gradient()
+    {
+        screenGradient.SetActive(true);
+    }
+
+    void CloseGradient()
+    {
+        screenGradient.SetActive(false);
     }
 }
