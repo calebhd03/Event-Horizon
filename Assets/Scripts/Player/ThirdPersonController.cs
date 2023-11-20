@@ -132,7 +132,7 @@ namespace StarterAssets
         private CharacterController _controller;
         private StarterAssetsInputs _input;
         private SaveSystemTest saveSystemTest;  //Save System Test Inputs
-        private HealthMetrics healthMetrics;
+        private PlayerHealthMetric healthMetrics;
         public SceneTransitionController sceneTransition;
         private GameObject _mainCamera;
         private bool _rotateOnMove =true;
@@ -174,7 +174,7 @@ namespace StarterAssets
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
-            healthMetrics = GetComponent<HealthMetrics>();
+            healthMetrics = GetComponent<PlayerHealthMetric>();
             saveSystemTest = GetComponent<SaveSystemTest>();    //Save System Test Inputs
 #if ENABLE_INPUT_SYSTEM 
             _playerInput = GetComponent<PlayerInput>();
