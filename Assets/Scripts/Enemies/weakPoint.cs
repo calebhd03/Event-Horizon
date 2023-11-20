@@ -5,8 +5,6 @@ using UnityEngine;
 public class weakPoint : MonoBehaviour
 {
     public float weakPointDamage;
-    public AudioClip weakPointSoundA;
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Bullet"))
@@ -17,10 +15,6 @@ public class weakPoint : MonoBehaviour
             {
                 healthMetrics.ModifyHealth(-weakPointDamage);
                 Debug.Log("A  WeakPoint");
-                if (weakPointSoundA != null)
-                {
-                    AudioSource.PlayClipAtPoint(weakPointSoundA, transform.position);
-                }
             }
 
 

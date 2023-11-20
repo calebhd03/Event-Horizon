@@ -5,8 +5,6 @@ using UnityEngine;
 public class regularPoint : MonoBehaviour
 {
     public float regularDamage = 10f;
-    public AudioClip damageSoundB;
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Bullet"))
@@ -17,10 +15,6 @@ public class regularPoint : MonoBehaviour
             {
                 healthMetrics.ModifyHealth(-regularDamage);
                 Debug.Log("Not a WeakPoint");
-                if (damageSoundB != null)
-                {
-                    AudioSource.PlayClipAtPoint(damageSoundB, transform.position);
-                }
             }
 
 
