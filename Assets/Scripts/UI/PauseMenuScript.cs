@@ -9,7 +9,6 @@ public class PauseMenuScript : MonoBehaviour
     public GameObject settingsScreen;
     public GameObject inventoryScreen;
     public GameObject upgradeScreen;
-    public GameObject logSystem;
     
     public bool paused = false;
 
@@ -26,15 +25,12 @@ public class PauseMenuScript : MonoBehaviour
             settingsScreen.SetActive(false);
             inventoryScreen.SetActive(false);
             upgradeScreen.SetActive(false);
-            logSystem.SetActive(false);
             ClosePause();
         }
     }
     //The three functions here open their respective menus and close out the main
     public void OpenPause()
         {
-                    Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
             Time.timeScale = 0;
             PauseScreen.SetActive(true);
         }
@@ -58,12 +54,6 @@ public class PauseMenuScript : MonoBehaviour
             upgradeScreen.SetActive(true);
             PauseScreen.SetActive(false);
         }
-    //add log system
-    public void OpenLogSystem()
-    {
-        logSystem.SetActive(true);
-        PauseScreen.SetActive(false);
-    }
 
         
     //The next three functions all close our their respective menus and return to Main
@@ -80,12 +70,6 @@ public class PauseMenuScript : MonoBehaviour
     public void CloseUpgrades()
     {
         upgradeScreen.SetActive(false);
-        PauseScreen.SetActive(true);
-    }
-    //add log system
-    public void CloseLogSystem()
-    {
-        logSystem.SetActive(false);
         PauseScreen.SetActive(true);
     }
 

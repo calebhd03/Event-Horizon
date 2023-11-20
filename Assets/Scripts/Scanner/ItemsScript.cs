@@ -11,7 +11,6 @@ public class ItemsScript : MonoBehaviour
     private Color highlightColor = Color.cyan;
     private Color normalColor = Color.white;
     private Color scanColor = Color.blue;
-    public int number;
 
     void Start()
     {
@@ -33,7 +32,6 @@ public class ItemsScript : MonoBehaviour
     {
             if(itemText != null)
             itemText();
-            ItemLog();
     }
 
     void NormColor()
@@ -56,9 +54,5 @@ public class ItemsScript : MonoBehaviour
         ScanColor();
     }
 
-    public void ItemLog()
-    {
-        LogSystem logSystem = FindObjectOfType<LogSystem>();
-        logSystem.UpdateItemLog();
-    }
+
 }

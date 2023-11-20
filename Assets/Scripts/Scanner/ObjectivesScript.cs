@@ -58,9 +58,4 @@ public class ObjectivesScript : MonoBehaviour
     {
         ScanColor();
     }
-    public void MemoryLog()
-    {
-        LogSystem logSystem = FindObjectOfType<LogSystem>();
-        logSystem.UpdateMemoryLog();
-    }
 }
