@@ -16,6 +16,7 @@ namespace StarterAssets
 		public bool shoot;
 		public bool crouch;
 		public bool flashlight;
+		public bool reload;
 
 		public Vector2 scroll;
 		public bool scan;
@@ -145,6 +146,10 @@ namespace StarterAssets
 		{
 			QuitInput(value.isPressed);
 		}
+		public void OnReload(InputValue value)
+		{
+			ReloadInput(value.isPressed);
+		}
 		
 #endif
 
@@ -262,6 +267,10 @@ namespace StarterAssets
 		{
 			quit = newQuitState;
 		}
+
+		public void ReloadInput(bool newReloadState)
+		{
+			reload = newReloadState;
+		}
 	}
-	
 }

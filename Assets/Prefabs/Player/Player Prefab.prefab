@@ -954,7 +954,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3203261902030644824, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.6859611
+      value: 0.6859784
       objectReference: {fileID: 0}
     - target: {fileID: 3203261902030644824, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -962,7 +962,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3203261902030644824, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.1020527
+      value: -2.499989
       objectReference: {fileID: 0}
     - target: {fileID: 3203261902030644825, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_Follow
@@ -994,7 +994,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5542111180780342647, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.6859611
+      value: 0.6859784
       objectReference: {fileID: 0}
     - target: {fileID: 5542111180780342647, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1002,7 +1002,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5542111180780342647, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.1020527
+      value: -2.499989
       objectReference: {fileID: 0}
     - target: {fileID: 5542111180780342647, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1189,19 +1189,37 @@ MonoBehaviour:
   blackHoleCooldown: 1
   cooldownMeter: {fileID: 0}
   standardAmmo: 100
+  standardAmmoLoaded: 6
+  standardAmmoMax: 6
+  standardReloadTime: 2
   blackHoleAmmo: 100
+  blackHoleAmmoLoaded: 1
+  blackHoleAmmoMax: 1
+  blackHoleReloadTime: 2
   shotgunAmmo: 100
+  shotgunAmmoLoaded: 4
+  shotgunAmmoMax: 4
+  shotgunReloadTime: 2
   ammoCounter: {fileID: 0}
   Scanningobject: {fileID: 631398663}
   Scannercamera: {fileID: 1458057777}
   ScannerZoomCamera: {fileID: 1034853398}
   Scanenabled: 0
   blasterSound: {fileID: 8300000, guid: 08c65f78fdacb2241919211996f8fd23, type: 3}
+  blasterReloadSound: {fileID: 0}
   shotgunSound: {fileID: 8300000, guid: 71cb2568d9f9a194cad21906ed0a3019, type: 3}
+  shotgunReloadSound: {fileID: 0}
   blackHoleSound: {fileID: 8300000, guid: f2b4c440f6ba278438a98994ab20436c, type: 3}
+  blackHoleReloadSound: {fileID: 0}
   weaponSwitchSound: {fileID: 8300000, guid: d2c916d58a6b38b44942edd6a0341a27, type: 3}
   blassterFlash: {fileID: 7408974352110299307, guid: 63c4c101dd9ef0749a2ccc6d1f2b59dc, type: 3}
   shotgunFlash: {fileID: 9057156902556914062, guid: c14369e24bb8e744084d5f3d46f98bcc, type: 3}
+  charging: {fileID: 0}
+  firing: {fileID: 0}
+  cooldown: {fileID: 0}
+  chargingSpawnLocation: {fileID: 0}
+  firingSpawnLocation: {fileID: 0}
+  cooldownSpawnLocation: {fileID: 0}
 --- !u!114 &3694751140685564788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1247,7 +1265,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.6859611
+      value: 0.6859784
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1255,7 +1273,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.1020527
+      value: -2.499989
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_LocalRotation.w
