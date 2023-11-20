@@ -15,6 +15,8 @@ public class Progress : MonoBehaviour
     public Color redHighlightColor = Color.red;
     public TextMeshProUGUI countdownText; // Assign this in the Inspector
     public GameObject portal; // Assign the Portal GameObject in the Inspector
+  //  public Transform EnemySpawn;
+  //  public GameObject Enemy;
 
     private float currentProgress = 0f;
     private float countdownTimer;
@@ -159,5 +161,20 @@ public class Progress : MonoBehaviour
             isPlayerInside = false;
         }
     }
+
+   // private void SpawnEnemyAtPoint(Transform spawnPoint)
+   // {
+   //     if (countdownStopped == false && countdownStarted == true)
+   //     {
+   //         InstantiateEnemy(spawnPoint.position);
+   //     }
+        // Add more conditions as needed for subsequent waves
+   // }
+
+   // private void InstantiateEnemy(Vector3 spawnPosition)
+   // {
+    //    GameObject enemy = Instantiate(Enemy, spawnPosition, Quaternion.identity);
+        
+   // }
 
 }
