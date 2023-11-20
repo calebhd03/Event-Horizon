@@ -1087,6 +1087,11 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 5542111180780342641, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
+--- !u!4 &2234139021774955464 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8256015472489478839, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
+  m_PrefabInstance: {fileID: 7895377280206182783}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2412674923643474957 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5542111180780342642, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
@@ -1199,9 +1204,16 @@ MonoBehaviour:
   blasterSound: {fileID: 8300000, guid: 08c65f78fdacb2241919211996f8fd23, type: 3}
   shotgunSound: {fileID: 8300000, guid: 71cb2568d9f9a194cad21906ed0a3019, type: 3}
   blackHoleSound: {fileID: 8300000, guid: f2b4c440f6ba278438a98994ab20436c, type: 3}
+  blackHoleChargeSound: {fileID: 8300000, guid: 403464319f5a241409f819f33bcf448b, type: 3}
   weaponSwitchSound: {fileID: 8300000, guid: d2c916d58a6b38b44942edd6a0341a27, type: 3}
   blassterFlash: {fileID: 7408974352110299307, guid: 63c4c101dd9ef0749a2ccc6d1f2b59dc, type: 3}
   shotgunFlash: {fileID: 9057156902556914062, guid: c14369e24bb8e744084d5f3d46f98bcc, type: 3}
+  charging: {fileID: 9033888871901032830, guid: 024d2906dc86f4d44bd4bb65ca32c4f9, type: 3}
+  firing: {fileID: 7408974352110299307, guid: 63c4c101dd9ef0749a2ccc6d1f2b59dc, type: 3}
+  cooldown: {fileID: 1407934279961235722, guid: 1a1bc72fd6e26054889e940031ccb101, type: 3}
+  chargingSpawnLocation: {fileID: 2234139021774955464}
+  firingSpawnLocation: {fileID: 2234139021774955464}
+  cooldownSpawnLocation: {fileID: 2234139021774955464}
 --- !u!114 &3694751140685564788
 MonoBehaviour:
   m_ObjectHideFlags: 0

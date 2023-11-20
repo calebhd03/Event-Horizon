@@ -36,6 +36,9 @@ public class ThirdPersonShooterController : MonoBehaviour
         public GameObject blackHoleWeaponObject;
         public GameObject shotgunWeaponObject;
 
+        private float lastSwitchTime;
+        private float switchCoolDown = 0.5f;
+
         private Quaternion originalRotation;
 
         private ThirdPersonController thirdPersonController;
@@ -70,7 +73,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         //[SerializeField] private AudioClip shotgunReloadSound;
         [SerializeField] private AudioClip blackHoleSound;
         //[SerializeField] private AudioClip blackHoleReloadSound;
-        //[SerializeField] private AudioClip blackHoleChargeSound;
+        [SerializeField] private AudioClip blackHoleChargeSound;
         [SerializeField] private AudioClip weaponSwitchSound;
 
         [Header("Gun Affects  ")]
@@ -276,7 +279,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
 
-        if (starterAssetsInputs.switchWeapon)
+        if (starterAssetsInputs.switchWeapon && Time.time - lastSwitchTime >= switchCoolDown)
         {
             if (equippedWeapon != 0)
             {
@@ -286,6 +289,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             {
                 EquipShotgun();
             }
+            lastSwitchTime = Time.time;
             shotCooldown = currentCooldown;
             UpdateAmmoCount();
             Debug.Log(equippedWeapon);
@@ -337,6 +341,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                         }
                         else
                         {
+                        AudioSource.PlayClipAtPoint(blackHoleChargeSound, spawnBlackHoleBulletPosition.position);
                         BHGcharging();
                         }
                     }
