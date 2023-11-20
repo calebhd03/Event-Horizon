@@ -77,7 +77,6 @@ public static void SavePlayer(PlayerSaveData saveData)
         FileStream stream = new FileStream(path, FileMode.Create);
         formatter.Serialize(stream, health);
         stream.Close();
-        Debug.Log("Health saved: ");
     }
 
     private static PlayerHealth LoadPlayerHealth()
@@ -90,7 +89,6 @@ public static void SavePlayer(PlayerSaveData saveData)
             PlayerHealth health = formatter.Deserialize(stream) as PlayerHealth;
             stream.Close();
             return health;
-            Debug.Log("Health loaded");
         }
         return null;
     }
