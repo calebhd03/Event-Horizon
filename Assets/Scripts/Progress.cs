@@ -15,6 +15,8 @@ public class Progress : MonoBehaviour
     public Color redHighlightColor = Color.red;
     public TextMeshProUGUI countdownText; // Assign this in the Inspector
     public GameObject portal; // Assign the Portal GameObject in the Inspector
+    public GameObject enemyPrefab; // Reference to your enemy prefab
+    public Transform spawnPoint;
 
     private float currentProgress = 0f;
     private float countdownTimer;
@@ -66,6 +68,11 @@ public class Progress : MonoBehaviour
         {
              UpdateCountdownText();
 
+        }
+
+        if (!countdownStopped && countdownStarted == true)
+        {
+            SpawnEnemies();
         }
 
 
@@ -157,6 +164,29 @@ public class Progress : MonoBehaviour
         if (other.gameObject.CompareTag(playerTag))
         {
             isPlayerInside = false;
+        }
+    }
+    private void SpawnEnemies()
+    {
+        // Check if it's time to spawn enemies
+        // You can adjust the conditions based on your needs
+        if (Time.timeSinceLevelLoad > 2f && Time.timeSinceLevelLoad < 3f)
+        {
+            InstantiateEnemy(1);
+        }
+        else if (Time.timeSinceLevelLoad > 3.3f && Time.timeSinceLevelLoad < 4.3f)
+        {
+            InstantiateEnemy(2);
+        }
+        // Add more conditions as needed for subsequent waves
+    }
+
+    private void InstantiateEnemy(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+            // Optionally, you can do additional setup for the spawned enemy here
         }
     }
 

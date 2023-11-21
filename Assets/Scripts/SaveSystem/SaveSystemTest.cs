@@ -12,23 +12,16 @@ public class SaveSystemTest : MonoBehaviour
     public int standardAmmoSave;
     public int blackHoleAmmoSave;
     public int shotgunAmmoSave;
-    public int currentGameHealth;
 
     private CharacterController _controller;
     private ThirdPersonShooterController thirdPersonShooterController;
     private int lastSavedSceneIndex;
-
-    // Reference to your PlayerHealthMetric script
-    private PlayerHealthMetric playerHealthMetric;
 
     void Start()
     {
         thirdPersonShooterController = GetComponent<ThirdPersonShooterController>();
         _controller = GetComponent<CharacterController>();
         lastSavedSceneIndex = PlayerPrefs.GetInt("LastSavedSceneIndex", -1);
-
-        // Get the PlayerHealthMetric script attached to the same GameObject
-        playerHealthMetric = GetComponent<PlayerHealthMetric>();
     }
 
     public void LoadGame()
@@ -49,12 +42,6 @@ public class SaveSystemTest : MonoBehaviour
 
             // Call the UpdateAmmoCount() function to update the UI or game logic
             thirdPersonShooterController.UpdateAmmoCount();
-
-            // Access health data
-            playerHealthMetric.currentHealth = saveData.healthData.currentGameHealth;
-
-            playerHealthMetric.UpdateHealthBar();
-            
 
             // Check if the scene index has changed
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
@@ -80,22 +67,29 @@ public class SaveSystemTest : MonoBehaviour
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         PlayerPrefs.SetInt("LastSavedSceneIndex", currentSceneIndex);
 
-        // Create instances of PlayerData, PlayerAmmoData, and PlayerHealth
-        PlayerData playerData = new PlayerData(this);
-        PlayerAmmoData ammoData = new PlayerAmmoData(this);
-        PlayerHealth healthData = new PlayerHealth(this);
+        if (lastSavedSceneIndex != currentSceneIndex)
+        {
+            // Scene index has changed, so save only PlayerAmmoData
+            PlayerAmmoData ammoData = new PlayerAmmoData(this);
+            // Set the ammunition counts to be saved
+            ammoData.standardAmmoSave = thirdPersonShooterController.standardAmmo;
+            ammoData.blackHoleAmmoSave = thirdPersonShooterController.blackHoleAmmo;
+            ammoData.shotgunAmmoSave = thirdPersonShooterController.shotgunAmmo;
+            SaveSystem.SavePlayerAmmoData(ammoData);
+        }
+        else
+        {
+            // Scene index has not changed, so save both PlayerData and PlayerAmmoData
+            PlayerData playerData = new PlayerData(this);
+            SaveSystem.SavePlayerData(playerData);
 
-        // Set the ammunition counts and health data to be saved
-        ammoData.standardAmmoSave = thirdPersonShooterController.standardAmmo;
-        ammoData.blackHoleAmmoSave = thirdPersonShooterController.blackHoleAmmo;
-        ammoData.shotgunAmmoSave = thirdPersonShooterController.shotgunAmmo;
-        healthData.currentGameHealth = playerHealthMetric.currentHealth;
-
-        // Create a PlayerSaveData instance
-        PlayerSaveData saveData = new PlayerSaveData(playerData, ammoData, healthData);
-
-        // Save the data
-        SaveSystem.SavePlayer(saveData);
+            PlayerAmmoData ammoData = new PlayerAmmoData(this);
+            // Set the ammunition counts to be saved
+            ammoData.standardAmmoSave = thirdPersonShooterController.standardAmmo;
+            ammoData.blackHoleAmmoSave = thirdPersonShooterController.blackHoleAmmo;
+            ammoData.shotgunAmmoSave = thirdPersonShooterController.shotgunAmmo;
+            SaveSystem.SavePlayerAmmoData(ammoData);
+        }
     }
 
     public void TestValue()
