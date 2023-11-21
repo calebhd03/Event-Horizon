@@ -16,6 +16,7 @@ namespace StarterAssets
 		public bool shoot;
 		public bool crouch;
 		public bool flashlight;
+		public bool reload;
 
 		public Vector2 scroll;
 		public bool scan;
@@ -36,6 +37,7 @@ namespace StarterAssets
 
 		[Header ("Menu Systems")]
 		public bool pause;
+		public bool quit;
 
 		public bool blackHoleGun;
 		public bool switchWeapon;
@@ -140,7 +142,14 @@ namespace StarterAssets
 		{
 			ShotgunInput(value.isPressed);
 		}
-
+		public void OnQuit(InputValue value)
+		{
+			QuitInput(value.isPressed);
+		}
+		public void OnReload(InputValue value)
+		{
+			ReloadInput(value.isPressed);
+		}
 		
 #endif
 
@@ -167,7 +176,10 @@ namespace StarterAssets
 
 		public void SprintInput(bool newSprintState)
 		{
-			sprint = newSprintState;
+			if (newSprintState)
+			{
+				sprint = !sprint;
+			}
 		}
 
 			public void AimInput(bool newAimState)
@@ -251,6 +263,14 @@ namespace StarterAssets
 		{
 			shotgun = newShotgunState;
 		}
+		public void QuitInput(bool newQuitState)
+		{
+			quit = newQuitState;
+		}
+
+		public void ReloadInput(bool newReloadState)
+		{
+			reload = newReloadState;
+		}
 	}
-	
 }

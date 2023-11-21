@@ -77,4 +77,10 @@ public class EnemiesScanScript : MonoBehaviour
             alertSound.Play();          
     }
 
+    public void EnemyLog()
+    {
+        LogSystem logSystem = FindObjectOfType<LogSystem>();
+        logSystem.UpdateEnemyLog();
+    }
+
 }
