@@ -139,7 +139,9 @@ public class bossEnemy : MonoBehaviour
         slashAttack = true;
 
         yield return new WaitForSeconds(slashWindUp);
+        
         armAnim.SetBool("Slash180", true);
+        
 
         slashAttack = false;
         agent.isStopped = false;
