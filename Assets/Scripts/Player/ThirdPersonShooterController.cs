@@ -69,6 +69,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private AudioClip shotgunSound;
         //[SerializeField] private AudioClip shotgunReloadSound;
         [SerializeField] private AudioClip blackHoleSound;
+        [SerializeField] private AudioClip blackHoleChargeSound;
         //[SerializeField] private AudioClip blackHoleReloadSound;
         //[SerializeField] private AudioClip blackHoleChargeSound;
         [SerializeField] private AudioClip weaponSwitchSound;
@@ -338,6 +339,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                         else
                         {
                         BHGcharging();
+                        AudioSource.PlayClipAtPoint(blackHoleChargeSound, spawnBlackHoleBulletPosition.position);
                         }
                     }
                     else if (equippedWeapon == 2 && shotgunAmmo > 0)
