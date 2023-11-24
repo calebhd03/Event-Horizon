@@ -362,6 +362,8 @@ public class ThirdPersonShooterController : MonoBehaviour
                     {
                         AudioSource.PlayClipAtPoint(blackHoleChargeSound, spawnBlackHoleBulletPosition.position);
                         BHGcharging();
+                        AudioSource.PlayClipAtPoint(blackHoleChargeSound, spawnBlackHoleBulletPosition.position);
+                        }
                     }
                 }
                 else if (equippedWeapon == 2 && shotgunAmmoLoaded > 0)
