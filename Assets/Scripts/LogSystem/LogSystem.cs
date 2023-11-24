@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,9 +9,11 @@ public class LogSystem : MonoBehaviour
     [SerializeField] GameObject enemiesButton, memoriesButton, itemButton, returnButton;
     [SerializeField] GameObject enemiesPage, memoriesPage, itemsPage, pauseMenu, LogPage;
     [SerializeField] Button[] enemy, memory, item;
-    private Image[] enemyImage, memoryImage, itemImage;
+    [HideInInspector] public Image[] enemyImage, memoryImage, itemImage;
     [SerializeField] Sprite[] enemySprite, memorySprite, itemSprite;
     public static int currentTab;
+    [SerializeField] GameObject enemyInfo, memoryInfo, itemInfo;
+    public Image setImage;
 
     void Start()
     {
@@ -93,7 +96,7 @@ public class LogSystem : MonoBehaviour
     public void UpdateMemoryLog()
     {
         ObjectivesScript objectivesScript = FindObjectOfType<ObjectivesScript>();
-        if (objectivesScript.number >= 0 && objectivesScript.number < enemyImage.Length)
+        if (objectivesScript.number >= 0 && objectivesScript.number < memoryImage.Length)
         {
         memory[objectivesScript.number].image.sprite = memorySprite[objectivesScript.number];
         memory[objectivesScript.number].interactable = true;
@@ -102,7 +105,7 @@ public class LogSystem : MonoBehaviour
     public void UpdateItemLog()
     {
         ItemsScript itemsScript = FindObjectOfType<ItemsScript>();
-        if (itemsScript.number >= 0 && itemsScript.number < enemyImage.Length)
+        if (itemsScript.number >= 0 && itemsScript.number < itemImage.Length)
         {
         item[itemsScript.number].image.sprite = itemSprite[itemsScript.number];
         item[itemsScript.number].interactable = true;
@@ -112,5 +115,31 @@ public class LogSystem : MonoBehaviour
     public void TestButton()
     {
         Debug.LogWarning("button works");
+    }
+
+    public void DisplayEnemyInfo()
+    {
+        enemyInfo.SetActive(true);
+        LogPage.SetActive(false);
+    }
+    
+    public void DisplayMemoryInfo()
+    {
+        memoryInfo.SetActive(true);
+        LogPage.SetActive(false);
+    }
+
+        public void DisplayItemInfo()
+    {
+        itemInfo.SetActive(true);
+        LogPage.SetActive(false);
+    }
+
+    public void returnToLog()
+    {
+        enemyInfo.SetActive(false);
+        memoryInfo.SetActive(false);
+        itemInfo.SetActive(false);
+        LogPage.SetActive(true);
     }
 }
