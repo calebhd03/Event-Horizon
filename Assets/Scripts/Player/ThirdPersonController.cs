@@ -137,6 +137,11 @@ namespace StarterAssets
         private GameObject _mainCamera;
         private bool _rotateOnMove =true;
 
+        [Header ("Dev Controls")]
+        public Transform teleportLocation1;
+        public Transform teleportLocation2;
+        public Transform teleportLocation3;
+
         public PauseMenuScript pauseMenuScript;
 
         private const float _threshold = 0.01f;
@@ -199,6 +204,7 @@ namespace StarterAssets
             Move();
             SaveTestInputs();
             Crouch();
+            Teleport();
         }
 
         private void LateUpdate()
@@ -533,5 +539,44 @@ namespace StarterAssets
                 Debug.Log("Pause input!");
             }
         }
+           private void Teleport()
+        {
+            if (_input.teleport1)
+            {
+                TeleportToLocation(teleportLocation1);
+            }
+            else if (_input.teleport2)
+            {
+                TeleportToLocation(teleportLocation2);
+            }
+            else if (_input.teleport3)
+            {
+                TeleportToLocation(teleportLocation3);
+            }
+        }
+
+        private void TeleportToLocation(Transform targetTransform)
+        {
+            if (targetTransform != null)
+            {
+                // Teleport the player to the specified location (keeping the current rotation)
+                transform.position = targetTransform.position;
+
+                // Reset the CharacterController to ensure it updates its internal state
+                ResetCharacterController();
+            }
+        }
+
+        private void ResetCharacterController()
+        {
+            // Ensure the CharacterController is not null
+            if (_controller != null)
+            {
+                // Reset various properties of the CharacterController
+                _controller.enabled = false;
+                _controller.enabled = true;
+            }
+        }
+        
     }
 }

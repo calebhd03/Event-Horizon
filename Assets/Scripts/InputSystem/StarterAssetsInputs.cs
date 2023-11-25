@@ -44,6 +44,11 @@ namespace StarterAssets
 		public bool blaster;
 		public bool shotgun;
 
+		[Header ("Dev Controls")]
+		public bool teleport1;
+		public bool teleport2;
+		public bool teleport3;
+
 #if ENABLE_INPUT_SYSTEM
 		public void OnMove(InputValue value)
 		{
@@ -149,6 +154,18 @@ namespace StarterAssets
 		public void OnReload(InputValue value)
 		{
 			ReloadInput(value.isPressed);
+		}
+		public void OnTeleport1(InputValue value) //Dev control
+		{
+			Teleport1Input(value.isPressed);
+		}
+		public void OnTeleport2(InputValue value) //Dev control
+		{
+			Teleport2Input(value.isPressed);
+		}
+		public void OnTeleport3(InputValue value) //Dev control
+		{
+			Teleport3Input(value.isPressed);
 		}
 		
 #endif
@@ -271,6 +288,18 @@ namespace StarterAssets
 		public void ReloadInput(bool newReloadState)
 		{
 			reload = newReloadState;
+		}
+		public void Teleport1Input(bool newTeleport1State) //Dev Controls
+		{
+			teleport1 = newTeleport1State;
+		}
+		public void Teleport2Input(bool newTeleport2State) //Dev Controls
+		{
+			teleport2 = newTeleport2State;
+		}
+		public void Teleport3Input(bool newTeleport3State) //Dev Controls
+		{
+			teleport3 = newTeleport3State;
 		}
 	}
 }
