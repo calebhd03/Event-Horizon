@@ -7431,6 +7431,11 @@ MonoBehaviour:
     - EdgeIndices: 0b0000000a00000009000000080000000700000006000000
       TexGenIndex: 7
     Generation: 3
+--- !u!4 &302270339 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4145362651227206531, guid: f866f564909ad034299d28e06c9b272f, type: 3}
+  m_PrefabInstance: {fileID: 676831102}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &307414963
 GameObject:
   m_ObjectHideFlags: 0
@@ -14060,6 +14065,14 @@ PrefabInstance:
       propertyPath: one
       value: 
       objectReference: {fileID: 1548355542}
+    - target: {fileID: 472281535, guid: f866f564909ad034299d28e06c9b272f, type: 3}
+      propertyPath: two
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 472281535, guid: f866f564909ad034299d28e06c9b272f, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 302270339}
     - target: {fileID: 499158206755135454, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -20531,7 +20544,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &882684839 stripped
 Transform:
@@ -37952,6 +37965,10 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1548355540, guid: 95ac883fb6bb2a7439276d81586770c3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 418601533142538177, guid: 95ac883fb6bb2a7439276d81586770c3, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -44031,6 +44048,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 0}
+  isGlobal: 0
+  blendDistance: 0
+  weight: 1
+  priority: 0
 --- !u!65 &1909849537
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -45412,6 +45434,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0584da94bef62564aabbf92c01a0ffa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
+  healthBar: {fileID: 194542750}
+  isHealthBarActive: 1
 --- !u!1 &1968515772
 GameObject:
   m_ObjectHideFlags: 0
@@ -49266,6 +49292,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 699535334581087872, guid: ad3ade903010cac4f9b6b7d43582a143, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 699535334581087875, guid: ad3ade903010cac4f9b6b7d43582a143, type: 3}
       propertyPath: objectiveText
       value: 
@@ -49274,6 +49304,14 @@ PrefabInstance:
       propertyPath: objectiveText
       value: 
       objectReference: {fileID: 17617590}
+    - target: {fileID: 699535335079239098, guid: ad3ade903010cac4f9b6b7d43582a143, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 699535335348183305, guid: ad3ade903010cac4f9b6b7d43582a143, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 699535335348183306, guid: ad3ade903010cac4f9b6b7d43582a143, type: 3}
       propertyPath: objectiveText
       value: 
