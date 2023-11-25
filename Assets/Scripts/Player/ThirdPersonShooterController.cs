@@ -130,6 +130,12 @@ public class ThirdPersonShooterController : MonoBehaviour
                 mouseWorldPosition = raycastHit.point;
             }
 
+            if (starterAssetsInputs.ammo)
+            {
+                addDevAmmo();
+                Debug.Log("Ammo Dev");
+            }
+
             if (starterAssetsInputs.crouch)
             {
                 if (!isCrouching)
@@ -495,6 +501,27 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
 
+        private void addDevAmmo()
+        {
+            int ammoToAdd = 50;
+
+            switch (equippedWeapon)
+            {
+                case 0:
+                    standardAmmoLoaded = ammoToAdd;
+                    break;
+                case 1:
+                    blackHoleAmmoLoaded = ammoToAdd;
+                    break;
+                case 2:
+                    shotgunAmmoLoaded = ammoToAdd;
+                    break;
+            }
+
+            UpdateAmmoCount();
+            Debug.Log("Ammo added: " + ammoToAdd);
+        }
+
         public void UpdateAmmoCount()
         {
             if (equippedWeapon == 0)
@@ -510,6 +537,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 ammoCounter.text = "Ammo: " + shotgunAmmoLoaded + "/" +  shotgunAmmo;
             }
         }
+        
 
          public void SwitchWeaponObject(GameObject newWeaponObject)
         {

@@ -48,6 +48,7 @@ namespace StarterAssets
 		public bool teleport1;
 		public bool teleport2;
 		public bool teleport3;
+		public bool ammo;
 
 #if ENABLE_INPUT_SYSTEM
 		public void OnMove(InputValue value)
@@ -166,6 +167,10 @@ namespace StarterAssets
 		public void OnTeleport3(InputValue value) //Dev control
 		{
 			Teleport3Input(value.isPressed);
+		}
+		public void OnAmmo(InputValue value) //Dev control
+		{
+			AmmoInput(value.isPressed);
 		}
 		
 #endif
@@ -300,6 +305,10 @@ namespace StarterAssets
 		public void Teleport3Input(bool newTeleport3State) //Dev Controls
 		{
 			teleport3 = newTeleport3State;
+		}
+		public void AmmoInput(bool newAmmoState) //Dev Controls
+		{
+			ammo = newAmmoState;
 		}
 	}
 }
