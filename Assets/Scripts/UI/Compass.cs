@@ -12,6 +12,14 @@ public class Compass : MonoBehaviour
     public Transform player;
 
     public QuestMarker one;
+    public QuestMarker two;
+    public QuestMarker three;
+    public QuestMarker four;
+    public QuestMarker five;
+    public QuestMarker six;
+    public QuestMarker seven;
+    public QuestMarker eight;
+    
 
     float compassUnit;
     float maxDistance = 75f;
@@ -21,6 +29,13 @@ public class Compass : MonoBehaviour
         compassUnit = compassImage.rectTransform.rect.width / 360f;
 
         AddQuestMarker(one);
+        AddQuestMarker(two);
+        AddQuestMarker(three);
+        AddQuestMarker(four);
+        AddQuestMarker(five);
+        AddQuestMarker(six);
+        AddQuestMarker(seven);
+        AddQuestMarker(eight);
     }
 
     private void Update()
