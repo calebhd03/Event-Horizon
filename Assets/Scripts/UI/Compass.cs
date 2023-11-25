@@ -28,14 +28,15 @@ public class Compass : MonoBehaviour
     {
         compassUnit = compassImage.rectTransform.rect.width / 360f;
 
-        AddQuestMarker(one);
-        AddQuestMarker(two);
-        AddQuestMarker(three);
-        AddQuestMarker(four);
-        AddQuestMarker(five);
-        AddQuestMarker(six);
-        AddQuestMarker(seven);
-        AddQuestMarker(eight);
+    
+         AddQuestMarkerIfNotNull(one);
+        AddQuestMarkerIfNotNull(two);
+        AddQuestMarkerIfNotNull(three);
+        AddQuestMarkerIfNotNull(four);
+        AddQuestMarkerIfNotNull(five);
+        AddQuestMarkerIfNotNull(six);
+        AddQuestMarkerIfNotNull(seven);
+        AddQuestMarkerIfNotNull(eight);
     }
 
     private void Update()
@@ -54,6 +55,14 @@ public class Compass : MonoBehaviour
                 scale = 1f - ( dst / maxDistance);
             }
             marker.image.rectTransform.localScale = Vector3.one * scale;
+
+        }
+    }
+    private void AddQuestMarkerIfNotNull(QuestMarker marker)
+    {
+        if (marker != null)
+        {
+            AddQuestMarker(marker);
         }
     }
 
