@@ -13,26 +13,23 @@ public class Progress : MonoBehaviour
     public Material highlightMaterial; // Material for highlighting
     public Color blueHighlightColor = Color.blue;
     public Color redHighlightColor = Color.red;
-    public TextMeshProUGUI countdownText; // Assign this in the Inspector
+    public GameObject progressBar; // Assign the ProgressBar GameObject in the Inspector
     public GameObject portal; // Assign the Portal GameObject in the Inspector
 
     private float currentProgress = 0f;
-    private float countdownTimer;
     private bool isPlayerInside = false;
     private bool countdownStopped = false;
     private bool countdownStarted = false;
 
-
-
     private void Start()
     {
-
-
         ResetHighlight();
-        countdownTimer = progressTime;
         OriginalProgressTime = progressTime;
         portal.SetActive(false); // Set the Portal GameObject to inactive at the start
-        countdownText.text = " ";
+        if (progressBar != null)
+        {
+            SetProgressBarScale(0f); // Set the initial scale of the progress bar to 0
+        }
     }
 
     private void Update()
@@ -43,72 +40,41 @@ public class Progress : MonoBehaviour
         if (isPlayerInside)
         {
             currentProgress += Time.deltaTime / progressTime;
-            if (countdownTimer <= 0.1f)
+            if (progressBar != null)
+            {
+                SetProgressBarScale(currentProgress);
+            }
+
+            if (currentProgress >= 1.0f)
             {
                 portal.SetActive(true);
             }
         }
-
-        if (isPlayerInside == false)
+        else
         {
-            if (currentProgress == OriginalProgressTime)
+            if (progressBar != null)
             {
-                countdownText.text = " ";
+                SetProgressBarScale(Mathf.Lerp(progressBar.transform.localScale.x, 0f, Time.deltaTime * 2f));
             }
         }
-        else if (countdownText.text == " ")
-        {
-            UpdateCountdownText();
-            countdownStarted = true;
-        }
-
-        if( countdownStarted == true)
-        {
-             UpdateCountdownText();
-
-        }
-
 
         UpdateHighlight();
-        
     }
-
-    private void UpdateCountdownText()
-      {
-            if (countdownText != null && !countdownStopped)
-            {
-                if (countdownTimer > 0f)
-                {
-                    countdownText.text = "Time Remaining: " + countdownTimer.ToString("F1");
-                }
-                else
-                {
-                    countdownText.text = " ";
-                    countdownStopped = true;
-                    countdownStarted = false;
-                }
-            }
-        }
 
     private void UpdateHighlight()
     {
         if (isPlayerInside)
         {
             SetHighlightColor(blueHighlightColor);
-            countdownTimer -= Time.deltaTime;
         }
         else if (Physics.CheckBox(transform.position, transform.localScale / 2, transform.rotation))
         {
             SetHighlightColor(redHighlightColor);
-            countdownTimer += Time.deltaTime;
         }
         else
         {
             ResetHighlight();
-            countdownTimer += Time.deltaTime;
         }
-
-        countdownTimer = Mathf.Clamp(countdownTimer, 0f, progressTime); // Ensure countdownTimer stays within [0, progressTime]
     }
 
     private void SetHighlightColor(Color color)
@@ -140,6 +106,16 @@ public class Progress : MonoBehaviour
         }
     }
 
+    private void SetProgressBarScale(float scale)
+    {
+        if (progressBar != null)
+        {
+            scale = Mathf.Clamp01(scale); // Ensure scale stays within [0, 1]
+            Vector3 newScale = new Vector3(scale, progressBar.transform.localScale.y, progressBar.transform.localScale.z);
+            progressBar.transform.localScale = newScale;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag(playerTag))
@@ -159,5 +135,4 @@ public class Progress : MonoBehaviour
             isPlayerInside = false;
         }
     }
-
 }
