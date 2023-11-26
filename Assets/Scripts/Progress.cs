@@ -183,14 +183,6 @@ public class Progress : MonoBehaviour
     
     }
 
-    private void OnCollisionExit(Collision collision)
-    {
-      if (collision.gameObject.CompareTag(enemyTag) && PlayerStillInside)
-      {
-            isPlayerInside = true;
-      }
-
-    }
 
     private void ActivateEnemies()
     {
@@ -231,28 +223,6 @@ public class Progress : MonoBehaviour
         }
     }
 
-    private void InstantiateEnemies()
-    {
-        // Instantiate initial enemies
-        if (enemyPrefab1 != null)
-        {
-            enemyInstance1 = Instantiate(enemyPrefab1, spawnPosition1, Quaternion.identity);
-            enemyInstance1.SetActive(false);
-        }
-
-        if (enemyPrefab2 != null)
-        {
-            enemyInstance2 = Instantiate(enemyPrefab2, spawnPosition2, Quaternion.identity);
-            enemyInstance2.SetActive(false);
-        }
-
-        if (enemyPrefab3 != null)
-        {
-            enemyInstance3 = Instantiate(enemyPrefab3, spawnPosition3, Quaternion.identity);
-            enemyInstance3.SetActive(false);
-        }
-    }
-
     public void ResetProgress()
     {
         Debug.Log("Progress Reset");
@@ -260,17 +230,19 @@ public class Progress : MonoBehaviour
         // Set the flag to indicate that progress is being reset
         resettingProgress = true;
 
-        // Reset progress-related variables and destroy existing enemies
+        // Destroy existing enemies
+        DestroyExistingEnemies();
+
+        // Reset progress-related variables
         currentProgress = 0f;
         enemy1Activated = false;
         enemy2Activated = false;
         enemy3Activated = false;
 
-        DestroyExistingEnemies();
-
         // Reset progress time to the original value
         progressTime = OriginalProgressTime;
 
+        // Deactivate portal
         if (portal != null)
         {
             portal.SetActive(false);
@@ -282,6 +254,9 @@ public class Progress : MonoBehaviour
 
         // Reset the flag after everything is done
         resettingProgress = false;
+
+        // Instantiate new enemies
+        InstantiateEnemies();
     }
 
     private void DestroyExistingEnemies()
@@ -300,6 +275,28 @@ public class Progress : MonoBehaviour
         if (enemyInstance3 != null)
         {
             Destroy(enemyInstance3);
+        }
+    }
+
+    private void InstantiateEnemies()
+    {
+        // Instantiate new enemies
+        if (enemyPrefab1 != null)
+        {
+            enemyInstance1 = Instantiate(enemyPrefab1, spawnPosition1, Quaternion.identity);
+            enemyInstance1.SetActive(false);
+        }
+
+        if (enemyPrefab2 != null)
+        {
+            enemyInstance2 = Instantiate(enemyPrefab2, spawnPosition2, Quaternion.identity);
+            enemyInstance2.SetActive(false);
+        }
+
+        if (enemyPrefab3 != null)
+        {
+            enemyInstance3 = Instantiate(enemyPrefab3, spawnPosition3, Quaternion.identity);
+            enemyInstance3.SetActive(false);
         }
     }
 }
