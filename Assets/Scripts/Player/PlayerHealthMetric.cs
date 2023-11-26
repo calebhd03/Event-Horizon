@@ -8,7 +8,7 @@ public class PlayerHealthMetric : MonoBehaviour
     public float maxHealth = 100f;
     public float currentHealth;
 
-    public Slider healthBar; // Reference to the UI Slider for the health bar
+    public RectTransform healthBar; // Reference to the UI RectTransform for the health bar
 
     public delegate void HealthChangeAction(float currentHealth, float maxHealth);
     public event HealthChangeAction OnHealthChanged;
@@ -27,7 +27,7 @@ public class PlayerHealthMetric : MonoBehaviour
     private void Update()
     {
         // Check for changes in currentHealth and update the health bar accordingly
-        if (currentHealth != (healthBar != null ? healthBar.value * maxHealth : 0f))
+        if (currentHealth != (healthBar != null ? healthBar.sizeDelta.y * maxHealth : 0f))
         {
             UpdateHealthBar();
         }
@@ -43,7 +43,6 @@ public class PlayerHealthMetric : MonoBehaviour
             Debug.Log("Player Health 0");
         }
     }
-
 
     private void InitializeHealthBar()
     {
@@ -69,9 +68,9 @@ public class PlayerHealthMetric : MonoBehaviour
         // Ensure the health bar exists and is active
         if (healthBar != null && isHealthBarActive)
         {
-            // Calculate the normalized value for the slider
+            // Calculate the normalized value for the bar's size
             float normalizedHealth = currentHealth / maxHealth;
-            healthBar.value = normalizedHealth;
+            healthBar.sizeDelta = new Vector2(healthBar.sizeDelta.x, normalizedHealth * 100f);
         }
     }
 }
