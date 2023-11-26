@@ -77,8 +77,8 @@ public class ScannerUI : MonoBehaviour
             DisableSlider();
             if (ScanCam.scannerCurrentObject.tag == "Memory")
             {
-            PlayVideo();
             LogMemories();
+            PlayVideo();
             }
             else 
             {
@@ -157,8 +157,17 @@ public class ScannerUI : MonoBehaviour
 
     void LogMemories()
     {
-        LogSystem logSystem = FindObjectOfType<LogSystem>();
-        logSystem.UpdateMemoryLog();
+        ScanCam sc = FindObjectOfType<ScanCam>();
+        Vector3 direction = Vector3.forward;
+        Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
+        Debug.DrawRay(scanRay.origin, scanRay.direction * sc.range, Color.blue);
+
+        Physics.Raycast(scanRay, out RaycastHit hit, sc.range);
+        ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
+        if(hit.collider != null)
+        {
+            objScr.MemoryLog();
+        }
     }
 
     void PlayVideo()

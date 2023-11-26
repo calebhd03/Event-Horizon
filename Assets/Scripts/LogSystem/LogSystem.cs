@@ -12,7 +12,8 @@ public class LogSystem : MonoBehaviour
     [HideInInspector] public Image[] enemyImage, memoryImage, itemImage;
     [SerializeField] Sprite[] enemySprite, memorySprite, itemSprite;
     public static int currentTab;
-    [SerializeField] GameObject enemyInfo, memoryInfo, itemInfo;
+    [SerializeField] private int buttonType;
+    [SerializeField] GameObject displayInfo;
     public Image setImage;
 
     void Start()
@@ -35,6 +36,23 @@ public class LogSystem : MonoBehaviour
         enemyImage = new Image[enemy.Length];
         memoryImage = new Image[memory.Length];
         itemImage = new Image[item.Length];
+
+        // Attach the OnClick method to each button's click event
+        for (int i = 0; i < enemy.Length; i++)
+        {
+            int index = i; // Capture the current value of i for the lambda expression
+            enemy[i].onClick.AddListener(() => OnButtonClick(index));
+        }
+        for (int i = 0; i < memory.Length; i++)
+        {
+            int index = i; // Capture the current value of i for the lambda expression
+            memory[i].onClick.AddListener(() => OnButtonClick(index));
+        }
+        for (int i = 0; i < item.Length; i++)
+        {
+            int index = i; // Capture the current value of i for the lambda expression
+            item[i].onClick.AddListener(() => OnButtonClick(index));
+        }
     }
 
     void Update()
@@ -45,17 +63,20 @@ public class LogSystem : MonoBehaviour
             enemiesPage.SetActive(true);
             memoriesPage.SetActive(false);
             itemsPage.SetActive(false);
+            buttonType = 0;
             
         break;
         case 1:
             enemiesPage.SetActive(false);
             memoriesPage.SetActive(true);
             itemsPage.SetActive(false);
+            buttonType = 1;
         break;
         case 2:
             enemiesPage.SetActive(false);
             memoriesPage.SetActive(false);
             itemsPage.SetActive(true);
+            buttonType = 2;
         break;
         }
     }
@@ -117,29 +138,77 @@ public class LogSystem : MonoBehaviour
         Debug.LogWarning("button works");
     }
 
-    public void DisplayEnemyInfo()
+    public void DisplayInfo()
     {
-        enemyInfo.SetActive(true);
-        LogPage.SetActive(false);
-    }
-    
-    public void DisplayMemoryInfo()
-    {
-        memoryInfo.SetActive(true);
-        LogPage.SetActive(false);
-    }
-
-        public void DisplayItemInfo()
-    {
-        itemInfo.SetActive(true);
+        displayInfo.SetActive(true);
         LogPage.SetActive(false);
     }
 
     public void returnToLog()
     {
-        enemyInfo.SetActive(false);
-        memoryInfo.SetActive(false);
-        itemInfo.SetActive(false);
+        displayInfo.SetActive(false);
         LogPage.SetActive(true);
+    }
+    void UpdateImage(int buttonIndex)
+    {
+            switch (buttonType)
+            {
+                case 0:
+                        Image sourceImage = enemy[buttonIndex].GetComponent<Image>();
+
+                        if (sourceImage != null)
+                        {
+                            // Get the sprite from the sourceImage
+                            Sprite sourceSprite = sourceImage.sprite;
+
+                            // Set the sprite to the corresponding targetImage
+                            setImage.sprite = sourceSprite;
+                        }
+                        else
+                        {
+                            Debug.LogError("SourceButton does not have an Image component!");
+                        }
+                break;
+                case 1:
+                        Image sourceImage1 = memory[buttonIndex].GetComponent<Image>();
+
+                        if (sourceImage1 != null)
+                        {
+                            // Get the sprite from the sourceImage
+                            Sprite sourceSprite1 = sourceImage1.sprite;
+
+                            // Set the sprite to the corresponding targetImage
+                            setImage.sprite = sourceSprite1;
+                        }
+                        else
+                        {
+                            Debug.LogError("SourceButton does not have an Image component!");
+                        }
+                break;
+                case 2:
+                        Image sourceImage2 = enemy[buttonIndex].GetComponent<Image>();
+
+                        if (sourceImage2 != null)
+                        {
+                            // Get the sprite from the sourceImage
+                            Sprite sourceSprite2 = sourceImage2.sprite;
+
+                            // Set the sprite to the corresponding targetImage
+                            setImage.sprite = sourceSprite2;
+                        }
+                        else
+                        {
+                            Debug.LogError("SourceButton does not have an Image component!");
+                        }
+                break;
+            }
+
+
+    }
+
+    // This method is called when any button in the array is clicked
+    void OnButtonClick(int buttonIndex)
+    {
+        UpdateImage(buttonIndex);
     }
 }
