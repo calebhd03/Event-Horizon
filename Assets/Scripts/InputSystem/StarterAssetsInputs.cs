@@ -16,6 +16,7 @@ namespace StarterAssets
 		public bool shoot;
 		public bool crouch;
 		public bool flashlight;
+		public bool reload;
 
 		public Vector2 scroll;
 		public bool scan;
@@ -42,6 +43,12 @@ namespace StarterAssets
 		public bool switchWeapon;
 		public bool blaster;
 		public bool shotgun;
+
+		[Header ("Dev Controls")]
+		public bool teleport1;
+		public bool teleport2;
+		public bool teleport3;
+		public bool ammo;
 
 #if ENABLE_INPUT_SYSTEM
 		public void OnMove(InputValue value)
@@ -144,6 +151,26 @@ namespace StarterAssets
 		public void OnQuit(InputValue value)
 		{
 			QuitInput(value.isPressed);
+		}
+		public void OnReload(InputValue value)
+		{
+			ReloadInput(value.isPressed);
+		}
+		public void OnTeleport1(InputValue value) //Dev control
+		{
+			Teleport1Input(value.isPressed);
+		}
+		public void OnTeleport2(InputValue value) //Dev control
+		{
+			Teleport2Input(value.isPressed);
+		}
+		public void OnTeleport3(InputValue value) //Dev control
+		{
+			Teleport3Input(value.isPressed);
+		}
+		public void OnAmmo(InputValue value) //Dev control
+		{
+			AmmoInput(value.isPressed);
 		}
 		
 #endif
@@ -262,6 +289,26 @@ namespace StarterAssets
 		{
 			quit = newQuitState;
 		}
+
+		public void ReloadInput(bool newReloadState)
+		{
+			reload = newReloadState;
+		}
+		public void Teleport1Input(bool newTeleport1State) //Dev Controls
+		{
+			teleport1 = newTeleport1State;
+		}
+		public void Teleport2Input(bool newTeleport2State) //Dev Controls
+		{
+			teleport2 = newTeleport2State;
+		}
+		public void Teleport3Input(bool newTeleport3State) //Dev Controls
+		{
+			teleport3 = newTeleport3State;
+		}
+		public void AmmoInput(bool newAmmoState) //Dev Controls
+		{
+			ammo = newAmmoState;
+		}
 	}
-	
 }

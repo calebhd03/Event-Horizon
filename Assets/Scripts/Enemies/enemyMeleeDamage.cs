@@ -9,11 +9,11 @@ public class enemyMeleeDamage : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            HealthMetrics healthMetrics = other.GetComponent<HealthMetrics>();
+            PlayerHealthMetric healthMetric = other.GetComponent<PlayerHealthMetric>();
 
-            if(healthMetrics != null)
+            if(healthMetric != null)
             {
-                healthMetrics.ModifyHealth(-meleeDamage);
+                healthMetric.ModifyHealth(-meleeDamage);
             }
         }
     }

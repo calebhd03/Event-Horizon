@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletProjectile : MonoBehaviour
 {
-[SerializeField] private Transform vfxHit;
+   [SerializeField] private Transform vfxHit;
 
     private Rigidbody bulletRigidbody;
     private Vector3 lastPosition;
@@ -25,8 +25,8 @@ public class BulletProjectile : MonoBehaviour
 
     private void FixedUpdate()
     {
-        int layerMask =~ LayerMask.GetMask("Bullets", "Player");
-        if(Physics.Linecast(transform.position, lastPosition, out RaycastHit hitInfo, layerMask))
+        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer"));
+        if (Physics.Linecast(transform.position, lastPosition, out RaycastHit hitInfo, layerMask))
         {
             transform.position = lastPosition;
             OnTriggerEnter(hitInfo.collider);
@@ -35,8 +35,19 @@ public class BulletProjectile : MonoBehaviour
         lastPosition = transform.position;
     }
 
-   private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
+        int layerMask = other.gameObject.layer;
+        // Check if the collider is on any of the specified layers
+        if (layerMask == LayerMask.NameToLayer("Bullets") ||
+            layerMask == LayerMask.NameToLayer("CheckPoints") ||
+            layerMask == LayerMask.NameToLayer("Player") ||
+            layerMask == LayerMask.NameToLayer("GunLayer"))
+        {
+            // Do nothing if the collider is on the specified layers
+            return;
+        }
+
         Debug.LogWarning("hit " + other);
         if (other.GetComponent<HealthMetrics>() != null)
         {
@@ -45,8 +56,8 @@ public class BulletProjectile : MonoBehaviour
             if (healthMetrics != null)
             {
                 Instantiate(vfxHit, transform.position, Quaternion.identity);
-                //damage done on enemy hit boxes with tag bullets
-                //healthMetrics.ModifyHealth(-20f); // Apply 20 damage to the object
+                // damage done on enemy hit boxes with tag bullets
+                // healthMetrics.ModifyHealth(-20f); // Apply 20 damage to the object
             }
             // Handle the hit target logic here, if needed.
         }

@@ -3,6 +3,8 @@ using Cinemachine;
 using StarterAssets;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using System.Collections;
+using TMPro;
 
 public class ThirdPersonShooterController : MonoBehaviour 
 {
@@ -15,7 +17,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private Transform pfShotgunProjectile;
         [SerializeField] private Transform spawnBulletPosition;
         [SerializeField] private Transform spawnShotgunBulletPosition;
-        [SerializeField] private Transform spawnBlackHoleBulletPosition;
+        [SerializeField] public Transform spawnBlackHoleBulletPosition;
         [SerializeField] private Transform spawnBulletPositionOg;
         [SerializeField] private Transform spawnBulletPositionCrouch;
         [SerializeField] private Transform debugTransform;
@@ -35,6 +37,9 @@ public class ThirdPersonShooterController : MonoBehaviour
         public GameObject blackHoleWeaponObject;
         public GameObject shotgunWeaponObject;
 
+        private float lastSwitchTime;
+        private float switchCoolDown = 0.5f;
+
         private Quaternion originalRotation;
 
         private ThirdPersonController thirdPersonController;
@@ -50,11 +55,25 @@ public class ThirdPersonShooterController : MonoBehaviour
         public Image cooldownMeter;
 
         
-
+        private bool reloading;
+        private int ammoDifference;
         public int standardAmmo;
+        public int standardAmmoLoaded;
+        public int standardAmmoMax;
+        public float standardReloadTime;
+
         public int blackHoleAmmo;
+        public int blackHoleAmmoLoaded;
+        public int blackHoleAmmoMax;
+        public float blackHoleReloadTime;
+
         public int shotgunAmmo;
-        public Text ammoCounter;
+        public int shotgunAmmoLoaded;
+        public int shotgunAmmoMax;
+        public float shotgunReloadTime;
+
+        public TextMeshProUGUI ammoCounter;
+        
 
         [Header("Scanner Necessities")]
         public GameObject Scanningobject;
@@ -64,17 +83,24 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         [Header("Gun Audio")]
         [SerializeField] private AudioClip blasterSound ;
-        //[SerializeField] private AudioClip blasterReloadSound;
+        [SerializeField] private AudioClip blasterReloadSound;
         [SerializeField] private AudioClip shotgunSound;
-        //[SerializeField] private AudioClip shotgunReloadSound;
+        [SerializeField] private AudioClip shotgunReloadSound;
         [SerializeField] private AudioClip blackHoleSound;
-        //[SerializeField] private AudioClip blackHoleReloadSound;
-        //[SerializeField] private AudioClip blackHoleChargeSound;
+        [SerializeField] private AudioClip blackHoleReloadSound;
+        [SerializeField] private AudioClip blackHoleChargeSound;
         [SerializeField] private AudioClip weaponSwitchSound;
 
-        [Header("Gun Affects  ")]
+        [Header("Gun Effects")]
         [SerializeField] private ParticleSystem blassterFlash;
         [SerializeField] private ParticleSystem shotgunFlash;
+        public ParticleSystem charging, firing, cooldown;
+        public Transform chargingSpawnLocation, firingSpawnLocation, cooldownSpawnLocation;
+
+        private bool isCharging;
+        private bool isCharged;
+        private float chargeTime;
+        private float chargeSpeed = 1f;
 
         private void Awake()
         {
@@ -102,6 +128,12 @@ public class ThirdPersonShooterController : MonoBehaviour
             {
                 debugTransform.position = raycastHit.point;
                 mouseWorldPosition = raycastHit.point;
+            }
+
+            if (starterAssetsInputs.ammo)
+            {
+                addDevAmmo();
+                Debug.Log("Ammo Dev");
             }
 
             if (starterAssetsInputs.crouch)
@@ -268,7 +300,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
 
-        if (starterAssetsInputs.switchWeapon)
+        if (starterAssetsInputs.switchWeapon && Time.time - lastSwitchTime >= switchCoolDown)
         {
             if (equippedWeapon != 0)
             {
@@ -278,6 +310,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             {
                 EquipShotgun();
             }
+            lastSwitchTime = Time.time;
             shotCooldown = currentCooldown;
             UpdateAmmoCount();
             Debug.Log(equippedWeapon);
@@ -298,66 +331,91 @@ public class ThirdPersonShooterController : MonoBehaviour
             EquipShotgun();
         }
 
+        if(starterAssetsInputs.reload)
+        {
+            Reload();
+        }
 
-            if (starterAssetsInputs.shoot)
+        if (starterAssetsInputs.shoot)
+        {
+            Vector3 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
+
+            if (scnScr.Scan == false && shotCooldown >= currentCooldown && !reloading)
             {
-                Vector3 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
-
-                if (scnScr.Scan == false && shotCooldown >= currentCooldown)
+                if (equippedWeapon == 0 && standardAmmoLoaded > 0)//Standard Projectile Shoot
                 {
-                    if (equippedWeapon == 0 && standardAmmo > 0)//Standard Projectile Shoot
-                    {
-                        Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
-                        standardAmmo -= 1;
-                        currentCooldown = standardCooldown;
-                        thirdPersonController.SwitchCameraTarget();
-                        AudioSource.PlayClipAtPoint(blasterSound, spawnBulletPosition.position);
-                        blassterFlash.Play();
-                    }
-                    else if (equippedWeapon == 1 && blackHoleAmmo > 0)//Black Hole Projectile Shoot
-                    {
+                    Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+                    standardAmmoLoaded -= 1;
+                    currentCooldown = standardCooldown;
+                    thirdPersonController.SwitchCameraTarget();
+                    AudioSource.PlayClipAtPoint(blasterSound, spawnBulletPosition.position);
+                    blassterFlash.Play();
+                }
+                else if (equippedWeapon == 1 && blackHoleAmmoLoaded > 0)//Black Hole Projectile Shoot
+                {
+                    if (isCharged == true)
+                    { 
                         Instantiate(pfBlackHoleProjectile, spawnBlackHoleBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
-                        blackHoleAmmo -= 1;
+                        blackHoleAmmoLoaded -= 1;
                         currentCooldown = blackHoleCooldown;
                         thirdPersonController.SwitchCameraTarget();
                         AudioSource.PlayClipAtPoint(blackHoleSound, spawnBlackHoleBulletPosition.position);
+                        BHGfiring();
+                        chargeTime = 0;
+                        isCharged = false;
                     }
-                    else if (equippedWeapon == 2 && shotgunAmmo > 0)
-                    {        
-                        shotgunAmmo -= 1;
-                        currentCooldown = shotgunCooldown;
-                        thirdPersonController.SwitchCameraTarget();
-                        AudioSource.PlayClipAtPoint(shotgunSound, spawnShotgunBulletPosition.position);
-                        shotgunFlash.Play();
-                        for (int i = 0; i < 4; i++) // Fire 4 pellets in a cone
-                        {
-                            // Calculate a random spread angle within the specified shotgunSpreadAngle
-                            float horizontalSpread = Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle);
-                            float verticalSpread = Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle);
-
-                            // Calculate the direction to the target
-                            Vector3 directionToTarget = (mouseWorldPosition - spawnShotgunBulletPosition.position).normalized;
-
-                            // Create a spreadDirection by rotating the direction to the target by the spread angles
-                            Vector3 spreadDirection = Quaternion.Euler(verticalSpread, horizontalSpread, 0) * directionToTarget;
-
-                            // Instantiate the shotgun pellet with the randomized direction
-                            Instantiate(pfShotgunProjectile, spawnShotgunBulletPosition.position, Quaternion.LookRotation(spreadDirection, Vector3.up));
-                        }
+                    else
+                    {
+                        AudioSource.PlayClipAtPoint(blackHoleChargeSound, spawnBlackHoleBulletPosition.position);
+                        BHGcharging();
                     }
-                    UpdateAmmoCount();
-                    shotCooldown = 0;
-                    //thirdPersonController.Recoil(0.1f);
                 }
-                starterAssetsInputs.shoot = false;
-                
-            }
+                else if (equippedWeapon == 2 && shotgunAmmoLoaded > 0)
+                {        
+                    shotgunAmmoLoaded -= 1;
+                    currentCooldown = shotgunCooldown;
+                    thirdPersonController.SwitchCameraTarget();
+                    AudioSource.PlayClipAtPoint(shotgunSound, spawnShotgunBulletPosition.position);
+                    shotgunFlash.Play();
+                    for (int i = 0; i < 4; i++) // Fire 4 pellets in a cone
+                    {
+                        // Calculate a random spread angle within the specified shotgunSpreadAngle
+                        float horizontalSpread = Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle);
+                        float verticalSpread = Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle);
 
-            if (shotCooldown <= currentCooldown)
-            {
-                cooldownMeter.transform.localScale = new Vector3((shotCooldown / currentCooldown) * 0.96f, 0.8f, 1);
+                        // Calculate the direction to the target
+                        Vector3 directionToTarget = (mouseWorldPosition - spawnShotgunBulletPosition.position).normalized;
+
+                        // Create a spreadDirection by rotating the direction to the target by the spread angles
+                        Vector3 spreadDirection = Quaternion.Euler(verticalSpread, horizontalSpread, 0) * directionToTarget;
+
+                        // Instantiate the shotgun pellet with the randomized direction
+                        Instantiate(pfShotgunProjectile, spawnShotgunBulletPosition.position, Quaternion.LookRotation(spreadDirection, Vector3.up));
+                    }
+                }
+                UpdateAmmoCount();
+                shotCooldown = 0;
+                //thirdPersonController.Recoil(0.1f);
             }
-            shotCooldown += Time.deltaTime;
+            starterAssetsInputs.shoot = false;  
+        }
+
+        if (shotCooldown <= currentCooldown)
+        {
+            cooldownMeter.transform.localScale = new Vector3((shotCooldown / currentCooldown) * 0.96f, 0.8f, 1);
+        }
+        shotCooldown += Time.deltaTime;
+
+        if (isCharging == true)
+        {
+            chargeTime += Time.unscaledDeltaTime * chargeSpeed;
+        }
+
+        if (chargeTime >= 3f)
+        {
+            isCharged = true;
+            isCharging = false;
+        }
 
     if (starterAssetsInputs.scan)
             {
@@ -443,21 +501,43 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
 
+        private void addDevAmmo()
+        {
+            int ammoToAdd = 50;
+
+            switch (equippedWeapon)
+            {
+                case 0:
+                    standardAmmoLoaded = ammoToAdd;
+                    break;
+                case 1:
+                    blackHoleAmmoLoaded = ammoToAdd;
+                    break;
+                case 2:
+                    shotgunAmmoLoaded = ammoToAdd;
+                    break;
+            }
+
+            UpdateAmmoCount();
+            Debug.Log("Ammo added: " + ammoToAdd);
+        }
+
         public void UpdateAmmoCount()
         {
             if (equippedWeapon == 0)
             {
-                ammoCounter.text = "Ammo: " + standardAmmo;
+                ammoCounter.text = "Ammo: " + standardAmmoLoaded + "/" + standardAmmo;
             }
             else if (equippedWeapon == 1)
             {
-                ammoCounter.text = "Ammo: " + blackHoleAmmo;
+                ammoCounter.text = "Ammo: " + blackHoleAmmoLoaded + "/" + blackHoleAmmo;
             }
             else if (equippedWeapon == 2)
             {
-                ammoCounter.text = "Ammo: " + shotgunAmmo;
+                ammoCounter.text = "Ammo: " + shotgunAmmoLoaded + "/" +  shotgunAmmo;
             }
         }
+        
 
          public void SwitchWeaponObject(GameObject newWeaponObject)
         {
@@ -504,4 +584,97 @@ public class ThirdPersonShooterController : MonoBehaviour
                 blackHoleWeaponObject.transform.rotation = crouchedWeaponObject.transform.rotation;
             }
         }
+
+    public void BHGcharging()
+    {
+        isCharging = true;
+        StartCoroutine(PlayForDuration(charging, chargingSpawnLocation, 3f));
+        
     }
+
+    public void BHGfiring()
+    {
+        StopAllCoroutines();
+        charging.Stop();
+        StartCoroutine(PlayForDuration(firing, firingSpawnLocation, 2f));
+        StartCoroutine(PlayForDuration(cooldown, cooldownSpawnLocation, 2f));
+        isCharged = false;
+    }
+
+    public void BHGcooldown()
+    {
+        StartCoroutine(PlayForDuration(cooldown, cooldownSpawnLocation, 2f));
+    }
+
+    IEnumerator PlayForDuration(ParticleSystem particleSystem, Transform spawnLocation, float duration)
+    {
+        ParticleSystem newParticleSystem = Instantiate(particleSystem, spawnLocation.position, spawnLocation.rotation);
+        newParticleSystem.GetComponent<BHG>().tpsc = this;
+        newParticleSystem.Play();
+
+        yield return new WaitForSeconds(duration);
+
+        Destroy(newParticleSystem.gameObject);
+    }
+
+    private void Reload()
+    {
+        reloading = true;
+        Debug.Log("Reloading!");
+        if(equippedWeapon == 0 && standardAmmo > 0 && standardAmmoLoaded < standardAmmoMax)
+        {
+            StartCoroutine(ReloadTimer(standardReloadTime));
+            AudioSource.PlayClipAtPoint(blasterReloadSound, spawnBulletPosition.position);
+            ammoDifference = standardAmmoMax - standardAmmoLoaded;
+            standardAmmoLoaded += standardAmmo;
+            standardAmmo -= ammoDifference;
+            if (standardAmmo < 0)
+            {
+                standardAmmo = 0;
+            }
+            else
+            {
+                standardAmmoLoaded = standardAmmoMax;
+            }
+        }
+        else if(equippedWeapon == 1 && blackHoleAmmo > 0 && blackHoleAmmoLoaded < blackHoleAmmoMax)
+        {
+            StartCoroutine(ReloadTimer(blackHoleReloadTime));
+            AudioSource.PlayClipAtPoint(blackHoleReloadSound, spawnBlackHoleBulletPosition.position);
+            ammoDifference = blackHoleAmmoMax - blackHoleAmmoLoaded;
+            blackHoleAmmoLoaded += blackHoleAmmo;
+            blackHoleAmmo -= ammoDifference;
+            if (standardAmmo < 0)
+            {
+                blackHoleAmmo = 0;
+            }
+            else
+            {
+                blackHoleAmmoLoaded = blackHoleAmmoMax;
+            }
+        }
+        else if(equippedWeapon == 2 && shotgunAmmo > 0 && shotgunAmmoLoaded < shotgunAmmoMax)
+        {
+            StartCoroutine(ReloadTimer(shotgunReloadTime));
+            AudioSource.PlayClipAtPoint(shotgunReloadSound, spawnShotgunBulletPosition.position);
+            ammoDifference = shotgunAmmoMax - shotgunAmmoLoaded;
+            shotgunAmmoLoaded += shotgunAmmo;
+            shotgunAmmo -= ammoDifference;
+            if (shotgunAmmo < 0)
+            {
+                shotgunAmmo = 0;
+            }
+            else
+            {
+                shotgunAmmoLoaded = shotgunAmmoMax;
+            }
+        }
+        UpdateAmmoCount();
+    }
+
+    IEnumerator ReloadTimer(float reloadTime)
+    {
+        yield return new WaitForSeconds(reloadTime);
+        reloading = false;
+    }
+}

@@ -13,6 +13,7 @@ public class ScannerUI : MonoBehaviour
     public delegate void DisableObjText();
     public static event DisableObjText disableObjText;
     public GameObject screenOverlay;
+    public GameObject screenGradient;
 
     //ObjectiveSlider
     public GameObject sliderPrefab;
@@ -77,6 +78,7 @@ public class ScannerUI : MonoBehaviour
             if (ScanCam.scannerCurrentObject.tag == "Memory")
             {
             PlayVideo();
+            LogMemories();
             }
             else 
             {
@@ -108,6 +110,8 @@ public class ScannerUI : MonoBehaviour
 
         ScanCam.scannerEnabled += Overlay;
         ScanCam.scannerDisabled += CloseOverlay;
+        ScanCam.scannerEnabled += Gradient;
+        ScanCam.scannerDisabled += CloseGradient;
         ScanCam.scannerDisabled += DisableEnemySlider;
         ScanCam.scannerDisabled += DisableSlider;
 
@@ -147,8 +151,16 @@ public class ScannerUI : MonoBehaviour
         if(hit.collider != null)
         {
             eneScr.WeakPoints();
+            eneScr.EnemyLog();
         }
     }
+
+    void LogMemories()
+    {
+        LogSystem logSystem = FindObjectOfType<LogSystem>();
+        logSystem.UpdateMemoryLog();
+    }
+
     void PlayVideo()
     {
         newVideoPlayer.SetActive(true);
@@ -168,5 +180,15 @@ public class ScannerUI : MonoBehaviour
     void CloseOverlay()
     {
         screenOverlay.SetActive(false);
+    }
+
+    void Gradient()
+    {
+        screenGradient.SetActive(true);
+    }
+
+    void CloseGradient()
+    {
+        screenGradient.SetActive(false);
     }
 }
