@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,10 +12,12 @@ public class LogSystem : MonoBehaviour
     [SerializeField] Button[] enemy, memory, item;
     [HideInInspector] public Image[] enemyImage, memoryImage, itemImage;
     [SerializeField] Sprite[] enemySprite, memorySprite, itemSprite;
+    [SerializeField] TextMeshProUGUI[] enemyText, memoryText, itemText;
     public static int currentTab;
-    [SerializeField] private int buttonType;
+    private int buttonType;
     [SerializeField] GameObject displayInfo;
     public Image setImage;
+    public TextMeshProUGUI setText;
 
     void Start()
     {
@@ -168,6 +171,8 @@ public class LogSystem : MonoBehaviour
                         {
                             Debug.LogError("SourceButton does not have an Image component!");
                         }
+                        EnemiesScanScript enemiesScanScript = FindObjectOfType<EnemiesScanScript>();
+                        setText.text = enemyText[enemiesScanScript.number].text;
                 break;
                 case 1:
                         Image sourceImage1 = memory[buttonIndex].GetComponent<Image>();
@@ -184,6 +189,8 @@ public class LogSystem : MonoBehaviour
                         {
                             Debug.LogError("SourceButton does not have an Image component!");
                         }
+                        ObjectivesScript objectivesScript = FindObjectOfType<ObjectivesScript>();
+                        setText.text = memoryText[objectivesScript.number].text;
                 break;
                 case 2:
                         Image sourceImage2 = enemy[buttonIndex].GetComponent<Image>();
@@ -200,6 +207,8 @@ public class LogSystem : MonoBehaviour
                         {
                             Debug.LogError("SourceButton does not have an Image component!");
                         }
+                        ItemsScript itemsScript = FindObjectOfType<ItemsScript>();
+                        setText.text = itemText[itemsScript.number].text;
                 break;
             }
 
