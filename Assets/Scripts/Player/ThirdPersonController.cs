@@ -133,6 +133,7 @@ namespace StarterAssets
         private StarterAssetsInputs _input;
         private SaveSystemTest saveSystemTest;  //Save System Test Inputs
         private PlayerHealthMetric healthMetrics;
+        public Progress progressScript; 
         public SceneTransitionController sceneTransition;
         private GameObject _mainCamera;
         private bool _rotateOnMove =true;
@@ -509,6 +510,11 @@ namespace StarterAssets
                 _input.load = false;
                 saveSystemTest.LoadGame();               
                 Debug.Log("Load Input Pressed!");
+
+                if (progressScript != null)
+                {
+                    progressScript.ResetProgress();
+                }
             }
 
             if (_input.value)

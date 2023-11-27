@@ -59,6 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weakPointDamage: 20
+  damageSound: {fileID: 8300000, guid: 780f0a773e3715a4493f66029cd5a971, type: 3}
 --- !u!1 &460996748575234140
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,6 +232,7 @@ GameObject:
   - component: {fileID: 7182460977855072965}
   - component: {fileID: 2181541704196017118}
   - component: {fileID: 6413222042760432672}
+  - component: {fileID: 6731405962805241256}
   m_Layer: 0
   m_Name: rightArmSlash
   m_TagString: Untagged
@@ -337,6 +339,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6731405962805241256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4179391518893128441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fe6f5c6f5c03e74ba1becca0f057ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeDamage: 20
+  damageSound: {fileID: 8300000, guid: e8605b39bc65a6b42a264aef6ea6cf4a, type: 3}
 --- !u!1 &4973244205900878328
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,6 +691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
 --- !u!1 &4973244206653304215
 GameObject:
   m_ObjectHideFlags: 0
