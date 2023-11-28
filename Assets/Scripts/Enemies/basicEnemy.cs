@@ -174,8 +174,8 @@ namespace StarterAssets
                             idle = true;
                             if (idle == true)
                             {
-                                //animator.SetBool("RangeAttack", false);
-                                //animator.SetBool("MeleeAttack", false);
+                                animator.SetBool("RangeAttack", false);
+                                animator.SetBool("MeleeAttack", false);
                                 animator.SetBool("Moving", false);
                                 animator.SetBool("PanningIdle", true);
                             }
@@ -188,8 +188,8 @@ namespace StarterAssets
                             idle = false;
                             animator.SetBool("Moving", true);
                             animator.SetBool("PanningIdle", false);
-                            //animator.SetBool("RangeAttack", false);
-                            //animator.SetBool("MeleeAttack", false);
+                            animator.SetBool("RangeAttack", false);
+                            animator.SetBool("MeleeAttack", false);
                             pointMovement();
 
                         }
@@ -204,8 +204,8 @@ namespace StarterAssets
                 idleStart = 0f;
                 idleTime = 0f;
                 animator.SetBool("PanningIdle", false);
-                //animator.SetBool("RangeAttack", false);
-                //animator.SetBool("MeleeAttack", false);
+                animator.SetBool("RangeAttack", false);
+                animator.SetBool("MeleeAttack", false);
 
 
                 if (meleeAttack == true)
@@ -337,14 +337,14 @@ namespace StarterAssets
                 newBullet.AddForce(transform.forward * 32f, ForceMode.Impulse);
                 newBullet.AddForce(transform.up * 5f, ForceMode.Impulse);
 
-                //animator.SetBool("RangeAttack", true);
+                animator.SetBool("RangeAttack", true);
                 AttackMoving();
 
                 currentMag--;
 
                 if (currentMag <= 0)
                 {
-                    //animator.SetBool("RangeAttack", false);
+                    animator.SetBool("RangeAttack", false);
 
                     attackAgainCoolDown = true;
 
@@ -362,7 +362,7 @@ namespace StarterAssets
                 agent.SetDestination(transform.position);
                 attackAgainCoolDown = true;
 
-                /*if (attackAgainCoolDown == true)
+                if (attackAgainCoolDown == true)
                 {
                     animator.SetBool("MeleeAttack", true);
                 }
@@ -370,7 +370,7 @@ namespace StarterAssets
                 else
                 {
                     animator.SetBool("MeleeAttack", false);
-                }*/
+                }
                 
                 Invoke(nameof(meleeAttackCoolDown), attackAgainTimer);
                 Debug.Log("Melee Atack");
