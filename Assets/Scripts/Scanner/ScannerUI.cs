@@ -30,6 +30,8 @@ public class ScannerUI : MonoBehaviour
     public GameObject videoPlayer;
     private GameObject newVideoPlayer;
     public GameObject scannerCurrentObject;
+    private int quest = 0;
+
 
     void Start()
     {   
@@ -68,12 +70,52 @@ public class ScannerUI : MonoBehaviour
     }
     public void SetSliderValue()
     {   
+        QuestIcon questIcon = FindObjectOfType<QuestIcon>();
+        Compass compass = FindObjectOfType<Compass>();
         ScanCam ScanCam = FindObjectOfType<ScanCam>();
         elapsed += Time.deltaTime;
         
         if (elapsed >= 5)
         {                
             Destroy(ScanCam.scannerCurrentObject);
+            switch(quest)
+            {
+                case 0:
+                        questIcon.Delete();
+                        compass.AddQuestMarker(compass.two);
+                        quest += 1;
+                break;
+                case 1:
+                questIcon.Delete();
+                        compass.AddQuestMarker(compass.three);
+                        quest += 1;
+                break;
+                case 2:
+                questIcon.Delete();
+                        compass.AddQuestMarker(compass.four);
+                        quest += 1;
+                break;
+                case 3:
+                questIcon.Delete();
+                        compass.AddQuestMarker(compass.five);
+                        quest += 1;
+                break;
+                case 4:
+                        compass.AddQuestMarker(compass.six);
+                        quest += 1;
+                break;
+                case 5:
+                questIcon.Delete();
+                        compass.AddQuestMarker(compass.seven);
+                        quest += 1;
+                break;
+                case 6:
+                questIcon.Delete();
+                        compass.AddQuestMarker(compass.eight);
+                        quest += 1;
+                break;
+            }
+
             DisableSlider();
             if (ScanCam.scannerCurrentObject.tag == "Memory")
             {
