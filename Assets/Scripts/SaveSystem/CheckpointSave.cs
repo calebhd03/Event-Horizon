@@ -11,9 +11,11 @@ public class CheckpointSave : MonoBehaviour
     private SaveSystemTest saveSystemTest;
     AudioSource audioSource;
     public AudioClip audioClip;
+    public GameObject saveIcon;
 
     void Start()
     {
+        saveIcon.SetActive(false);
         audioSource = GetComponent<AudioSource>();
     }
     void OnTriggerEnter(Collider other)
@@ -26,10 +28,17 @@ public class CheckpointSave : MonoBehaviour
             objectiveTriggered = true;
             audioSource.clip = audioClip;
             audioSource.PlayOneShot(audioClip);
+            saveIcon.SetActive(true);
+            Invoke("TurnOffSaveIcon", 3f);
         }
         if (saveSystemTest != null)
         {
             saveSystemTest.SaveGame();
         }
+    }
+
+    void TurnOffSaveIcon()
+    {
+        saveIcon.SetActive(false);
     }
 }
