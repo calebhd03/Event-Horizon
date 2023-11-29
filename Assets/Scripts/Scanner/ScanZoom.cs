@@ -9,30 +9,33 @@ public class ScanZoom : MonoBehaviour
 {
     [SerializeField]
     private CinemachineVirtualCamera ScanCam;
-
     [SerializeField]
     private CinemachineVirtualCamera ScanAim;
     [SerializeField]
     private CinemachineVirtualCamera AimCam;
-
-
+    AudioSource audioSource;
+    
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+    
     public void ScanZoomPriority()
     {
-        //Debug.Log("Scanzoom tried to change the camera");
-        Scanning ScnScr = GetComponent<Scanning>();
-
-
-        if (ScanCam.Priority == 1 )
+        
+        if (ScanCam.Priority == 3 )
         {
+            audioSource.Play();
             ScanCam.Priority = 0;
             ScanAim.Priority = 2;
             AimCam.Priority = 0;
         }
-        else{
-            ScanCam.Priority = 1;
+        else
+        { 
+            audioSource.Play();
+            ScanCam.Priority = 3;
             ScanAim.Priority = 0;
             AimCam.Priority = 0;
         }
-
     }
 }

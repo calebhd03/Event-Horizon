@@ -74,7 +74,10 @@ namespace StarterAssets
         //Scanning
         //public GameObject Scanningobject;
 
-        private float crouchSpeed = 2.0f; 
+        private float crouchSpeed = 2.0f;
+
+        public float moveDistance;
+        //private bool left;
 
         private void Awake()
         {
@@ -109,6 +112,7 @@ namespace StarterAssets
 
                 if (distanceTarget <= viewRadius && !Physics.Raycast(transform.position, playerTarget, distanceTarget, obstacleZone))
                 {
+                    animator.applyRootMotion = true;
                     iSeeYou = true;
                     hearDistance = 0;
                     transform.LookAt(player);
@@ -143,7 +147,7 @@ namespace StarterAssets
                     if(currentSpeed >= crouchSpeed)
                     {
                         iSeeYou = true;
-                        //agent.SetDestination(transform.position);
+                        agent.SetDestination(transform.position);
                         transform.LookAt(player);
                         Debug.Log("crouched too fast");
                     }
@@ -159,6 +163,8 @@ namespace StarterAssets
             //The three states of enemy, Patrol, Chase, and attack
             if (iSeeYou == false && withInAttackRange == false)
             {
+                animator.applyRootMotion = false;
+               
                 if (!agent.pathPending && agent.remainingDistance < 0.1f)
                 {
                     if (!agent.pathPending && agent.remainingDistance < 0.1f)
@@ -204,10 +210,10 @@ namespace StarterAssets
 
                 if (meleeAttack == true)
                 {
-                    withInAttackRange = false;
+                    //withInAttackRange = false;
                     Debug.Log("Enemy Charging Towards Player");
-                    agent.speed = chargeSpeed;
-                    agent.acceleration = chargeAcceleration;
+                    //agent.speed = chargeSpeed;
+                    //agent.acceleration = chargeAcceleration;
                 }
             }
 
@@ -219,7 +225,17 @@ namespace StarterAssets
                 idleTime = 0f;
                 animator.SetBool("PanningIdle", false);
                 attackPlayer();
-                transform.LookAt(player);
+
+                if(rangeAttack == true)
+                {
+                    transform.LookAt(player);
+                }
+
+                if(meleeAttack == true)
+                {
+                    transform.LookAt(player);
+                }
+
             }
 
             //Debug field of view of enemy, shows raycast
@@ -290,13 +306,22 @@ namespace StarterAssets
 
         private void chasePlayer() //chase player once found
         {
-            agent.SetDestination(player.position);
-            transform.LookAt(player);
+            if(rangeAttack == true)
+            {
+                agent.SetDestination(player.position);
+                transform.LookAt(player);
+            }
+
+            if (meleeAttack == true)
+            {
+                  agent.SetDestination(player.position);
+                  transform.LookAt(player);
+            }
         }
         private void attackPlayer() //atacks player if there is no cooldown
         {
-            agent.SetDestination(transform.position);
-            transform.LookAt(player);
+            //agent.SetDestination(transform.position);
+            //transform.LookAt(player);
 
             if (attackAgainCoolDown == false && rangeAttack == true && Time.time >= nextFire)
             {
@@ -313,8 +338,7 @@ namespace StarterAssets
                 newBullet.AddForce(transform.up * 5f, ForceMode.Impulse);
 
                 //animator.SetBool("RangeAttack", true);
-
-
+                AttackMoving();
 
                 currentMag--;
 
@@ -335,6 +359,7 @@ namespace StarterAssets
 
             if (attackAgainCoolDown == false && meleeAttack == true)
             {
+                agent.SetDestination(transform.position);
                 attackAgainCoolDown = true;
 
                 /*if (attackAgainCoolDown == true)
@@ -346,12 +371,27 @@ namespace StarterAssets
                 {
                     animator.SetBool("MeleeAttack", false);
                 }*/
- 
+                
                 Invoke(nameof(meleeAttackCoolDown), attackAgainTimer);
                 Debug.Log("Melee Atack");
+                transform.LookAt(player);
             }
         }
-        private void rangeAttackCoolDown()
+        private void AttackMoving()
+        {
+            Vector3 rightDestination = agent.transform.position + transform.right * moveDistance;
+            Vector3 leftDestination = agent.transform.position - transform.right * moveDistance;
+
+            if (Random.value > 0.5f)
+            {
+                agent.SetDestination(leftDestination);
+            }
+            else
+            {
+                agent.SetDestination(rightDestination);
+            }
+        }
+            private void rangeAttackCoolDown()
         {
             //animator.SetBool("RangeAttack", false);
             attackAgainCoolDown = false;
@@ -362,6 +402,9 @@ namespace StarterAssets
         {
             //animator.SetBool("MeleeAttack", false);
             attackAgainCoolDown = false;
+            Vector3 backwardDirection = -agent.transform.forward * moveDistance;
+            agent.Move(backwardDirection);
+            transform.LookAt(player);
             Debug.Log("Sword Recharge");
         }
 

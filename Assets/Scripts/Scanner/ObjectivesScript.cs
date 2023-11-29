@@ -16,6 +16,7 @@ public class ObjectivesScript : MonoBehaviour
     private Color normalColor = Color.white;
     private Color scanColor = Color.green;
     //Cutscene
+    [Tooltip("Put the number associated with with the cutscene(MemoryTag)/objective(ObjectiveTag)in the array desired to play. The array is located on the video player(cutscene)/ObjectivePanel(scannerUI) game object. Array list starts with zero.")]
     public int number;
     
     void Start()
@@ -56,5 +57,10 @@ public class ObjectivesScript : MonoBehaviour
         public void Unhighlight()
     {
         ScanColor();
+    }
+    public void MemoryLog()
+    {
+        LogSystem logSystem = FindObjectOfType<LogSystem>();
+        logSystem.UpdateMemoryLog();
     }
 }

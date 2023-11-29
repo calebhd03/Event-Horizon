@@ -5,15 +5,27 @@ using UnityEngine;
 public class enemyMeleeDamage : MonoBehaviour
 {
     public float meleeDamage = 20f;
+    public AudioClip damageSound;
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Player")
         {
-            HealthMetrics healthMetrics = other.GetComponent<HealthMetrics>();
+            PlayerHealthMetric healthMetric = other.GetComponent<PlayerHealthMetric>();
 
-            if(healthMetrics != null)
+            if(healthMetric != null)
             {
-                healthMetrics.ModifyHealth(-meleeDamage);
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+                if (player != null && damageSound != null)
+                {
+                    AudioListener playerListener = player.GetComponentInChildren<AudioListener>();
+                    if (playerListener != null)
+                    {
+                        AudioSource.PlayClipAtPoint(damageSound, playerListener.transform.position);
+                    }
+                }
+                healthMetric.ModifyHealth(-meleeDamage);
+
             }
         }
     }

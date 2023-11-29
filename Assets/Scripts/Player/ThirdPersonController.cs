@@ -1,4 +1,5 @@
   using UnityEngine;
+  using UnityEngine.SceneManagement;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 using System.Collections;
@@ -82,7 +83,16 @@ namespace StarterAssets
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
 
+        private Vector3 lastForwardDirection = Vector3.forward;
+        private float lastTargetRotation;
+        private float noInputTransitionSpeed = 0.2f; 
+        public float rotationSmoothTime = 0.1f; // Tweak the value
+        private Vector3 rotationVelocity = Vector3.zero;
 
+        //DeathAudio
+        public AudioClip deathAudio;
+        AudioSource audioSource;
+        
         
 
 
@@ -94,11 +104,11 @@ namespace StarterAssets
         // player
         public float _speed;
         private float _animationBlend;
-        //private float _targetRotation = 0.0f;
+        private float _targetRotation ;
         private float _rotationVelocity;
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
-        private float rotationVelocity;
+       // private float rotationVelocity;
 
         // Define a rotation speed for the transition
         public float RotationSpeed = 5.0f;
@@ -125,8 +135,16 @@ namespace StarterAssets
         private CharacterController _controller;
         private StarterAssetsInputs _input;
         private SaveSystemTest saveSystemTest;  //Save System Test Inputs
+        private PlayerHealthMetric healthMetrics;
+        public Progress progressScript; 
+        public SceneTransitionController sceneTransition;
         private GameObject _mainCamera;
         private bool _rotateOnMove =true;
+
+        [Header ("Dev Controls")]
+        public Transform teleportLocation1;
+        public Transform teleportLocation2;
+        public Transform teleportLocation3;
 
         public PauseMenuScript pauseMenuScript;
 
@@ -155,17 +173,17 @@ namespace StarterAssets
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
                  CurrentCameraTarget = DefaultCameraTarget;
             }
-
+            audioSource = GetComponent<AudioSource>();
         }
 
         private void Start()
         {
             _cinemachineTargetYaw = CurrentCameraTarget.transform.rotation.eulerAngles.y;
 
-            
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
+            healthMetrics = GetComponent<PlayerHealthMetric>();
             saveSystemTest = GetComponent<SaveSystemTest>();    //Save System Test Inputs
 #if ENABLE_INPUT_SYSTEM 
             _playerInput = GetComponent<PlayerInput>();
@@ -190,6 +208,7 @@ namespace StarterAssets
             Move();
             SaveTestInputs();
             Crouch();
+            Teleport();
         }
 
         private void LateUpdate()
@@ -288,18 +307,20 @@ namespace StarterAssets
 
             if (inputDirection != Vector3.zero)
             {
-                // Calculate the target rotation based on user input
-                float targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
+                // Use Quaternion.LookRotation to calculate the target rotation
+                Quaternion targetRotationQuaternion = Quaternion.LookRotation(inputDirection.normalized, Vector3.up);
 
                 if (_rotateOnMove)
                 {
-                    float currentRotation = transform.eulerAngles.y;
+                    // Use SmoothDamp for rotation
+                    Vector3 currentEulerAngles = transform.eulerAngles;
+                    Vector3 targetEulerAngles = targetRotationQuaternion.eulerAngles;
 
-                    // Interpolate the rotation towards the target rotation with RotationSpeed
-                    float rotation = Mathf.LerpAngle(currentRotation, targetRotation, RotationSpeed * Time.deltaTime);
+                    // Use Vector3.SmoothDamp to smooth the rotation
+                    Vector3 smoothDampedEulerAngles = Vector3.SmoothDamp(currentEulerAngles, targetEulerAngles, ref rotationVelocity, rotationSmoothTime);
 
-                    // Apply the interpolated rotation
-                    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                    // Apply the smoothed rotation
+                    transform.rotation = Quaternion.Euler(smoothDampedEulerAngles);
                 }
 
                 // Gradually adjust the forward direction based on the current and previous input direction
@@ -308,6 +329,14 @@ namespace StarterAssets
 
                 // Set the player's forward direction to the smoothed direction
                 transform.forward = smoothedForward;
+
+                // Update last target rotation while there is input
+                lastTargetRotation = targetRotationQuaternion.eulerAngles.y;
+            }
+            else if (_rotateOnMove)
+            {
+                // If there's no input, set the forward direction to the last target rotation without interpolation
+                transform.rotation = Quaternion.Euler(0.0f, lastTargetRotation, 0.0f);
             }
 
             // Move the player
@@ -320,7 +349,6 @@ namespace StarterAssets
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
-
         }
 
         private void JumpAndGravity()
@@ -344,6 +372,10 @@ namespace StarterAssets
                 }
 
                 // Jump
+                if (!_controller.isGrounded)
+                {
+                    _input.jump = false;
+                }
                 if (_input.jump && _jumpTimeoutDelta <= 0.0f)
                 {
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
@@ -476,11 +508,17 @@ namespace StarterAssets
                 Debug.Log("Save Input Pressed!");
             }
 
-            if (_input.load)
+            if (_input.load || healthMetrics.currentHealth <= 0)
             {
+                audioSource.PlayOneShot(deathAudio);
                 _input.load = false;
-                saveSystemTest.LoadGame();
+                saveSystemTest.LoadGame();               
                 Debug.Log("Load Input Pressed!");
+
+                if (progressScript != null)
+                {
+                    progressScript.ResetProgress();
+                }
             }
 
             if (_input.value)
@@ -511,5 +549,44 @@ namespace StarterAssets
                 Debug.Log("Pause input!");
             }
         }
+           private void Teleport()
+        {
+            if (_input.teleport1)
+            {
+                TeleportToLocation(teleportLocation1);
+            }
+            else if (_input.teleport2)
+            {
+                TeleportToLocation(teleportLocation2);
+            }
+            else if (_input.teleport3)
+            {
+                TeleportToLocation(teleportLocation3);
+            }
+        }
+
+        private void TeleportToLocation(Transform targetTransform)
+        {
+            if (targetTransform != null)
+            {
+                // Teleport the player to the specified location (keeping the current rotation)
+                transform.position = targetTransform.position;
+
+                // Reset the CharacterController to ensure it updates its internal state
+                ResetCharacterController();
+            }
+        }
+
+        private void ResetCharacterController()
+        {
+            // Ensure the CharacterController is not null
+            if (_controller != null)
+            {
+                // Reset various properties of the CharacterController
+                _controller.enabled = false;
+                _controller.enabled = true;
+            }
+        }
+        
     }
 }

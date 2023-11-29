@@ -10,6 +10,11 @@ public class ScannerUI : MonoBehaviour
     public static event EneText eneText;
     public delegate void ObjectiveText();
     public static event ObjectiveText objectiveText;
+    public delegate void DisableObjText();
+    public static event DisableObjText disableObjText;
+    public GameObject screenOverlay;
+    public GameObject screenGradient;
+
     //ObjectiveSlider
     public GameObject sliderPrefab;
     private GameObject newSlider;
@@ -28,11 +33,13 @@ public class ScannerUI : MonoBehaviour
 
     void Start()
     {   
+        AudioSource audioSource = GetComponent<AudioSource>();
         if (gameObject == null)
             {
                 Debug.LogWarning("target canvas not there");
                 return;
             }
+        screenOverlay.SetActive(false);
         //New Objective Slider
         newSlider = Instantiate(sliderPrefab, gameObject.transform);
         newSlider.SetActive(false);
@@ -48,6 +55,7 @@ public class ScannerUI : MonoBehaviour
         newSliderProgress2.value = enelapsed;
 
     }
+    
     void Update()
     {   
         ScanCam ScanCam = FindObjectOfType<ScanCam>();
@@ -65,10 +73,18 @@ public class ScannerUI : MonoBehaviour
         
         if (elapsed >= 5)
         {                
-            objectiveText();
             Destroy(ScanCam.scannerCurrentObject);
             DisableSlider();
+            if (ScanCam.scannerCurrentObject.tag == "Memory")
+            {
+            LogMemories();
             PlayVideo();
+            }
+            else 
+            {
+                objectiveText();
+                Invoke("HideText", 3);
+            }
         }
     }
 
@@ -92,6 +108,15 @@ public class ScannerUI : MonoBehaviour
         EnemiesScanScript.eneSlider += EnemySlider;
         EnemiesScanScript.eneSlider += SetEnemySlider;
 
+        ScanCam.scannerEnabled += Overlay;
+        ScanCam.scannerDisabled += CloseOverlay;
+        ScanCam.scannerEnabled += Gradient;
+        ScanCam.scannerDisabled += CloseGradient;
+        ScanCam.scannerDisabled += DisableEnemySlider;
+        ScanCam.scannerDisabled += DisableSlider;
+
+        ScanCam.stopScan += DisableEnemySlider;
+        ScanCam.stopScan += DisableSlider;
     }
     void ObjectiveSlider()
     {
@@ -126,11 +151,53 @@ public class ScannerUI : MonoBehaviour
         if(hit.collider != null)
         {
             eneScr.WeakPoints();
+            eneScr.EnemyLog();
         }
     }
+
+    void LogMemories()
+    {
+        ScanCam sc = FindObjectOfType<ScanCam>();
+        Vector3 direction = Vector3.forward;
+        Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
+        Debug.DrawRay(scanRay.origin, scanRay.direction * sc.range, Color.blue);
+
+        Physics.Raycast(scanRay, out RaycastHit hit, sc.range);
+        ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
+        if(hit.collider != null)
+        {
+            objScr.MemoryLog();
+        }
+    }
+
     void PlayVideo()
     {
         newVideoPlayer.SetActive(true);
         Invoke("vp.Play()", 1);
+    }
+
+    void HideText()
+    {
+        disableObjText();
+    }
+
+    void Overlay()
+    {
+        screenOverlay.SetActive(true);
+    }
+
+    void CloseOverlay()
+    {
+        screenOverlay.SetActive(false);
+    }
+
+    void Gradient()
+    {
+        screenGradient.SetActive(true);
+    }
+
+    void CloseGradient()
+    {
+        screenGradient.SetActive(false);
     }
 }

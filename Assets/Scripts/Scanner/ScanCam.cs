@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using StarterAssets;
 using TMPro;
 using Unity.VisualScripting;
-using Unity.VisualScripting.ReorderableList;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.Universal.Internal;
@@ -11,15 +11,15 @@ using UnityEngine.Video;
 public class ScanCam : MonoBehaviour
 {
     public GameObject Scanningobject;
-    public LayerMask Objectives;
     public float range = 5;
     public GameObject scannerCurrentObject;
     public delegate void ScannerEnabled();
     public static event ScannerEnabled scannerEnabled;
     public delegate void ScannerDisabled();
     public static event ScannerDisabled scannerDisabled;
+    public delegate void StopScan();
+    public static event StopScan stopScan;
     public int currentClipIndex;
-
     void Start()
     {
         scannerCurrentObject = null;
@@ -33,7 +33,7 @@ public class ScanCam : MonoBehaviour
         {
             if(scannerEnabled != null)
             {
-            scannerEnabled();
+            scannerEnabled(); 
             }
 
             Vector3 direction = Vector3.forward;
@@ -53,6 +53,16 @@ public class ScanCam : MonoBehaviour
                         }
                 break;
 
+                case "Memory":
+                    scannerCurrentObject = hit.collider.gameObject;                     
+                    ObjectivesScript objScr1 = hit.collider.GetComponent<ObjectivesScript>();
+                    if (objScr1 != null)
+                        {                        
+                        objScr1.highlight();
+                        currentClipIndex = objScr1.number;
+                        }
+                break;
+
                 case "Item":
                     scannerCurrentObject = hit.collider.gameObject;                    
                     ItemsScript itmScr = hit.collider.GetComponent<ItemsScript>();
@@ -69,6 +79,7 @@ public class ScanCam : MonoBehaviour
                     if (eneScr != null)
                         {
                             eneScr.highlight();
+                            currentClipIndex = eneScr.number;
                         }           
                 break;
 
@@ -81,11 +92,9 @@ public class ScanCam : MonoBehaviour
         }
         else
         {
-
             scannerDisabled();
         }
-       
-        }
+    }
 
     public void ScanObj()
     {
@@ -105,6 +114,14 @@ public class ScanCam : MonoBehaviour
             }
             break;
 
+            case "Memory":
+            ObjectivesScript objScr1 = hit.collider.GetComponent<ObjectivesScript>();
+            if (objScr1 != null)
+            { 
+                objScr1.ScriptActive();
+            }
+            break;
+
             case "Item":
             ItemsScript itmScr = hit.collider.GetComponent<ItemsScript>();
             if (itmScr != null)
@@ -119,7 +136,12 @@ public class ScanCam : MonoBehaviour
             {
                 eneScr.ScriptActive();    
             }
-            break;            
+            break;        
         }
+    }
+
+    public void StopScanObj()
+    {
+        stopScan();
     }
  }  

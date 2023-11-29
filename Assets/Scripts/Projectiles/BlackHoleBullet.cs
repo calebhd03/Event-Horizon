@@ -25,9 +25,10 @@ public class BlackHoleBullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-        int layerMask =~ LayerMask.GetMask("Bullets", "Player");
-        if(Physics.Linecast(transform.position, lastPosition, out RaycastHit hitInfo, layerMask))
+        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer"));
+        if (Physics.Linecast(transform.position, lastPosition, out RaycastHit hitInfo, layerMask))
         {
+            transform.position = lastPosition;
             OnTriggerEnter(hitInfo.collider);
             Debug.Log("Raycast triggered");
         }
@@ -36,6 +37,19 @@ public class BlackHoleBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
+         int layerMask = other.gameObject.layer;
+        // Check if the collider is on any of the specified layers
+        if (layerMask == LayerMask.NameToLayer("Bullets") ||
+            layerMask == LayerMask.NameToLayer("CheckPoints") ||
+            layerMask == LayerMask.NameToLayer("Player") ||
+            layerMask == LayerMask.NameToLayer("GunLayer"))
+        {
+            // Do nothing if the collider is on the specified layers
+            return;
+        }
+        
+        Debug.LogWarning("hit " + other);
         bulletRigidbody.constraints = RigidbodyConstraints.FreezePosition; //Stops projectile
         transform.position = lastPosition;
         StartCoroutine(ScaleOverTime(effectTime));

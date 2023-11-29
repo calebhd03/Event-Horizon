@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 85852172337439658}
   - component: {fileID: 85852172337439657}
   - component: {fileID: 85852172337439656}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BasterBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 85852173292383180}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: 'Blaster '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,6 +128,7 @@ Transform:
   - {fileID: 85852173867714442}
   - {fileID: 85852172337439575}
   - {fileID: 85852173550137140}
+  - {fileID: 7548790064459513264}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -143,7 +144,7 @@ GameObject:
   - component: {fileID: 85852173550137143}
   - component: {fileID: 85852173550137142}
   - component: {fileID: 85852173550137141}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BasterHandle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -240,7 +241,7 @@ GameObject:
   - component: {fileID: 85852173867714445}
   - component: {fileID: 85852173867714444}
   - component: {fileID: 85852173867714443}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BlasterBarrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -326,3 +327,34 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!1 &5077021150062622021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7548790064459513264}
+  m_Layer: 12
+  m_Name: BulletSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7548790064459513264
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5077021150062622021}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.089, y: 0.08, z: 0.216}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 85852173292383180}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

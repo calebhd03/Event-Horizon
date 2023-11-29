@@ -39,7 +39,7 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Aim",
@@ -54,6 +54,15 @@
                     "name": "Shoot",
                     "type": "Button",
                     "id": "9275075c-2d4a-4b3d-932a-5da3798c3b64",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Ammo",
+                    "type": "Button",
+                    "id": "f83ae8fd-92d9-404f-a344-0ff98261361b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -106,9 +115,9 @@
                 },
                 {
                     "name": "Scanaim",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "af9d591a-50d0-4da3-98ed-52e823985e53",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -147,6 +156,87 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BlackHoleGun",
+                    "type": "Value",
+                    "id": "12b695ce-d9ae-482e-ae40-d0bd753b8fbd",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SwitchWeapon",
+                    "type": "Value",
+                    "id": "2b3c15e6-9eeb-4822-8390-23877debe5a3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Blaster",
+                    "type": "Value",
+                    "id": "8965895a-82f4-458b-8321-1ec3cd0a1b56",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Shotgun",
+                    "type": "Value",
+                    "id": "aeedf8cb-b69b-458e-ab0c-caa94e619ceb",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Quit",
+                    "type": "Button",
+                    "id": "de700f1a-2728-4c85-b810-4818f684e7a1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Reload",
+                    "type": "Button",
+                    "id": "d84170bb-b1a5-4cd2-8107-bdeb0425a9dd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Teleport1",
+                    "type": "Button",
+                    "id": "46a51145-53b0-401c-ad4a-92733da7e3fa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Teleport2",
+                    "type": "Button",
+                    "id": "6906c91e-140d-45df-aa57-0077473f1e67",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Teleport3",
+                    "type": "Button",
+                    "id": "c346954a-8815-4edc-be29-6e66222547a6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
                 }
             ],
@@ -374,7 +464,7 @@
                 {
                     "name": "",
                     "id": "5b988be6-f5f9-478b-b592-f0eae0ea09d9",
-                    "path": "<Keyboard>/#(0)",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -385,10 +475,10 @@
                 {
                     "name": "",
                     "id": "fe3e5707-360a-45e7-b76f-31f793f6c72c",
-                    "path": "<Gamepad>/dpad/down",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
+                    "groups": "Gamepad;Xbox Controller;PS4 Controller",
                     "action": "Scan",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -396,7 +486,7 @@
                 {
                     "name": "",
                     "id": "714cc266-b154-478e-ae3e-823cdfedeb11",
-                    "path": "<Keyboard>/#(=)",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -407,10 +497,10 @@
                 {
                     "name": "",
                     "id": "6c6bba92-9d09-4b55-9168-a88721bd0254",
-                    "path": "<Gamepad>/dpad/up",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
+                    "groups": "Gamepad;Xbox Controller;PS4 Controller",
                     "action": "Scanaim",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -418,7 +508,7 @@
                 {
                     "name": "",
                     "id": "0f64c7f5-7285-4b68-98b7-e3cd0b0d4942",
-                    "path": "<Keyboard>/#(-)",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -429,10 +519,10 @@
                 {
                     "name": "",
                     "id": "76e5d1c1-d3a2-4d8a-99ba-ff17093db8f3",
-                    "path": "<Gamepad>/dpad/left",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
+                    "groups": "Gamepad;Xbox Controller;PS4 Controller",
                     "action": "Scanobj",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -462,7 +552,7 @@
                 {
                     "name": "",
                     "id": "97bd905f-6576-4450-8673-bb9dd6c4ccf9",
-                    "path": "<Keyboard>/#(P)",
+                    "path": "<Keyboard>/l",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -476,7 +566,7 @@
                     "path": "<Gamepad>/select",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
+                    "groups": "Gamepad;Xbox Controller;PS4 Controller",
                     "action": "Load",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -498,7 +588,7 @@
                     "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
+                    "groups": "Gamepad;Xbox Controller;PS4 Controller",
                     "action": "Save",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -520,7 +610,7 @@
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "Press(behavior=2)",
                     "processors": "",
-                    "groups": "Gamepad",
+                    "groups": "Gamepad;Xbox Controller;PS4 Controller",
                     "action": "Crouch",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -528,7 +618,7 @@
                 {
                     "name": "",
                     "id": "d75266a3-11f8-498b-b22c-e7631c55bb52",
-                    "path": "<Keyboard>/escape",
+                    "path": "<Keyboard>/p",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -542,7 +632,7 @@
                     "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Xbox Controller;Gamepad",
+                    "groups": "Xbox Controller;Gamepad;PS4 Controller",
                     "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -555,6 +645,149 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "Flashlight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "528a0a45-44ba-447a-bdc2-fd74a7a73b80",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PS4 Controller;Xbox Controller;Gamepad",
+                    "action": "Flashlight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c58eefec-f0d5-4151-848a-060a8b559919",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "BlackHoleGun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2503473f-e495-43c3-b8b8-0415b01090da",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "BlackHoleGun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "688f56b5-fb06-414e-bde0-578d4a6b58f3",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Controller;Gamepad;PS4 Controller",
+                    "action": "SwitchWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a2f64e6f-6f00-4f2e-ab99-eac53b6e37af",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Blaster",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8fa41432-8b43-4a26-833d-8cb46dbd98f5",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shotgun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3b6f1e2a-9918-47ef-9503-35795fa55df0",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4965a576-5115-4dc5-80a9-5129200307c8",
+                    "path": "<Keyboard>/r",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Reload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "92ee2a88-3448-4518-bc80-a86e825f8a81",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Controller;PS4 Controller;Gamepad",
+                    "action": "Reload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a7a06f89-5f10-4eb4-82b2-5acb33febf20",
+                    "path": "<Keyboard>/#(8)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Teleport1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bafe85c0-857e-42b9-8af8-583c40caf473",
+                    "path": "<Keyboard>/#(9)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Teleport2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d80f8f88-b142-4615-a334-1340910341bd",
+                    "path": "<Keyboard>/#(0)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Teleport3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3f4beff7-887a-44dc-b42c-ac9a7c5afe3a",
+                    "path": "<Keyboard>/#(7)",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Ammo",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

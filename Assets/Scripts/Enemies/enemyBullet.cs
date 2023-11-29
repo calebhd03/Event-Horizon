@@ -5,15 +5,26 @@ using UnityEngine;
 public class enemyBullet : MonoBehaviour
 {
     public float bulletDamage = 20f;
+    public AudioClip damageSound;
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Player")
         {
-            HealthMetrics healthMetrics = other.GetComponent<HealthMetrics>();
+            PlayerHealthMetric playerHealthMetric = other.GetComponent<PlayerHealthMetric>();
 
-            if(healthMetrics != null)
+            if(playerHealthMetric != null)
             {
-                healthMetrics.ModifyHealth(-bulletDamage);
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+                if (player != null && damageSound != null)
+                {
+                    AudioListener playerListener = player.GetComponentInChildren<AudioListener>();
+                    if (playerListener != null)
+                    {
+                        AudioSource.PlayClipAtPoint(damageSound, playerListener.transform.position);
+                    }
+                }
+                playerHealthMetric.ModifyHealth(-bulletDamage);
             }
             Destroy(gameObject);
         }

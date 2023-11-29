@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7152764311751747201}
   - component: {fileID: 7152764311751747202}
   - component: {fileID: 7152764311751747203}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SGBarrel (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 7152764311932962253}
   - component: {fileID: 7152764311932962254}
   - component: {fileID: 7152764311932962255}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SGHandle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 7152764312277648762}
   - component: {fileID: 7152764312277648763}
   - component: {fileID: 7152764312277648756}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SGBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -301,13 +301,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7152764312766586567}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7152764312766586567
 Transform:
   m_ObjectHideFlags: 0
@@ -324,6 +324,7 @@ Transform:
   - {fileID: 7152764311751747260}
   - {fileID: 7152764312277648757}
   - {fileID: 7152764311932962248}
+  - {fileID: 8625736223512385459}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -339,7 +340,7 @@ GameObject:
   - component: {fileID: 7152764313161306857}
   - component: {fileID: 7152764313161306858}
   - component: {fileID: 7152764313161306859}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SGBarrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -425,3 +426,34 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!1 &8583590143626836025
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8625736223512385459}
+  m_Layer: 12
+  m_Name: ShotgunBulletSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8625736223512385459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8583590143626836025}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.092, y: 0.1161, z: 0.261}
+  m_LocalScale: {x: 0.7100255, y: 0.8143985, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7152764312766586567}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

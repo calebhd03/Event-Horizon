@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3510836585672076391}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BlackHoleGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,6 +31,7 @@ Transform:
   - {fileID: 3510836587107854150}
   - {fileID: 3510836587291551418}
   - {fileID: 3510836586791873171}
+  - {fileID: 2587400111067170326}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -46,7 +47,7 @@ GameObject:
   - component: {fileID: 3510836586791873174}
   - component: {fileID: 3510836586791873173}
   - component: {fileID: 3510836586791873172}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SGHandle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,7 +144,7 @@ GameObject:
   - component: {fileID: 3510836587107854153}
   - component: {fileID: 3510836587107854152}
   - component: {fileID: 3510836587107854151}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BHBarrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +242,7 @@ GameObject:
   - component: {fileID: 3510836587291551421}
   - component: {fileID: 3510836587291551420}
   - component: {fileID: 3510836587291551419}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SGBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -326,3 +327,34 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &7205960306575111993
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2587400111067170326}
+  m_Layer: 12
+  m_Name: BlackHoleBulletSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2587400111067170326
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7205960306575111993}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.092, y: 0.1172, z: 0.269}
+  m_LocalScale: {x: 0.6099793, y: 0.6700168, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3510836585672076391}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
