@@ -30,7 +30,7 @@ public class ScannerUI : MonoBehaviour
     public GameObject videoPlayer;
     private GameObject newVideoPlayer;
     public GameObject scannerCurrentObject;
-    private int quest = 0;
+    public int quest = 0;
 
 
     void Start()
