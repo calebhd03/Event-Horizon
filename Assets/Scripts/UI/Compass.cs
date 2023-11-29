@@ -61,6 +61,10 @@ public class Compass : MonoBehaviour
         {
             AddQuestMarker(marker);
         }
+        else
+        {
+            Debug.LogWarning("its not finding it");
+        }
     }
 
     public void AddQuestMarker (QuestMarker marker)

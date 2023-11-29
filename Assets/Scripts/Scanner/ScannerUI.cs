@@ -20,11 +20,13 @@ public class ScannerUI : MonoBehaviour
     private GameObject newSlider;
     public Slider newSliderProgress;
     public float elapsed;
+    public float elapsedMaxTime;
     //EnemySlider
     public GameObject sliderPrefab2;
     private GameObject newSlider2;
     public Slider newSliderProgress2;
     public float enelapsed;
+    public float enelapsedMaxTime;
     //VideoPlayer
     public VideoPlayer vp;
     public GameObject videoPlayer;
@@ -75,7 +77,7 @@ public class ScannerUI : MonoBehaviour
         ScanCam ScanCam = FindObjectOfType<ScanCam>();
         elapsed += Time.deltaTime;
         
-        if (elapsed >= 5)
+        if (elapsed >= elapsedMaxTime)
         {                
             Destroy(ScanCam.scannerCurrentObject);
             switch(quest)
@@ -86,31 +88,32 @@ public class ScannerUI : MonoBehaviour
                         quest += 1;
                 break;
                 case 1:
-                questIcon.Delete();
+                        questIcon.Delete();
                         compass.AddQuestMarkerIfNotNull(compass.three);
                         quest += 1;
                 break;
                 case 2:
-                questIcon.Delete();
+                        questIcon.Delete();
                         compass.AddQuestMarkerIfNotNull(compass.four);
                         quest += 1;
                 break;
                 case 3:
-                questIcon.Delete();
+                        questIcon.Delete();
                         compass.AddQuestMarkerIfNotNull(compass.five);
                         quest += 1;
                 break;
                 case 4:
+                        questIcon.Delete();
                         compass.AddQuestMarkerIfNotNull(compass.six);
                         quest += 1;
                 break;
                 case 5:
-                questIcon.Delete();
+                        questIcon.Delete();
                         compass.AddQuestMarkerIfNotNull(compass.seven);
                         quest += 1;
                 break;
                 case 6:
-                questIcon.Delete();
+                        questIcon.Delete();
                         compass.AddQuestMarkerIfNotNull(compass.eight);
                         quest += 1;
                 break;
@@ -135,7 +138,7 @@ public class ScannerUI : MonoBehaviour
         EnemiesScanScript eneScr = FindObjectOfType<EnemiesScanScript>();
         enelapsed += Time.deltaTime;
 
-        if (enelapsed >= 10)
+        if (enelapsed >= enelapsedMaxTime)
         {
             eneText();
             DisableEnemySlider();
