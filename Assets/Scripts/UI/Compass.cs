@@ -55,7 +55,7 @@ public class Compass : MonoBehaviour
 
         }
     }
-    private void AddQuestMarkerIfNotNull(QuestMarker marker)
+    public void AddQuestMarkerIfNotNull(QuestMarker marker)
     {
         if (marker != null)
         {

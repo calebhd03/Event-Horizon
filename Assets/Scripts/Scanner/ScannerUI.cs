@@ -82,36 +82,36 @@ public class ScannerUI : MonoBehaviour
             {
                 case 0:
                         questIcon.Delete();
-                        compass.AddQuestMarker(compass.two);
+                        compass.AddQuestMarkerIfNotNull(compass.two);
                         quest += 1;
                 break;
                 case 1:
                 questIcon.Delete();
-                        compass.AddQuestMarker(compass.three);
+                        compass.AddQuestMarkerIfNotNull(compass.three);
                         quest += 1;
                 break;
                 case 2:
                 questIcon.Delete();
-                        compass.AddQuestMarker(compass.four);
+                        compass.AddQuestMarkerIfNotNull(compass.four);
                         quest += 1;
                 break;
                 case 3:
                 questIcon.Delete();
-                        compass.AddQuestMarker(compass.five);
+                        compass.AddQuestMarkerIfNotNull(compass.five);
                         quest += 1;
                 break;
                 case 4:
-                        compass.AddQuestMarker(compass.six);
+                        compass.AddQuestMarkerIfNotNull(compass.six);
                         quest += 1;
                 break;
                 case 5:
                 questIcon.Delete();
-                        compass.AddQuestMarker(compass.seven);
+                        compass.AddQuestMarkerIfNotNull(compass.seven);
                         quest += 1;
                 break;
                 case 6:
                 questIcon.Delete();
-                        compass.AddQuestMarker(compass.eight);
+                        compass.AddQuestMarkerIfNotNull(compass.eight);
                         quest += 1;
                 break;
             }
