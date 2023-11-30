@@ -87,6 +87,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private AudioClip shotgunSound;
         [SerializeField] private AudioClip shotgunReloadSound;
         [SerializeField] private AudioClip blackHoleSound;
+        [SerializeField] private AudioClip wallBulletSound;
         [SerializeField] private AudioClip blackHoleReloadSound;
         [SerializeField] private AudioClip blackHoleChargeSound;
         [SerializeField] private AudioClip weaponSwitchSound;
@@ -351,13 +352,24 @@ public class ThirdPersonShooterController : MonoBehaviour
                     AudioSource.PlayClipAtPoint(blasterSound, spawnBulletPosition.position);
                     blassterFlash.Play();
                 }
-                else if (equippedWeapon == 1)//Black Hole Projectile Shoot
+                else if (equippedWeapon == 1 )
                 {
-
-                    if(blackHoleAmmoLoaded > 0)
+                    if (starterAssetsInputs.swapBHG  )
                     {
-                        if (isCharged == true)
-                        { 
+                        if (blackHoleAmmoLoaded > 0 || blackHoleAmmoLoaded <= 0)
+                        {
+                        Instantiate(pfWallProjectile, spawnBlackHoleBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+                        currentCooldown = blackHoleCooldown;
+                        thirdPersonController.SwitchCameraTarget();
+                        AudioSource.PlayClipAtPoint(wallBulletSound, spawnBlackHoleBulletPosition.position);
+                        }
+                    }
+                    else if (blackHoleAmmoLoaded > 0 )
+                    {
+                        // Black Hole Projectile Shoot
+                        if (isCharged)
+                        {
+
                             Instantiate(pfBlackHoleProjectile, spawnBlackHoleBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                             blackHoleAmmoLoaded -= 1;
                             currentCooldown = blackHoleCooldown;
@@ -372,14 +384,6 @@ public class ThirdPersonShooterController : MonoBehaviour
                             AudioSource.PlayClipAtPoint(blackHoleChargeSound, spawnBlackHoleBulletPosition.position);
                             BHGcharging();
                         }
-                    }
-                    else
-                     {
-                        Instantiate(pfWallProjectile, spawnBlackHoleBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
-                        currentCooldown = blackHoleCooldown;
-                        thirdPersonController.SwitchCameraTarget();
-                        AudioSource.PlayClipAtPoint(blackHoleSound, spawnBlackHoleBulletPosition.position);
-
                     }
                 }
                 else if (equippedWeapon == 2 && shotgunAmmoLoaded > 0)
