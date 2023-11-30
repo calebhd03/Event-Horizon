@@ -36,6 +36,8 @@ public class bossEnemy : MonoBehaviour
     //MeleeAttack
     public float slashWindUp = 12f;
     private bool slashAttack = false;
+    private float slashAttackCooldown = 10.0f;
+    private float timeSinceLastSlashAttack;
     private Animator armAnim;
 
     //AOEAttack
@@ -72,7 +74,7 @@ public class bossEnemy : MonoBehaviour
         iSeeYou = Physics.CheckSphere(transform.position, seeDistance, playerZone);
         stopDistance = Physics.CheckSphere(transform.position, stopDistanceRange, playerZone);
 
-        if (iSeeYou && !meteorAttack && Time.time - timeSinceLastMeteorAttack > meteorAttackCooldown)
+        if (iSeeYou && !meteorAttack && Time.time - timeSinceLastMeteorAttack > meteorAttackCooldown && !stopDistance)
         {
             float randomValue = Random.value;
 
@@ -81,35 +83,90 @@ public class bossEnemy : MonoBehaviour
             if (randomValue < 0.5f)
             {
                 StartCoroutine(PerformMeteor());
-                if (aoeAttack)
-                {
-                    StopCoroutine(AOE());
-                    aoeAttack = false;
-                    timeSinceLastAOEAttack = Time.time;
-                }
+                StopCoroutine(AOE());
+                aoeAttack = true;
             }
-
             else
             {
-                StartCoroutine(AOE());
-                if (aoeAttack)
-                {
-                    StopCoroutine(PerformMeteor());
-                    meteorAttack = false;
-                    timeSinceLastMeteorAttack = Time.time;
-
-                }
+                aoeAttack = false;
             }
-
         }
+
+        if (!aoeAttack && Time.time - timeSinceLastAOEAttack > aoeAttackCooldown)
+        {
+            float randomValue = Random.value;
+
+            if (randomValue < 0.5f)
+            {
+                StartCoroutine(AOE());
+                StopCoroutine(PerformMeteor());
+                meteorAttack = true;
+            }
+            else
+            {
+                meteorAttack = false;
+            }
+        }
+
         if (iSeeYou)
         {
             followPlayer();
             if (stopDistance == true)
             {
-                agent.SetDestination(transform.position);
-                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+                //stops the metoer attack when player is close to the enemy
+               // meteorAttack = true;
 
+                agent.SetDestination(transform.position);
+                transform.LookAt(player);
+                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+                if (!aoeAttack && Time.time - timeSinceLastAOEAttack > aoeAttackCooldown)
+                {
+                    float randomValue = Random.value;
+
+                    if (randomValue < 0.5f)
+                    {
+                        StartCoroutine(AOE());
+
+                        //This will make sure the AOE attack works and does not happen at the same time as the slash attack
+                        StopCoroutine(slash());
+                        slashAttack = true;
+                        armAnim.SetBool("Slash180", false);
+                    }
+
+                    //if the attack is not a aoe at random then slash attack bool is false which where then trigger the slash attack
+                    else
+                    {
+                        slashAttack = false;
+                    }
+                }
+
+                // Check for slash attack
+                if (!slashAttack && Time.time - timeSinceLastSlashAttack > slashAttackCooldown)
+                {
+                    float randomValue = Random.value;
+
+                    if (randomValue < 0.5f)
+                    {
+                        StartCoroutine(slash());
+
+                        //This will make sure the Slash attack works and does not happen at the same time as the AOE attack
+                        StopCoroutine(AOE());
+                        aoeAttack = true;
+                        armAnim.SetBool("Slash180", false);
+                    }
+
+                    //if the attack is not a slash at random then aie attack bool is false which where then trigger the aoe attack
+                    else
+                    {
+                        aoeAttack = false;
+                    }
+                }
+
+            }
+
+            if(!stopDistance)
+            {
+                armAnim.SetBool("Slash180", false);
             }
         }
     }
@@ -160,6 +217,8 @@ public class bossEnemy : MonoBehaviour
 
         slashAttack = false;
         agent.isStopped = false;
+        timeSinceLastSlashAttack = Time.time;
+        Debug.Log("Slash Attack from boss");
     }
 
     IEnumerator AOE()
