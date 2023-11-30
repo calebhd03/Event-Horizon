@@ -50,17 +50,38 @@ public class WallBullet : MonoBehaviour
             // Do nothing if the collider is on the specified layers
             return;
         }
-        
-            GameObject barrierObject = other.gameObject;
-        if (barrierObject.CompareTag("Barrier"))
+             
+        GameObject otherObject = other.gameObject;
+         Debug.LogWarning("hit " + other);
+
+        if (otherObject.CompareTag("Barrier"))
         {
-            BarrierController barrierController = barrierObject.GetComponent<BarrierController>();
+            BarrierController barrierController = otherObject.GetComponent<BarrierController>();
             if (barrierController != null)
             {
                 barrierController.DestroyBarrier();
             }
         }
+        else if (otherObject.CompareTag("Enemy") || otherObject.CompareTag("WeakPoint"))
+        {
+           
+            bulletRigidbody.constraints = RigidbodyConstraints.FreezePosition; // Stops projectile
+            transform.position = lastPosition;
+            StartCoroutine(ScaleOverTime(effectTime));
+
+            // Only perform the overlap sphere logic if the tag is Enemy or WeakPoint
+            if (otherObject.CompareTag("Enemy") || otherObject.CompareTag("WeakPoint"))
+            {
+                Collider[] hitColliders = Physics.OverlapSphere(transform.position, eventHorizonRadius);
+                foreach (var hitCollider in hitColliders)
+                {
+                   
+                }
+            }
+        }
     }
+    
+    
 
     IEnumerator ScaleOverTime(float time)
     {
@@ -81,6 +102,24 @@ public class WallBullet : MonoBehaviour
             yield return null;
         }
         Destroy(gameObject);
+    }
+
+    IEnumerator MoveTarget(Collider target)
+    {
+        Debug.Log("MoveTarget coroutine started");
+        if(target.CompareTag("Enemy"))
+        {
+            Debug.Log("MoveTarget: Hit Enemy");
+            float currentTime = 0.0f;
+            Vector3 startPosition = target.transform.position;
+            while(currentTime < (effectTime * .75))
+            {
+                target.transform.position = Vector3.Lerp(startPosition, transform.position, currentTime / (effectTime * .75f));
+                currentTime += Time.deltaTime;
+                yield return null;
+            }
+            Debug.Log("MoveTarget coroutine finished");
+        }
     }
 
 
