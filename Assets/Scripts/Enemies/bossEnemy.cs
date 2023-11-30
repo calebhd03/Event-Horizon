@@ -9,6 +9,7 @@ public class bossEnemy : MonoBehaviour
     //get variables
     public Transform player;
     public NavMeshAgent agent;
+    public Transform modelPoint;
 
     //layerCheck
     public LayerMask playerZone;
@@ -36,6 +37,8 @@ public class bossEnemy : MonoBehaviour
     //MeleeAttack
     public float slashWindUp = 12f;
     private bool slashAttack = false;
+    private float slashAttackCooldown = 10.0f;
+    private float timeSinceLastSlashAttack;
     private Animator armAnim;
 
     //AOEAttack
@@ -43,6 +46,8 @@ public class bossEnemy : MonoBehaviour
     public Transform aoeSpawn;
     public float aoeWindUp = 2f;
     private bool aoeAttack = false;
+    private float aoeAttackCooldown = 10.0f;
+    private float timeSinceLastAOEAttack;
 
     [SerializeField] EnemyHealthBar healthBar;
     private Rigidbody rb;
@@ -70,25 +75,98 @@ public class bossEnemy : MonoBehaviour
         iSeeYou = Physics.CheckSphere(transform.position, seeDistance, playerZone);
         stopDistance = Physics.CheckSphere(transform.position, stopDistanceRange, playerZone);
 
-        if (iSeeYou == true && meteorAttack == false && IsPerformingMeteor() == false && Time.time - timeSinceLastMeteorAttack > meteorAttackCooldown)
+        if (iSeeYou && !meteorAttack && Time.time - timeSinceLastMeteorAttack > meteorAttackCooldown && !stopDistance)
         {
+            float randomValue = Random.value;
+
             transform.LookAt(player);
-            StartCoroutine(PerformMeteor());
+
+            if (randomValue < 0.5f)
+            {
+                StartCoroutine(PerformMeteor());
+                StopCoroutine(AOE());
+                aoeAttack = true;
+            }
+            else
+            {
+                aoeAttack = false;
+            }
+        }
+
+        if (iSeeYou && !aoeAttack && Time.time - timeSinceLastAOEAttack > aoeAttackCooldown)
+        {
+            float randomValue = Random.value;
+
+            if (randomValue < 0.5f)
+            {
+                StartCoroutine(AOE());
+                StopCoroutine(PerformMeteor());
+                meteorAttack = true;
+            }
+            else
+            {
+                meteorAttack = false;
+            }
         }
 
         if (iSeeYou)
         {
             followPlayer();
-            if (stopDistance == true && aoeAttack == false)
+            if (stopDistance == true)
             {
-                meteorAttack = true;
+                //stops the metoer attack when player is close to the enemy
+               // meteorAttack = true;
+
                 agent.SetDestination(transform.position);
-                StartCoroutine(slash());
-                StartCoroutine(AOE());
+                transform.LookAt(player);
+                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+                if (!aoeAttack && Time.time - timeSinceLastAOEAttack > aoeAttackCooldown)
+                {
+                    float randomValue = Random.value;
+
+                    if (randomValue < 0.5f)
+                    {
+                        StartCoroutine(AOE());
+
+                        //This will make sure the AOE attack works and does not happen at the same time as the slash attack
+                        StopCoroutine(slash());
+                        slashAttack = true;
+                        armAnim.SetBool("Slash180", false);
+                    }
+
+                    //if the attack is not a aoe at random then slash attack bool is false which where then trigger the slash attack
+                    else
+                    {
+                        slashAttack = false;
+                    }
+                }
+
+                // Check for slash attack
+                if (!slashAttack && Time.time - timeSinceLastSlashAttack > slashAttackCooldown)
+                {
+                    float randomValue = Random.value;
+
+                    if (randomValue < 0.5f)
+                    {
+                        StartCoroutine(slash());
+
+                        //This will make sure the Slash attack works and does not happen at the same time as the AOE attack
+                        StopCoroutine(AOE());
+                        aoeAttack = true;
+                        armAnim.SetBool("Slash180", false);
+                    }
+
+                    //if the attack is not a slash at random then aie attack bool is false which where then trigger the aoe attack
+                    else
+                    {
+                        aoeAttack = false;
+                    }
+                }
+
             }
-            else if (stopDistance == false)
+
+            if(!stopDistance)
             {
-                meteorAttack = false;
                 armAnim.SetBool("Slash180", false);
             }
         }
@@ -124,15 +202,17 @@ public class bossEnemy : MonoBehaviour
     public void summonMeteor(Vector3 position, Quaternion rotation)
     {
         Rigidbody newMeteor = Instantiate(meteorPrefab, position, rotation).GetComponent<Rigidbody>();
-        Vector3 directionToPlayer = (player.position - position).normalized;
+         Vector3 directionToPlayer = player.position - position;
+
+        float yOffset = 2.0f;
+        directionToPlayer.y += yOffset;
+
+         directionToPlayer.Normalize();
+       
         newMeteor.velocity = directionToPlayer * meteorSpeed;
-        Destroy(newMeteor.gameObject, 5f);
+        Destroy(newMeteor.gameObject, 3f);
     }
 
-    private bool IsPerformingMeteor()
-    {
-        return agent.isStopped && meteorAttack;
-    }
     IEnumerator slash()
     {
         agent.isStopped = true;
@@ -145,6 +225,8 @@ public class bossEnemy : MonoBehaviour
 
         slashAttack = false;
         agent.isStopped = false;
+        timeSinceLastSlashAttack = Time.time;
+        Debug.Log("Slash Attack from boss");
     }
 
     IEnumerator AOE()
@@ -159,6 +241,7 @@ public class bossEnemy : MonoBehaviour
 
         aoeAttack = false;
         agent.isStopped = false;
+        timeSinceLastAOEAttack = Time.time;
     }
 
     public void updateHealth()
