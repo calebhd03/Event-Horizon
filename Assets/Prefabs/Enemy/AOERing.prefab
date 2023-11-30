@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1060804792427589123}
   - component: {fileID: 1060804792427589120}
   - component: {fileID: 1060804792427589121}
+  - component: {fileID: 1481969252478188257}
   m_Layer: 0
   m_Name: Cube(4)
   m_TagString: Untagged
@@ -92,11 +93,25 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1060804792427589127}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1481969252478188257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060804792427589127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f710a0dfe7b3164418159dc7a41e33f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aoeDamage: 20
+  damageSound: {fileID: 8300000, guid: c907e43ee6d99274da0f20d7c4207476, type: 3}
 --- !u!1 &1060804792869524376
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,6 +124,7 @@ GameObject:
   - component: {fileID: 1060804792869524372}
   - component: {fileID: 1060804792869524373}
   - component: {fileID: 1060804792869524378}
+  - component: {fileID: 5193420719588909639}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -189,11 +205,25 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1060804792869524376}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5193420719588909639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060804792869524376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f710a0dfe7b3164418159dc7a41e33f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aoeDamage: 20
+  damageSound: {fileID: 8300000, guid: c907e43ee6d99274da0f20d7c4207476, type: 3}
 --- !u!1 &1060804793345792658
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,6 +236,7 @@ GameObject:
   - component: {fileID: 1060804793345792654}
   - component: {fileID: 1060804793345792655}
   - component: {fileID: 1060804793345792652}
+  - component: {fileID: 3702188711808372656}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -286,11 +317,25 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1060804793345792658}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3702188711808372656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060804793345792658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f710a0dfe7b3164418159dc7a41e33f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aoeDamage: 20
+  damageSound: {fileID: 8300000, guid: c907e43ee6d99274da0f20d7c4207476, type: 3}
 --- !u!1 &1060804793775053595
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,8 +347,6 @@ GameObject:
   - component: {fileID: 1060804793775053589}
   - component: {fileID: 1060804793775053594}
   - component: {fileID: 1060804793775053588}
-  - component: {fileID: -1726159241654853981}
-  - component: {fileID: 6675937405856615178}
   m_Layer: 0
   m_Name: AOERing
   m_TagString: Untagged
@@ -367,33 +410,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!65 &-1726159241654853981
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1060804793775053595}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6675937405856615178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1060804793775053595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fe6f5c6f5c03e74ba1becca0f057ffa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meleeDamage: 20
-  damageSound: {fileID: 8300000, guid: c907e43ee6d99274da0f20d7c4207476, type: 3}
 --- !u!1 &1060804793938395090
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,6 +422,7 @@ GameObject:
   - component: {fileID: 1060804793938395086}
   - component: {fileID: 1060804793938395087}
   - component: {fileID: 1060804793938395084}
+  - component: {fileID: 1493054416248258397}
   m_Layer: 0
   m_Name: Cube (3)
   m_TagString: Untagged
@@ -486,8 +503,22 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1060804793938395090}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1493054416248258397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060804793938395090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f710a0dfe7b3164418159dc7a41e33f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aoeDamage: 20
+  damageSound: {fileID: 8300000, guid: c907e43ee6d99274da0f20d7c4207476, type: 3}

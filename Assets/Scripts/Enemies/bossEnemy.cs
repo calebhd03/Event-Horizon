@@ -92,7 +92,7 @@ public class bossEnemy : MonoBehaviour
             }
         }
 
-        if (!aoeAttack && Time.time - timeSinceLastAOEAttack > aoeAttackCooldown)
+        if (iSeeYou && !aoeAttack && Time.time - timeSinceLastAOEAttack > aoeAttackCooldown)
         {
             float randomValue = Random.value;
 
