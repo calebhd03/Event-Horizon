@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlackHoleBullet : MonoBehaviour
+public class WallBullet : MonoBehaviour
 {
     private Rigidbody bulletRigidbody;
     private Renderer bulletRenderer;
@@ -21,6 +21,7 @@ public class BlackHoleBullet : MonoBehaviour
         bulletRigidbody.velocity = transform.forward * speed;
         Object.Destroy(gameObject,2.0f);
         lastPosition = transform.position;
+        Debug.Log("WallBullet");
     }
 
     private void FixedUpdate()
@@ -50,16 +51,13 @@ public class BlackHoleBullet : MonoBehaviour
             return;
         }
         
-        Debug.LogWarning("hit " + other);
-        bulletRigidbody.constraints = RigidbodyConstraints.FreezePosition; //Stops projectile
-        transform.position = lastPosition;
-        StartCoroutine(ScaleOverTime(effectTime));
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, eventHorizonRadius);
-        foreach (var hitCollider in hitColliders)
+            GameObject barrierObject = other.gameObject;
+        if (barrierObject.CompareTag("Barrier"))
         {
-            if(hitCollider.tag == "Enemy")
+            BarrierController barrierController = barrierObject.GetComponent<BarrierController>();
+            if (barrierController != null)
             {
-                StartCoroutine(DestroyTarget(hitCollider));
+                barrierController.DestroyBarrier();
             }
         }
     }
@@ -85,22 +83,7 @@ public class BlackHoleBullet : MonoBehaviour
         Destroy(gameObject);
     }
 
-    IEnumerator DestroyTarget(Collider target)
-    {
-        if(target.tag == "Enemy")
-        {
-            float currentTime = 0.0f;
-            Vector3 startPosition = target.transform.position;
-            while(currentTime < (effectTime * .75))
-            {
-                target.transform.position = Vector3.Lerp(startPosition, transform.position, currentTime / (effectTime * .75f));
-                currentTime += Time.deltaTime;
-                yield return null;
-            }
-            Destroy(target.transform.parent.gameObject);
-            Destroy(target.gameObject);
-        }
-    }
+
 
     private void OnDrawGizmos()
     {

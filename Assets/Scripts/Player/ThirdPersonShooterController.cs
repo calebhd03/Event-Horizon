@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using Unity.VisualScripting;
 using System.Collections;
 using TMPro;
-
 public class ThirdPersonShooterController : MonoBehaviour 
 {
         [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
@@ -15,6 +14,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private Transform pfBulletProjectile;
         [SerializeField] private Transform pfBlackHoleProjectile;
         [SerializeField] private Transform pfShotgunProjectile;
+        [SerializeField] private Transform pfWallProjectile;
         [SerializeField] private Transform spawnBulletPosition;
         [SerializeField] private Transform spawnShotgunBulletPosition;
         [SerializeField] public Transform spawnBlackHoleBulletPosition;
@@ -351,23 +351,35 @@ public class ThirdPersonShooterController : MonoBehaviour
                     AudioSource.PlayClipAtPoint(blasterSound, spawnBulletPosition.position);
                     blassterFlash.Play();
                 }
-                else if (equippedWeapon == 1 && blackHoleAmmoLoaded > 0)//Black Hole Projectile Shoot
+                else if (equippedWeapon == 1)//Black Hole Projectile Shoot
                 {
-                    if (isCharged == true)
-                    { 
-                        Instantiate(pfBlackHoleProjectile, spawnBlackHoleBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
-                        blackHoleAmmoLoaded -= 1;
+
+                    if(blackHoleAmmoLoaded > 0)
+                    {
+                        if (isCharged == true)
+                        { 
+                            Instantiate(pfBlackHoleProjectile, spawnBlackHoleBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+                            blackHoleAmmoLoaded -= 1;
+                            currentCooldown = blackHoleCooldown;
+                            thirdPersonController.SwitchCameraTarget();
+                            AudioSource.PlayClipAtPoint(blackHoleSound, spawnBlackHoleBulletPosition.position);
+                            BHGfiring();
+                            chargeTime = 0;
+                            isCharged = false;
+                        }
+                        else
+                        {
+                            AudioSource.PlayClipAtPoint(blackHoleChargeSound, spawnBlackHoleBulletPosition.position);
+                            BHGcharging();
+                        }
+                    }
+                    else
+                     {
+                        Instantiate(pfWallProjectile, spawnBlackHoleBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                         currentCooldown = blackHoleCooldown;
                         thirdPersonController.SwitchCameraTarget();
                         AudioSource.PlayClipAtPoint(blackHoleSound, spawnBlackHoleBulletPosition.position);
-                        BHGfiring();
-                        chargeTime = 0;
-                        isCharged = false;
-                    }
-                    else
-                    {
-                        AudioSource.PlayClipAtPoint(blackHoleChargeSound, spawnBlackHoleBulletPosition.position);
-                        BHGcharging();
+
                     }
                 }
                 else if (equippedWeapon == 2 && shotgunAmmoLoaded > 0)
