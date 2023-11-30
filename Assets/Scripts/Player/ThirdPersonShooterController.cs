@@ -21,6 +21,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private Transform spawnBulletPositionOg;
         [SerializeField] private Transform spawnBulletPositionCrouch;
         [SerializeField] private Transform debugTransform;
+        
         //private Animator animator;
         
         [SerializeField] private int equippedWeapon;
@@ -30,6 +31,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         public GameObject crouchedWeaponObject;
         public GameObject originalWeaponObject;
+        public GameObject BhgIcon;
         private bool isCrouching;
 
         [Header("Weapon Game Objects")]
@@ -117,6 +119,8 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         private void Update()
         {
+            UpdateIcon();
+            
             Scanning scnScr = Scanningobject.GetComponent<Scanning>();
             ScanCam scnCam = Scannercamera.GetComponent<ScanCam>();
             ScanZoom scnzCam = ScannerZoomCamera.GetComponent<ScanZoom>();
@@ -358,6 +362,8 @@ public class ThirdPersonShooterController : MonoBehaviour
                     {
                         if (blackHoleAmmoLoaded > 0 || blackHoleAmmoLoaded <= 0)
                         {
+                        
+                         BhgIcon.SetActive(false);
                         Instantiate(pfWallProjectile, spawnBlackHoleBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                         currentCooldown = blackHoleCooldown;
                         thirdPersonController.SwitchCameraTarget();
@@ -366,6 +372,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                     }
                     else if (blackHoleAmmoLoaded > 0 )
                     {
+                       // BhgIcon.SetActive(true);
                         // Black Hole Projectile Shoot
                         if (isCharged)
                         {
@@ -384,7 +391,10 @@ public class ThirdPersonShooterController : MonoBehaviour
                             AudioSource.PlayClipAtPoint(blackHoleChargeSound, spawnBlackHoleBulletPosition.position);
                             BHGcharging();
                         }
+
                     }
+
+
                 }
                 else if (equippedWeapon == 2 && shotgunAmmoLoaded > 0)
                 {        
@@ -692,5 +702,21 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         yield return new WaitForSeconds(reloadTime);
         reloading = false;
+    }
+
+    private void UpdateIcon()
+    {
+        if((starterAssetsInputs.swapBHG &&equippedWeapon == 1 ))
+         {
+             BhgIcon.SetActive(false);
+         }
+         else if( equippedWeapon == 1)
+        {
+           BhgIcon.SetActive(true);
+         }
+        else
+        {
+         BhgIcon.SetActive(false);
+        }
     }
 }
