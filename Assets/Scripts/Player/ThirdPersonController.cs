@@ -89,6 +89,9 @@ namespace StarterAssets
         public float rotationSmoothTime = 0.1f; // Tweak the value
         private Vector3 rotationVelocity = Vector3.zero;
 
+        //DeathAudio
+        public AudioClip deathAudio;
+        AudioSource audioSource;
         
         
 
@@ -170,7 +173,7 @@ namespace StarterAssets
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
                  CurrentCameraTarget = DefaultCameraTarget;
             }
-
+            audioSource = GetComponent<AudioSource>();
         }
 
         private void Start()
@@ -507,6 +510,7 @@ namespace StarterAssets
 
             if (_input.load || healthMetrics.currentHealth <= 0)
             {
+                audioSource.PlayOneShot(deathAudio);
                 _input.load = false;
                 saveSystemTest.LoadGame();               
                 Debug.Log("Load Input Pressed!");
