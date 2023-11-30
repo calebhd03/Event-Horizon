@@ -1007,6 +1007,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword
       objectReference: {fileID: 0}
+    - target: {fileID: 6725540742053054413, guid: e6d46eec8efa3e64ca6b15583f25a777, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6725540742053054414, guid: e6d46eec8efa3e64ca6b15583f25a777, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -1132,6 +1136,70 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
+--- !u!1 &447911276625273014 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7417408547777173970, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
+  m_PrefabInstance: {fileID: 6978504818902989156}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &2472446952808747261
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 447911276625273014}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.009815252, y: 0.04265442, z: 0.01178343}
+  m_Center: {x: 0.0000000033744438, y: 0.007262558, z: -6.7380884e-10}
+--- !u!114 &4176344360973804390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 447911276625273014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fe6f5c6f5c03e74ba1becca0f057ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeDamage: 20
+  damageSound: {fileID: 8300000, guid: c907e43ee6d99274da0f20d7c4207476, type: 3}
+--- !u!1 &3795694386341557111 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6085949449992227347, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
+  m_PrefabInstance: {fileID: 6978504818902989156}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &5949044638947356352
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3795694386341557111}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.009815251, y: 0.043621045, z: 0.0117834285}
+  m_Center: {x: 0.00057821657, y: 0.007883154, z: 0.00056068203}
+--- !u!114 &8959913235031862671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3795694386341557111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fe6f5c6f5c03e74ba1becca0f057ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeDamage: 20
+  damageSound: {fileID: 8300000, guid: c907e43ee6d99274da0f20d7c4207476, type: 3}
 --- !u!4 &7445039890647817871 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
