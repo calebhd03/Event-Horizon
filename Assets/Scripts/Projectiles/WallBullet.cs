@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlackHoleBullet : MonoBehaviour
+public class WallBullet : MonoBehaviour
 {
     private Rigidbody bulletRigidbody;
     private Renderer bulletRenderer;
@@ -21,6 +21,7 @@ public class BlackHoleBullet : MonoBehaviour
         bulletRigidbody.velocity = transform.forward * speed;
         Object.Destroy(gameObject,2.0f);
         lastPosition = transform.position;
+        Debug.Log("WallBullet");
     }
 
     private void FixedUpdate()
@@ -49,20 +50,38 @@ public class BlackHoleBullet : MonoBehaviour
             // Do nothing if the collider is on the specified layers
             return;
         }
-        
-        Debug.LogWarning("hit " + other);
-        bulletRigidbody.constraints = RigidbodyConstraints.FreezePosition; //Stops projectile
-        transform.position = lastPosition;
-        StartCoroutine(ScaleOverTime(effectTime));
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, eventHorizonRadius);
-        foreach (var hitCollider in hitColliders)
+             
+        GameObject otherObject = other.gameObject;
+         Debug.LogWarning("hit " + other);
+
+        if (otherObject.CompareTag("Barrier"))
         {
-            if(hitCollider.tag == "Enemy")
+            BarrierController barrierController = otherObject.GetComponent<BarrierController>();
+            if (barrierController != null)
             {
-                StartCoroutine(DestroyTarget(hitCollider));
+                barrierController.DestroyBarrier();
+            }
+        }
+        else if (otherObject.CompareTag("Enemy") || otherObject.CompareTag("WeakPoint"))
+        {
+           
+            bulletRigidbody.constraints = RigidbodyConstraints.FreezePosition; // Stops projectile
+            transform.position = lastPosition;
+            StartCoroutine(ScaleOverTime(effectTime));
+
+            // Only perform the overlap sphere logic if the tag is Enemy or WeakPoint
+            if (otherObject.CompareTag("Enemy") || otherObject.CompareTag("WeakPoint"))
+            {
+                Collider[] hitColliders = Physics.OverlapSphere(transform.position, eventHorizonRadius);
+                foreach (var hitCollider in hitColliders)
+                {
+                   
+                }
             }
         }
     }
+    
+    
 
     IEnumerator ScaleOverTime(float time)
     {
@@ -85,10 +104,12 @@ public class BlackHoleBullet : MonoBehaviour
         Destroy(gameObject);
     }
 
-    IEnumerator DestroyTarget(Collider target)
+    IEnumerator MoveTarget(Collider target)
     {
-        if(target.tag == "Enemy")
+        Debug.Log("MoveTarget coroutine started");
+        if(target.CompareTag("Enemy"))
         {
+            Debug.Log("MoveTarget: Hit Enemy");
             float currentTime = 0.0f;
             Vector3 startPosition = target.transform.position;
             while(currentTime < (effectTime * .75))
@@ -97,10 +118,11 @@ public class BlackHoleBullet : MonoBehaviour
                 currentTime += Time.deltaTime;
                 yield return null;
             }
-            Destroy(target.transform.parent.gameObject);
-            Destroy(target.gameObject);
+            Debug.Log("MoveTarget coroutine finished");
         }
     }
+
+
 
     private void OnDrawGizmos()
     {
