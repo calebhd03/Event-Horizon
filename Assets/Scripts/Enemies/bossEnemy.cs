@@ -9,6 +9,7 @@ public class bossEnemy : MonoBehaviour
     //get variables
     public Transform player;
     public NavMeshAgent agent;
+    public Transform modelPoint;
 
     //layerCheck
     public LayerMask playerZone;
@@ -201,10 +202,17 @@ public class bossEnemy : MonoBehaviour
     public void summonMeteor(Vector3 position, Quaternion rotation)
     {
         Rigidbody newMeteor = Instantiate(meteorPrefab, position, rotation).GetComponent<Rigidbody>();
-        Vector3 directionToPlayer = (player.position - position).normalized;
+         Vector3 directionToPlayer = player.position - position;
+
+        float yOffset = 2.0f;
+        directionToPlayer.y += yOffset;
+
+         directionToPlayer.Normalize();
+       
         newMeteor.velocity = directionToPlayer * meteorSpeed;
         Destroy(newMeteor.gameObject, 3f);
     }
+
     IEnumerator slash()
     {
         agent.isStopped = true;
