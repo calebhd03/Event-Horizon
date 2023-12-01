@@ -460,10 +460,10 @@ MonoBehaviour:
     m_Bits: 128
   movePoints: []
   idleTime: 10
-  attackRange: 3
-  attackAgainTimer: 5
+  attackRange: 1.3
+  attackAgainTimer: 10
   viewRadius: 15
-  viewAngle: 80
+  viewAngle: 100
   hearDistance: 5
   healthBar: {fileID: 0}
   rangeAttack: 0
@@ -770,6 +770,7 @@ GameObject:
   - component: {fileID: 986633096713724793}
   - component: {fileID: 986633096713724795}
   - component: {fileID: 2992706124359696721}
+  - component: {fileID: 1469466920174996253}
   m_Layer: 0
   m_Name: MeleeEnemy
   m_TagString: WeakPoint
@@ -831,6 +832,20 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!136 &1469466920174996253
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986633096713724794}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2.4245558
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.01833558, z: 0}
 --- !u!1 &986633096862746179
 GameObject:
   m_ObjectHideFlags: 0
@@ -1166,7 +1181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fe6f5c6f5c03e74ba1becca0f057ffa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meleeDamage: 20
+  meleeDamage: 5
   damageSound: {fileID: 8300000, guid: c907e43ee6d99274da0f20d7c4207476, type: 3}
 --- !u!1 &3795694386341557111 stripped
 GameObject:
@@ -1198,7 +1213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fe6f5c6f5c03e74ba1becca0f057ffa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meleeDamage: 20
+  meleeDamage: 5
   damageSound: {fileID: 8300000, guid: c907e43ee6d99274da0f20d7c4207476, type: 3}
 --- !u!4 &7445039890647817871 stripped
 Transform:
