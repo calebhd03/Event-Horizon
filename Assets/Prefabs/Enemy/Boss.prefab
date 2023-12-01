@@ -84,7 +84,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 460996748575234140}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.86, y: 4, z: -0.2}
+  m_LocalPosition: {x: 8.96, y: 6, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1055,13 +1055,15 @@ MonoBehaviour:
   leftMeteor: {fileID: 5257789490044871667}
   middleMeteor: {fileID: 4973244207825216771}
   meteorWindUp: 3
-  timeBetweenMeteorAttack: 1.5
+  timeBetweenMeteorAttack: 2
+  meteorWaitOnSpawn: 2
   meteorSpeed: 10
   slashWindUp: 3
   aoeRingPrefab: {fileID: 1060804793775053595, guid: 18bec9bdce656f44c90e6524a9a0b3dd, type: 3}
   aoeSpawn: {fileID: 6407285430750896918}
   aoeWindUp: 3
   healthBar: {fileID: 0}
+  meteorSpawnSound: {fileID: 8300000, guid: 204dac5665027be4e979bd008d7d4705, type: 3}
 --- !u!195 &1596564476
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1072,7 +1074,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1209,7 +1211,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4973244207825216770}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4, z: -0.2}
+  m_LocalPosition: {x: 0, y: 6, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1289,7 +1291,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6736512306054190801}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.71, y: 4, z: -0.2}
+  m_LocalPosition: {x: -9.37, y: 6, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
