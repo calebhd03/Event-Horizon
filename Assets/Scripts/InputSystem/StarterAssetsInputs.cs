@@ -43,6 +43,7 @@ namespace StarterAssets
 		public bool switchWeapon;
 		public bool blaster;
 		public bool shotgun;
+		public bool swapBHG;
 
 		[Header ("Dev Controls")]
 		public bool teleport1;
@@ -171,6 +172,10 @@ namespace StarterAssets
 		public void OnAmmo(InputValue value) //Dev control
 		{
 			AmmoInput(value.isPressed);
+		}
+		public void OnSwapBHG(InputValue value)
+		{
+			SwapBHGInput(value.isPressed);
 		}
 		
 #endif
@@ -309,6 +314,13 @@ namespace StarterAssets
 		public void AmmoInput(bool newAmmoState) //Dev Controls
 		{
 			ammo = newAmmoState;
+		}
+		public void SwapBHGInput(bool newSwapBHGState)
+		{
+			if (newSwapBHGState)
+			{
+				swapBHG = !swapBHG;
+			}
 		}
 	}
 }

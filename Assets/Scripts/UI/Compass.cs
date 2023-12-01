@@ -20,6 +20,7 @@ public class Compass : MonoBehaviour
     public QuestMarker seven;
     public QuestMarker eight;
     
+    GameObject newMarker;
 
     float compassUnit;
     float maxDistance = 75f;
@@ -28,15 +29,8 @@ public class Compass : MonoBehaviour
     {
         compassUnit = compassImage.rectTransform.rect.width / 360f;
 
-    
          AddQuestMarkerIfNotNull(one);
-        AddQuestMarkerIfNotNull(two);
-        AddQuestMarkerIfNotNull(three);
-        AddQuestMarkerIfNotNull(four);
-        AddQuestMarkerIfNotNull(five);
-        AddQuestMarkerIfNotNull(six);
-        AddQuestMarkerIfNotNull(seven);
-        AddQuestMarkerIfNotNull(eight);
+
     }
 
     private void Update()
@@ -45,30 +39,37 @@ public class Compass : MonoBehaviour
 
         foreach (QuestMarker marker in questMarkers)
         {
-            marker.image.rectTransform.anchoredPosition = GetPosOnCompass(marker);
+            if (marker != null)
+            {            
+                marker.image.rectTransform.anchoredPosition = GetPosOnCompass(marker);
 
-            float dst = Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), marker.position);
-            float scale =0f;
+                float dst = Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), marker.position);
+                float scale =0f;
 
-            if( dst < maxDistance)
-            {
-                scale = 1f - ( dst / maxDistance);
+                if( dst < maxDistance)
+                {
+                    scale = 1f - ( dst / maxDistance);
+                }
+                marker.image.rectTransform.localScale = Vector3.one * scale;
             }
-            marker.image.rectTransform.localScale = Vector3.one * scale;
 
         }
     }
-    private void AddQuestMarkerIfNotNull(QuestMarker marker)
+    public void AddQuestMarkerIfNotNull(QuestMarker marker)
     {
         if (marker != null)
         {
             AddQuestMarker(marker);
         }
+        else
+        {
+            Debug.LogWarning("its not finding it");
+        }
     }
 
     public void AddQuestMarker (QuestMarker marker)
     {
-        GameObject newMarker = Instantiate(IconPrefab, compassImage.transform);
+        newMarker = Instantiate(IconPrefab, compassImage.transform);
         marker.image = newMarker.GetComponent<Image>();
         marker.image.sprite = marker.icon;
 

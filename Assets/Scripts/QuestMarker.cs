@@ -16,9 +16,4 @@ public class QuestMarker : MonoBehaviour
         get{ return new Vector2(transform.position.x, transform.position.z);
         }
     }
-
-
-
-
-
 }

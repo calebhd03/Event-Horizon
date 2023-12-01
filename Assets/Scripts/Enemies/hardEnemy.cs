@@ -252,17 +252,6 @@ namespace StarterAssets
 
             //Debug field of view of enemy, shows raycast
             DrawFieldOfVision();
-
-            //stop enemy movement in scanner
-            Scanning scnScr = FindObjectOfType<Scanning>();
-            if (scnScr.Scan == true)
-            {
-                agent.isStopped = true;
-            }
-            else
-            {
-                agent.isStopped = false;
-            }
         }
 
         //new movement between points but would have to manually add for each enemy

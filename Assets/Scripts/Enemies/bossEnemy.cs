@@ -9,7 +9,6 @@ public class bossEnemy : MonoBehaviour
     //get variables
     public Transform player;
     public NavMeshAgent agent;
-    public Transform modelPoint;
 
     //layerCheck
     public LayerMask playerZone;
@@ -23,12 +22,14 @@ public class bossEnemy : MonoBehaviour
     public float stopDistanceRange = 3.0f;
 
     //Meteor Attack
+    public GameObject meteorPortalPrefab;
     public GameObject meteorPrefab;
     public Transform rightMeteor;
     public Transform leftMeteor;
     public Transform middleMeteor;
     public float meteorWindUp;
     public float timeBetweenMeteorAttack;
+    public float meteorWaitOnSpawn;
     public float meteorSpeed = 10f;
     private bool meteorAttack = false;
     private float meteorAttackCooldown = 10.0f;
@@ -52,6 +53,8 @@ public class bossEnemy : MonoBehaviour
     [SerializeField] EnemyHealthBar healthBar;
     private Rigidbody rb;
 
+    public AudioClip meteorSpawnSound;
+
 
     // Start is called before the first frame update
     void Start()
@@ -60,7 +63,6 @@ public class bossEnemy : MonoBehaviour
         agent = GetComponentInParent<NavMeshAgent>();
         healthBar = GetComponentInChildren<EnemyHealthBar>();
         rb = GetComponent<Rigidbody>();
-
 
         Transform childTransform = transform.Find("rightArmSlash");
         if (childTransform != null)
@@ -182,15 +184,42 @@ public class bossEnemy : MonoBehaviour
     {
         agent.isStopped = true;
         meteorAttack = true;
+        summonMeteorPortal(rightMeteor.position, Quaternion.identity);
+        summonMeteorPortal(leftMeteor.position, Quaternion.identity);
+        summonMeteorPortal(middleMeteor.position, Quaternion.identity);
 
         yield return new WaitForSeconds(meteorWindUp);
 
+        if (player != null && meteorSpawnSound != null)
+        {
+            AudioListener playerListener = player.GetComponentInChildren<AudioListener>();
+            if (playerListener != null)
+            {
+                AudioSource.PlayClipAtPoint(meteorSpawnSound, playerListener.transform.position);
+            }
+        }
         summonMeteor(rightMeteor.position, Quaternion.identity);
         yield return new WaitForSeconds(timeBetweenMeteorAttack);
 
+        if (player != null && meteorSpawnSound != null)
+        {
+            AudioListener playerListener = player.GetComponentInChildren<AudioListener>();
+            if (playerListener != null)
+            {
+                AudioSource.PlayClipAtPoint(meteorSpawnSound, playerListener.transform.position);
+            }
+        }
         summonMeteor(leftMeteor.position, Quaternion.identity);
         yield return new WaitForSeconds(timeBetweenMeteorAttack);
 
+        if (player != null && meteorSpawnSound != null)
+        {
+            AudioListener playerListener = player.GetComponentInChildren<AudioListener>();
+            if (playerListener != null)
+            {
+                AudioSource.PlayClipAtPoint(meteorSpawnSound, playerListener.transform.position);
+            }
+        }
         summonMeteor(middleMeteor.position, Quaternion.identity);
 
         meteorAttack = false;
@@ -202,15 +231,29 @@ public class bossEnemy : MonoBehaviour
     public void summonMeteor(Vector3 position, Quaternion rotation)
     {
         Rigidbody newMeteor = Instantiate(meteorPrefab, position, rotation).GetComponent<Rigidbody>();
-         Vector3 directionToPlayer = player.position - position;
+        Vector3 directionToPlayer = player.position - position;
 
         float yOffset = 2.0f;
         directionToPlayer.y += yOffset;
 
-         directionToPlayer.Normalize();
-       
-        newMeteor.velocity = directionToPlayer * meteorSpeed;
-        Destroy(newMeteor.gameObject, 3f);
+        directionToPlayer.Normalize();
+
+        StartCoroutine(MeteorDelay(newMeteor, directionToPlayer));
+    }
+
+    IEnumerator MeteorDelay(Rigidbody meteorRigidbody, Vector3 directionToPlayer)
+    {
+        yield return new WaitForSeconds(meteorWaitOnSpawn);
+        meteorRigidbody.velocity = directionToPlayer * meteorSpeed;
+        Destroy(meteorRigidbody.gameObject, 10f);
+    }
+
+
+
+    public void summonMeteorPortal (Vector3 position, Quaternion rotation)
+    {
+        GameObject newMeteorPortal = Instantiate(meteorPortalPrefab, position, rotation);
+        Destroy(newMeteorPortal.gameObject, 8f);
     }
 
     IEnumerator slash()
