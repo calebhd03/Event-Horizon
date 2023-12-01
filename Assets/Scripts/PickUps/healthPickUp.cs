@@ -5,19 +5,12 @@ using UnityEngine;
 public class healthPickUp : MonoBehaviour
 {
     public float pickUpHealthAmount = 10f;
-    [SerializeField] private Vector3 rotation;
-
-    // Update is called once per frame
-    void Update()
-    {
-        transform.Rotate(rotation * Time.deltaTime);
-    }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
         {
-            HealthMetrics playerHealth = other.GetComponent<HealthMetrics>();
+            PlayerHealthMetric playerHealth = other.GetComponent<PlayerHealthMetric>();
             if (playerHealth != null)
             {
                 /*play sounds effects or show visuals effect would be added
