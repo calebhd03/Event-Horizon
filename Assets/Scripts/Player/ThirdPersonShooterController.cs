@@ -484,6 +484,11 @@ public class ThirdPersonShooterController : MonoBehaviour
                     starterAssetsInputs.scanaim = false;
                 }
             }
+
+            if (standardAmmoLoaded == 0 || shotgunAmmoLoaded == 0 || blackHoleAmmoLoaded == 0)
+            {
+                Reload();
+            }
         }
 
     public void EquipBlaster()
