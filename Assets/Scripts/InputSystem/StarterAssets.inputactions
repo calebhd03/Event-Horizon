@@ -238,6 +238,15 @@
                     "processors": "",
                     "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SwapBHG",
+                    "type": "PassThrough",
+                    "id": "6f95a6ca-f25f-4ecf-ad7e-34272be8780d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -788,6 +797,28 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "Ammo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fcc31d19-80e9-443c-b77a-1ef06ad142cf",
+                    "path": "<Keyboard>/#(T)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "SwapBHG",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c0970f78-37b0-4b54-86bf-4c145bb3376a",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "SwapBHG",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
