@@ -105,8 +105,12 @@ public class ThirdPersonShooterController : MonoBehaviour
         private float chargeTime;
         private float chargeSpeed = 1f;
 
+        //movement while scanning
+        private SkinnedMeshRenderer playermesh;
+
         private void Awake()
         {
+            playermesh = GetComponentInChildren<SkinnedMeshRenderer>();
             originalRotation = transform.rotation;
             thirdPersonController = GetComponent<ThirdPersonController>();
             starterAssetsInputs = GetComponent<StarterAssetsInputs>();
@@ -445,8 +449,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     if (starterAssetsInputs.scan)
             {
-                TPC.MoveSpeed = 0;
-                TPC.SprintSpeed = 0;
+                playermesh.enabled = false;
                 starterAssetsInputs.scan = true;
 
                 scnScr.ScanCamPriority();
@@ -458,8 +461,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 }
                 if (scnScr.Scan == false)
                 {
-                        TPC.MoveSpeed = TPC.NormalMovespeed;
-                        TPC.SprintSpeed = TPC.NormalSprintSpeed;
+                    playermesh.enabled = true;
                 }
             }
 
