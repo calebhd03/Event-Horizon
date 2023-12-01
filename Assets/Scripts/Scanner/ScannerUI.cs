@@ -79,7 +79,7 @@ public class ScannerUI : MonoBehaviour
         
         if (elapsed >= elapsedMaxTime)
         {                
-            Destroy(ScanCam.scannerCurrentObject);
+            
             switch(quest)
             {
                 case 0:
@@ -118,7 +118,7 @@ public class ScannerUI : MonoBehaviour
                         quest += 1;
                 break;
             }
-
+            Destroy(ScanCam.scannerCurrentObject);
             DisableSlider();
             if (ScanCam.scannerCurrentObject.tag == "Memory")
             {
