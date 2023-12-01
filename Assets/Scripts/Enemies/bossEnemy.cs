@@ -9,7 +9,6 @@ public class bossEnemy : MonoBehaviour
     //get variables
     public Transform player;
     public NavMeshAgent agent;
-    public Transform modelPoint;
 
     //layerCheck
     public LayerMask playerZone;
@@ -23,6 +22,7 @@ public class bossEnemy : MonoBehaviour
     public float stopDistanceRange = 3.0f;
 
     //Meteor Attack
+    public GameObject meteorPortalPrefab;
     public GameObject meteorPrefab;
     public Transform rightMeteor;
     public Transform leftMeteor;
@@ -182,6 +182,9 @@ public class bossEnemy : MonoBehaviour
     {
         agent.isStopped = true;
         meteorAttack = true;
+        summonMeteorPortal(rightMeteor.position, Quaternion.identity);
+        summonMeteorPortal(leftMeteor.position, Quaternion.identity);
+        summonMeteorPortal(middleMeteor.position, Quaternion.identity);
 
         yield return new WaitForSeconds(meteorWindUp);
 
@@ -201,7 +204,7 @@ public class bossEnemy : MonoBehaviour
 
     public void summonMeteor(Vector3 position, Quaternion rotation)
     {
-        Rigidbody newMeteor = Instantiate(meteorPrefab, position, rotation).GetComponent<Rigidbody>();
+         Rigidbody newMeteor = Instantiate(meteorPrefab, position, rotation).GetComponent<Rigidbody>();
          Vector3 directionToPlayer = player.position - position;
 
         float yOffset = 2.0f;
@@ -211,6 +214,12 @@ public class bossEnemy : MonoBehaviour
        
         newMeteor.velocity = directionToPlayer * meteorSpeed;
         Destroy(newMeteor.gameObject, 3f);
+    }
+
+    public void summonMeteorPortal (Vector3 position, Quaternion rotation)
+    {
+        GameObject newMeteorPortal = Instantiate(meteorPortalPrefab, position, rotation);
+        Destroy(newMeteorPortal.gameObject, 8f);
     }
 
     IEnumerator slash()
