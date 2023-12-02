@@ -79,6 +79,11 @@ namespace StarterAssets
         public float moveDistance;
         //private bool left;
 
+        //backwards melee movement
+        private float backwardSpeed = 10.0f;
+        private bool isMovingBackwards;
+        private float backWardMoveDuration = 1.0f;
+
         private void Awake()
         {
             player = GameObject.Find("Player").transform;
@@ -199,6 +204,7 @@ namespace StarterAssets
 
             if (iSeeYou == true && withInAttackRange == false)
             {
+                transform.LookAt(player);
                 chasePlayer();
                 idle = false;
                 idleStart = 0f;
@@ -234,6 +240,8 @@ namespace StarterAssets
                 if(meleeAttack == true)
                 {
                     transform.LookAt(player);
+                    transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+
                 }
 
             }
@@ -347,6 +355,8 @@ namespace StarterAssets
             if (attackAgainCoolDown == false && meleeAttack == true)
             {
                 agent.SetDestination(transform.position);
+                transform.LookAt(player);
+                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
                 attackAgainCoolDown = true;
 
                 if (attackAgainCoolDown == true)
@@ -361,7 +371,6 @@ namespace StarterAssets
                 
                 Invoke(nameof(meleeAttackCoolDown), attackAgainTimer);
                 Debug.Log("Melee Atack");
-                transform.LookAt(player);
             }
         }
         private void AttackMoving()
@@ -389,10 +398,33 @@ namespace StarterAssets
         {
             //animator.SetBool("MeleeAttack", false);
             attackAgainCoolDown = false;
-            Vector3 backwardDirection = -agent.transform.forward * moveDistance;
-            agent.Move(backwardDirection);
+            if(!isMovingBackwards)
+            {
+                isMovingBackwards = true;
+                StartCoroutine(moveBackWards());
+            }
+            else
+            {
+                StopCoroutine(moveBackWards());
+            }
             transform.LookAt(player);
+            transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
             Debug.Log("Sword Recharge");
+        }
+
+        private IEnumerator moveBackWards()
+        {
+            float Timer = 0f;
+            while(Timer < backWardMoveDuration)
+            {
+                float backStep = backwardSpeed * Time.deltaTime;
+                Vector3 backwardDirection = -agent.transform.forward * backStep;
+                agent.Move(backwardDirection);
+                Timer += Time.deltaTime;
+                yield return null;
+            }
+
+            isMovingBackwards = false;
         }
 
         public void updateHealth()

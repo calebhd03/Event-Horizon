@@ -15,6 +15,13 @@ public class HealthMetrics : MonoBehaviour
 
     public bool isHealthBarActive = true; // Public toggle for the health bar
 
+    public GameObject blasterPickupPrefab;
+    public GameObject shotGunPickupPrefab;
+    public GameObject bHPickupPrefab;
+    public GameObject healthPickupPrefab;
+    public float pickupDropChance = 0.3f;
+
+
     private void Start()
     {
         currentHealth = maxHealth;
@@ -43,6 +50,7 @@ public class HealthMetrics : MonoBehaviour
 
     private void Die()
     {
+        dropStuff();
         Destroy(gameObject);
     }
 
@@ -73,6 +81,21 @@ public class HealthMetrics : MonoBehaviour
             // Calculate the normalized value for the slider
             float normalizedHealth = currentHealth / maxHealth;
             healthBar.value = normalizedHealth;
+        }
+    }
+
+    private void dropStuff()
+    {
+        if(Random.value < pickupDropChance)
+        {
+            Instantiate(shotGunPickupPrefab, transform.position, Quaternion.identity);
+            Instantiate(blasterPickupPrefab, transform.position, Quaternion.identity);
+            Instantiate(bHPickupPrefab, transform.position, Quaternion.identity);
+        }
+
+        if (Random.value < pickupDropChance / 2)
+        {
+            Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
         }
     }
 }

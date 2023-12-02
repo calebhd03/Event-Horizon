@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1396854998181997965}
   m_LocalRotation: {x: -0, y: 0.99881756, z: -0, w: -0.04861632}
-  m_LocalPosition: {x: 0.005, y: -0.837, z: 0.056}
+  m_LocalPosition: {x: 0.005, y: -0.368, z: 0.056}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,8 +44,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.57199997, y: 0.44662762, z: 0.68500084}
-  m_Center: {x: 0.0024157162, y: 0.5604615, z: 0.039409682}
+  m_Size: {x: 0.57199997, y: 0.6142861, z: 0.7528816}
+  m_Center: {x: 0.0024157166, y: 0.47663, z: 0.005469323}
 --- !u!114 &7507254783507866271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,8 +87,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3787874207407574268}
   m_LocalRotation: {x: -0, y: 0.99881756, z: -0, w: -0.04861632}
-  m_LocalPosition: {x: -0.006, y: -0.304, z: 0.033}
-  m_LocalScale: {x: 0.514861, y: 0.5135498, z: 0.5186025}
+  m_LocalPosition: {x: 0.012, y: 0.11, z: 0.031}
+  m_LocalScale: {x: 0.6385902, y: 0.6402981, z: 0.6261301}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6111425175308292233}
@@ -207,6 +207,11 @@ MonoBehaviour:
   currentHealth: 0
   healthBar: {fileID: 0}
   isHealthBarActive: 1
+  blasterPickupPrefab: {fileID: 2386002193791810672, guid: 7c96418087cb35d45820ea94edc4c74f, type: 3}
+  shotGunPickupPrefab: {fileID: 3616794700435168829, guid: 8202146b65b22bb4fb80945099e41b86, type: 3}
+  bHPickupPrefab: {fileID: 1464895933930130252, guid: 8f0d8942908b01c41b83f3c8c7be7cef, type: 3}
+  healthPickupPrefab: {fileID: 1464895933930130252, guid: f867f91f0bffc4f4db651b1be23a1a15, type: 3}
+  pickupDropChance: 0.3
 --- !u!195 &2519514252711871096
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -490,7 +495,7 @@ MonoBehaviour:
   movePoints: []
   idleTime: 10
   attackRange: 10
-  attackAgainTimer: 4
+  attackAgainTimer: 2.8
   viewRadius: 15
   viewAngle: 80
   hearDistance: 5
@@ -663,6 +668,7 @@ GameObject:
   - component: {fileID: 6111425175888305877}
   - component: {fileID: 6111425175888305878}
   - component: {fileID: 6111425175888305879}
+  - component: {fileID: 6481565505749815110}
   m_Layer: 0
   m_Name: RegularPoint
   m_TagString: CriticalPoint
@@ -678,7 +684,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6111425175888305876}
   m_LocalRotation: {x: -0, y: 0.99881756, z: -0, w: -0.04861632}
-  m_LocalPosition: {x: 0, y: -0.57, z: 0}
+  m_LocalPosition: {x: 0, y: 0.631, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -696,8 +702,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.6405008, y: 0.34196454, z: 0.6748694}
+  m_Center: {x: 0.01788655, y: 0.01183036, z: -0.049729496}
 --- !u!114 &6111425175888305879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -712,6 +718,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   regularDamage: 10
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
+--- !u!65 &6481565505749815110
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6111425175888305876}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.7080253, y: 0.33498442, z: 0.6009157}
+  m_Center: {x: 0.008456676, y: -1.040489, z: 0.05887827}
 --- !u!1 &6111425175943490276
 GameObject:
   m_ObjectHideFlags: 0
@@ -1065,3 +1084,67 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
   m_PrefabInstance: {fileID: 641315198990909107}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6670897579769476256 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6085949449992227347, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
+  m_PrefabInstance: {fileID: 641315198990909107}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &7126757211775681324
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6670897579769476256}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0075631845, y: 0.039063856, z: 0.010136057}
+  m_Center: {x: 0.0023737766, y: 0.008069993, z: 0.00080248946}
+--- !u!114 &2833218157996323674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6670897579769476256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50a02517c549d5247b48dce7ece66ce5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regularDamage: 10
+  damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
+--- !u!1 &7929014858251315041 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7417408547777173970, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
+  m_PrefabInstance: {fileID: 641315198990909107}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &8842790455727638494
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7929014858251315041}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.007563185, y: 0.041383628, z: 0.010136058}
+  m_Center: {x: 0.0000000027394194, y: 0.007929674, z: 3.3311667e-10}
+--- !u!114 &782168674278483578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7929014858251315041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50a02517c549d5247b48dce7ece66ce5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regularDamage: 10
+  damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
