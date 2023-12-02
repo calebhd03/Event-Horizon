@@ -15982,14 +15982,14 @@ PrefabInstance:
     - target: {fileID: 836375798746172764, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1021749219}
+      objectReference: {fileID: 1253179628}
     - target: {fileID: 836375798746172764, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadGame
+      value: SetLoad
       objectReference: {fileID: 0}
     - target: {fileID: 836375798746172764, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SaveSystemTest, Assembly-CSharp
+      value: PauseMenuScript, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 836375799061630643, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -16006,7 +16006,7 @@ PrefabInstance:
     - target: {fileID: 836375799061630643, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1253179628}
     - target: {fileID: 836375799061630643, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -16430,18 +16430,18 @@ PrefabInstance:
     - target: {fileID: 5823436275525328147, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1021749219}
+      objectReference: {fileID: 1253179628}
     - target: {fileID: 5823436275525328147, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5823436275525328147, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SaveGame
+      value: SetSave
       objectReference: {fileID: 0}
     - target: {fileID: 5823436275525328147, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SaveSystemTest, Assembly-CSharp
+      value: PauseMenuScript, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5823436275525328147, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -26887,17 +26887,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 140.02, y: 359.117, z: 439.417}
---- !u!114 &1021749219 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3307651297091441217, guid: f866f564909ad034299d28e06c9b272f, type: 3}
-  m_PrefabInstance: {fileID: 676831102}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1961895457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efbc18212e4177148b6a6c0d5310e84d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1042097590
 GameObject:
   m_ObjectHideFlags: 0
@@ -31852,6 +31841,17 @@ MonoBehaviour:
   OperationType: 0
   passThrough: 0
   HandleAsOne: 1
+--- !u!114 &1253179628 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3924081362050683639, guid: f866f564909ad034299d28e06c9b272f, type: 3}
+  m_PrefabInstance: {fileID: 676831102}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6312ee88820da6a45814465eb0872703, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1254951866
 GameObject:
   m_ObjectHideFlags: 0
