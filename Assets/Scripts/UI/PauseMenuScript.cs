@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 using StarterAssets;
+
+
 
 public class PauseMenuScript : MonoBehaviour
 {
@@ -26,6 +27,18 @@ public class PauseMenuScript : MonoBehaviour
     {
     
          starterAssetsInputs = Player.GetComponent<StarterAssetsInputs>();
+    }
+    public void SetSave()
+    {
+        ClosePause();
+        starterAssetsInputs.PauseInput(false);
+        starterAssetsInputs.SaveInput(true);
+    }
+    public void SetLoad()
+    {
+        ClosePause();
+        starterAssetsInputs.PauseInput(false);
+        starterAssetsInputs.LoadInput(true);
     }
 
     public void SetPause()

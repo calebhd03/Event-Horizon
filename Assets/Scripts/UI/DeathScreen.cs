@@ -17,10 +17,6 @@ public class DeathScreen : MonoBehaviour
         gameObject.SetActive(false);
         starterAssetsInputs = Player.GetComponent<StarterAssetsInputs>();
     }
-    public void Death()
-    {
-
-    }
     public void Replay()
     {
         gameObject.SetActive(false);
