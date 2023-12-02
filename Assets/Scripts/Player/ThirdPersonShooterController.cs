@@ -57,7 +57,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         public Image cooldownMeter;
 
         
-        private bool reloading;
+        public bool reloading;
         private int ammoDifference;
         public int standardAmmo;
         public int standardAmmoLoaded;
@@ -652,7 +652,10 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void Reload()
     {
+        if (standardAmmoLoaded != standardAmmoMax || blackHoleAmmoLoaded != blackHoleAmmoMax || shotgunAmmoLoaded != shotgunAmmoMax)
+        {
         reloading = true;
+
         Debug.Log("Reloading!");
         if(equippedWeapon == 0 && standardAmmo > 0 && standardAmmoLoaded < standardAmmoMax)
         {
@@ -703,6 +706,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
         UpdateAmmoCount();
+        }
     }
 
     IEnumerator ReloadTimer(float reloadTime)

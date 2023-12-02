@@ -34,12 +34,14 @@ public class PauseMenuScript : MonoBehaviour
         ClosePause();
         starterAssetsInputs.PauseInput(false);
         starterAssetsInputs.SaveInput(true);
+        paused = false;
     }
     public void SetLoad()
     {
         ClosePause();
         starterAssetsInputs.PauseInput(false);
         starterAssetsInputs.LoadInput(true);
+        paused = false;
     }
 
     public void SetPause()
