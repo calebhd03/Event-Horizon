@@ -458,5 +458,12 @@ namespace StarterAssets
 
             Debug.DrawRay(startPoint + endPointLeft, endPointRight - endPointLeft, Color.green);
         }
+
+        public void SetISeeYou()
+        {
+            iSeeYou = true;
+            chasePlayer();
+        }
     }
+
 }
