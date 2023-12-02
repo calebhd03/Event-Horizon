@@ -82,6 +82,17 @@ namespace StarterAssets
         private float crouchSpeed = 2.0f;
         public float moveDistance;
 
+        [Header("Audio")]
+        public AudioClip deathAudio;
+        [Range(0, 10)] public float deathAudioVolume;
+
+        [Header("Drops")]
+        public GameObject blasterPickupPrefab;
+        public GameObject shotGunPickupPrefab;
+        public GameObject bHPickupPrefab;
+        public GameObject healthPickupPrefab;
+        public float pickupDropChance = 0.3f;
+
         private void Awake()
         {
             player = GameObject.Find("Player").transform;
@@ -407,6 +418,10 @@ namespace StarterAssets
             HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
             healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
 
+            if(healthMetrics.currentHealth <= 0)
+            {
+                Die();
+            }
         }
 
         //DEBUG BELOW
@@ -435,6 +450,28 @@ namespace StarterAssets
             Debug.DrawRay(startPoint, endPointRight, Color.green);
 
             Debug.DrawRay(startPoint + endPointLeft, endPointRight - endPointLeft, Color.green);
+        }
+
+        private void Die()
+        {
+            AudioSource.PlayClipAtPoint(deathAudio, transform.position, deathAudioVolume);
+            DropStuff();
+        }
+
+        private void DropStuff()
+        {
+            if(Random.value < pickupDropChance)
+            {
+                Instantiate(shotGunPickupPrefab, transform.position, Quaternion.identity);
+                Instantiate(blasterPickupPrefab, transform.position, Quaternion.identity);
+                Instantiate(bHPickupPrefab, transform.position, Quaternion.identity);
+            }
+
+            if (Random.value < pickupDropChance / 2)
+            {
+                Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
+            }
+            Destroy(gameObject);
         }
     }
 }

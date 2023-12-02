@@ -53,7 +53,17 @@ public class bossEnemy : MonoBehaviour
     [SerializeField] EnemyHealthBar healthBar;
     private Rigidbody rb;
 
+    [Header("Audio")]
     public AudioClip meteorSpawnSound;
+    public AudioClip deathAudio;
+    [Range(0, 10)] public float deathAudioVolume;
+
+    [Header("Drops")]
+    public GameObject blasterPickupPrefab;
+    public GameObject shotGunPickupPrefab;
+    public GameObject bHPickupPrefab;
+    public GameObject healthPickupPrefab;
+    public float pickupDropChance = 0.3f;
 
 
     // Start is called before the first frame update
@@ -292,6 +302,10 @@ public class bossEnemy : MonoBehaviour
         HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
 
+        if(healthMetrics.currentHealth <= 0)
+        {
+            Die();
+        }
     }
     private void OnDrawGizmos()
     {
@@ -301,4 +315,26 @@ public class bossEnemy : MonoBehaviour
         Gizmos.color = Color.black;
         Gizmos.DrawWireSphere(transform.position, stopDistanceRange);
     }
+
+    private void Die()
+        {
+            AudioSource.PlayClipAtPoint(deathAudio, transform.position, deathAudioVolume);
+            DropStuff();
+        }
+
+        private void DropStuff()
+        {
+            if(Random.value < pickupDropChance)
+            {
+                Instantiate(shotGunPickupPrefab, transform.position, Quaternion.identity);
+                Instantiate(blasterPickupPrefab, transform.position, Quaternion.identity);
+                Instantiate(bHPickupPrefab, transform.position, Quaternion.identity);
+            }
+
+            if (Random.value < pickupDropChance / 2)
+            {
+                Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
+            }
+            Destroy(gameObject);
+        }
 }
