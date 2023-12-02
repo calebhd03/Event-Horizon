@@ -34,11 +34,6 @@ public class HealthMetrics : MonoBehaviour
     {
         currentHealth = Mathf.Clamp(currentHealth + amount, 0f, maxHealth);
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
-
-        if (currentHealth <= 0f)
-        {
-            Die();
-        }
     }
 
     private void Die()

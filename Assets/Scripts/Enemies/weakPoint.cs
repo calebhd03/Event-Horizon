@@ -1,11 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StarterAssets;
 
 public class weakPoint : MonoBehaviour
 {
     public float weakPointDamage;
     public AudioClip damageSound;
+    private basicEnemy basicEnemyScript;
+
+    private void Start()
+    {
+        // Get the BasicEnemy script attached to the same GameObject
+        basicEnemyScript = GetComponentInParent<basicEnemy>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Bullet"))
@@ -27,6 +36,12 @@ public class weakPoint : MonoBehaviour
 
                 healthMetrics.ModifyHealth(-weakPointDamage);
                 Debug.Log("A  WeakPoint");
+                 // Set iSeeYou to true in the BasicEnemy script
+                if (basicEnemyScript != null)
+                {
+                    basicEnemyScript.SetISeeYou();
+                    Debug.Log("Weak iSeeYou to true in BasicEnemy");
+                }
             }
 
 

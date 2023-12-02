@@ -16,10 +16,23 @@ public class Scanning : MonoBehaviour
     private bool MainCamera = true;
     public bool Scan = false;
     AudioSource audioSource;
-    
+    public GameObject HudObject;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+    }
+
+    void Update()
+    {
+        if (Scan == true)
+        {
+            HudObject.SetActive(false);
+        }
+        else
+        {
+            HudObject.SetActive(true);
+        }
     }
 
     public void ScanCamPriority()

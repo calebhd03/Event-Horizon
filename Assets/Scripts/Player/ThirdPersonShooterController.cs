@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using Unity.VisualScripting;
 using System.Collections;
 using TMPro;
-
 public class ThirdPersonShooterController : MonoBehaviour 
 {
         [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
@@ -15,12 +14,14 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private Transform pfBulletProjectile;
         [SerializeField] private Transform pfBlackHoleProjectile;
         [SerializeField] private Transform pfShotgunProjectile;
+        [SerializeField] private Transform pfWallProjectile;
         [SerializeField] private Transform spawnBulletPosition;
         [SerializeField] private Transform spawnShotgunBulletPosition;
         [SerializeField] public Transform spawnBlackHoleBulletPosition;
         [SerializeField] private Transform spawnBulletPositionOg;
         [SerializeField] private Transform spawnBulletPositionCrouch;
         [SerializeField] private Transform debugTransform;
+        
         //private Animator animator;
         
         [SerializeField] private int equippedWeapon;
@@ -30,6 +31,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         public GameObject crouchedWeaponObject;
         public GameObject originalWeaponObject;
+        public GameObject BhgIcon;
         private bool isCrouching;
 
         [Header("Weapon Game Objects")]
@@ -87,6 +89,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private AudioClip shotgunSound;
         [SerializeField] private AudioClip shotgunReloadSound;
         [SerializeField] private AudioClip blackHoleSound;
+        [SerializeField] private AudioClip wallBulletSound;
         [SerializeField] private AudioClip blackHoleReloadSound;
         [SerializeField] private AudioClip blackHoleChargeSound;
         [SerializeField] private AudioClip weaponSwitchSound;
@@ -102,8 +105,12 @@ public class ThirdPersonShooterController : MonoBehaviour
         private float chargeTime;
         private float chargeSpeed = 1f;
 
+        //movement while scanning
+        private SkinnedMeshRenderer playermesh;
+
         private void Awake()
         {
+            playermesh = GetComponentInChildren<SkinnedMeshRenderer>();
             originalRotation = transform.rotation;
             thirdPersonController = GetComponent<ThirdPersonController>();
             starterAssetsInputs = GetComponent<StarterAssetsInputs>();
@@ -116,6 +123,8 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         private void Update()
         {
+            UpdateIcon();
+            
             Scanning scnScr = Scanningobject.GetComponent<Scanning>();
             ScanCam scnCam = Scannercamera.GetComponent<ScanCam>();
             ScanZoom scnzCam = ScannerZoomCamera.GetComponent<ScanZoom>();
@@ -351,24 +360,45 @@ public class ThirdPersonShooterController : MonoBehaviour
                     AudioSource.PlayClipAtPoint(blasterSound, spawnBulletPosition.position);
                     blassterFlash.Play();
                 }
-                else if (equippedWeapon == 1 && blackHoleAmmoLoaded > 0)//Black Hole Projectile Shoot
+                else if (equippedWeapon == 1 )
                 {
-                    if (isCharged == true)
-                    { 
-                        Instantiate(pfBlackHoleProjectile, spawnBlackHoleBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
-                        blackHoleAmmoLoaded -= 1;
+                    if (starterAssetsInputs.swapBHG  )
+                    {
+                        if (blackHoleAmmoLoaded > 0 || blackHoleAmmoLoaded <= 0)
+                        {
+                        
+                         BhgIcon.SetActive(false);
+                        Instantiate(pfWallProjectile, spawnBlackHoleBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                         currentCooldown = blackHoleCooldown;
                         thirdPersonController.SwitchCameraTarget();
-                        AudioSource.PlayClipAtPoint(blackHoleSound, spawnBlackHoleBulletPosition.position);
-                        BHGfiring();
-                        chargeTime = 0;
-                        isCharged = false;
+                        AudioSource.PlayClipAtPoint(wallBulletSound, spawnBlackHoleBulletPosition.position);
+                        }
                     }
-                    else
+                    else if (blackHoleAmmoLoaded > 0 )
                     {
-                        AudioSource.PlayClipAtPoint(blackHoleChargeSound, spawnBlackHoleBulletPosition.position);
-                        BHGcharging();
+                       // BhgIcon.SetActive(true);
+                        // Black Hole Projectile Shoot
+                        if (isCharged)
+                        {
+
+                            Instantiate(pfBlackHoleProjectile, spawnBlackHoleBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+                            blackHoleAmmoLoaded -= 1;
+                            currentCooldown = blackHoleCooldown;
+                            thirdPersonController.SwitchCameraTarget();
+                            AudioSource.PlayClipAtPoint(blackHoleSound, spawnBlackHoleBulletPosition.position);
+                            BHGfiring();
+                            chargeTime = 0;
+                            isCharged = false;
+                        }
+                        else
+                        {
+                            AudioSource.PlayClipAtPoint(blackHoleChargeSound, spawnBlackHoleBulletPosition.position);
+                            BHGcharging();
+                        }
+
                     }
+
+
                 }
                 else if (equippedWeapon == 2 && shotgunAmmoLoaded > 0)
                 {        
@@ -419,8 +449,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     if (starterAssetsInputs.scan)
             {
-                TPC.MoveSpeed = 0;
-                TPC.SprintSpeed = 0;
+                playermesh.enabled = false;
                 starterAssetsInputs.scan = true;
 
                 scnScr.ScanCamPriority();
@@ -432,8 +461,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 }
                 if (scnScr.Scan == false)
                 {
-                        TPC.MoveSpeed = TPC.NormalMovespeed;
-                        TPC.SprintSpeed = TPC.NormalSprintSpeed;
+                    playermesh.enabled = true;
                 }
             }
 
@@ -457,6 +485,11 @@ public class ThirdPersonShooterController : MonoBehaviour
                 {
                     starterAssetsInputs.scanaim = false;
                 }
+            }
+
+            if (standardAmmoLoaded == 0 || shotgunAmmoLoaded == 0 || blackHoleAmmoLoaded == 0)
+            {
+                Reload();
             }
         }
 
@@ -676,5 +709,21 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         yield return new WaitForSeconds(reloadTime);
         reloading = false;
+    }
+
+    private void UpdateIcon()
+    {
+        if((starterAssetsInputs.swapBHG &&equippedWeapon == 1 ))
+         {
+             BhgIcon.SetActive(false);
+         }
+         else if( equippedWeapon == 1)
+        {
+           BhgIcon.SetActive(true);
+         }
+        else
+        {
+         BhgIcon.SetActive(false);
+        }
     }
 }

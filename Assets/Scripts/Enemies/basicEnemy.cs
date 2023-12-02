@@ -79,6 +79,22 @@ namespace StarterAssets
         public float moveDistance;
         //private bool left;
 
+        //backwards melee movement
+        private float backwardSpeed = 10.0f;
+        private bool isMovingBackwards;
+        private float backWardMoveDuration = 1.0f;
+
+        [Header("Audio")]
+        public AudioClip deathAudio;
+        [Range(0, 10)] public float deathAudioVolume;
+
+        [Header("Drops")]
+        public GameObject blasterPickupPrefab;
+        public GameObject shotGunPickupPrefab;
+        public GameObject bHPickupPrefab;
+        public GameObject healthPickupPrefab;
+        public float pickupDropChance = 0.3f;
+
         private void Awake()
         {
             player = GameObject.Find("Player").transform;
@@ -174,8 +190,8 @@ namespace StarterAssets
                             idle = true;
                             if (idle == true)
                             {
-                                //animator.SetBool("RangeAttack", false);
-                                //animator.SetBool("MeleeAttack", false);
+                                animator.SetBool("RangeAttack", false);
+                                animator.SetBool("MeleeAttack", false);
                                 animator.SetBool("Moving", false);
                                 animator.SetBool("PanningIdle", true);
                             }
@@ -188,8 +204,8 @@ namespace StarterAssets
                             idle = false;
                             animator.SetBool("Moving", true);
                             animator.SetBool("PanningIdle", false);
-                            //animator.SetBool("RangeAttack", false);
-                            //animator.SetBool("MeleeAttack", false);
+                            animator.SetBool("RangeAttack", false);
+                            animator.SetBool("MeleeAttack", false);
                             pointMovement();
 
                         }
@@ -199,13 +215,14 @@ namespace StarterAssets
 
             if (iSeeYou == true && withInAttackRange == false)
             {
+                transform.LookAt(player);
                 chasePlayer();
                 idle = false;
                 idleStart = 0f;
                 idleTime = 0f;
                 animator.SetBool("PanningIdle", false);
-                //animator.SetBool("RangeAttack", false);
-                //animator.SetBool("MeleeAttack", false);
+                animator.SetBool("RangeAttack", false);
+                animator.SetBool("MeleeAttack", false);
 
 
                 if (meleeAttack == true)
@@ -234,25 +251,14 @@ namespace StarterAssets
                 if(meleeAttack == true)
                 {
                     transform.LookAt(player);
+                    transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+
                 }
 
             }
 
             //Debug field of view of enemy, shows raycast
             DrawFieldOfVision();
-
-
-            //stop enemy movement in scanner
-            Scanning scnScr = FindObjectOfType<Scanning>();
-            if (scnScr.Scan == true)
-            {
-                agent.isStopped = true;
-            }
-            else
-            {
-                agent.isStopped = false;
-            }
-
         }
 
         //new movement between points but would have to manually add for each enemy
@@ -337,14 +343,14 @@ namespace StarterAssets
                 newBullet.AddForce(transform.forward * 32f, ForceMode.Impulse);
                 newBullet.AddForce(transform.up * 5f, ForceMode.Impulse);
 
-                //animator.SetBool("RangeAttack", true);
+                animator.SetBool("RangeAttack", true);
                 AttackMoving();
 
                 currentMag--;
 
                 if (currentMag <= 0)
                 {
-                    //animator.SetBool("RangeAttack", false);
+                    animator.SetBool("RangeAttack", false);
 
                     attackAgainCoolDown = true;
 
@@ -360,9 +366,11 @@ namespace StarterAssets
             if (attackAgainCoolDown == false && meleeAttack == true)
             {
                 agent.SetDestination(transform.position);
+                transform.LookAt(player);
+                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
                 attackAgainCoolDown = true;
 
-                /*if (attackAgainCoolDown == true)
+                if (attackAgainCoolDown == true)
                 {
                     animator.SetBool("MeleeAttack", true);
                 }
@@ -370,11 +378,10 @@ namespace StarterAssets
                 else
                 {
                     animator.SetBool("MeleeAttack", false);
-                }*/
+                }
                 
                 Invoke(nameof(meleeAttackCoolDown), attackAgainTimer);
                 Debug.Log("Melee Atack");
-                transform.LookAt(player);
             }
         }
         private void AttackMoving()
@@ -402,10 +409,33 @@ namespace StarterAssets
         {
             //animator.SetBool("MeleeAttack", false);
             attackAgainCoolDown = false;
-            Vector3 backwardDirection = -agent.transform.forward * moveDistance;
-            agent.Move(backwardDirection);
+            if(!isMovingBackwards)
+            {
+                isMovingBackwards = true;
+                StartCoroutine(moveBackWards());
+            }
+            else
+            {
+                StopCoroutine(moveBackWards());
+            }
             transform.LookAt(player);
+            transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
             Debug.Log("Sword Recharge");
+        }
+
+        private IEnumerator moveBackWards()
+        {
+            float Timer = 0f;
+            while(Timer < backWardMoveDuration)
+            {
+                float backStep = backwardSpeed * Time.deltaTime;
+                Vector3 backwardDirection = -agent.transform.forward * backStep;
+                agent.Move(backwardDirection);
+                Timer += Time.deltaTime;
+                yield return null;
+            }
+
+            isMovingBackwards = false;
         }
 
         public void updateHealth()
@@ -413,6 +443,10 @@ namespace StarterAssets
             HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
             healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
            
+            if(healthMetrics.currentHealth <= 0)
+            {
+                Die();
+            }
         }
 
         //DEBUG BELOW
@@ -438,6 +472,34 @@ namespace StarterAssets
             Debug.DrawRay(startPoint, endPointRight, Color.green);
 
             Debug.DrawRay(startPoint + endPointLeft, endPointRight - endPointLeft, Color.green);
+        }
+
+        public void SetISeeYou()
+        {
+            iSeeYou = true;
+            chasePlayer();
+        }
+            
+        private void Die()
+        {
+            AudioSource.PlayClipAtPoint(deathAudio, transform.position, deathAudioVolume);
+            DropStuff();
+        }
+
+        private void DropStuff()
+        {
+            if(Random.value < pickupDropChance)
+            {
+                Instantiate(shotGunPickupPrefab, transform.position, Quaternion.identity);
+                Instantiate(blasterPickupPrefab, transform.position, Quaternion.identity);
+                Instantiate(bHPickupPrefab, transform.position, Quaternion.identity);
+            }
+
+            if (Random.value < pickupDropChance / 2)
+            {
+                Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
+            }
+            Destroy(gameObject);
         }
     }
 }

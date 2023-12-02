@@ -84,7 +84,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 460996748575234140}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.646, y: 4, z: -0.2}
+  m_LocalPosition: {x: 8.96, y: 6, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -792,6 +792,7 @@ GameObject:
   - component: {fileID: 4609908195246783261}
   - component: {fileID: 3170739756306172419}
   - component: {fileID: 6034472767329828165}
+  - component: {fileID: 1596564476}
   m_Layer: 0
   m_Name: BossBody
   m_TagString: Enemy
@@ -806,7 +807,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4973244207133764569}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -823,7 +824,7 @@ Transform:
   - {fileID: 3506383531087344816}
   m_Father: {fileID: 4973244207957182976}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!33 &4973244207133764572
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1048,18 +1049,43 @@ MonoBehaviour:
     m_Bits: 8
   seeDistance: 10
   stopDistanceRange: 2.5
-  meteorPrefab: {fileID: 932230430256592425, guid: 1fce84d14f3e0cb4db68347278ac3a63, type: 3}
+  meteorPortalPrefab: {fileID: 6820707611387592768, guid: 11da55da96c400b439a033baa03f052e, type: 3}
+  meteorPrefab: {fileID: 5856671059405442928, guid: dbed1913086309e44a8c5692be265ca2, type: 3}
   rightMeteor: {fileID: 1319893196424914120}
   leftMeteor: {fileID: 5257789490044871667}
   middleMeteor: {fileID: 4973244207825216771}
   meteorWindUp: 3
-  timeBetweenMeteorAttack: 1.5
+  timeBetweenMeteorAttack: 2
+  meteorWaitOnSpawn: 2
   meteorSpeed: 10
   slashWindUp: 3
   aoeRingPrefab: {fileID: 1060804793775053595, guid: 18bec9bdce656f44c90e6524a9a0b3dd, type: 3}
   aoeSpawn: {fileID: 6407285430750896918}
-  aoeWindUp: 0.5
+  aoeWindUp: 3
   healthBar: {fileID: 0}
+  meteorSpawnSound: {fileID: 8300000, guid: 204dac5665027be4e979bd008d7d4705, type: 3}
+--- !u!195 &1596564476
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4973244207133764569}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 2
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &4973244207495498770
 GameObject:
   m_ObjectHideFlags: 0
@@ -1185,7 +1211,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4973244207825216770}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4, z: -0.2}
+  m_LocalPosition: {x: 0, y: 6, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1202,7 +1228,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4973244207957182976}
   - component: {fileID: 4973244207957182977}
-  - component: {fileID: 3684994863158769964}
   m_Layer: 0
   m_Name: Boss
   m_TagString: WeakPoint
@@ -1242,28 +1267,6 @@ MonoBehaviour:
   currentHealth: 0
   healthBar: {fileID: 4973244205972954754}
   isHealthBarActive: 1
---- !u!195 &3684994863158769964
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4973244207957182990}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 1
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!1 &6736512306054190801
 GameObject:
   m_ObjectHideFlags: 0
@@ -1288,7 +1291,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6736512306054190801}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.6, y: 4, z: -0.2}
+  m_LocalPosition: {x: -9.37, y: 6, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
