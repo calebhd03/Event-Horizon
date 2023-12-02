@@ -229,10 +229,25 @@ namespace StarterAssets
         private void GroundedCheck()
         {
             // set sphere position, with offset
-            Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset,
-                transform.position.z);
-            Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
-                QueryTriggerInteraction.Ignore);
+            Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
+            Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
+
+            // Check if the ground layer is not the EnemyColider layer or Enemy layer
+            if (Grounded)
+            {
+                Collider[] colliders = Physics.OverlapSphere(spherePosition, GroundedRadius, GroundLayers);
+                foreach (Collider collider in colliders)
+                {
+                    int enemyLayer = LayerMask.NameToLayer("Enemy");
+                    int enemyColliderLayer = LayerMask.NameToLayer("EnemyColider");
+
+                    if (collider.gameObject.layer == enemyColliderLayer || collider.gameObject.layer == enemyLayer)
+                    {
+                        Grounded = false;
+                        break; // Exit the loop if an enemy collider is found
+                    }
+                }
+            }
 
             // update animator if using character
             if (_hasAnimator)
@@ -240,7 +255,6 @@ namespace StarterAssets
                 _animator.SetBool(_animIDGrounded, Grounded);
             }
         }
-
         private void CameraRotation()
         {
             // if there is an input and camera position is not fixed
