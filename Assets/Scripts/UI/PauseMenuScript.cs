@@ -32,14 +32,14 @@ public class PauseMenuScript : MonoBehaviour
     public void SetSave()
     {
         ClosePause();
-        starterAssetsInputs.PauseInput(false);
+      //  starterAssetsInputs.PauseInput(false);
         starterAssetsInputs.SaveInput(true);
         paused = false;
     }
     public void SetLoad()
     {
         ClosePause();
-        starterAssetsInputs.PauseInput(false);
+       // starterAssetsInputs.PauseInput(false);
         starterAssetsInputs.LoadInput(true);
         paused = false;
     }
@@ -89,7 +89,7 @@ public class PauseMenuScript : MonoBehaviour
         Time.timeScale = 1;
 
         starterAssetsInputs.PauseInput(false);
-
+        PauseFalse();
 
 
         //Debug.Log("After: " + starterAssetsInputs.pause);
@@ -149,5 +149,10 @@ public class PauseMenuScript : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public void PauseFalse()
+    {
+        starterAssetsInputs.PauseInput(false);
     }
 }
