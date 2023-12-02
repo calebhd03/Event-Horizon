@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
+using StarterAssets;
 
 public class PauseMenuScript : MonoBehaviour
 {
@@ -13,16 +16,28 @@ public class PauseMenuScript : MonoBehaviour
     
     public bool paused = false;
 
+    private StarterAssetsInputs starterAssetsInputs;
+
+      public GameObject Player;
+
+
+
+    private void Start()
+    {
+    
+         starterAssetsInputs = Player.GetComponent<StarterAssetsInputs>();
+    }
+
     public void SetPause()
     {
         if(paused == false)
         {
-            paused = true;
+           // paused = true;
             OpenPause();
         }
         else
         {
-            paused = false;
+           // paused = false;
             settingsScreen.SetActive(false);
             inventoryScreen.SetActive(false);
             upgradeScreen.SetActive(false);
@@ -33,16 +48,34 @@ public class PauseMenuScript : MonoBehaviour
     //The three functions here open their respective menus and close out the main
     public void OpenPause()
         {
-                    Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+            paused = true;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             Time.timeScale = 0;
             PauseScreen.SetActive(true);
+
         }
     public void ClosePause()
-        {
-            PauseScreen.SetActive(false);
-            Time.timeScale = 1;
-        }
+    {
+       // Debug.Log("Before: " + starterAssetsInputs.pause);
+        
+        settingsScreen.SetActive(false);
+        inventoryScreen.SetActive(false);
+        upgradeScreen.SetActive(false);
+        logSystem.SetActive(false);
+
+        paused = false;
+        PauseScreen.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Time.timeScale = 1;
+
+        starterAssetsInputs.PauseInput(false);
+
+
+
+        //Debug.Log("After: " + starterAssetsInputs.pause);
+    }
     public void OpenSettings()
         {
             settingsScreen.SetActive(true);
