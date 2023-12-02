@@ -26,7 +26,7 @@ public class WallBullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet"));
+        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","EnemyColider"));
         if (Physics.Linecast(transform.position, lastPosition, out RaycastHit hitInfo, layerMask))
         {
             transform.position = lastPosition;
@@ -45,7 +45,8 @@ public class WallBullet : MonoBehaviour
             layerMask == LayerMask.NameToLayer("CheckPoints") ||
             layerMask == LayerMask.NameToLayer("Player") ||
             layerMask == LayerMask.NameToLayer("GunLayer")||
-            layerMask == LayerMask.NameToLayer("WallBullet"))
+            layerMask == LayerMask.NameToLayer("WallBullet")||
+            layerMask == LayerMask.NameToLayer("EnemyColider"))
         {
             // Do nothing if the collider is on the specified layers
             return;
