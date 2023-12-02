@@ -92,7 +92,7 @@ namespace StarterAssets
         //DeathAudio
         public AudioClip deathAudio;
         AudioSource audioSource;
-        
+        public GameObject deathScreen;
 
 
 
@@ -173,6 +173,7 @@ namespace StarterAssets
                  CurrentCameraTarget = DefaultCameraTarget;
             }
             audioSource = GetComponent<AudioSource>();
+            deathScreen.SetActive(false);
         }
 
         private void Start()
@@ -507,7 +508,7 @@ namespace StarterAssets
                 Debug.Log("Save Input Pressed!");
             }
 
-            if (_input.load || healthMetrics.currentHealth <= 0)
+            if (_input.load)
             {
                 audioSource.PlayOneShot(deathAudio);
                 _input.load = false;
@@ -520,12 +521,22 @@ namespace StarterAssets
                 }
             }
 
+            
+            if (healthMetrics.currentHealth <= 0)
+            {
+            Time.timeScale = 0f;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            deathScreen.SetActive(true);
+            }
+
             if (_input.value)
             {
                 _input.value = false;
                 saveSystemTest.TestValue();
             }
         }
+
 
         public void Crouch()
         {
