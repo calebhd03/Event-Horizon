@@ -32,14 +32,16 @@ public class PauseMenuScript : MonoBehaviour
     public void SetSave()
     {
         ClosePause();
-       // starterAssetsInputs.PauseInput(false);
+        starterAssetsInputs.PauseInput(false);
         starterAssetsInputs.SaveInput(true);
+        paused = false;
     }
     public void SetLoad()
     {
         ClosePause();
-      // starterAssetsInputs.PauseInput(false);
-       starterAssetsInputs.LoadInput(true);
+        starterAssetsInputs.PauseInput(false);
+        starterAssetsInputs.LoadInput(true);
+        paused = false;
     }
 
     public void SetPause()
@@ -51,13 +53,12 @@ public class PauseMenuScript : MonoBehaviour
         }
         else
         {
-           // paused = false;
-           // settingsScreen.SetActive(false);
-           // inventoryScreen.SetActive(false);
-           // upgradeScreen.SetActive(false);
-           // logSystem.SetActive(false);
+            paused = false;
+            settingsScreen.SetActive(false);
+            inventoryScreen.SetActive(false);
+            upgradeScreen.SetActive(false);
+            logSystem.SetActive(false);
             ClosePause();
-           // starterAssetsInputs.PauseInput(false);
         }
     }
     //The three functions here open their respective menus and close out the main
@@ -88,13 +89,11 @@ public class PauseMenuScript : MonoBehaviour
         Time.timeScale = 1;
 
         starterAssetsInputs.PauseInput(false);
-        PauseFalse();
 
 
 
         //Debug.Log("After: " + starterAssetsInputs.pause);
     }
-
     public void OpenSettings()
         {
             settingsScreen.SetActive(true);
@@ -150,10 +149,5 @@ public class PauseMenuScript : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
-    }
-
-    public void PauseFalse()
-    {
-        starterAssetsInputs.PauseInput(false);
     }
 }
