@@ -22,6 +22,7 @@ public class StartMenu : MonoBehaviour
         {
             start.SetActive(false);
             menu.SetActive(true);
+            menuOpen = true;
         }
     }
 
