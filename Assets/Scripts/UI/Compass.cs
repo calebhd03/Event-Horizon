@@ -59,7 +59,13 @@ public class Compass : MonoBehaviour
     {
         if (marker != null)
         {
+            QuestIcon questIcon = FindObjectOfType<QuestIcon>();
             AddQuestMarker(marker);
+            if (questIcon != null)
+            {
+                questIcon.Hide();
+            }
+            else{}
         }
         else
         {
