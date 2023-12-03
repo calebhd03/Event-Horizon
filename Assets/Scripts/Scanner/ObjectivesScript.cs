@@ -46,12 +46,20 @@ public class ObjectivesScript : MonoBehaviour
     }
     public void ScanColor()
     {
+        ScannerUI scannerUI = FindObjectOfType<ScannerUI>();
+        if((gameObject.tag == "Objective" && scannerUI.currentQuest == number)||gameObject.tag == "Memory" )
+        {
         gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
+        }
     }
     
     public void highlight()
     {
+        ScannerUI scannerUI = FindObjectOfType<ScannerUI>();
+        if((gameObject.tag == "Objective" && scannerUI.currentQuest == number)||gameObject.tag == "Memory" )
+        {
         gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
+        }
     }
 
         public void Unhighlight()
