@@ -41,6 +41,6 @@ public class StartMenu : MonoBehaviour
     public void LoadVerticalSlice()
     {
         Cursor.visible = false;
-        SceneManager.LoadScene("VerticalSlice");
+        SceneManager.LoadScene("IntroCutScene");
     }
 }
