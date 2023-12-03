@@ -8,4 +8,8 @@ public class QuestIcon : MonoBehaviour
     {
         Destroy(gameObject);
     }
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
 }
