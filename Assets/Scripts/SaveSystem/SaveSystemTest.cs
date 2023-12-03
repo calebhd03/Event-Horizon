@@ -10,8 +10,11 @@ public class SaveSystemTest : MonoBehaviour
 {
     public int testData = 1;
     public int standardAmmoSave;
+    public int standardAmmoLoadedSave;
     public int blackHoleAmmoSave;
+    public int blackHoleAmmoLoadedSave;
     public int shotgunAmmoSave;
+    public int shotgunAmmoLoadedSave;
     public int currentGameHealth;
 
     private CharacterController _controller;
@@ -44,8 +47,11 @@ public class SaveSystemTest : MonoBehaviour
             // Access ammunition data
             testData = saveData.ammoData.testData;
             thirdPersonShooterController.standardAmmo = saveData.ammoData.standardAmmoSave;
+            thirdPersonShooterController.standardAmmoLoaded = saveData.ammoData.standardAmmoLoadedSave;
             thirdPersonShooterController.blackHoleAmmo = saveData.ammoData.blackHoleAmmoSave;
+            thirdPersonShooterController.blackHoleAmmoLoaded = saveData.ammoData.blackHoleAmmoLoadedSave;
             thirdPersonShooterController.shotgunAmmo = saveData.ammoData.shotgunAmmoSave;
+            thirdPersonShooterController.shotgunAmmoLoaded = saveData.ammoData.shotgunAmmoLoadedSave;
 
             // Call the UpdateAmmoCount() function to update the UI or game logic
             thirdPersonShooterController.UpdateAmmoCount();
@@ -66,8 +72,11 @@ public class SaveSystemTest : MonoBehaviour
                 {
                     // Set the ammunition counts
                     thirdPersonShooterController.standardAmmo = ammoData.standardAmmoSave;
+                    thirdPersonShooterController.standardAmmoLoaded = ammoData.standardAmmoLoadedSave;
                     thirdPersonShooterController.blackHoleAmmo = ammoData.blackHoleAmmoSave;
+                    thirdPersonShooterController.blackHoleAmmoLoaded = ammoData.blackHoleAmmoLoadedSave;
                     thirdPersonShooterController.shotgunAmmo = ammoData.shotgunAmmoSave;
+                    thirdPersonShooterController.shotgunAmmoLoaded = ammoData.shotgunAmmoLoadedSave;
                     thirdPersonShooterController.UpdateAmmoCount();
                 }
             }
@@ -87,8 +96,11 @@ public class SaveSystemTest : MonoBehaviour
 
         // Set the ammunition counts and health data to be saved
         ammoData.standardAmmoSave = thirdPersonShooterController.standardAmmo;
+        ammoData.standardAmmoLoadedSave = thirdPersonShooterController.standardAmmoLoaded;
         ammoData.blackHoleAmmoSave = thirdPersonShooterController.blackHoleAmmo;
+        ammoData.blackHoleAmmoLoadedSave = thirdPersonShooterController.blackHoleAmmoLoaded;
         ammoData.shotgunAmmoSave = thirdPersonShooterController.shotgunAmmo;
+        ammoData.shotgunAmmoLoadedSave = thirdPersonShooterController.shotgunAmmoLoaded;
         healthData.currentGameHealth = playerHealthMetric.currentHealth;
 
         // Create a PlayerSaveData instance
