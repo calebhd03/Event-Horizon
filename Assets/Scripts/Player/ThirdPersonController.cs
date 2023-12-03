@@ -93,6 +93,7 @@ namespace StarterAssets
         public AudioClip deathAudio;
         AudioSource audioSource;
         public GameObject deathScreen;
+        public bool deathbool = false;
 
 
 
@@ -524,7 +525,6 @@ namespace StarterAssets
 
             if (_input.load)
             {
-                audioSource.PlayOneShot(deathAudio);
                 _input.load = false;
                 saveSystemTest.LoadGame();               
                 Debug.Log("Load Input Pressed!");
@@ -538,6 +538,12 @@ namespace StarterAssets
             
             if (healthMetrics.currentHealth <= 0)
             {
+                
+                if (deathbool != true)
+                {
+                    audioSource.PlayOneShot(deathAudio);
+                    deathbool = true;
+                }
             Time.timeScale = 0f;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;

@@ -14,16 +14,19 @@ public class DeathScreen : MonoBehaviour
     public GameObject Player;
     void Awake()
     {
+        
         gameObject.SetActive(false);
         starterAssetsInputs = Player.GetComponent<StarterAssetsInputs>();
     }
     public void Replay()
     {
+        ThirdPersonController TPC = FindObjectOfType<ThirdPersonController>();
         gameObject.SetActive(false);
         Time.timeScale = 1f;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         starterAssetsInputs.LoadInput(true);
+        TPC.deathbool = false;
     }
     public void ExitGame()
     {
