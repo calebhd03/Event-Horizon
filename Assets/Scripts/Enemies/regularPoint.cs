@@ -43,7 +43,12 @@ public class regularPoint : MonoBehaviour
                 {
                     basicEnemyScript.SetISeeYou();
                     Debug.Log("reg iSeeYou to true in BasicEnemy");
+
+                                        // Call PlayEnemyHitAnimation in the BasicEnemy script
+                    basicEnemyScript.PlayEnemyHitAnimation();
+                    Debug.Log("Called PlayEnemyHitAnimation");
                 }
+                
 
                 Debug.Log("Not a WeakPoint");
             }

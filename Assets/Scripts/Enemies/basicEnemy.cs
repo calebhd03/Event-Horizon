@@ -95,6 +95,8 @@ namespace StarterAssets
         public GameObject healthPickupPrefab;
         public float pickupDropChance = 0.3f;
 
+        private float hitAnimationDuration = 1.0f;
+
         private void Awake()
         {
             player = GameObject.Find("Player").transform;
@@ -192,6 +194,7 @@ namespace StarterAssets
                             {
                                 animator.SetBool("RangeAttack", false);
                                 animator.SetBool("MeleeAttack", false);
+                                animator.SetBool("EnemyDeath", false);
                                 animator.SetBool("Moving", false);
                                 animator.SetBool("PanningIdle", true);
                             }
@@ -477,18 +480,43 @@ namespace StarterAssets
         public void SetISeeYou()
         {
             iSeeYou = true;
+            transform.LookAt(player);
             chasePlayer();
         }
             
-        private void Die()
+        public void Die()
         {
-            AudioSource.PlayClipAtPoint(deathAudio, transform.position, deathAudioVolume);
+            // Stop the NavMeshAgent to prevent further movement
+            agent.isStopped = true;
+
+                            
+                animator.SetBool("Moving", false);
+                idle = false;
+                idleStart = 0f;
+                idleTime = 0f;
+                animator.SetBool("PanningIdle", false);
+           
+
+            // Trigger the death animation
+            animator.SetBool("EnemyDeath", true);
+            Debug.Log("Enemy Death playing");
+
+            // Wait for 3 seconds before dropping stuff
+            StartCoroutine(WaitAndDropStuff(3f));
+        }
+
+        private IEnumerator WaitAndDropStuff(float waitTime)
+        {
+            yield return new WaitForSeconds(waitTime);
+             AudioSource.PlayClipAtPoint(deathAudio, transform.position, deathAudioVolume);
+
+            // Call DropStuff after waiting for 3 seconds
             DropStuff();
         }
 
         private void DropStuff()
         {
-            if(Random.value < pickupDropChance)
+            if (Random.value < pickupDropChance)
             {
                 Instantiate(shotGunPickupPrefab, transform.position, Quaternion.identity);
                 Instantiate(blasterPickupPrefab, transform.position, Quaternion.identity);
@@ -499,7 +527,30 @@ namespace StarterAssets
             {
                 Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
             }
-            Destroy(gameObject);
+
+               Destroy(transform.parent.gameObject);
         }
+
+        public void PlayEnemyHitAnimation()
+        {
+            // Set other animations to false
+           // animator.SetBool("RangeAttack", false);
+          //  animator.SetBool("MeleeAttack", false);
+           // animator.SetBool("Moving", false);
+           // animator.SetBool("PanningIdle", false);
+
+            // Trigger the "EnemyHit" animation
+            animator.SetTrigger("EnemyHit");
+            StartCoroutine(StopHitAnimation());
+        }
+
+        private IEnumerator StopHitAnimation()
+    {
+        // Wait for the specified duration
+        yield return new WaitForSeconds(hitAnimationDuration);
+
+        // Set the EnemyHit parameter back to false
+        animator.SetBool("EnemyHit", false);
+    }
     }
 }

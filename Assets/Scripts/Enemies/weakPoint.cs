@@ -41,6 +41,9 @@ public class weakPoint : MonoBehaviour
                 {
                     basicEnemyScript.SetISeeYou();
                     Debug.Log("Weak iSeeYou to true in BasicEnemy");
+
+                    basicEnemyScript.PlayEnemyHitAnimation();
+                    Debug.Log("Called PlayEnemyHitAnimation");
                 }
             }
 
