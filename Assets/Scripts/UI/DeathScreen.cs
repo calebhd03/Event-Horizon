@@ -14,7 +14,6 @@ public class DeathScreen : MonoBehaviour
     public GameObject Player;
     void Awake()
     {
-        
         gameObject.SetActive(false);
         starterAssetsInputs = Player.GetComponent<StarterAssetsInputs>();
     }
@@ -27,6 +26,7 @@ public class DeathScreen : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         starterAssetsInputs.LoadInput(true);
         TPC.deathbool = false;
+        TPC.LockCameraPosition = false;
     }
     public void ExitGame()
     {

@@ -544,10 +544,15 @@ namespace StarterAssets
                     audioSource.PlayOneShot(deathAudio);
                     deathbool = true;
                 }
+                else
+                {
+                    _input.pause = false;
+                }
             Time.timeScale = 0f;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             deathScreen.SetActive(true);
+            LockCameraPosition = true;
             }
 
             if (_input.value)
@@ -572,7 +577,7 @@ namespace StarterAssets
 
         public void Pause()
         {
-            if(_input.pause)
+            if(_input.pause && deathbool == false)
             {
                 _input.pause = false;
                 pauseMenuScript.SetPause();
