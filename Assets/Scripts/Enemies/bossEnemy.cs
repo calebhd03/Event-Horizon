@@ -64,6 +64,7 @@ public class bossEnemy : MonoBehaviour
     public GameObject bHPickupPrefab;
     public GameObject healthPickupPrefab;
     public float pickupDropChance = 0.3f;
+    public GameObject Portal;
 
 
     // Start is called before the first frame update
@@ -73,6 +74,7 @@ public class bossEnemy : MonoBehaviour
         agent = GetComponentInParent<NavMeshAgent>();
         healthBar = GetComponentInChildren<EnemyHealthBar>();
         rb = GetComponent<Rigidbody>();
+        Portal.SetActive(false);
 
         Transform childTransform = transform.Find("rightArmSlash");
         if (childTransform != null)
@@ -316,9 +318,23 @@ public class bossEnemy : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, stopDistanceRange);
     }
 
-    private void Die()
+     public void Die()
         {
-            AudioSource.PlayClipAtPoint(deathAudio, transform.position, deathAudioVolume);
+            // Stop the NavMeshAgent to prevent further movement
+            agent.isStopped = true;
+
+
+
+            // Wait for 3 seconds before dropping stuff
+            StartCoroutine(WaitAndDropStuff(1f));
+        }
+
+        private IEnumerator WaitAndDropStuff(float waitTime)
+        {
+            yield return new WaitForSeconds(waitTime);
+             AudioSource.PlayClipAtPoint(deathAudio, transform.position, deathAudioVolume);
+
+            // Call DropStuff after waiting for 3 seconds
             DropStuff();
         }
 
@@ -335,6 +351,31 @@ public class bossEnemy : MonoBehaviour
             {
                 Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
             }
+           
+            
+            Portal.SetActive(true);
+            
             Destroy(gameObject);
         }
+         public void PlayEnemyHitAnimation()
+        {
+            // Set other animations to false
+           // animator.SetBool("RangeAttack", false);
+          //  animator.SetBool("MeleeAttack", false);
+           // animator.SetBool("Moving", false);
+           // animator.SetBool("PanningIdle", false);
+
+            // Trigger the "EnemyHit" animation
+           // animator.SetTrigger("EnemyHit");
+           // StartCoroutine(StopHitAnimation());
+        }
+
+       // private IEnumerator StopHitAnimation()
+       // {
+            // Wait for the specified duration
+            //yield return new WaitForSeconds(hitAnimationDuration);
+
+            // Set the EnemyHit parameter back to false
+           // animator.SetBool("EnemyHit", false);
+       // }
 }
