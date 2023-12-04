@@ -29,6 +29,9 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private float shotgunSpreadAngle = 3f; // Spread angle for shotgun pellets
         private float lastShotgunTime;
 
+        public GameObject blasterHolster;
+        public GameObject BHGHolster;
+        public GameObject shotgunHolster;
         public GameObject crouchedWeaponObject;
         public GameObject originalWeaponObject;
         public GameObject BhgIcon;
@@ -203,13 +206,14 @@ public class ThirdPersonShooterController : MonoBehaviour
                     transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(aimDirection), Time.deltaTime * 5f);
 
                     // Disable all weapon objects first
-                    standardWeaponObject.SetActive(false);
-                    blackHoleWeaponObject.SetActive(false);
-                    shotgunWeaponObject.SetActive(false);
+                    //standardWeaponObject.SetActive(false);
+                    //blackHoleWeaponObject.SetActive(false);
+                    //shotgunWeaponObject.SetActive(false);
 
                     // Activate the game object for the currently equipped weapon
                     switch (equippedWeapon)
                     {
+                    /*
                         case 0:
                             standardWeaponObject.SetActive(true);
                             // Rotate the weapon object to point at the center of the screen
@@ -227,7 +231,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                             // Rotate the weapon object to point at the center of the screen
                             Vector3 weaponDirection3 = mouseWorldPosition - shotgunWeaponObject.transform.position;
                             shotgunWeaponObject.transform.forward = weaponDirection3.normalized;
-                            break;
+                            break;*/
                     }
                         }
                             else
@@ -240,9 +244,9 @@ public class ThirdPersonShooterController : MonoBehaviour
                             transform.rotation = Quaternion.Lerp(transform.rotation, originalRotation, Time.deltaTime * 5f);
 
                             // Disable all weapon objects when not aiming
-                            standardWeaponObject.SetActive(false);
-                            blackHoleWeaponObject.SetActive(false);
-                            shotgunWeaponObject.SetActive(false);
+                            //standardWeaponObject.SetActive(false);
+                            //blackHoleWeaponObject.SetActive(false);
+                            //shotgunWeaponObject.SetActive(false);
                         }
             }
 
@@ -482,12 +486,29 @@ public class ThirdPersonShooterController : MonoBehaviour
         animator.SetTrigger("BlasterSwitch");
         animator.ResetTrigger("BHSwitch");
         animator.ResetTrigger("ShotgunSwitch");
+
+        //sets blaster weapon position to in hand
+        standardWeaponObject.transform.parent = originalWeaponObject.transform;
+        standardWeaponObject.transform.position = originalWeaponObject.transform.position;
+        standardWeaponObject.transform.localEulerAngles = new Vector3(-90, 0, 90);
+
+        //resets BHG weapon positions
+        blackHoleWeaponObject.transform.parent = BHGHolster.transform;
+        blackHoleWeaponObject.transform.position = BHGHolster.transform.position;
+        blackHoleWeaponObject.transform.localEulerAngles = new Vector3(90, 0, -45);
+
+        //resets shotgun weapon positions
+        shotgunWeaponObject.transform.parent = shotgunHolster.transform;
+        shotgunWeaponObject.transform.position = shotgunHolster.transform.position;
+        shotgunWeaponObject.transform.localEulerAngles = new Vector3(0, 90, 0);
+
+
         if (starterAssetsInputs.aim)
         {
-            //animator.SetTrigger("aimGun");
-            standardWeaponObject.SetActive(true);
-            blackHoleWeaponObject.SetActive(false);
-            shotgunWeaponObject.SetActive(false);
+            animator.SetTrigger("aimGun");
+            //standardWeaponObject.SetActive(true);
+            //blackHoleWeaponObject.SetActive(false);
+            //shotgunWeaponObject.SetActive(false);
         }
         else if (!starterAssetsInputs.aim)
         {
@@ -504,12 +525,29 @@ public class ThirdPersonShooterController : MonoBehaviour
         animator.SetTrigger("ShotgunSwitch");
         animator.ResetTrigger("BlasterSwitch");
         animator.ResetTrigger("BHSwitch");
+
+
+        //resets Blaster weapon positions
+        standardWeaponObject.transform.parent = blasterHolster.transform;
+        standardWeaponObject.transform.position = blasterHolster.transform.position;
+        standardWeaponObject.transform.localEulerAngles = new Vector3(0, 0, 0);
+
+        //resets BHG weapon positions
+        blackHoleWeaponObject.transform.parent = BHGHolster.transform;
+        blackHoleWeaponObject.transform.position = BHGHolster.transform.position;
+        blackHoleWeaponObject.transform.localEulerAngles = new Vector3(90, 0, -45);
+
+        //sets shotgun position to in hand
+        shotgunWeaponObject.transform.parent = originalWeaponObject.transform;
+        shotgunWeaponObject.transform.position = originalWeaponObject.transform.position;
+        shotgunWeaponObject.transform.localEulerAngles = new Vector3(-90, 0, 90);
+
         if (starterAssetsInputs.aim)
         {
             animator.SetTrigger("aimGun");
-            standardWeaponObject.SetActive(false);
-            blackHoleWeaponObject.SetActive(false);
-            shotgunWeaponObject.SetActive(true);
+            //standardWeaponObject.SetActive(false);
+            //blackHoleWeaponObject.SetActive(false);
+            //shotgunWeaponObject.SetActive(true);
         }
         else if (!starterAssetsInputs.aim)
         {
@@ -526,12 +564,28 @@ public class ThirdPersonShooterController : MonoBehaviour
         animator.SetTrigger("BHSwitch");
         animator.ResetTrigger("BlasterSwitch");
         animator.ResetTrigger("ShotgunSwitch");
+
+        //resets blaster weapon positions
+        standardWeaponObject.transform.parent = blasterHolster.transform;
+        standardWeaponObject.transform.position = blasterHolster.transform.position;
+        standardWeaponObject.transform.localEulerAngles = new Vector3(0, 0, 0);
+
+        //sets blaster weapon position to in hand
+        blackHoleWeaponObject.transform.parent = originalWeaponObject.transform;
+        blackHoleWeaponObject.transform.position = originalWeaponObject.transform.position;
+        blackHoleWeaponObject.transform.localEulerAngles = new Vector3(-90, 0, 90);
+
+        //resets shotgun weapon positions
+        shotgunWeaponObject.transform.parent = shotgunHolster.transform;
+        shotgunWeaponObject.transform.position = shotgunHolster.transform.position;
+        shotgunWeaponObject.transform.localEulerAngles = new Vector3(0, 90, 0);
+
         if (starterAssetsInputs.aim)
         {
             animator.SetTrigger("aimGun");
-            standardWeaponObject.SetActive(false);
-            blackHoleWeaponObject.SetActive(false);
-            shotgunWeaponObject.SetActive(true);
+            //standardWeaponObject.SetActive(false);
+            //blackHoleWeaponObject.SetActive(false);
+            //shotgunWeaponObject.SetActive(true);
         }
         else if (!starterAssetsInputs.aim)
         {
@@ -671,6 +725,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             }*/
 
             // Update the transform of the weapon game objects based on the active weapon
+            /*
             if (newWeaponObject == originalWeaponObject)
             {
                 // Set the transforms for the original weapon here
@@ -693,6 +748,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 blackHoleWeaponObject.transform.position = crouchedWeaponObject.transform.position;
                 blackHoleWeaponObject.transform.rotation = crouchedWeaponObject.transform.rotation;
             }
+            */
         }
 
     public void BHGcharging()
