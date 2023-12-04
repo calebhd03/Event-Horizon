@@ -74,7 +74,7 @@ public class bossEnemy : MonoBehaviour
         agent = GetComponentInParent<NavMeshAgent>();
         healthBar = GetComponentInChildren<EnemyHealthBar>();
         rb = GetComponent<Rigidbody>();
-        Portal.SetActive(false);
+      //  Portal.SetActive(false);
 
         Transform childTransform = transform.Find("rightArmSlash");
         if (childTransform != null)
@@ -322,7 +322,7 @@ public class bossEnemy : MonoBehaviour
         {
             // Stop the NavMeshAgent to prevent further movement
             agent.isStopped = true;
-
+            Debug.Log("Boss Death starting");
 
 
             // Wait for 3 seconds before dropping stuff
@@ -354,8 +354,8 @@ public class bossEnemy : MonoBehaviour
            
             
             Portal.SetActive(true);
-            
-            Destroy(gameObject);
+            Debug.Log("Boss Death end");
+             Destroy(transform.parent.gameObject);
         }
          public void PlayEnemyHitAnimation()
         {
