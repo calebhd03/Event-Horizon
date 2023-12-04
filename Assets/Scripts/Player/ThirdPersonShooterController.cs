@@ -272,52 +272,13 @@ public class ThirdPersonShooterController : MonoBehaviour
         switch (equippedWeapon)
         {
             case 0:
-                animator.SetTrigger("BlasterSwitch");
-                animator.ResetTrigger("BHSwitch");
-                animator.ResetTrigger("ShotgunSwitch");
-                if (starterAssetsInputs.aim)
-                {
-                    //animator.SetTrigger("aimGun");
-                    standardWeaponObject.SetActive(true);
-                    blackHoleWeaponObject.SetActive(false);
-                    shotgunWeaponObject.SetActive(false);
-                }
-                /*else if(!starterAssetsInputs.aim)
-                {
-                    animator.ResetTrigger("aimGun");
-                }*/
+                    EquipBlaster();
                 break;
             case 1:
-                animator.SetTrigger("BHSwitch");
-                animator.ResetTrigger("BlasterSwitch");
-                animator.ResetTrigger("ShotgunSwitch");
-                if (starterAssetsInputs.aim)
-                {
-                    //animator.SetTrigger("AimGun");
-                    standardWeaponObject.SetActive(false);
-                    blackHoleWeaponObject.SetActive(true);
-                    shotgunWeaponObject.SetActive(false);
-                }
-                else if(!starterAssetsInputs.aim)
-                {
-                    animator.ResetTrigger("aimGun");
-                }
+                    EquipBlackHoleGun();
                 break;
             case 2:
-                animator.SetTrigger("ShotgunSwitch");
-                animator.ResetTrigger("BlasterSwitch");
-                animator.ResetTrigger("BHSwitch");
-                if (starterAssetsInputs.aim)
-                {
-                    animator.SetTrigger("aimGun");
-                    standardWeaponObject.SetActive(false);
-                    blackHoleWeaponObject.SetActive(false);
-                    shotgunWeaponObject.SetActive(true); 
-                }
-                else if (!starterAssetsInputs.aim)
-                {
-                    animator.ResetTrigger("aimGun");
-                }
+                    EquipShotgun();
                 break;
             default:
                 break;
@@ -518,6 +479,20 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     public void EquipBlaster()
     {
+        animator.SetTrigger("BlasterSwitch");
+        animator.ResetTrigger("BHSwitch");
+        animator.ResetTrigger("ShotgunSwitch");
+        if (starterAssetsInputs.aim)
+        {
+            //animator.SetTrigger("aimGun");
+            standardWeaponObject.SetActive(true);
+            blackHoleWeaponObject.SetActive(false);
+            shotgunWeaponObject.SetActive(false);
+        }
+        else if (!starterAssetsInputs.aim)
+        {
+            animator.ResetTrigger("aimGun");
+        }
         equippedWeapon = 0;
         shotCooldown = currentCooldown;
         RefreshWeaponIcons();
@@ -526,6 +501,20 @@ public class ThirdPersonShooterController : MonoBehaviour
     }
     public void EquipShotgun()
     {
+        animator.SetTrigger("ShotgunSwitch");
+        animator.ResetTrigger("BlasterSwitch");
+        animator.ResetTrigger("BHSwitch");
+        if (starterAssetsInputs.aim)
+        {
+            animator.SetTrigger("aimGun");
+            standardWeaponObject.SetActive(false);
+            blackHoleWeaponObject.SetActive(false);
+            shotgunWeaponObject.SetActive(true);
+        }
+        else if (!starterAssetsInputs.aim)
+        {
+            animator.ResetTrigger("aimGun");
+        }
         equippedWeapon = 2;
         shotCooldown = currentCooldown;
         RefreshWeaponIcons();
@@ -534,6 +523,20 @@ public class ThirdPersonShooterController : MonoBehaviour
     }
     public void EquipBlackHoleGun()
     {
+        animator.SetTrigger("BHSwitch");
+        animator.ResetTrigger("BlasterSwitch");
+        animator.ResetTrigger("ShotgunSwitch");
+        if (starterAssetsInputs.aim)
+        {
+            animator.SetTrigger("aimGun");
+            standardWeaponObject.SetActive(false);
+            blackHoleWeaponObject.SetActive(false);
+            shotgunWeaponObject.SetActive(true);
+        }
+        else if (!starterAssetsInputs.aim)
+        {
+            animator.ResetTrigger("aimGun");
+        }
         equippedWeapon = 1;
         shotCooldown = currentCooldown;
         RefreshWeaponIcons();
