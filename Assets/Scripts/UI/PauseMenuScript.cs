@@ -20,7 +20,7 @@ public class PauseMenuScript : MonoBehaviour
 
     private StarterAssetsInputs starterAssetsInputs;
 
-      public GameObject Player;
+    public GameObject Player;
 
 
 
@@ -32,14 +32,14 @@ public class PauseMenuScript : MonoBehaviour
     public void SetSave()
     {
         ClosePause();
-      //  starterAssetsInputs.PauseInput(false);
+        //starterAssetsInputs.PauseInput(false);
         starterAssetsInputs.SaveInput(true);
         paused = false;
     }
     public void SetLoad()
     {
         ClosePause();
-       // starterAssetsInputs.PauseInput(false);
+        //starterAssetsInputs.PauseInput(false);
         starterAssetsInputs.LoadInput(true);
         paused = false;
     }
