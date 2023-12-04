@@ -118,12 +118,14 @@ public class ThirdPersonShooterController : MonoBehaviour
         private bool isCharged;
         private float chargeTime;
         private float chargeSpeed = 1f;
+        private Animator animator;
 
         //movement while scanning
         private SkinnedMeshRenderer playermesh;
 
         private void Awake()
         {
+            animator = GetComponent<Animator>();
             playermesh = GetComponentInChildren<SkinnedMeshRenderer>();
             originalRotation = transform.rotation;
             thirdPersonController = GetComponent<ThirdPersonController>();
@@ -244,35 +246,35 @@ public class ThirdPersonShooterController : MonoBehaviour
                         }
             }
 
-            if (starterAssetsInputs.scroll != Vector2.zero)
-                {
+        if (starterAssetsInputs.scroll != Vector2.zero)
+            {
 
-                //equippedWeapon = equippedWeapon++;
+            //equippedWeapon = equippedWeapon++;
                 
-             /*   equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon - 1 : equippedWeapon + 1;
-                if (equippedWeapon > allWeapons.Length - 1)
-                {
-                    equippedWeapon = 0;
-                }
-                else if (equippedWeapon < 0)
-                {
-                    equippedWeapon = allWeapons.Length - 1;
-                }*/
+            /*   equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon - 1 : equippedWeapon + 1;
+            if (equippedWeapon > allWeapons.Length - 1)
+            {
+                equippedWeapon = 0;
+            }
+            else if (equippedWeapon < 0)
+            {
+                equippedWeapon = allWeapons.Length - 1;
+            }*/
 
-                // new weapon selecting
-                equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon = 0 : equippedWeapon = 2;
-                shotCooldown = currentCooldown;
-                UpdateAmmoCount();
-                RefreshWeaponIcons();
-                Debug.Log(equippedWeapon);
+            // new weapon selecting
+            equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon = 0 : equippedWeapon = 2;
+            shotCooldown = currentCooldown;
+            UpdateAmmoCount();
+            RefreshWeaponIcons();
+            Debug.Log(equippedWeapon);
                 
 
         switch (equippedWeapon)
         {
             case 0:
-                /*animator.SetTrigger("BlasterSwitch");
+                animator.SetTrigger("BlasterSwitch");
                 animator.ResetTrigger("BHSwitch");
-                animator.ResetTrigger("ShotgunSwitch");*/
+                animator.ResetTrigger("ShotgunSwitch");
                 if (starterAssetsInputs.aim)
                 {
                     //animator.SetTrigger("aimGun");
@@ -286,9 +288,9 @@ public class ThirdPersonShooterController : MonoBehaviour
                 }*/
                 break;
             case 1:
-                /*animator.SetTrigger("BHSwitch");
+                animator.SetTrigger("BHSwitch");
                 animator.ResetTrigger("BlasterSwitch");
-                animator.ResetTrigger("ShotgunSwitch");*/
+                animator.ResetTrigger("ShotgunSwitch");
                 if (starterAssetsInputs.aim)
                 {
                     //animator.SetTrigger("AimGun");
@@ -296,26 +298,26 @@ public class ThirdPersonShooterController : MonoBehaviour
                     blackHoleWeaponObject.SetActive(true);
                     shotgunWeaponObject.SetActive(false);
                 }
-                /*else if(!starterAssetsInputs.aim)
+                else if(!starterAssetsInputs.aim)
                 {
                     animator.ResetTrigger("aimGun");
-                }*/
+                }
                 break;
             case 2:
-                /*animator.SetTrigger("ShotgunSwitch");
+                animator.SetTrigger("ShotgunSwitch");
                 animator.ResetTrigger("BlasterSwitch");
-                animator.ResetTrigger("BHSwitch");*/
+                animator.ResetTrigger("BHSwitch");
                 if (starterAssetsInputs.aim)
                 {
-                    //animator.SetTrigger("aimGun");
+                    animator.SetTrigger("aimGun");
                     standardWeaponObject.SetActive(false);
                     blackHoleWeaponObject.SetActive(false);
                     shotgunWeaponObject.SetActive(true); 
                 }
-                /*else if (!starterAssetsInputs.aim)
+                else if (!starterAssetsInputs.aim)
                 {
                     animator.ResetTrigger("aimGun");
-                }*/
+                }
                 break;
             default:
                 break;
@@ -365,6 +367,9 @@ public class ThirdPersonShooterController : MonoBehaviour
 
             if (scnScr.Scan == false && shotCooldown >= currentCooldown && !reloading)
             {
+                //play shoot animation
+                animator.SetTrigger("Shoot");
+
                 if (equippedWeapon == 0 && standardAmmoLoaded > 0)//Standard Projectile Shoot
                 {
                     Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
@@ -448,7 +453,11 @@ public class ThirdPersonShooterController : MonoBehaviour
         {
             cooldownMeter.transform.localScale = new Vector3((shotCooldown / currentCooldown) * 0.96f, 0.8f, 1);
         }
+
+        //
         shotCooldown += Time.deltaTime;
+        if (shotCooldown >= currentCooldown)
+            animator.ResetTrigger("Shoot");
 
         if (isCharging == true)
         {
