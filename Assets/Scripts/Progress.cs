@@ -44,7 +44,7 @@ public class Progress : MonoBehaviour
     {
         ResetHighlight();
         OriginalProgressTime = progressTime;
-        portal.SetActive(false); // Set the Portal GameObject to inactive at the start
+       // portal.SetActive(false); // Set the Portal GameObject to inactive at the start
         if (progressBar != null)
         {
             SetProgressBarScale(0f); // Set the initial scale of the progress bar to 0
