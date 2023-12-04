@@ -84,6 +84,19 @@ namespace StarterAssets
         private bool isMovingBackwards;
         private float backWardMoveDuration = 1.0f;
 
+        [Header("Audio")]
+        public AudioClip deathAudio;
+        [Range(0, 10)] public float deathAudioVolume;
+
+        [Header("Drops")]
+        public GameObject blasterPickupPrefab;
+        public GameObject shotGunPickupPrefab;
+        public GameObject bHPickupPrefab;
+        public GameObject healthPickupPrefab;
+        public float pickupDropChance = 0.3f;
+
+        private float hitAnimationDuration = 1.0f;
+
         private void Awake()
         {
             player = GameObject.Find("Player").transform;
@@ -154,7 +167,7 @@ namespace StarterAssets
                         iSeeYou = true;
                         agent.SetDestination(transform.position);
                         transform.LookAt(player);
-                        Debug.Log("crouched too fast");
+                        //Debug.Log("crouched too fast");
                     }
 
                 }
@@ -181,6 +194,7 @@ namespace StarterAssets
                             {
                                 animator.SetBool("RangeAttack", false);
                                 animator.SetBool("MeleeAttack", false);
+                                animator.SetBool("EnemyDeath", false);
                                 animator.SetBool("Moving", false);
                                 animator.SetBool("PanningIdle", true);
                             }
@@ -217,7 +231,7 @@ namespace StarterAssets
                 if (meleeAttack == true)
                 {
                     //withInAttackRange = false;
-                    Debug.Log("Enemy Charging Towards Player");
+                    //Debug.Log("Enemy Charging Towards Player");
                     //agent.speed = chargeSpeed;
                     //agent.acceleration = chargeAcceleration;
                 }
@@ -261,7 +275,7 @@ namespace StarterAssets
             agent.destination = movePoints[destinationPoints].position;
 
             destinationPoints = (destinationPoints + 1) % movePoints.Length;
-            Debug.Log("moving to " + agent.destination);
+            //Debug.Log("moving to " + agent.destination);
         }
 
         //old movement is buggy
@@ -345,7 +359,7 @@ namespace StarterAssets
 
                     //reload timer
                     Invoke(nameof(rangeAttackCoolDown), attackAgainTimer);
-                    Debug.Log("0 bullets and reloading");
+                    //Debug.Log("0 bullets and reloading");
                 }
 
                 //destroy bullet properly for now
@@ -370,7 +384,7 @@ namespace StarterAssets
                 }
                 
                 Invoke(nameof(meleeAttackCoolDown), attackAgainTimer);
-                Debug.Log("Melee Atack");
+                //Debug.Log("Melee Atack");
             }
         }
         private void AttackMoving()
@@ -409,7 +423,7 @@ namespace StarterAssets
             }
             transform.LookAt(player);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-            Debug.Log("Sword Recharge");
+            //Debug.Log("Sword Recharge");
         }
 
         private IEnumerator moveBackWards()
@@ -432,6 +446,10 @@ namespace StarterAssets
             HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
             healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
            
+            if(healthMetrics.currentHealth <= 0)
+            {
+                Die();
+            }
         }
 
         //DEBUG BELOW
@@ -458,5 +476,81 @@ namespace StarterAssets
 
             Debug.DrawRay(startPoint + endPointLeft, endPointRight - endPointLeft, Color.green);
         }
+
+        public void SetISeeYou()
+        {
+            iSeeYou = true;
+            transform.LookAt(player);
+            chasePlayer();
+        }
+            
+        public void Die()
+        {
+            // Stop the NavMeshAgent to prevent further movement
+            agent.isStopped = true;
+
+                            
+                animator.SetBool("Moving", false);
+                idle = false;
+                idleStart = 0f;
+                idleTime = 0f;
+                animator.SetBool("PanningIdle", false);
+           
+
+            // Trigger the death animation
+            animator.SetBool("EnemyDeath", true);
+            //Debug.Log("Enemy Death playing");
+
+            // Wait for 3 seconds before dropping stuff
+            StartCoroutine(WaitAndDropStuff(3f));
+        }
+
+        private IEnumerator WaitAndDropStuff(float waitTime)
+        {
+            yield return new WaitForSeconds(waitTime);
+             AudioSource.PlayClipAtPoint(deathAudio, transform.position, deathAudioVolume);
+
+            // Call DropStuff after waiting for 3 seconds
+            DropStuff();
+        }
+
+        private void DropStuff()
+        {
+            if (Random.value < pickupDropChance)
+            {
+                Instantiate(shotGunPickupPrefab, transform.position, Quaternion.identity);
+                Instantiate(blasterPickupPrefab, transform.position, Quaternion.identity);
+                Instantiate(bHPickupPrefab, transform.position, Quaternion.identity);
+            }
+
+            if (Random.value < pickupDropChance / 2)
+            {
+                Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
+            }
+
+               Destroy(transform.parent.gameObject);
+        }
+
+        public void PlayEnemyHitAnimation()
+        {
+            // Set other animations to false
+           // animator.SetBool("RangeAttack", false);
+          //  animator.SetBool("MeleeAttack", false);
+           // animator.SetBool("Moving", false);
+           // animator.SetBool("PanningIdle", false);
+
+            // Trigger the "EnemyHit" animation
+            animator.SetTrigger("EnemyHit");
+            StartCoroutine(StopHitAnimation());
+        }
+
+        private IEnumerator StopHitAnimation()
+    {
+        // Wait for the specified duration
+        yield return new WaitForSeconds(hitAnimationDuration);
+
+        // Set the EnemyHit parameter back to false
+        animator.SetBool("EnemyHit", false);
+    }
     }
 }

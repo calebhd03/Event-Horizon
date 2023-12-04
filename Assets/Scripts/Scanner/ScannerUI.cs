@@ -33,6 +33,7 @@ public class ScannerUI : MonoBehaviour
     private GameObject newVideoPlayer;
     public GameObject scannerCurrentObject;
     public int quest = 0;
+    public int currentQuest = 0;
 
 
     void Start()
@@ -72,63 +73,69 @@ public class ScannerUI : MonoBehaviour
     }
     public void SetSliderValue()
     {   
-        QuestIcon questIcon = FindObjectOfType<QuestIcon>();
+
         Compass compass = FindObjectOfType<Compass>();
         ScanCam ScanCam = FindObjectOfType<ScanCam>();
-        elapsed += Time.deltaTime;
-        
-        if (elapsed >= elapsedMaxTime)
-        {                
+        Vector3 direction = Vector3.forward;
+        Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
+        Debug.DrawRay(scanRay.origin, scanRay.direction * ScanCam.range, Color.blue);
+
+        Physics.Raycast(scanRay, out RaycastHit hit, ScanCam.range);
+        ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
+        if(hit.collider != null)
+        {   
             
-            switch(quest)
-            {
-                case 0:
-                        questIcon.Delete();
-                        compass.AddQuestMarkerIfNotNull(compass.two);
-                        quest += 1;
-                break;
-                case 1:
-                        questIcon.Delete();
-                        compass.AddQuestMarkerIfNotNull(compass.three);
-                        quest += 1;
-                break;
-                case 2:
-                        questIcon.Delete();
-                        compass.AddQuestMarkerIfNotNull(compass.four);
-                        quest += 1;
-                break;
-                case 3:
-                        questIcon.Delete();
-                        compass.AddQuestMarkerIfNotNull(compass.five);
-                        quest += 1;
-                break;
-                case 4:
-                        questIcon.Delete();
-                        compass.AddQuestMarkerIfNotNull(compass.six);
-                        quest += 1;
-                break;
-                case 5:
-                        questIcon.Delete();
-                        compass.AddQuestMarkerIfNotNull(compass.seven);
-                        quest += 1;
-                break;
-                case 6:
-                        questIcon.Delete();
-                        compass.AddQuestMarkerIfNotNull(compass.eight);
-                        quest += 1;
-                break;
-            }
-            Destroy(ScanCam.scannerCurrentObject);
-            DisableSlider();
-            if (ScanCam.scannerCurrentObject.tag == "Memory")
-            {
-            LogMemories();
-            PlayVideo();
-            }
-            else 
-            {
-                objectiveText();
-                Invoke("HideText", 3);
+            elapsed += Time.deltaTime;
+            
+            if (elapsed >= elapsedMaxTime)
+            {                
+                if(hit.collider.tag == "Objective" && currentQuest == quest)
+                {
+            
+                switch(quest)
+                {
+                    case 0:
+                            compass.AddQuestMarkerIfNotNull(compass.two);
+                            currentQuest += 1;
+                    break;
+                    case 1:
+                            compass.AddQuestMarkerIfNotNull(compass.three);
+                            currentQuest += 1;
+                    break;
+                    case 2:
+                            compass.AddQuestMarkerIfNotNull(compass.four);
+                            currentQuest += 1;
+                    break;
+                    case 3:
+                            compass.AddQuestMarkerIfNotNull(compass.five);
+                            currentQuest += 1;
+                    break;
+                    case 4:
+                            compass.AddQuestMarkerIfNotNull(compass.six);
+                            currentQuest += 1;
+                    break;
+                    case 5:
+                            compass.AddQuestMarkerIfNotNull(compass.seven);
+                            currentQuest += 1;
+                    break;
+                    case 6:
+                            compass.AddQuestMarkerIfNotNull(compass.eight);
+                            currentQuest += 1;
+                    break;
+                    }
+                }
+                Destroy(ScanCam.scannerCurrentObject);
+                DisableSlider();
+                if (ScanCam.scannerCurrentObject.tag == "Memory")
+                {
+                LogMemories();
+                PlayVideo();
+                }
+                else 
+                {
+                    objectiveText();
+                    Invoke("HideText", 3);
+                }
             }
         }
     }
@@ -165,7 +172,21 @@ public class ScannerUI : MonoBehaviour
     }
     void ObjectiveSlider()
     {
+        ScanCam ScanCam = FindObjectOfType<ScanCam>();
+        Vector3 direction = Vector3.forward;
+        Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
+        Debug.DrawRay(scanRay.origin, scanRay.direction * ScanCam.range, Color.blue);
+
+        Physics.Raycast(scanRay, out RaycastHit hit, ScanCam.range);
+        ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
+        if(hit.collider.tag == "Memory")
+        {
         newSlider.SetActive(true);
+        }
+        else if(hit.collider.tag == "Objective" && quest == currentQuest)
+        {
+            newSlider.SetActive(true);
+        }
     }
 
     void EnemySlider()

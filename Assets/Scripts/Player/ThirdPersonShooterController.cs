@@ -57,7 +57,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         public Image cooldownMeter;
 
         
-        private bool reloading;
+        public bool reloading;
         private int ammoDifference;
         public int standardAmmo;
         public int standardAmmoLoaded;
@@ -74,7 +74,21 @@ public class ThirdPersonShooterController : MonoBehaviour
         public int shotgunAmmoMax;
         public float shotgunReloadTime;
 
-        public TextMeshProUGUI ammoCounter;
+        public TextMeshProUGUI loadedAmmoCounter;
+        public TextMeshProUGUI totalAmmoCounter;
+
+        [Header("Weapon Icons")]
+        public GameObject bhgEquipped;
+        public GameObject bhgSlot1;
+        public GameObject bhgSlot2;
+
+        public GameObject blasterEquipped;
+        public GameObject blasterSlot1;
+        public GameObject blasterSlot2;
+        
+        public GameObject shotgunEquipped;
+        public GameObject shotgunSlot1;
+        public GameObject shotgunSlot2;
         
 
         [Header("Scanner Necessities")]
@@ -119,6 +133,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             currentCooldown = standardCooldown;
             isCrouching = false;
             SwitchWeaponObject(originalWeaponObject);
+            RefreshWeaponIcons();
         }
 
         private void Update()
@@ -246,10 +261,9 @@ public class ThirdPersonShooterController : MonoBehaviour
 
                 // new weapon selecting
                 equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon = 0 : equippedWeapon = 2;
-
-                
                 shotCooldown = currentCooldown;
                 UpdateAmmoCount();
+                RefreshWeaponIcons();
                 Debug.Log(equippedWeapon);
                 
 
@@ -497,6 +511,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         equippedWeapon = 0;
         shotCooldown = currentCooldown;
+        RefreshWeaponIcons();
         UpdateAmmoCount();
         Debug.Log(equippedWeapon);
     }
@@ -504,6 +519,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         equippedWeapon = 2;
         shotCooldown = currentCooldown;
+        RefreshWeaponIcons();
         UpdateAmmoCount();
         Debug.Log(equippedWeapon);
     }
@@ -511,8 +527,54 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         equippedWeapon = 1;
         shotCooldown = currentCooldown;
+        RefreshWeaponIcons();
         UpdateAmmoCount();
         Debug.Log(equippedWeapon);
+    }
+    public void RefreshWeaponIcons()
+    {
+        switch (equippedWeapon)
+        {
+            case 0:
+                blasterEquipped.SetActive(true);
+                blasterSlot1.SetActive(false);
+                blasterSlot2.SetActive(false);
+
+                shotgunEquipped.SetActive(false);
+                shotgunSlot1.SetActive(false);
+                shotgunSlot2.SetActive(true);
+
+                bhgEquipped.SetActive(false);
+                bhgSlot1.SetActive(true);
+                bhgSlot2.SetActive(false);
+                break;
+            case 1:
+                blasterEquipped.SetActive(false);
+                blasterSlot1.SetActive(true);
+                blasterSlot2.SetActive(false);
+
+                shotgunEquipped.SetActive(false);
+                shotgunSlot1.SetActive(false);
+                shotgunSlot2.SetActive(true);
+
+                bhgEquipped.SetActive(true);
+                bhgSlot1.SetActive(false);
+                bhgSlot2.SetActive(false);
+                break;
+            case 2:
+                blasterEquipped.SetActive(false);
+                blasterSlot1.SetActive(false);
+                blasterSlot2.SetActive(true);
+
+                shotgunEquipped.SetActive(true);
+                shotgunSlot1.SetActive(false);
+                shotgunSlot2.SetActive(false);
+
+                bhgEquipped.SetActive(false);
+                bhgSlot1.SetActive(true);
+                bhgSlot2.SetActive(false);
+                break;
+        }
     }
 
     public void AddAmmo(int ammoType, int ammoAmount)
@@ -559,15 +621,18 @@ public class ThirdPersonShooterController : MonoBehaviour
         {
             if (equippedWeapon == 0)
             {
-                ammoCounter.text = "Ammo: " + standardAmmoLoaded + "/" + standardAmmo;
+                totalAmmoCounter.text = standardAmmo.ToString();
+                loadedAmmoCounter.text = standardAmmoLoaded.ToString();
             }
             else if (equippedWeapon == 1)
             {
-                ammoCounter.text = "Ammo: " + blackHoleAmmoLoaded + "/" + blackHoleAmmo;
+                totalAmmoCounter.text =  blackHoleAmmo.ToString();
+                loadedAmmoCounter.text = blackHoleAmmoLoaded.ToString();
             }
             else if (equippedWeapon == 2)
             {
-                ammoCounter.text = "Ammo: " + shotgunAmmoLoaded + "/" +  shotgunAmmo;
+                totalAmmoCounter.text = shotgunAmmo.ToString();
+                loadedAmmoCounter.text = shotgunAmmoLoaded.ToString();
             }
         }
         
@@ -652,7 +717,10 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void Reload()
     {
+        if (standardAmmoLoaded != standardAmmoMax || blackHoleAmmoLoaded != blackHoleAmmoMax || shotgunAmmoLoaded != shotgunAmmoMax)
+        {
         reloading = true;
+
         Debug.Log("Reloading!");
         if(equippedWeapon == 0 && standardAmmo > 0 && standardAmmoLoaded < standardAmmoMax)
         {
@@ -703,6 +771,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
         UpdateAmmoCount();
+        }
     }
 
     IEnumerator ReloadTimer(float reloadTime)

@@ -855,7 +855,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Explore and gather information while also fighting anomalies
+  m_text: 'There are three ammo types: Blaster, Shotgun, and BHG ammo. Those can
+    be collected through the game and used to defeat enemies.
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ddef44a03994a4842bf1fd61a1473a46, type: 2}
   m_sharedMaterial: {fileID: 8961820764664136936, guid: ddef44a03994a4842bf1fd61a1473a46, type: 2}
@@ -1125,7 +1128,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Reboot the Motherboard
+  m_text: 'This is a Scannable. There are three types: Objective, Enemy, or Memory.
+    Try scanning them all.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ddef44a03994a4842bf1fd61a1473a46, type: 2}
   m_sharedMaterial: {fileID: 8961820764664136936, guid: ddef44a03994a4842bf1fd61a1473a46, type: 2}
@@ -1261,7 +1265,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Gather equipment and exit the ship
+  m_text: 'Use Right click to aim, Left click to shoot. Cycle between your weapons
+    with the 1,2,3 keys
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ddef44a03994a4842bf1fd61a1473a46, type: 2}
   m_sharedMaterial: {fileID: 8961820764664136936, guid: ddef44a03994a4842bf1fd61a1473a46, type: 2}
@@ -1545,7 +1552,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Locate Tachyon Translocator and learn of the Singularity
+  m_text: Press T while holding out the Nexus BHG to switch types. Use the enviornmental
+    type to destroy the wall and continue.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ddef44a03994a4842bf1fd61a1473a46, type: 2}
   m_sharedMaterial: {fileID: 8961820764664136936, guid: ddef44a03994a4842bf1fd61a1473a46, type: 2}
@@ -1918,10 +1926,10 @@ RectTransform:
   m_Father: {fileID: 8746307352871123628}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000011958466, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8646182734797469402
 CanvasRenderer:
@@ -3032,10 +3040,10 @@ RectTransform:
   m_Father: {fileID: 8746307352871123628}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.010159, y: 0.0045757}
-  m_SizeDelta: {x: 1731.9, y: 974.19}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.0013427734, y: 0.00012207031}
+  m_SizeDelta: {x: -188.09, y: -89.29}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3799801444941673242
 CanvasRenderer:
@@ -3671,6 +3679,8 @@ MonoBehaviour:
   vp: {fileID: 2290214329012636276, guid: f5e7bd8929c552f4c8a453f8670b41d7, type: 3}
   videoPlayer: {fileID: 2290214329012636282, guid: f5e7bd8929c552f4c8a453f8670b41d7, type: 3}
   scannerCurrentObject: {fileID: 0}
+  quest: 0
+  currentQuest: 0
 --- !u!82 &3044226546437643217
 AudioSource:
   m_ObjectHideFlags: 0

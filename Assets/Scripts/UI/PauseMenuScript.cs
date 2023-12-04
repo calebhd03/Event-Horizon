@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using StarterAssets;
+
+
 
 public class PauseMenuScript : MonoBehaviour
 {
@@ -10,8 +14,35 @@ public class PauseMenuScript : MonoBehaviour
     public GameObject inventoryScreen;
     public GameObject upgradeScreen;
     public GameObject logSystem;
+    public GameObject HUD;
     
     public bool paused = false;
+
+    private StarterAssetsInputs starterAssetsInputs;
+
+      public GameObject Player;
+
+
+
+    private void Start()
+    {
+    
+         starterAssetsInputs = Player.GetComponent<StarterAssetsInputs>();
+    }
+    public void SetSave()
+    {
+        ClosePause();
+      //  starterAssetsInputs.PauseInput(false);
+        starterAssetsInputs.SaveInput(true);
+        paused = false;
+    }
+    public void SetLoad()
+    {
+        ClosePause();
+       // starterAssetsInputs.PauseInput(false);
+        starterAssetsInputs.LoadInput(true);
+        paused = false;
+    }
 
     public void SetPause()
     {
@@ -33,16 +64,36 @@ public class PauseMenuScript : MonoBehaviour
     //The three functions here open their respective menus and close out the main
     public void OpenPause()
         {
-                    Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+            paused = true;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             Time.timeScale = 0;
+            HUD.SetActive(false);
             PauseScreen.SetActive(true);
+
         }
     public void ClosePause()
-        {
-            PauseScreen.SetActive(false);
-            Time.timeScale = 1;
-        }
+    {
+       // Debug.Log("Before: " + starterAssetsInputs.pause);
+        
+        settingsScreen.SetActive(false);
+        inventoryScreen.SetActive(false);
+        upgradeScreen.SetActive(false);
+        logSystem.SetActive(false);
+
+        paused = false;
+        HUD.SetActive(true);
+        PauseScreen.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Time.timeScale = 1;
+
+        starterAssetsInputs.PauseInput(false);
+        PauseFalse();
+
+
+        //Debug.Log("After: " + starterAssetsInputs.pause);
+    }
     public void OpenSettings()
         {
             settingsScreen.SetActive(true);
@@ -98,5 +149,10 @@ public class PauseMenuScript : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public void PauseFalse()
+    {
+        starterAssetsInputs.PauseInput(false);
     }
 }

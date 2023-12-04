@@ -22,6 +22,7 @@ public class StartMenu : MonoBehaviour
         {
             start.SetActive(false);
             menu.SetActive(true);
+            menuOpen = true;
         }
     }
 
@@ -40,6 +41,6 @@ public class StartMenu : MonoBehaviour
     public void LoadVerticalSlice()
     {
         Cursor.visible = false;
-        SceneManager.LoadScene("VerticalSlice");
+        SceneManager.LoadScene("IntroCutScene");
     }
 }

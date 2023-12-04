@@ -46,10 +46,12 @@ public class ScanCam : MonoBehaviour
                 case "Objective":
                     scannerCurrentObject = hit.collider.gameObject;                     
                     ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
+                    ScannerUI scannerUI = FindObjectOfType<ScannerUI>();
                     if (objScr != null)
                         {                        
                         objScr.highlight();
                         currentClipIndex = objScr.number;
+                        scannerUI.quest = objScr.number;
                         }
                 break;
 

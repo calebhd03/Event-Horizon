@@ -8,7 +8,7 @@ public class MenuCameraRotation : MonoBehaviour
     public float speedY;
     public float speedZ;
 
-    void Update()
+    void FixedUpdate()
     {
         transform.Rotate(speedX, speedY, speedZ, Space.Self);
     }
