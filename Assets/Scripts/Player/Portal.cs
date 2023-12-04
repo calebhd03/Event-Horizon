@@ -10,6 +10,8 @@ public class Portal : MonoBehaviour
     public string nextSceneName; // Name of the scene to load
     public SceneTransitionController sceneTransition;
     public ParticleSystem portalParticle; // Reference to the Particle System
+
+    public GameObject Boss;
      
     [SerializeField]
     private CinemachineVirtualCamera MainCam;
@@ -22,7 +24,7 @@ public class Portal : MonoBehaviour
     private void Awake()
     {
         // Disable the Portal object at the start
-        gameObject.SetActive(false);
+      //  gameObject.SetActive(false);
 
         // Ensure the particle system is not playing on awake
         if (portalParticle != null)
@@ -30,11 +32,20 @@ public class Portal : MonoBehaviour
             portalParticle.Stop();
         }
     }
+    private void Update()
+    {
+        if (Boss == null && !sceneTransition.IsFading())
+        {
+            // Boss is destroyed, set the Portal object active
+            gameObject.SetActive(true);
+        }
+    }
 
     private void OnEnable()
     {
         AndDestroy();
     }
+
 
 
     private void OnTriggerEnter(Collider other)
