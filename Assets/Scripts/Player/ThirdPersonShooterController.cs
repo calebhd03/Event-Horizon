@@ -139,6 +139,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             isCrouching = false;
             SwitchWeaponObject(originalWeaponObject);
             RefreshWeaponIcons();
+            EquipBlaster();
         }
 
         private void Update()
