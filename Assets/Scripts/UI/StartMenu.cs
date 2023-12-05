@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class StartMenu : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class StartMenu : MonoBehaviour
 
     public GameObject start;
     public GameObject menu;
+    public GameObject startButton;
 
     void Start()
     {
@@ -22,6 +24,8 @@ public class StartMenu : MonoBehaviour
         {
             start.SetActive(false);
             menu.SetActive(true);
+            menuOpen = true;
+            SetSelected(startButton);
         }
     }
 
@@ -40,6 +44,11 @@ public class StartMenu : MonoBehaviour
     public void LoadVerticalSlice()
     {
         Cursor.visible = false;
-        SceneManager.LoadScene("VerticalSlice");
+        SceneManager.LoadScene("IntroCutScene");
+    }
+
+    public void SetSelected(GameObject gameObject)
+    {
+        EventSystem.current.SetSelectedGameObject(gameObject);
     }
 }

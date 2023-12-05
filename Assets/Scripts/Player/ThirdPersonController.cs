@@ -19,11 +19,9 @@ namespace StarterAssets
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
-        public float NormalMovespeed = 2.0f; 
 
         [Tooltip("Sprint speed of the character in m/s")]
         public float SprintSpeed = 5.335f;
-        public float NormalSprintSpeed = 5.335f; 
 
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
@@ -93,6 +91,7 @@ namespace StarterAssets
         public AudioClip deathAudio;
         AudioSource audioSource;
         public GameObject deathScreen;
+        public bool deathbool = false;
 
 
 
@@ -524,7 +523,6 @@ namespace StarterAssets
 
             if (_input.load)
             {
-                audioSource.PlayOneShot(deathAudio);
                 _input.load = false;
                 saveSystemTest.LoadGame();               
                 Debug.Log("Load Input Pressed!");
@@ -538,10 +536,21 @@ namespace StarterAssets
             
             if (healthMetrics.currentHealth <= 0)
             {
+                
+                if (deathbool != true)
+                {
+                    audioSource.PlayOneShot(deathAudio);
+                    deathbool = true;
+                }
+                else
+                {
+                    _input.pause = false;
+                }
             Time.timeScale = 0f;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             deathScreen.SetActive(true);
+            LockCameraPosition = true;
             }
 
             if (_input.value)
@@ -566,7 +575,7 @@ namespace StarterAssets
 
         public void Pause()
         {
-            if(_input.pause)
+            if(_input.pause && deathbool == false)
             {
                 _input.pause = false;
                 pauseMenuScript.SetPause();

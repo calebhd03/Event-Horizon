@@ -14,12 +14,13 @@ public class PauseMenuScript : MonoBehaviour
     public GameObject inventoryScreen;
     public GameObject upgradeScreen;
     public GameObject logSystem;
+    public GameObject HUD;
     
     public bool paused = false;
 
     private StarterAssetsInputs starterAssetsInputs;
 
-      public GameObject Player;
+    public GameObject Player;
 
 
 
@@ -31,26 +32,28 @@ public class PauseMenuScript : MonoBehaviour
     public void SetSave()
     {
         ClosePause();
-        starterAssetsInputs.PauseInput(false);
+        //starterAssetsInputs.PauseInput(false);
         starterAssetsInputs.SaveInput(true);
+        paused = false;
     }
     public void SetLoad()
     {
         ClosePause();
-        starterAssetsInputs.PauseInput(false);
+        //starterAssetsInputs.PauseInput(false);
         starterAssetsInputs.LoadInput(true);
+        paused = false;
     }
 
     public void SetPause()
     {
         if(paused == false)
         {
-           // paused = true;
+            paused = true;
             OpenPause();
         }
         else
         {
-           // paused = false;
+            paused = false;
             settingsScreen.SetActive(false);
             inventoryScreen.SetActive(false);
             upgradeScreen.SetActive(false);
@@ -65,6 +68,7 @@ public class PauseMenuScript : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             Time.timeScale = 0;
+            HUD.SetActive(false);
             PauseScreen.SetActive(true);
 
         }
@@ -78,13 +82,14 @@ public class PauseMenuScript : MonoBehaviour
         logSystem.SetActive(false);
 
         paused = false;
+        HUD.SetActive(true);
         PauseScreen.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1;
 
         starterAssetsInputs.PauseInput(false);
-
+        PauseFalse();
 
 
         //Debug.Log("After: " + starterAssetsInputs.pause);
@@ -144,5 +149,10 @@ public class PauseMenuScript : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public void PauseFalse()
+    {
+        starterAssetsInputs.PauseInput(false);
     }
 }

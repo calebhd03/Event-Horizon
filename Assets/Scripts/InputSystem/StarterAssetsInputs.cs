@@ -51,8 +51,14 @@ namespace StarterAssets
 		public bool teleport3;
 		public bool ammo;
 
+        private void Start()
+        {
+			Debug.LogWarning("START CURSOR LOCK");
+            SetCursorState(cursorLocked);
+        }
+
 #if ENABLE_INPUT_SYSTEM
-		public void OnMove(InputValue value)
+        public void OnMove(InputValue value)
 		{
 			MoveInput(value.Get<Vector2>());
 		}
@@ -233,6 +239,7 @@ namespace StarterAssets
 
 		private void OnApplicationFocus(bool hasFocus)
 		{
+			Debug.LogWarning("LockedCursoir");
 			SetCursorState(cursorLocked);
 		}
 
