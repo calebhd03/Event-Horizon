@@ -98,8 +98,12 @@ public class BlackHoleBullet : MonoBehaviour
                 currentTime += Time.deltaTime;
                 yield return null;
             }
-            Destroy(target.transform.parent.gameObject);
-            Destroy(target.gameObject);
+            if(target.GetComponent<bossEnemy>() != null) { target.GetComponent<bossEnemy>().Die(); }
+            else
+            {
+                Destroy(target.transform.parent.gameObject);
+                Destroy(target.gameObject);
+            }
         }
     }
 

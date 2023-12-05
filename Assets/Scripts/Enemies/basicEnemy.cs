@@ -167,7 +167,7 @@ namespace StarterAssets
                         iSeeYou = true;
                         agent.SetDestination(transform.position);
                         transform.LookAt(player);
-                        Debug.Log("crouched too fast");
+                        //Debug.Log("crouched too fast");
                     }
 
                 }
@@ -231,7 +231,7 @@ namespace StarterAssets
                 if (meleeAttack == true)
                 {
                     //withInAttackRange = false;
-                    Debug.Log("Enemy Charging Towards Player");
+                    //Debug.Log("Enemy Charging Towards Player");
                     //agent.speed = chargeSpeed;
                     //agent.acceleration = chargeAcceleration;
                 }
@@ -275,7 +275,7 @@ namespace StarterAssets
             agent.destination = movePoints[destinationPoints].position;
 
             destinationPoints = (destinationPoints + 1) % movePoints.Length;
-            Debug.Log("moving to " + agent.destination);
+            //Debug.Log("moving to " + agent.destination);
         }
 
         //old movement is buggy
@@ -359,7 +359,7 @@ namespace StarterAssets
 
                     //reload timer
                     Invoke(nameof(rangeAttackCoolDown), attackAgainTimer);
-                    Debug.Log("0 bullets and reloading");
+                    //Debug.Log("0 bullets and reloading");
                 }
 
                 //destroy bullet properly for now
@@ -384,7 +384,7 @@ namespace StarterAssets
                 }
                 
                 Invoke(nameof(meleeAttackCoolDown), attackAgainTimer);
-                Debug.Log("Melee Atack");
+                //Debug.Log("Melee Atack");
             }
         }
         private void AttackMoving()
@@ -423,7 +423,7 @@ namespace StarterAssets
             }
             transform.LookAt(player);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-            Debug.Log("Sword Recharge");
+            //Debug.Log("Sword Recharge");
         }
 
         private IEnumerator moveBackWards()
@@ -499,7 +499,7 @@ namespace StarterAssets
 
             // Trigger the death animation
             animator.SetBool("EnemyDeath", true);
-            Debug.Log("Enemy Death playing");
+            //Debug.Log("Enemy Death playing");
 
             // Wait for 3 seconds before dropping stuff
             StartCoroutine(WaitAndDropStuff(3f));

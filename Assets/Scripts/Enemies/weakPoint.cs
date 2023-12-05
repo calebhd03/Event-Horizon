@@ -8,11 +8,13 @@ public class weakPoint : MonoBehaviour
     public float weakPointDamage;
     public AudioClip damageSound;
     private basicEnemy basicEnemyScript;
+    private bossEnemy bossEnemyScript;
 
     private void Start()
     {
         // Get the BasicEnemy script attached to the same GameObject
         basicEnemyScript = GetComponentInParent<basicEnemy>();
+        bossEnemyScript = GetComponentInParent<bossEnemy>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -43,7 +45,13 @@ public class weakPoint : MonoBehaviour
                     Debug.Log("Weak iSeeYou to true in BasicEnemy");
 
                     basicEnemyScript.PlayEnemyHitAnimation();
-                    Debug.Log("Called PlayEnemyHitAnimation");
+                    Debug.Log("Called PlayEnemyHitAnimation basic");
+                }
+                if (bossEnemyScript !=null)
+                {
+                    bossEnemyScript.PlayEnemyHitAnimation();
+                    Debug.Log("Called PlayEnemyHitAnimation boss");
+
                 }
             }
 
