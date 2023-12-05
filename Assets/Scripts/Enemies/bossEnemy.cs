@@ -74,7 +74,7 @@ public class bossEnemy : MonoBehaviour
         agent = GetComponentInParent<NavMeshAgent>();
         healthBar = GetComponentInChildren<EnemyHealthBar>();
         rb = GetComponent<Rigidbody>();
-      //  Portal.SetActive(false);
+        //Portal.SetActive(false);
 
         Transform childTransform = transform.Find("rightArmSlash");
         if (childTransform != null)
@@ -88,6 +88,8 @@ public class bossEnemy : MonoBehaviour
     {
         iSeeYou = Physics.CheckSphere(transform.position, seeDistance, playerZone);
         stopDistance = Physics.CheckSphere(transform.position, stopDistanceRange, playerZone);
+
+        updateHealth();
 
         if (iSeeYou && !meteorAttack && Time.time - timeSinceLastMeteorAttack > meteorAttackCooldown && !stopDistance)
         {
@@ -129,7 +131,7 @@ public class bossEnemy : MonoBehaviour
             if (stopDistance == true)
             {
                 //stops the metoer attack when player is close to the enemy
-               // meteorAttack = true;
+                //meteorAttack = true;
 
                 agent.SetDestination(transform.position);
                 transform.LookAt(player);

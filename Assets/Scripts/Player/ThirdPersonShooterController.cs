@@ -775,7 +775,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     IEnumerator PlayForDuration(ParticleSystem particleSystem, Transform spawnLocation, float duration)
     {
         ParticleSystem newParticleSystem = Instantiate(particleSystem, spawnLocation.position, spawnLocation.rotation);
-        newParticleSystem.GetComponent<BHG>().tpsc = this;
+        if(newParticleSystem.GetComponent<BHG>() != null) newParticleSystem.GetComponent<BHG>().tpsc = this;
         newParticleSystem.Play();
 
         yield return new WaitForSeconds(duration);
