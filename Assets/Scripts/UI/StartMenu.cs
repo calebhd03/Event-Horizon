@@ -15,6 +15,7 @@ public class StartMenu : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = true;
         start.SetActive(true);
         menu.SetActive(false);
     }
