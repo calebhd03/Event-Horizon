@@ -121,6 +121,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         private bool isCharged;
         private float chargeTime;
         private float chargeSpeed = 1f;
+        public bool BHGTool = false;
         private Animator animator;
 
         //movement while scanning
@@ -346,9 +347,10 @@ public class ThirdPersonShooterController : MonoBehaviour
                     blassterFlash.Play();
                 }
                 else if (equippedWeapon == 1 )
-                {
+                {   
                     if (starterAssetsInputs.swapBHG  )
                     {
+                        
                         if (blackHoleAmmoLoaded > 0 || blackHoleAmmoLoaded <= 0)
                         {
                         
@@ -361,6 +363,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                     }
                     else if (blackHoleAmmoLoaded > 0 )
                     {
+                        
                        // BhgIcon.SetActive(true);
                         // Black Hole Projectile Shoot
                         if (isCharged)
@@ -477,7 +480,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 }
             }
 
-            if (standardAmmoLoaded == 0 || shotgunAmmoLoaded == 0 || blackHoleAmmoLoaded == 0)
+            if (standardAmmoLoaded == 0 || shotgunAmmoLoaded == 0 || (blackHoleAmmoLoaded == 0 && BHGTool == false))
             {
                 Reload();
             }
@@ -808,7 +811,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 standardAmmoLoaded = standardAmmoMax;
             }
         }
-        else if(equippedWeapon == 1 && blackHoleAmmo > 0 && blackHoleAmmoLoaded < blackHoleAmmoMax)
+        else if(equippedWeapon == 1 && blackHoleAmmo > 0 && blackHoleAmmoLoaded < blackHoleAmmoMax && BHGTool == false)
         {
             StartCoroutine(ReloadTimer(blackHoleReloadTime));
             AudioSource.PlayClipAtPoint(blackHoleReloadSound, spawnBlackHoleBulletPosition.position);
@@ -852,13 +855,16 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void UpdateIcon()
     {
-        if((starterAssetsInputs.swapBHG &&equippedWeapon == 1 ))
+        if(starterAssetsInputs.swapBHG && equippedWeapon == 1 )
          {
              BhgIcon.SetActive(false);
+             BHGTool = true;
+             reloading = false;
          }
          else if( equippedWeapon == 1)
         {
            BhgIcon.SetActive(true);
+           BHGTool = false;
          }
         else
         {
