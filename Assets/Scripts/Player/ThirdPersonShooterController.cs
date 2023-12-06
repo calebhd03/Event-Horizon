@@ -437,7 +437,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         }
     
     PauseMenuScript pauseMenuScript = FindObjectOfType<PauseMenuScript>();
-    if (starterAssetsInputs.scan && pauseMenuScript.paused == false)
+    if (starterAssetsInputs.scan && pauseMenuScript.paused == false && thirdPersonController.deathbool == false)
             {
                 playermesh.enabled = false;
                 starterAssetsInputs.scan = true;
