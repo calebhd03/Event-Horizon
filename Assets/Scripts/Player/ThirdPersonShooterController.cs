@@ -212,8 +212,8 @@ public class ThirdPersonShooterController : MonoBehaviour
                     //shotgunWeaponObject.SetActive(false);
 
                     // Activate the game object for the currently equipped weapon
-                    switch (equippedWeapon)
-                    {
+                    //switch (equippedWeapon)
+                   // {
                     /*
                         case 0:
                             standardWeaponObject.SetActive(true);
@@ -233,7 +233,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                             Vector3 weaponDirection3 = mouseWorldPosition - shotgunWeaponObject.transform.position;
                             shotgunWeaponObject.transform.forward = weaponDirection3.normalized;
                             break;*/
-                    }
+                    //}
                         }
                             else
                         {
@@ -435,8 +435,9 @@ public class ThirdPersonShooterController : MonoBehaviour
             isCharged = true;
             isCharging = false;
         }
-
-    if (starterAssetsInputs.scan)
+    
+    PauseMenuScript pauseMenuScript = FindObjectOfType<PauseMenuScript>();
+    if (starterAssetsInputs.scan && pauseMenuScript.paused == false)
             {
                 playermesh.enabled = false;
                 starterAssetsInputs.scan = true;
