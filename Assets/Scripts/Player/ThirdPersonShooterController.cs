@@ -121,6 +121,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         private bool isCharged;
         private float chargeTime;
         private float chargeSpeed = 1f;
+        public bool BHGTool = false;
         private Animator animator;
 
         //movement while scanning
@@ -139,6 +140,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             isCrouching = false;
             SwitchWeaponObject(originalWeaponObject);
             RefreshWeaponIcons();
+            EquipBlaster();
         }
 
         private void Update()
@@ -211,8 +213,8 @@ public class ThirdPersonShooterController : MonoBehaviour
                     //shotgunWeaponObject.SetActive(false);
 
                     // Activate the game object for the currently equipped weapon
-                    switch (equippedWeapon)
-                    {
+                    //switch (equippedWeapon)
+                   // {
                     /*
                         case 0:
                             standardWeaponObject.SetActive(true);
@@ -232,7 +234,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                             Vector3 weaponDirection3 = mouseWorldPosition - shotgunWeaponObject.transform.position;
                             shotgunWeaponObject.transform.forward = weaponDirection3.normalized;
                             break;*/
-                    }
+                    //}
                         }
                             else
                         {
@@ -345,9 +347,10 @@ public class ThirdPersonShooterController : MonoBehaviour
                     blassterFlash.Play();
                 }
                 else if (equippedWeapon == 1 )
-                {
+                {   
                     if (starterAssetsInputs.swapBHG  )
                     {
+                        
                         if (blackHoleAmmoLoaded > 0 || blackHoleAmmoLoaded <= 0)
                         {
                         
@@ -360,6 +363,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                     }
                     else if (blackHoleAmmoLoaded > 0 )
                     {
+                        
                        // BhgIcon.SetActive(true);
                         // Black Hole Projectile Shoot
                         if (isCharged)
@@ -434,8 +438,9 @@ public class ThirdPersonShooterController : MonoBehaviour
             isCharged = true;
             isCharging = false;
         }
-
-    if (starterAssetsInputs.scan)
+    
+    PauseMenuScript pauseMenuScript = FindObjectOfType<PauseMenuScript>();
+    if (starterAssetsInputs.scan && pauseMenuScript.paused == false && thirdPersonController.deathbool == false)
             {
                 playermesh.enabled = false;
                 starterAssetsInputs.scan = true;
@@ -475,7 +480,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 }
             }
 
-            if (standardAmmoLoaded == 0 || shotgunAmmoLoaded == 0 || blackHoleAmmoLoaded == 0)
+            if (standardAmmoLoaded == 0 || shotgunAmmoLoaded == 0 || (blackHoleAmmoLoaded == 0 && BHGTool == false))
             {
                 Reload();
             }
@@ -806,7 +811,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 standardAmmoLoaded = standardAmmoMax;
             }
         }
-        else if(equippedWeapon == 1 && blackHoleAmmo > 0 && blackHoleAmmoLoaded < blackHoleAmmoMax)
+        else if(equippedWeapon == 1 && blackHoleAmmo > 0 && blackHoleAmmoLoaded < blackHoleAmmoMax && BHGTool == false)
         {
             StartCoroutine(ReloadTimer(blackHoleReloadTime));
             AudioSource.PlayClipAtPoint(blackHoleReloadSound, spawnBlackHoleBulletPosition.position);
@@ -850,13 +855,16 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void UpdateIcon()
     {
-        if((starterAssetsInputs.swapBHG &&equippedWeapon == 1 ))
+        if(starterAssetsInputs.swapBHG && equippedWeapon == 1 )
          {
              BhgIcon.SetActive(false);
+             BHGTool = true;
+             reloading = false;
          }
          else if( equippedWeapon == 1)
         {
            BhgIcon.SetActive(true);
+           BHGTool = false;
          }
         else
         {

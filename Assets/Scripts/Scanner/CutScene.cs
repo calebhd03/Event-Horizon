@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
@@ -11,10 +12,16 @@ public class CutScene : MonoBehaviour
     public VideoClip[] videoClips;
     private VideoPlayer videoPlayer;
     public int currentClipIndex;
+    public AudioMixer audioMixer;
+    public string exposedParameterName = "MasterVol";
+    private float initialVolume;
+    
     void Start()
     {
         videoPlayer = GetComponent<VideoPlayer>();
         videoPlayer.loopPointReached += OnVideoEndReached;
+        float parameterValue = GetExposedParameter();
+        SetExposedParameter(-80);
     }
     void Update ()
     {
@@ -31,6 +38,7 @@ public class CutScene : MonoBehaviour
     void OnVideoEndReached(VideoPlayer vp)
     {
         gameObject.SetActive(false);
+        SetExposedParameter(initialVolume);
         //Invoke("HideText", 3);
     }
 
@@ -38,5 +46,17 @@ public class CutScene : MonoBehaviour
     {
         ObjectiveText objectiveText = FindObjectOfType<ObjectiveText>();
         objectiveText.HideText();
+    }
+
+    void SetExposedParameter(float value)
+    {
+        audioMixer.SetFloat(exposedParameterName, value);
+    }
+    float GetExposedParameter()
+    {
+        float value;
+        audioMixer.GetFloat(exposedParameterName, out value);
+        initialVolume = value;
+        return value;
     }         
 }

@@ -11,6 +11,11 @@ public class MenuScript : MonoBehaviour
     public GameObject extrasScreen;
     public GameObject dataScreen;
 
+    void Awake()
+    {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+    }
     //The three functions here open their respective menus and close out the main
     public void OpenSettings()
         {
