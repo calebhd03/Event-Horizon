@@ -9,6 +9,7 @@ public class bossEnemy : MonoBehaviour
     //get variables
     public Transform player;
     public NavMeshAgent agent;
+    public Animator animator;
 
     //layerCheck
     public LayerMask playerZone;
@@ -90,6 +91,8 @@ public class bossEnemy : MonoBehaviour
         stopDistance = Physics.CheckSphere(transform.position, stopDistanceRange, playerZone);
 
         updateHealth();
+        resetTriggers();
+        updateSpeed();
 
         if (iSeeYou && !meteorAttack && Time.time - timeSinceLastMeteorAttack > meteorAttackCooldown && !stopDistance)
         {
@@ -147,7 +150,7 @@ public class bossEnemy : MonoBehaviour
                         //This will make sure the AOE attack works and does not happen at the same time as the slash attack
                         StopCoroutine(slash());
                         slashAttack = true;
-                        armAnim.SetBool("Slash180", false);
+                        //armAnim.SetBool("Slash180", false);
                     }
 
                     //if the attack is not a aoe at random then slash attack bool is false which where then trigger the slash attack
@@ -169,7 +172,7 @@ public class bossEnemy : MonoBehaviour
                         //This will make sure the Slash attack works and does not happen at the same time as the AOE attack
                         StopCoroutine(AOE());
                         aoeAttack = true;
-                        armAnim.SetBool("Slash180", false);
+                        //armAnim.SetBool("Slash180", false);
                     }
 
                     //if the attack is not a slash at random then aie attack bool is false which where then trigger the aoe attack
@@ -183,9 +186,24 @@ public class bossEnemy : MonoBehaviour
 
             if(!stopDistance)
             {
-                armAnim.SetBool("Slash180", false);
+                //armAnim.SetBool("Slash180", false);
             }
         }
+    }
+
+    private void resetTriggers()
+    {
+        animator.ResetTrigger("EnemyHit");
+        animator.ResetTrigger("SlashAttack");
+        animator.ResetTrigger("Attack2");
+        animator.ResetTrigger("AOEAttack");
+    }
+
+    private void updateSpeed()
+    {
+        Debug.Log("agent.velocity = " + agent.velocity);
+        Debug.Log("agent.isStopped = " + agent.isStopped);
+        animator.SetInteger("MovSpeed", (int) agent.velocity.magnitude);
     }
 
     public void followPlayer()
@@ -277,8 +295,8 @@ public class bossEnemy : MonoBehaviour
 
         yield return new WaitForSeconds(slashWindUp);
         
-        armAnim.SetBool("Slash180", true);
-        
+        //armAnim.SetBool("Slash180", true);
+        animator.SetTrigger("SlashAttack");
 
         slashAttack = false;
         agent.isStopped = false;
@@ -290,6 +308,9 @@ public class bossEnemy : MonoBehaviour
     {
         agent.isStopped = true;
         aoeAttack = true;
+        
+        //set animator
+        animator.SetTrigger("AOEAttack");
 
         yield return new WaitForSeconds(aoeWindUp);
 
@@ -361,23 +382,7 @@ public class bossEnemy : MonoBehaviour
         }
          public void PlayEnemyHitAnimation()
         {
-            // Set other animations to false
-           // animator.SetBool("RangeAttack", false);
-          //  animator.SetBool("MeleeAttack", false);
-           // animator.SetBool("Moving", false);
-           // animator.SetBool("PanningIdle", false);
-
-            // Trigger the "EnemyHit" animation
-           // animator.SetTrigger("EnemyHit");
-           // StartCoroutine(StopHitAnimation());
+            //Trigger the "EnemyHit" animation
+            animator.SetTrigger("EnemyHit");
         }
-
-       // private IEnumerator StopHitAnimation()
-       // {
-            // Wait for the specified duration
-            //yield return new WaitForSeconds(hitAnimationDuration);
-
-            // Set the EnemyHit parameter back to false
-           // animator.SetBool("EnemyHit", false);
-       // }
 }
