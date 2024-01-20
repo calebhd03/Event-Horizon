@@ -51,27 +51,27 @@ public class EnemiesScanScript : MonoBehaviour
 
     void NormColor()
     {
-        GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
+        //GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
     }
     public void ScanColor()
     {
-        GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
+        //GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
     }
     
     public void highlight()
     {
-        GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
+        //GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
     }
 
     public void Unhighlight()
     {
-        ScanColor();
+        //ScanColor();
     }
     
     public void WeakPoints()
     {
             criticalPointReveal.SetActive(true);
-            criticalPointReveal.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
+            //criticalPointReveal.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
             Scanned = true;
 
             alertSound.Play();          

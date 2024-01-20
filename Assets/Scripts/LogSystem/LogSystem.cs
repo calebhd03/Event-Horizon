@@ -18,22 +18,28 @@ public class LogSystem : MonoBehaviour
     [SerializeField] GameObject displayInfo;
     public Image setImage;
     public TextMeshProUGUI setText;
+    public GameObject scannerCurrentObject;
+    public int number;
 
     void Start()
     {
         LogPage.SetActive(false);
+        displayInfo.SetActive(false);
         
         foreach (Button button in enemy)
         {
             button.interactable = false;
+            button.gameObject.SetActive(false);
         }
         foreach (Button button in memory)
         {
             button.interactable = false;
+            button.gameObject.SetActive(false);
         }
         foreach (Button button in item)
         {
             button.interactable = false;
+            button.gameObject.SetActive(false);
         }
         
         enemyImage = new Image[enemy.Length];
@@ -106,33 +112,33 @@ public class LogSystem : MonoBehaviour
     }
     public void UpdateEnemyLog()
     {
-        EnemiesScanScript enemiesScanScript = FindObjectOfType<EnemiesScanScript>();
-        if (enemiesScanScript.number >= 0 && enemiesScanScript.number < enemyImage.Length)
+        if (number >= 0 && number < enemyImage.Length)
         {
-        enemy[enemiesScanScript.number].image.sprite = enemySprite[enemiesScanScript.number];
-        enemy[enemiesScanScript.number].interactable = true;
+        enemy[number].image.sprite = enemySprite[number];
+        enemy[number].interactable = true;
+        enemy[number].gameObject.SetActive(true);
         }
     else
     {
-        Debug.LogError("Invalid enemy index: " + enemiesScanScript.number);
+        Debug.LogError("Invalid enemy index: " + number);
     }
     }
     public void UpdateMemoryLog()
     {
-        ObjectivesScript objectivesScript = FindObjectOfType<ObjectivesScript>();
-        if (objectivesScript.number >= 0 && objectivesScript.number < memoryImage.Length)
+        if (number >= 0 && number < memoryImage.Length)
         {
-        memory[objectivesScript.number].image.sprite = memorySprite[objectivesScript.number];
-        memory[objectivesScript.number].interactable = true;
+        memory[number].image.sprite = memorySprite[number];
+        memory[number].interactable = true;
+        memory[number].gameObject.SetActive(true);
         }
     }
     public void UpdateItemLog()
     {
-        ItemsScript itemsScript = FindObjectOfType<ItemsScript>();
-        if (itemsScript.number >= 0 && itemsScript.number < itemImage.Length)
+        if (number >= 0 && number < itemImage.Length)
         {
-        item[itemsScript.number].image.sprite = itemSprite[itemsScript.number];
-        item[itemsScript.number].interactable = true;
+        item[number].image.sprite = itemSprite[number];
+        item[number].interactable = true;
+        item[number].gameObject.SetActive(true);
         }
     }
 
@@ -171,8 +177,7 @@ public class LogSystem : MonoBehaviour
                         {
                             Debug.LogError("SourceButton does not have an Image component!");
                         }
-                        EnemiesScanScript enemiesScanScript = FindObjectOfType<EnemiesScanScript>();
-                        setText.text = enemyText[enemiesScanScript.number].text;
+                        setText.text = enemyText[number].text;
                 break;
                 case 1:
                         Image sourceImage1 = memory[buttonIndex].GetComponent<Image>();
@@ -189,8 +194,7 @@ public class LogSystem : MonoBehaviour
                         {
                             Debug.LogError("SourceButton does not have an Image component!");
                         }
-                        ObjectivesScript objectivesScript = FindObjectOfType<ObjectivesScript>();
-                        setText.text = memoryText[objectivesScript.number].text;
+                        setText.text = memoryText[number].text;
                 break;
                 case 2:
                         Image sourceImage2 = enemy[buttonIndex].GetComponent<Image>();
@@ -207,8 +211,7 @@ public class LogSystem : MonoBehaviour
                         {
                             Debug.LogError("SourceButton does not have an Image component!");
                         }
-                        ItemsScript itemsScript = FindObjectOfType<ItemsScript>();
-                        setText.text = itemText[itemsScript.number].text;
+                        setText.text = itemText[number].text;
                 break;
             }
 

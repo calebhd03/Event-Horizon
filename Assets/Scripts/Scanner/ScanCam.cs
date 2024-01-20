@@ -28,6 +28,7 @@ public class ScanCam : MonoBehaviour
     void Update()
     {
         Scanning scnScr = Scanningobject.GetComponent<Scanning>();
+        LogSystem logSys = FindObjectOfType<LogSystem>();
 
         if (scnScr.Scan == true)
         {
@@ -52,6 +53,7 @@ public class ScanCam : MonoBehaviour
                         objScr.highlight();
                         currentClipIndex = objScr.number;
                         scannerUI.quest = objScr.number;
+                        logSys.number = objScr.number;
                         }
                 break;
 
@@ -62,6 +64,7 @@ public class ScanCam : MonoBehaviour
                         {                        
                         objScr1.highlight();
                         currentClipIndex = objScr1.number;
+                        logSys.number = objScr1.number;
                         }
                 break;
 
@@ -71,6 +74,7 @@ public class ScanCam : MonoBehaviour
                     if (itmScr != null)
                         {                        
                             itmScr.highlight();
+                            logSys.number = itmScr.number;
                         }
                         
                 break;
@@ -82,6 +86,7 @@ public class ScanCam : MonoBehaviour
                         {
                             eneScr.highlight();
                             currentClipIndex = eneScr.number;
+                            logSys.number = eneScr.number;
                         }           
                 break;
 
