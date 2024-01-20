@@ -213,7 +213,7 @@ public class ScannerUI : MonoBehaviour
         Debug.DrawRay(scanRay.origin, scanRay.direction * sc.range, Color.blue);
 
         Physics.Raycast(scanRay, out RaycastHit hit, sc.range);
-        EnemiesScanScript eneScr = hit.collider.GetComponent<EnemiesScanScript>();
+        EnemiesScanScript eneScr = hit.collider.GetComponent<EnemiesScanScript>() ?? hit.collider.GetComponentInParent<EnemiesScanScript>() ?? hit.collider.GetComponentInChildren<EnemiesScanScript>();
         if(hit.collider != null)
         {
             eneScr.WeakPoints();
