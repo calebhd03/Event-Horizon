@@ -45,6 +45,7 @@ public class bossEnemy : MonoBehaviour
 
     //AOEAttack
     public GameObject aoeRingPrefab; //test object
+    public GameObject aoeCloseRingPrefab;
     public Transform aoeSpawn;
     public float aoeWindUp = 2f;
     private bool aoeAttack = false;
@@ -315,7 +316,9 @@ public class bossEnemy : MonoBehaviour
         yield return new WaitForSeconds(aoeWindUp);
 
         GameObject newRingAOE = Instantiate(aoeRingPrefab, aoeSpawn.position, Quaternion.identity);
+        GameObject newCloseRingAoe = Instantiate(aoeCloseRingPrefab, aoeSpawn.position, Quaternion.identity);
         Destroy(newRingAOE, 5f);
+        Destroy(newCloseRingAoe, 5f);
 
         aoeAttack = false;
         agent.isStopped = false;
