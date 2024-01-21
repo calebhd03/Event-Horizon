@@ -10,4 +10,8 @@ public class skipScene : MonoBehaviour
     {
         SceneManager.LoadScene(skipSceneTo);
     }
+    public void Awake()
+    {
+        Cursor.visible = true;
+    }
 }
