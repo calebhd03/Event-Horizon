@@ -38,6 +38,7 @@ namespace StarterAssets
 		[Header ("Menu Systems")]
 		public bool pause;
 		public bool quit;
+		public bool Confirm;
 
 		public bool blackHoleGun;
 		public bool switchWeapon;
@@ -134,6 +135,10 @@ namespace StarterAssets
 		public void OnPause(InputValue value)
 		{
 			PauseInput(value.isPressed);
+		}
+		public void OnConfirm(InputValue value)
+		{
+			ConfirmInput(value.isPressed);
 		}
 		public void OnFlashlight(InputValue value)
         {
@@ -300,6 +305,11 @@ namespace StarterAssets
 		public void QuitInput(bool newQuitState)
 		{
 			quit = newQuitState;
+		}
+
+		public void ConfirmInput(bool newConfrimState)
+		{
+			Confirm = newConfrimState;
 		}
 
 		public void ReloadInput(bool newReloadState)
