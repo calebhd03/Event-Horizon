@@ -73,8 +73,6 @@ public class ScannerUI : MonoBehaviour
     }
     public void SetSliderValue()
     {   
-
-        Compass compass = FindObjectOfType<Compass>();
         ScanCam ScanCam = FindObjectOfType<ScanCam>();
         Vector3 direction = Vector3.forward;
         Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
@@ -88,41 +86,15 @@ public class ScannerUI : MonoBehaviour
             elapsed += Time.deltaTime;
             
             if (elapsed >= elapsedMaxTime)
-            {                
+            {   
+                if (hit.collider.tag == "Objective" && currentQuest < quest)
+                {
+                    currentQuest = quest;
+                    SwitchQuest();
+                }            
                 if(hit.collider.tag == "Objective" && currentQuest == quest)
                 {
-            
-                switch(quest)
-                {
-                    case 0:
-                            compass.AddQuestMarkerIfNotNull(compass.two);
-                            currentQuest += 1;
-                    break;
-                    case 1:
-                            compass.AddQuestMarkerIfNotNull(compass.three);
-                            currentQuest += 1;
-                    break;
-                    case 2:
-                            compass.AddQuestMarkerIfNotNull(compass.four);
-                            currentQuest += 1;
-                    break;
-                    case 3:
-                            compass.AddQuestMarkerIfNotNull(compass.five);
-                            currentQuest += 1;
-                    break;
-                    case 4:
-                            compass.AddQuestMarkerIfNotNull(compass.six);
-                            currentQuest += 1;
-                    break;
-                    case 5:
-                            compass.AddQuestMarkerIfNotNull(compass.seven);
-                            currentQuest += 1;
-                    break;
-                    case 6:
-                            compass.AddQuestMarkerIfNotNull(compass.eight);
-                            currentQuest += 1;
-                    break;
-                    }
+                    SwitchQuest();
                 }
                 Destroy(ScanCam.scannerCurrentObject);
                 DisableSlider();
@@ -183,7 +155,7 @@ public class ScannerUI : MonoBehaviour
         {
         newSlider.SetActive(true);
         }
-        else if(hit.collider.tag == "Objective" && quest == currentQuest)
+        else if(hit.collider.tag == "Objective")
         {
             newSlider.SetActive(true);
         }
@@ -265,5 +237,40 @@ public class ScannerUI : MonoBehaviour
     void CloseGradient()
     {
         screenGradient.SetActive(false);
+    }
+    void SwitchQuest()
+    {
+        Compass compass = FindObjectOfType<Compass>();
+        switch(quest)
+        {
+            case 0:
+                    compass.AddQuestMarkerIfNotNull(compass.two);
+                    currentQuest += 1;
+            break;
+            case 1:
+                    compass.AddQuestMarkerIfNotNull(compass.three);
+                    currentQuest += 1;
+            break;
+            case 2:
+                    compass.AddQuestMarkerIfNotNull(compass.four);
+                    currentQuest += 1;
+            break;
+            case 3:
+                    compass.AddQuestMarkerIfNotNull(compass.five);
+                    currentQuest += 1;
+            break;
+            case 4:
+                    compass.AddQuestMarkerIfNotNull(compass.six);
+                    currentQuest += 1;
+            break;
+            case 5:
+                    compass.AddQuestMarkerIfNotNull(compass.seven);
+                    currentQuest += 1;
+            break;
+            case 6:
+                    compass.AddQuestMarkerIfNotNull(compass.eight);
+                    currentQuest += 1;
+            break;
+        }
     }
 }

@@ -24,6 +24,7 @@ public class Compass : MonoBehaviour
 
     float compassUnit;
     float maxDistance = 65f;
+    public GameObject scannerCurrentObject;
 
     private void Start()
     {
@@ -34,7 +35,7 @@ public class Compass : MonoBehaviour
     }
 
     private void Update()
-    {
+    {        
         compassImage.uvRect = new Rect (player.localEulerAngles.y / 360f, 0f, 1f,1f);
 
         foreach (QuestMarker marker in questMarkers)
