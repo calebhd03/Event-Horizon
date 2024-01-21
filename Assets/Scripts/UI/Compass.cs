@@ -23,7 +23,7 @@ public class Compass : MonoBehaviour
     GameObject newMarker;
 
     float compassUnit;
-    float maxDistance = 75f;
+    float maxDistance = 65f;
 
     private void Start()
     {
@@ -44,7 +44,7 @@ public class Compass : MonoBehaviour
                 marker.image.rectTransform.anchoredPosition = GetPosOnCompass(marker);
 
                 float dst = Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), marker.position);
-                float scale =0f;
+                float scale =.1f;
 
                 if( dst < maxDistance)
                 {
