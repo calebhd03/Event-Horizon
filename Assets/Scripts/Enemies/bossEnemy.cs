@@ -46,6 +46,7 @@ public class bossEnemy : MonoBehaviour
     //AOEAttack
     public GameObject aoeRingPrefab; //test object
     public GameObject aoeCloseRingPrefab;
+    public GameObject aoeCloseWarningPrefab;
     public Transform aoeSpawn;
     public float aoeWindUp = 2f;
     private bool aoeAttack = false;
@@ -312,8 +313,10 @@ public class bossEnemy : MonoBehaviour
         
         //set animator
         animator.SetTrigger("AOEAttack");
+        GameObject newWarningRingAOE = Instantiate(aoeCloseWarningPrefab, aoeSpawn.position, Quaternion.identity);
 
         yield return new WaitForSeconds(aoeWindUp);
+        Destroy(newWarningRingAOE);
 
         GameObject newRingAOE = Instantiate(aoeRingPrefab, aoeSpawn.position, Quaternion.identity);
         GameObject newCloseRingAoe = Instantiate(aoeCloseRingPrefab, aoeSpawn.position, Quaternion.identity);
