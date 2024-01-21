@@ -151,6 +151,9 @@ public class ThirdPersonShooterController : MonoBehaviour
             ScanCam scnCam = Scannercamera.GetComponent<ScanCam>();
             ScanZoom scnzCam = ScannerZoomCamera.GetComponent<ScanZoom>();
             ThirdPersonController TPC = GetComponent<ThirdPersonController>();
+            NexusGun nxgun = GetComponentInChildren<NexusGun>();
+            Shotgun sgun = GetComponentInChildren<Shotgun>();
+            Blaster bgun = GetComponentInChildren<Blaster>();
             Vector3 mouseWorldPosition = Vector3.zero;
 
             Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
@@ -443,6 +446,9 @@ public class ThirdPersonShooterController : MonoBehaviour
     if (starterAssetsInputs.scan && pauseMenuScript.paused == false && thirdPersonController.deathbool == false)
             {
                 playermesh.enabled = false;
+                nxgun.DisableMesh();
+                bgun.DisableMesh();
+                sgun.DisableMesh();
                 starterAssetsInputs.scan = true;
 
                 scnScr.ScanCamPriority();
@@ -455,6 +461,9 @@ public class ThirdPersonShooterController : MonoBehaviour
                 if (scnScr.Scan == false)
                 {
                     playermesh.enabled = true;
+                    nxgun.EnableMesh();
+                    bgun.EnableMesh();
+                    sgun.EnableMesh();
                 }
             }
 
