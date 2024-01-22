@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.UI;
+using StarterAssets;
 
 public class LogSystem : MonoBehaviour
 {
@@ -20,9 +21,13 @@ public class LogSystem : MonoBehaviour
     public TextMeshProUGUI setText;
     public GameObject scannerCurrentObject;
     public int number;
+    private StarterAssetsInputs starterAssetsInputs;
+    public bool log;
 
     void Start()
     {
+        log = false;
+        starterAssetsInputs = FindObjectOfType<StarterAssetsInputs>();
         LogPage.SetActive(false);
         displayInfo.SetActive(false);
         
@@ -65,7 +70,22 @@ public class LogSystem : MonoBehaviour
     }
 
     void Update()
-    {
+    {       
+        if (log == true)
+        {   
+            LogPage.SetActive(true);
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            Time.timeScale = 0;
+        }
+        else
+        {
+            LogPage.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            Time.timeScale = 1;
+        }
+
         switch (currentTab)
         {
         case 0:
@@ -237,5 +257,9 @@ public class LogSystem : MonoBehaviour
     {
         UpdateImage(buttonIndex);
         UpdateText(buttonIndex);
+    }
+    public void CloseLog()
+    {
+        log = false;
     }
 }

@@ -493,7 +493,40 @@ public class ThirdPersonShooterController : MonoBehaviour
             {
                 Reload();
             }
+            LogSystem logSystem = FindObjectOfType<LogSystem>();
+            if (starterAssetsInputs.log && pauseMenuScript.paused == false && thirdPersonController.deathbool == false)
+            {
+                if (logSystem.log == false)
+                {
+                    logSystem.log = true;
+                }
+                else
+                {
+                    logSystem.log = false;
+                }
+                playermesh.enabled = false;
+                nxgun.DisableMesh();
+                bgun.DisableMesh();
+                sgun.DisableMesh();
+                starterAssetsInputs.log = true;
+
+                scnScr.ScanCamPriority();
+                
+                if (starterAssetsInputs.log == true)
+                {
+                    starterAssetsInputs.log = false;
+                }
+                if (logSystem.log == false)
+                {
+                    scnScr.Scan = false;
+                    playermesh.enabled = true;
+                    nxgun.EnableMesh();
+                    bgun.EnableMesh();
+                    sgun.EnableMesh();
+                }
+            }
         }
+        
 
     public void EquipBlaster()
     {

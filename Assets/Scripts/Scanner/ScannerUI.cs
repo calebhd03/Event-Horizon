@@ -219,22 +219,22 @@ public class ScannerUI : MonoBehaviour
         disableObjText();
     }
 
-    void Overlay()
+    public void Overlay()
     {
         screenOverlay.SetActive(true);
     }
 
-    void CloseOverlay()
+    public void CloseOverlay()
     {
         screenOverlay.SetActive(false);
     }
 
-    void Gradient()
+    public void Gradient()
     {
         screenGradient.SetActive(true);
     }
 
-    void CloseGradient()
+    public void CloseGradient()
     {
         screenGradient.SetActive(false);
     }

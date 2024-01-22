@@ -22,6 +22,7 @@ namespace StarterAssets
 		public bool scan;
 		public bool scanaim;
 		public bool scanobj;
+		public bool log;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -51,6 +52,7 @@ namespace StarterAssets
 		public bool teleport2;
 		public bool teleport3;
 		public bool ammo;
+
 
         private void Start()
         {
@@ -115,6 +117,10 @@ namespace StarterAssets
 		public void OnScroll(InputValue value)
 		{
 			ScrollInput(value.Get<Vector2>());
+		}
+		public void OnLog(InputValue value)
+		{
+			LogInput(value.isPressed);
 		}
 
 		public void OnSave(InputValue value) //Save System Test input
@@ -240,6 +246,10 @@ namespace StarterAssets
 		public void OnScanobjInput(bool newScanobjState)
 		{
 			scanobj = newScanobjState;
+		}
+		public void LogInput(bool newLogState)
+		{
+			log = newLogState;
 		}
 
 		private void OnApplicationFocus(bool hasFocus)
