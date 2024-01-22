@@ -13,15 +13,15 @@ public class SettingsScript : MonoBehaviour
     public TMP_Text mastLabel, musicLabel, sfxLabel;
 
     public Slider mastSlider, musicSlider, sfxSlider;
-    public Slider sensSlider;
+
+    public Slider Sens;
 
     Resolution[] resolutions;
 
     public TMPro.TMP_Dropdown resolutionDropdown;
-    //public ThirdPersonController player;
     void Start()
     {
-        //sensSlider.onValueChanged.AddListener(ChangeSensitivity);
+        Sens.value = PlayerPrefs.GetFloat("Sensitivity", 1);
         float volume = 0f;
         mainMixer.GetFloat("MasterVol", out volume);
         mastSlider.value = volume;
@@ -67,8 +67,10 @@ public class SettingsScript : MonoBehaviour
         mainMixer.SetFloat("MasterVol", mastSlider.value);
 
         PlayerPrefs.SetFloat("MasterVol", mastSlider.value);
+        PlayerPrefs.Save();
+
     }
-    
+
     public void setMuiscVol()
     {
         musicLabel.text = Mathf.RoundToInt(musicSlider.value + 80).ToString();
@@ -76,8 +78,10 @@ public class SettingsScript : MonoBehaviour
         mainMixer.SetFloat("MusicVol", musicSlider.value);
 
         PlayerPrefs.SetFloat("MusicVol", musicSlider.value);
+        PlayerPrefs.Save();
+
     }
-    
+
     public void setSFXVol()
     {
         sfxLabel.text = Mathf.RoundToInt(sfxSlider.value + 80).ToString();
@@ -85,6 +89,8 @@ public class SettingsScript : MonoBehaviour
         mainMixer.SetFloat("SFXVol", sfxSlider.value);
 
         PlayerPrefs.SetFloat("SFXVol", sfxSlider.value);
+        PlayerPrefs.Save();
+
     }
     public void setQuality(int qualityIndex)
     {
@@ -102,9 +108,19 @@ public class SettingsScript : MonoBehaviour
         Screen.fullScreen = isFullScreen;
     }
 
-    /*private void ChangeSensitivity(float newSensitivity)
+    public void ApplySensitivity()
     {
-        player.SetSensitivity(newSensitivity);
-        PlayerPrefs.SetFloat("Sensitivity", sensSlider.value);
-    }*/
+        ThirdPersonController thirdPersonController = FindObjectOfType<ThirdPersonController>();
+        if (thirdPersonController != null)
+        {
+            thirdPersonController.SetSensitivity(Sens.value);
+            PlayerPrefs.SetFloat("Sensitivity", Sens.value);
+            PlayerPrefs.Save();
+
+        }
+        else
+        {
+            Debug.LogError("ThirdPersonController component not found.");
+        }
+    }
 }
