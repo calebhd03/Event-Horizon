@@ -9,7 +9,7 @@ public class LogSystem : MonoBehaviour
 {
     [SerializeField] GameObject enemiesButton, memoriesButton, itemButton, returnButton;
     [SerializeField] GameObject enemiesPage, memoriesPage, itemsPage, pauseMenu, LogPage;
-    [SerializeField] Button[] enemy, memory, item;
+    [SerializeField] public Button[] enemy, memory, item;
     [HideInInspector] public Image[] enemyImage, memoryImage, itemImage;
     [SerializeField] Sprite[] enemySprite, memorySprite, itemSprite;
     [SerializeField] TextMeshProUGUI[] enemyText, memoryText, itemText;
@@ -177,7 +177,6 @@ public class LogSystem : MonoBehaviour
                         {
                             Debug.LogError("SourceButton does not have an Image component!");
                         }
-                        setText.text = enemyText[number].text;
                 break;
                 case 1:
                         Image sourceImage1 = memory[buttonIndex].GetComponent<Image>();
@@ -194,7 +193,6 @@ public class LogSystem : MonoBehaviour
                         {
                             Debug.LogError("SourceButton does not have an Image component!");
                         }
-                        setText.text = memoryText[number].text;
                 break;
                 case 2:
                         Image sourceImage2 = enemy[buttonIndex].GetComponent<Image>();
@@ -211,7 +209,23 @@ public class LogSystem : MonoBehaviour
                         {
                             Debug.LogError("SourceButton does not have an Image component!");
                         }
-                        setText.text = itemText[number].text;
+                break;
+            }
+
+
+    }
+        void UpdateText(int buttonIndex)
+    {
+            switch (buttonType)
+            {
+                case 0:
+                        setText.text = enemyText[buttonIndex].text;
+                break;
+                case 1:
+                        setText.text = memoryText[buttonIndex].text;
+                break;
+                case 2:
+                        setText.text = itemText[buttonIndex].text;
                 break;
             }
 
@@ -222,5 +236,6 @@ public class LogSystem : MonoBehaviour
     void OnButtonClick(int buttonIndex)
     {
         UpdateImage(buttonIndex);
+        UpdateText(buttonIndex);
     }
 }

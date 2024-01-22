@@ -28,6 +28,14 @@ public class EnemiesScanScript : MonoBehaviour
 
         alertSound = GetComponent<AudioSource>();
     }
+    void Update()
+    {
+        LogSystem logSystem = FindObjectOfType<LogSystem>();
+        if (logSystem.enemy[number].interactable == true)
+        {
+            Scanned = true;
+        }
+    }
 
     private void OnEnable()
     {
