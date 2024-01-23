@@ -19,6 +19,7 @@ public class PlayerHealthMetric : MonoBehaviour
     public AudioClip healthIncreaseSound;
     public AudioClip healthDecreaseSound;
     AudioSource audioSource;
+    public GameObject healthMeter;
 
     private void Start()
     {
@@ -34,6 +35,18 @@ public class PlayerHealthMetric : MonoBehaviour
         if (currentHealth != (healthBar != null ? healthBar.sizeDelta.y * maxHealth : 0f))
         {
             UpdateHealthBar();
+        }
+        if (currentHealth > maxHealth * (2f/3f))
+        {
+            healthMeter.GetComponent<Image>().color = Color.white;
+        }
+        if (currentHealth < maxHealth * (2f/3f) && currentHealth > maxHealth * (1f/3f))
+        {
+            healthMeter.GetComponent<Image>().color = Color.yellow;
+        }
+        if (currentHealth < maxHealth * (1f/3f))
+        {
+            healthMeter.GetComponent<Image>().color = Color.red;
         }
     }
 
