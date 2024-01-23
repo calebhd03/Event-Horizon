@@ -443,7 +443,8 @@ public class ThirdPersonShooterController : MonoBehaviour
         }
     
     PauseMenuScript pauseMenuScript = FindObjectOfType<PauseMenuScript>();
-    if (starterAssetsInputs.scan && pauseMenuScript.paused == false && thirdPersonController.deathbool == false)
+    LogSystem logSystem = FindObjectOfType<LogSystem>();
+    if (starterAssetsInputs.scan && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
             {
                 DisablePlayerMesh();
                 starterAssetsInputs.scan = true;
@@ -487,19 +488,21 @@ public class ThirdPersonShooterController : MonoBehaviour
             {
                 Reload();
             }
-            LogSystem logSystem = FindObjectOfType<LogSystem>();
+            
             if (starterAssetsInputs.log && pauseMenuScript.paused == false && thirdPersonController.deathbool == false)
             {
                 if (logSystem.log == false)
                 {
-                    logSystem.log = true;
                     logSystem.SetLog();
+                    DisablePlayerMesh();
+                    Debug.LogWarning("this");
                 }
                 else
                 {
-                    logSystem.log = false;
+                    logSystem.CloseLog();
+                    EnablePlayerMesh();
+                    Debug.LogWarning("this2");
                 }
-                DisablePlayerMesh();
                 starterAssetsInputs.log = true;
 
                 scnScr.ScanCamPriority();
@@ -508,11 +511,6 @@ public class ThirdPersonShooterController : MonoBehaviour
                 if (starterAssetsInputs.log == true)
                 {
                     starterAssetsInputs.log = false;
-                }
-                if (logSystem.log == false)
-                {
-                    EnablePlayerMesh();
-                    scnScr.MainCamPriority();
                 }
             }
         }

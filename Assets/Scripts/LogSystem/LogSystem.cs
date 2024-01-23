@@ -71,17 +71,6 @@ public class LogSystem : MonoBehaviour
 
     void Update()
     {   
-        PauseMenuScript pauseMenuScript = FindObjectOfType<PauseMenuScript>();
-        if (log == true)
-        {}
-        else
-        {
-            if (pauseMenuScript.paused == false)
-            {
-                pauseMenuScript.ClosePause();
-            }
-        }
-
         switch (currentTab)
         {
         case 0:
@@ -108,10 +97,21 @@ public class LogSystem : MonoBehaviour
 
     public void SetLog()
     {
+            log = true;
             LogPage.SetActive(true);
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             Time.timeScale = 0;
+    }
+    public void CloseLog()
+    {
+        Scanning scanning = FindObjectOfType<Scanning>();
+        scanning.MainCamPriority();
+        log = false;
+        LogPage.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Time.timeScale = 1;
     }
 
     public void EnemiesTab()
@@ -261,13 +261,5 @@ public class LogSystem : MonoBehaviour
     {
         UpdateImage(buttonIndex);
         UpdateText(buttonIndex);
-    }
-    public void CloseLog()
-    {
-        ThirdPersonShooterController TPSC = FindObjectOfType<ThirdPersonShooterController>();
-        TPSC.EnablePlayerMesh();
-        Scanning scanning = FindObjectOfType<Scanning>();
-        scanning.ScanCamPriority();
-        log = false;
     }
 }
