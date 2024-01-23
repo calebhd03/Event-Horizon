@@ -145,6 +145,7 @@ namespace StarterAssets
         public Transform teleportLocation3;
 
         public PauseMenuScript pauseMenuScript;
+        public LogSystem logSystemScript;
 
         private const float _threshold = 0.01f;
 
@@ -257,7 +258,7 @@ namespace StarterAssets
         private void CameraRotation()
         {
             // if there is an input and camera position is not fixed
-            if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition && pauseMenuScript.paused == false)
+            if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition && pauseMenuScript.paused == false && logSystemScript.log == false)
             {
                 //Don't multiply mouse input by Time.deltaTime;
                 float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;

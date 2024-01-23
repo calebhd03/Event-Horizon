@@ -260,6 +260,10 @@ public class LogSystem : MonoBehaviour
     }
     public void CloseLog()
     {
+        ThirdPersonShooterController TPSC = FindObjectOfType<ThirdPersonShooterController>();
+        TPSC.EnableMesh();
+        Scanning scanning = FindObjectOfType<Scanning>();
+        scanning.ScanCamPriority();
         log = false;
     }
 }
