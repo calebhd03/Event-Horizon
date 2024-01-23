@@ -16,12 +16,16 @@ public class PlayerHealthMetric : MonoBehaviour
     public bool isHealthBarActive = true; // Public toggle for the health bar
 
     private SaveSystemTest saveSystemTest;
+    public AudioClip healthIncreaseSound;
+    public AudioClip healthDecreaseSound;
+    AudioSource audioSource;
 
     private void Start()
     {
         currentHealth = maxHealth;
         InitializeHealthBar(); // Initialize the health bar
         saveSystemTest = FindObjectOfType<SaveSystemTest>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -35,12 +39,22 @@ public class PlayerHealthMetric : MonoBehaviour
 
     public void ModifyHealth(float amount)
     {
+        float previousHealth = currentHealth;
         currentHealth = Mathf.Clamp(currentHealth + amount, 0f, maxHealth);
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
 
         if (currentHealth <= 0f)
         {
             Debug.Log("Player Health 0");
+        }
+
+        if (currentHealth < previousHealth)
+        {
+            audioSource.PlayOneShot(healthIncreaseSound);
+        }
+        else if(currentHealth > previousHealth)
+        {
+            audioSource.PlayOneShot(healthDecreaseSound);
         }
     }
 
