@@ -586,6 +586,7 @@ namespace StarterAssets
                 pauseMenuScript.SetPause();
                 Debug.Log("Pause input!");
             }
+            _input.log = false;
         }
            private void Teleport()
         {

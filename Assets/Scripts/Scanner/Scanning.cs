@@ -54,5 +54,13 @@ public class Scanning : MonoBehaviour
             AimCam.Priority = 10;
         }
         MainCamera = !MainCamera;
+    }
+    public void MainCamPriority()
+    {
+            audioSource.Play();
+            Scan = false;
+            MainCam.Priority = 10;
+            ScanCam.Priority = 0;
+            AimCam.Priority = 10;
     }    
 }

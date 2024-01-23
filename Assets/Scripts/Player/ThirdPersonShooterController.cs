@@ -445,10 +445,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     PauseMenuScript pauseMenuScript = FindObjectOfType<PauseMenuScript>();
     if (starterAssetsInputs.scan && pauseMenuScript.paused == false && thirdPersonController.deathbool == false)
             {
-                playermesh.enabled = false;
-                nxgun.DisableMesh();
-                bgun.DisableMesh();
-                sgun.DisableMesh();
+                DisablePlayerMesh();
                 starterAssetsInputs.scan = true;
 
                 scnScr.ScanCamPriority();
@@ -460,10 +457,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 }
                 if (scnScr.Scan == false)
                 {
-                    playermesh.enabled = true;
-                    nxgun.EnableMesh();
-                    bgun.EnableMesh();
-                    sgun.EnableMesh();
+                    EnablePlayerMesh();
                 }
             }
 
@@ -499,18 +493,17 @@ public class ThirdPersonShooterController : MonoBehaviour
                 if (logSystem.log == false)
                 {
                     logSystem.log = true;
+                    logSystem.SetLog();
                 }
                 else
                 {
                     logSystem.log = false;
                 }
-                playermesh.enabled = false;
-                nxgun.DisableMesh();
-                bgun.DisableMesh();
-                sgun.DisableMesh();
+                DisablePlayerMesh();
                 starterAssetsInputs.log = true;
 
                 scnScr.ScanCamPriority();
+                
                 
                 if (starterAssetsInputs.log == true)
                 {
@@ -518,7 +511,8 @@ public class ThirdPersonShooterController : MonoBehaviour
                 }
                 if (logSystem.log == false)
                 {
-                    EnableMesh();
+                    EnablePlayerMesh();
+                    scnScr.MainCamPriority();
                 }
             }
         }
@@ -909,7 +903,7 @@ public class ThirdPersonShooterController : MonoBehaviour
          BhgIcon.SetActive(false);
         }
     }
-    public void EnableMesh()
+    public void EnablePlayerMesh()
     {
         NexusGun nxgun = GetComponentInChildren<NexusGun>();
         Shotgun sgun = GetComponentInChildren<Shotgun>();
@@ -918,5 +912,15 @@ public class ThirdPersonShooterController : MonoBehaviour
         nxgun.EnableMesh();
         bgun.EnableMesh();
         sgun.EnableMesh();
+    }
+    public void DisablePlayerMesh()
+    {
+        NexusGun nxgun = GetComponentInChildren<NexusGun>();
+        Shotgun sgun = GetComponentInChildren<Shotgun>();
+        Blaster bgun = GetComponentInChildren<Blaster>();
+        playermesh.enabled = false;
+        nxgun.DisableMesh();
+        bgun.DisableMesh();
+        sgun.DisableMesh();
     }
 }

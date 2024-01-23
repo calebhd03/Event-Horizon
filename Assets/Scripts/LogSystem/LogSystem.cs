@@ -9,7 +9,7 @@ using StarterAssets;
 public class LogSystem : MonoBehaviour
 {
     [SerializeField] GameObject enemiesButton, memoriesButton, itemButton, returnButton;
-    [SerializeField] GameObject enemiesPage, memoriesPage, itemsPage, pauseMenu, LogPage;
+    [SerializeField] public GameObject enemiesPage, memoriesPage, itemsPage, pauseMenu, LogPage;
     [SerializeField] public Button[] enemy, memory, item;
     [HideInInspector] public Image[] enemyImage, memoryImage, itemImage;
     [SerializeField] Sprite[] enemySprite, memorySprite, itemSprite;
@@ -70,20 +70,16 @@ public class LogSystem : MonoBehaviour
     }
 
     void Update()
-    {       
+    {   
+        PauseMenuScript pauseMenuScript = FindObjectOfType<PauseMenuScript>();
         if (log == true)
-        {   
-            LogPage.SetActive(true);
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            Time.timeScale = 0;
-        }
+        {}
         else
         {
-            LogPage.SetActive(false);
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            Time.timeScale = 1;
+            if (pauseMenuScript.paused == false)
+            {
+                pauseMenuScript.ClosePause();
+            }
         }
 
         switch (currentTab)
@@ -108,6 +104,14 @@ public class LogSystem : MonoBehaviour
             buttonType = 2;
         break;
         }
+    }
+
+    public void SetLog()
+    {
+            LogPage.SetActive(true);
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            Time.timeScale = 0;
     }
 
     public void EnemiesTab()
@@ -261,7 +265,7 @@ public class LogSystem : MonoBehaviour
     public void CloseLog()
     {
         ThirdPersonShooterController TPSC = FindObjectOfType<ThirdPersonShooterController>();
-        TPSC.EnableMesh();
+        TPSC.EnablePlayerMesh();
         Scanning scanning = FindObjectOfType<Scanning>();
         scanning.ScanCamPriority();
         log = false;
