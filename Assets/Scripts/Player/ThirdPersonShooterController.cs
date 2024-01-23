@@ -444,12 +444,19 @@ public class ThirdPersonShooterController : MonoBehaviour
     
     PauseMenuScript pauseMenuScript = FindObjectOfType<PauseMenuScript>();
     LogSystem logSystem = FindObjectOfType<LogSystem>();
-    if (starterAssetsInputs.scan && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
+    if (starterAssetsInputs.scan && pauseMenuScript.paused == false && thirdPersonController.deathbool == false)
             {
                 DisablePlayerMesh();
                 starterAssetsInputs.scan = true;
-
-                scnScr.ScanCamPriority();
+                if (logSystem.log == false)
+                {
+                    scnScr.SwitchCamPriority();
+                }
+                else if (logSystem == true)
+                {
+                    scnScr.ScanCamPriority();
+                    logSystem.CloseLog();
+                }
                 
                 if (starterAssetsInputs.scan == true)
                 {
@@ -471,11 +478,14 @@ public class ThirdPersonShooterController : MonoBehaviour
                 scnCam.StopScanObj();
             }
 
+            if (scnScr.Scan == false)
+            {
+                starterAssetsInputs.scanaim = false;
+            }
             if(starterAssetsInputs.scanaim && scnScr.Scan == true)
             {
                 starterAssetsInputs.scanaim = true;
                 //Debug.Log("scanzoom pressed");
-
                 scnzCam.ScanZoomPriority();
 
                 if (starterAssetsInputs.scanaim == true)
@@ -489,7 +499,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 Reload();
             }
             
-            if (starterAssetsInputs.log && pauseMenuScript.paused == false && thirdPersonController.deathbool == false)
+            if (starterAssetsInputs.log && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && scnScr.Scan == true)
             {
                 if (logSystem.log == false)
                 {

@@ -22,12 +22,14 @@ public class LogSystem : MonoBehaviour
     public GameObject scannerCurrentObject;
     public int number;
     private StarterAssetsInputs starterAssetsInputs;
+    private ThirdPersonController thirdPersonController;
     public bool log;
 
     void Start()
     {
         log = false;
         starterAssetsInputs = FindObjectOfType<StarterAssetsInputs>();
+        thirdPersonController = FindObjectOfType<ThirdPersonController>();
         LogPage.SetActive(false);
         displayInfo.SetActive(false);
         
@@ -71,6 +73,12 @@ public class LogSystem : MonoBehaviour
 
     void Update()
     {   
+        if (log == true)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            Time.timeScale = 0;
+        }
         switch (currentTab)
         {
         case 0:
@@ -97,16 +105,12 @@ public class LogSystem : MonoBehaviour
 
     public void SetLog()
     {
-            log = true;
-            LogPage.SetActive(true);
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            Time.timeScale = 0;
+        log = true;
+        LogPage.SetActive(true);
+
     }
     public void CloseLog()
-    {
-        Scanning scanning = FindObjectOfType<Scanning>();
-        scanning.MainCamPriority();
+    {   
         log = false;
         LogPage.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
@@ -166,9 +170,9 @@ public class LogSystem : MonoBehaviour
         }
     }
 
-    public void TestButton()
+    public void ReturnButton()
     {
-        Debug.LogWarning("button works");
+        starterAssetsInputs.LogInput(true);
     }
 
     public void DisplayInfo()

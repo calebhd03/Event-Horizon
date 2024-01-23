@@ -69,6 +69,7 @@ public class PauseMenuScript : MonoBehaviour
             Time.timeScale = 0;
             HUD.SetActive(false);
             PauseScreen.SetActive(true);
+            
         }
     public void ClosePause()
     {
@@ -77,7 +78,6 @@ public class PauseMenuScript : MonoBehaviour
         settingsScreen.SetActive(false);
         inventoryScreen.SetActive(false);
         upgradeScreen.SetActive(false);
-        logPage.SetActive(false);
 
         paused = false;
         HUD.SetActive(true);
