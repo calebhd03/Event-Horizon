@@ -235,6 +235,7 @@ MonoBehaviour:
   six: {fileID: 0}
   seven: {fileID: 0}
   eight: {fileID: 0}
+  scannerCurrentObject: {fileID: 0}
 --- !u!1 &1110274413
 GameObject:
   m_ObjectHideFlags: 0
@@ -1298,7 +1299,7 @@ MonoBehaviour:
   settingsScreen: {fileID: 7911105906196134325}
   inventoryScreen: {fileID: 8606352652891636381}
   upgradeScreen: {fileID: 5743993066604848596}
-  logSystem: {fileID: 0}
+  logPage: {fileID: 0}
   HUD: {fileID: 356631354611864372}
   paused: 0
   Player: {fileID: 8713323214806403716}
@@ -2297,25 +2298,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3879511924242682083}
     - target: {fileID: 978891664, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
-      propertyPath: spawnBulletPosition
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 978891664, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
       propertyPath: blackHoleChargeSound
       value: 
       objectReference: {fileID: 8300000, guid: 0919e6c3cf5f5b9408cb47ebf50cc2ff, type: 3}
-    - target: {fileID: 978891664, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
-      propertyPath: crouchedWeaponObject
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 978891664, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
-      propertyPath: originalWeaponObject
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 978891664, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
-      propertyPath: standardWeaponObject
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 978891664, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
       propertyPath: blackHoleWeaponObject
       value: 
@@ -2332,10 +2317,6 @@ PrefabInstance:
       propertyPath: spawnShotgunBulletPosition
       value: 
       objectReference: {fileID: 2387391382844561808}
-    - target: {fileID: 978891664, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
-      propertyPath: spawnBlackHoleBulletPosition
-      value: 
-      objectReference: {fileID: 575761236724974659}
     - target: {fileID: 1034853400, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -22.649998
@@ -2472,14 +2453,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 1.372998
       objectReference: {fileID: 0}
-    - target: {fileID: 6924059153134644484, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
-      propertyPath: MoveSpeed
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6924059153134644484, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
-      propertyPath: deathAudio
-      value: 
-      objectReference: {fileID: 8300000, guid: c912323f52ecbea4386d893da4facc66, type: 3}
     - target: {fileID: 6924059153134644484, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
       propertyPath: deathScreen
       value: 
@@ -2629,11 +2602,6 @@ PrefabInstance:
     - {fileID: 4484568972293304741, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
     - {fileID: 256943673687876207, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
---- !u!4 &575761236724974659 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2234139021774955464, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
-  m_PrefabInstance: {fileID: 1800527604824057739}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &904326948539279231 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1472697696772784372, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
@@ -2933,22 +2901,9 @@ MonoBehaviour:
   currentHealth: 0
   healthBar: {fileID: 578920793659670885}
   isHealthBarActive: 1
---- !u!114 &5527358826699572121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8713323214806403716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0584da94bef62564aabbf92c01a0ffa6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 0
-  healthBar: {fileID: 0}
-  isHealthBarActive: 1
+  healthIncreaseSound: {fileID: 8300000, guid: c912323f52ecbea4386d893da4facc66, type: 3}
+  healthDecreaseSound: {fileID: 8300000, guid: c912323f52ecbea4386d893da4facc66, type: 3}
+  healthMeter: {fileID: 3789221967905257743}
 --- !u!1 &8737350627223025692 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7042939648048930711, guid: 66ef2b6f8629ee74c9daf38173c99c7c, type: 3}
@@ -3682,6 +3637,11 @@ MonoBehaviour:
 --- !u!1 &3588024089754516992 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7760575213421781935, guid: 4b2e5bdbc1ae04e4fac20573e54016e8, type: 3}
+  m_PrefabInstance: {fileID: 6518998859034156463}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3789221967905257743 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7993369965097985184, guid: 4b2e5bdbc1ae04e4fac20573e54016e8, type: 3}
   m_PrefabInstance: {fileID: 6518998859034156463}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &4216419872690854419 stripped

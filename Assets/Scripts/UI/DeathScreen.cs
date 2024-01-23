@@ -21,12 +21,12 @@ public class DeathScreen : MonoBehaviour
     {
         ThirdPersonController TPC = FindObjectOfType<ThirdPersonController>();
         gameObject.SetActive(false);
-        Time.timeScale = 1f;
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
         starterAssetsInputs.LoadInput(true);
         TPC.deathbool = false;
         TPC.LockCameraPosition = false;
+        Time.timeScale = 1f;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
     public void ExitGame()
     {
