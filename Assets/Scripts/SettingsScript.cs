@@ -21,10 +21,12 @@ public class SettingsScript : MonoBehaviour
     public TMPro.TMP_Dropdown resolutionDropdown;
     void Start()
     {
-        ApplySensitivity();
 
 
+        Sens.enabled = false; 
         Sens.value = PlayerPrefs.GetFloat("Sensitivity", 1);
+        Sens.enabled = true;
+
         float volume = 0f;
         mainMixer.GetFloat("MasterVol", out volume);
         mastSlider.value = volume;
@@ -53,14 +55,15 @@ public class SettingsScript : MonoBehaviour
             {
                 currentResolutionIndex = i;
             }
-             
+
         }
 
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
-    }
 
+        ApplySensitivity();
+    }
     
 
     public void setMasterVol()
@@ -113,17 +116,19 @@ public class SettingsScript : MonoBehaviour
 
     public void ApplySensitivity()
     {
-        ThirdPersonShooterController thirdPersonController = FindObjectOfType<ThirdPersonShooterController>();
-        if (thirdPersonController != null)
-        {
-            thirdPersonController.changeSens(Sens.value);
-            PlayerPrefs.SetFloat("Sensitivity", Sens.value);
-            PlayerPrefs.Save();
+        PlayerPrefs.SetFloat("Sensitivity", Sens.value);
+        PlayerPrefs.Save();
 
+        Debug.Log("Changing sens to " + Sens.value);
+
+        ThirdPersonShooterController thirdPersonShooterController = FindObjectOfType<ThirdPersonShooterController>();
+        if (thirdPersonShooterController != null)
+        {
+            thirdPersonShooterController.changeSens(Sens.value);
         }
         else
         {
-            Debug.LogError("ThirdPersonController component not found.");
+            Debug.LogWarning("ThirdPersonController component not found.");
         }
     }
 }

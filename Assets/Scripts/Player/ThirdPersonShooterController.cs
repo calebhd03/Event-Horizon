@@ -142,7 +142,6 @@ public class ThirdPersonShooterController : MonoBehaviour
             RefreshWeaponIcons();
             EquipBlaster();
             SettingsScript settings = FindObjectOfType<SettingsScript>();
-            settings.ApplySensitivity();
         }
 
         private void Update()
