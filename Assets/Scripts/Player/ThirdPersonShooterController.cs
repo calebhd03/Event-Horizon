@@ -141,6 +141,8 @@ public class ThirdPersonShooterController : MonoBehaviour
             SwitchWeaponObject(originalWeaponObject);
             RefreshWeaponIcons();
             EquipBlaster();
+            SettingsScript settings = FindObjectOfType<SettingsScript>();
+            settings.ApplySensitivity();
         }
 
         private void Update()
@@ -870,5 +872,10 @@ public class ThirdPersonShooterController : MonoBehaviour
         {
          BhgIcon.SetActive(false);
         }
+    }
+
+    public void changeSens(float newChangeSens)
+    {
+        normalSensitivity = newChangeSens;
     }
 }

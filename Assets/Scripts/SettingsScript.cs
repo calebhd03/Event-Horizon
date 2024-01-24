@@ -21,6 +21,9 @@ public class SettingsScript : MonoBehaviour
     public TMPro.TMP_Dropdown resolutionDropdown;
     void Start()
     {
+        ApplySensitivity();
+
+
         Sens.value = PlayerPrefs.GetFloat("Sensitivity", 1);
         float volume = 0f;
         mainMixer.GetFloat("MasterVol", out volume);
@@ -110,10 +113,10 @@ public class SettingsScript : MonoBehaviour
 
     public void ApplySensitivity()
     {
-        ThirdPersonController thirdPersonController = FindObjectOfType<ThirdPersonController>();
+        ThirdPersonShooterController thirdPersonController = FindObjectOfType<ThirdPersonShooterController>();
         if (thirdPersonController != null)
         {
-            thirdPersonController.SetSensitivity(Sens.value);
+            thirdPersonController.changeSens(Sens.value);
             PlayerPrefs.SetFloat("Sensitivity", Sens.value);
             PlayerPrefs.Save();
 
