@@ -931,6 +931,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         nxgun.DisableMesh();
         bgun.DisableMesh();
         sgun.DisableMesh();
+    }
 
     public void changeSens(float newChangeSens)
     {
