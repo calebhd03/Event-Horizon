@@ -7,11 +7,14 @@ public class PlantBasedHealth : MonoBehaviour
     public float pickUpHealthAmount = 10f;
     public float radius = 5f;
     public bool used = false;
-    public GameObject cloud;
+    ParticleSystem cloud;
+    Renderer mesh;
+
 
     void Start()
     {
-        //cloud.SetActive(false);
+        cloud = GetComponent<ParticleSystem>();
+        mesh = GetComponent<Renderer>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -25,8 +28,8 @@ public class PlantBasedHealth : MonoBehaviour
                 {
                     used = true;
                     playerHealth.ModifyHealth(pickUpHealthAmount);
-                    gameObject.SetActive(false);
-                    //cloud.SetActive(true);
+                    mesh.enabled = false;
+                    cloud.Play();
                 }
             }
         }
