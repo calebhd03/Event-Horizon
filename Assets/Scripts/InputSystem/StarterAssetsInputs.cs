@@ -96,10 +96,10 @@ namespace StarterAssets
 
 		public void OnShoot(InputValue value)
 		{
-			if( aim == true)
-			{
+			//if( aim == true)
+			//{
 			ShootInput(value.isPressed);
-			}
+			//}
 		}
 		public void OnScan(InputValue value)
 		{
