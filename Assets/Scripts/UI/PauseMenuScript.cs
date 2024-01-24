@@ -107,12 +107,13 @@ public class PauseMenuScript : MonoBehaviour
             upgradeScreen.SetActive(true);
             PauseScreen.SetActive(false);
         }
+
     //add log system
-    /*public void OpenLogSystem()
+    public void OpenLogSystem()
     {
         logPage.SetActive(true);
         PauseScreen.SetActive(false);
-    }*/
+    }
 
         
     //The next three functions all close our their respective menus and return to Main
