@@ -321,6 +321,20 @@ public class ThirdPersonShooterController : MonoBehaviour
             EquipBlackHoleGun();
         }
 
+        if (starterAssetsInputs.swapBHG)
+        {
+            if (equippedWeapon == 1)
+            {
+                BHGTool = !BHGTool;
+            }
+
+            if (starterAssetsInputs.swapBHG == true)
+            {
+                starterAssetsInputs.swapBHG = false;
+
+            }
+        }
+
         if (starterAssetsInputs.shotgun)
         {
             EquipShotgun();
@@ -351,7 +365,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 }
                 else if (equippedWeapon == 1 )
                 {   
-                    if (starterAssetsInputs.swapBHG  )
+                    if (BHGTool == true)
                     {
                         
                         if (blackHoleAmmoLoaded > 0 || blackHoleAmmoLoaded <= 0)
@@ -895,16 +909,14 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void UpdateIcon()
     {
-        if(starterAssetsInputs.swapBHG && equippedWeapon == 1 )
+        if(BHGTool == true && equippedWeapon == 1 )
          {
              BhgIcon.SetActive(false);
-             BHGTool = true;
              reloading = false;
          }
          else if( equippedWeapon == 1)
         {
            BhgIcon.SetActive(true);
-           BHGTool = false;
          }
         else
         {
