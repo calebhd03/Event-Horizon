@@ -422,7 +422,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             starterAssetsInputs.shoot = false;  
         }
 
-        if (shotCooldown <= currentCooldown)
+        if (shotCooldown <= currentCooldown && currentCooldown != 0)
         {
             cooldownMeter.transform.localScale = new Vector3((shotCooldown / currentCooldown) * 0.96f, 0.8f, 1);
         }

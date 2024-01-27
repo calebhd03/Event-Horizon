@@ -5,7 +5,8 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Audio;
 using StarterAssets;
-
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 public class SettingsScript : MonoBehaviour
 {
     public AudioMixer mainMixer;
@@ -16,12 +17,20 @@ public class SettingsScript : MonoBehaviour
 
     public Slider Sens;
 
+    public Slider brightness;
+
+    public Volume volume;
+
+    private ColorAdjustments postExposure;
+
     Resolution[] resolutions;
 
     public TMPro.TMP_Dropdown resolutionDropdown;
     void Start()
     {
-
+        brightness.enabled = false;
+        brightness.value = PlayerPrefs.GetFloat("PostExposureValue", 1);
+        brightness.enabled = true;
 
         Sens.enabled = false; 
         Sens.value = PlayerPrefs.GetFloat("Sensitivity", 1);
@@ -130,5 +139,29 @@ public class SettingsScript : MonoBehaviour
         {
             Debug.LogWarning("ThirdPersonController component not found.");
         }
+    }
+
+    public void ChangeBrightness()
+    {
+        PlayerPrefs.SetFloat("PostExposureValue", brightness.value);
+        PlayerPrefs.Save();
+
+
+        if (volume != null && volume.profile != null)
+        {
+            if (volume.profile.TryGet<ColorAdjustments>(out postExposure))
+            {
+                postExposure.postExposure.value = brightness.value;
+            }
+            else
+            {
+                Debug.LogWarning("Brightness not found in the Volume.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Volume is null.");
+        }
+
     }
 }
