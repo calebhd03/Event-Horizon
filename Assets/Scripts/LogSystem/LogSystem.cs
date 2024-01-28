@@ -5,6 +5,7 @@ using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.UI;
 using StarterAssets;
+using JetBrains.Annotations;
 
 public class LogSystem : MonoBehaviour
 {
@@ -14,11 +15,13 @@ public class LogSystem : MonoBehaviour
     [HideInInspector] public Image[] enemyImage, memoryImage, itemImage;
     [SerializeField] Sprite[] enemySprite, memorySprite, itemSprite;
     [SerializeField] TextMeshProUGUI[] enemyText, memoryText, itemText;
+    public Color enemyPage;
     public static int currentTab;
     private int buttonType;
     [SerializeField] GameObject displayInfo;
     public Image setImage;
     public TextMeshProUGUI setText;
+    public TextMeshProUGUI enemyHeadingText, memoriesHeadingText, itemsHeadingText;
     public GameObject scannerCurrentObject;
     public int number;
     private StarterAssetsInputs starterAssetsInputs;
@@ -86,19 +89,27 @@ public class LogSystem : MonoBehaviour
             memoriesPage.SetActive(false);
             itemsPage.SetActive(false);
             buttonType = 0;
-            
+            enemyHeadingText.color = new Color(1f, 0f, 0f, 1f);
+            memoriesHeadingText.color = new Color(1f, 0f, 0f, 1f);
+            itemsHeadingText.color = new Color(1f, 0f, 0f, 1f);
         break;
         case 1:
             enemiesPage.SetActive(false);
             memoriesPage.SetActive(true);
             itemsPage.SetActive(false);
             buttonType = 1;
+            enemyHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
+            memoriesHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
+            itemsHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
         break;
         case 2:
             enemiesPage.SetActive(false);
             memoriesPage.SetActive(false);
             itemsPage.SetActive(true);
             buttonType = 2;
+            enemyHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
+            memoriesHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
+            itemsHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
         break;
         }
     }
