@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class BarrierController : MonoBehaviour
 {
-    public GameObject barrierPiecesPrefab;
-    public int numberOfPieces = 10;
-    public float fallForce = 5.0f; // Adjust the force based on your preference
+        public GameObject particleSystemPrefab; // Particle system prefab
+    public GameObject cutscene; // Add this variable to store the cutscene prefab
+    public bool shouldPlayCutscene = false; // Add this variable
 
     public void DestroyBarrier()
     {
@@ -15,41 +15,43 @@ public class BarrierController : MonoBehaviour
 
     IEnumerator DestroyAndInstantiate()
     {
-        // Declare a list to hold the instantiated pieces
-        List<GameObject> barrierPieces = new List<GameObject>();
+        // Instantiate Particle System at the top of the game object
+        Vector3 particleSystemPosition = transform.position + Vector3.up * (particleSystemPrefab.GetComponent<ParticleSystem>().main.startLifetime.constant + 5.0f);
+        GameObject particleSystemInstance = Instantiate(particleSystemPrefab, particleSystemPosition, Quaternion.identity);
 
-        // Instantiate BarrierPieces and add them to the pool
-        for (int i = 0; i < numberOfPieces; i++)
+        // Enable the Particle System
+        ParticleSystem particleSystem = particleSystemInstance.GetComponent<ParticleSystem>();
+        if (particleSystem != null)
         {
-            // Calculate the position for the instantiated piece
-            Vector3 spawnPosition = transform.position + Vector3.up * 2.0f; // You can adjust the "2.0f" based on your requirements
-
-            // Instantiate the barrier piece at the calculated position
-            GameObject barrierPiece = Instantiate(barrierPiecesPrefab, spawnPosition, Quaternion.identity);
-            barrierPiece.GetComponent<MeshRenderer>().enabled = false;
-
-            // Add the instantiated piece to the pool
-            barrierPieces.Add(barrierPiece);
-
-            yield return null; // Wait for the next frame before instantiating the next piece
+            particleSystem.Play();
         }
 
-        // Enable MeshRenderers and apply forces when needed
-        foreach (var piece in barrierPieces)
+        // Enable MeshRenderer and apply forces when needed (for visualization purposes)
+        MeshRenderer meshRenderer = particleSystemInstance.GetComponent<MeshRenderer>();
+        if (meshRenderer != null)
         {
-            piece.GetComponent<MeshRenderer>().enabled = true;
-
-            // Add a Rigidbody component and apply a downward force
-            Rigidbody rigidbody = piece.GetComponent<Rigidbody>();
-            if (rigidbody == null)
-            {
-                rigidbody = piece.AddComponent<Rigidbody>();
-            }
-
-            rigidbody.AddForce(Vector3.down * fallForce, ForceMode.Impulse);
+            meshRenderer.enabled = true;
         }
 
         // Destroy the current Barrier GameObject
         Destroy(gameObject);
+
+        // Wait for the particle system to finish (replace this with the actual duration of your particle system)
+        yield return new WaitForSeconds(particleSystem.main.duration);
+
+        // Instantiate cutscene if shouldPlayCutscene is true
+        if (shouldPlayCutscene && cutscene != null)
+        {
+            Instantiate(cutscene, transform.position, Quaternion.identity);
+        }
+
+        // Destroy the current Barrier GameObject
+        // Destroy(gameObject);
+    }
+
+    public void MemoryLog()
+    {
+        LogSystem logSystem = FindObjectOfType<LogSystem>();
+        logSystem.UpdateMemoryLog();
     }
 }
