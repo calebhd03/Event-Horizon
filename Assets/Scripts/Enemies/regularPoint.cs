@@ -10,11 +10,13 @@ public class regularPoint : MonoBehaviour
 
     // Reference to the BasicEnemy script
     private basicEnemy basicEnemyScript;
+    private bossEnemy bossEnemyScript;
 
     private void Start()
     {
         // Get the BasicEnemy script attached to the same GameObject
         basicEnemyScript = GetComponentInParent<basicEnemy>();
+        bossEnemyScript = GetComponentInParent<bossEnemy>();
     }
 
     private void OnTriggerEnter(Collider other)
