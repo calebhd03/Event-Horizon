@@ -11,7 +11,6 @@ public class Portal : MonoBehaviour
     public SceneTransitionController sceneTransition;
     public ParticleSystem portalParticle; // Reference to the Particle System
 
-    public GameObject Boss;
      
     [SerializeField]
     private CinemachineVirtualCamera MainCam;
@@ -30,14 +29,6 @@ public class Portal : MonoBehaviour
         if (portalParticle != null)
         {
             portalParticle.Stop();
-        }
-    }
-    private void Update()
-    {
-        if (Boss == null && !sceneTransition.IsFading())
-        {
-            // Boss is destroyed, set the Portal object active
-            gameObject.SetActive(true);
         }
     }
 

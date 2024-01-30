@@ -141,6 +141,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             SwitchWeaponObject(originalWeaponObject);
             RefreshWeaponIcons();
             EquipBlaster();
+            SettingsScript settings = FindObjectOfType<SettingsScript>();
         }
 
         private void Update()
@@ -435,7 +436,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             starterAssetsInputs.shoot = false;  
         }
 
-        if (shotCooldown <= currentCooldown)
+        if (shotCooldown <= currentCooldown && currentCooldown != 0)
         {
             cooldownMeter.transform.localScale = new Vector3((shotCooldown / currentCooldown) * 0.96f, 0.8f, 1);
         }
@@ -942,5 +943,10 @@ public class ThirdPersonShooterController : MonoBehaviour
         nxgun.DisableMesh();
         bgun.DisableMesh();
         sgun.DisableMesh();
+    }
+
+    public void changeSens(float newChangeSens)
+    {
+        normalSensitivity = newChangeSens;
     }
 }
