@@ -19,6 +19,7 @@ public class PauseMenuScript : MonoBehaviour
     public bool paused = false;
 
     private StarterAssetsInputs starterAssetsInputs;
+    LogSystem logSystem;
 
     public GameObject Player;
 
@@ -26,7 +27,7 @@ public class PauseMenuScript : MonoBehaviour
 
     private void Start()
     {
-    
+        logSystem = FindObjectOfType<LogSystem>();
          starterAssetsInputs = Player.GetComponent<StarterAssetsInputs>();
     }
     public void SetSave()
@@ -111,10 +112,14 @@ public class PauseMenuScript : MonoBehaviour
     //add log system
     public void OpenLogSystem()
     {
+        
         paused = false;
 
         PauseScreen.SetActive(false);
+        if (logSystem.log == false)
+        {
         starterAssetsInputs.LogInput(true);
+        }
     }
 
         

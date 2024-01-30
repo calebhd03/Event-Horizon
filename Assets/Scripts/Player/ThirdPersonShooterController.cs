@@ -535,7 +535,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                     EnablePlayerMesh();
                     Debug.LogWarning("this2");
                                     // for scanner not used
-                    scnScr.MainCamPriority();
+                    scnScr.SwitchCamPriority();
                 }
                 starterAssetsInputs.log = true;
                 // for scanner == true
