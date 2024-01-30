@@ -9,8 +9,8 @@ using JetBrains.Annotations;
 
 public class LogSystem : MonoBehaviour
 {
-    [SerializeField] GameObject enemiesButton, memoriesButton, itemButton, returnButton;
-    [SerializeField] public GameObject enemiesPage, memoriesPage, itemsPage, pauseMenu, LogPage;
+    [SerializeField] GameObject enemiesButton, memoriesButton, itemButton, skillsButton, returnButton;
+    [SerializeField] public GameObject enemiesPage, memoriesPage, itemsPage, pauseMenu, LogPage, skillsPage;
     [SerializeField] public Button[] enemy, memory, item;
     [HideInInspector] public Image[] enemyImage, memoryImage, itemImage;
     [SerializeField] Sprite[] enemySprite, memorySprite, itemSprite;
@@ -21,12 +21,20 @@ public class LogSystem : MonoBehaviour
     [SerializeField] GameObject displayInfo;
     public Image setImage;
     public TextMeshProUGUI setText;
-    public TextMeshProUGUI enemyHeadingText, memoriesHeadingText, itemsHeadingText;
+    public TextMeshProUGUI enemyHeadingText, memoriesHeadingText, itemsHeadingText, skillsHeadingText;
     public GameObject scannerCurrentObject;
     public int number;
     private StarterAssetsInputs starterAssetsInputs;
     private ThirdPersonController thirdPersonController;
     public bool log;
+    //Skills
+    public bool skillsUnlocked = false;
+    public Button healthUpgradeButton, speedUpgradeButton, damageUpgradeButton;
+    public bool healthSkillUpgraded = false;
+    public bool damageSkillUpgraded = false;
+    public bool speedSkillUpgraded = false;
+    public Sprite healthUpgradedSprite, damageUpgradedSprite, speedUpgradedSprite;
+    private Image healthUpgradeImage, damageUpgradeImage, speedUpgradeImage;
 
     void Start()
     {
@@ -51,10 +59,12 @@ public class LogSystem : MonoBehaviour
             button.interactable = false;
             button.gameObject.SetActive(false);
         }
+
         
         enemyImage = new Image[enemy.Length];
         memoryImage = new Image[memory.Length];
         itemImage = new Image[item.Length];
+
 
         // Attach the OnClick method to each button's click event
         for (int i = 0; i < enemy.Length; i++)
@@ -88,29 +98,82 @@ public class LogSystem : MonoBehaviour
             enemiesPage.SetActive(true);
             memoriesPage.SetActive(false);
             itemsPage.SetActive(false);
+            skillsPage.SetActive(false);
             buttonType = 0;
             enemyHeadingText.color = new Color(1f, 0f, 0f, 1f);
             memoriesHeadingText.color = new Color(1f, 0f, 0f, 1f);
             itemsHeadingText.color = new Color(1f, 0f, 0f, 1f);
+            skillsHeadingText.color = new Color(1f, 0f, 0f, 1f);
         break;
         case 1:
             enemiesPage.SetActive(false);
             memoriesPage.SetActive(true);
             itemsPage.SetActive(false);
+            skillsPage.SetActive(false);
             buttonType = 1;
             enemyHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
             memoriesHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
             itemsHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
+            skillsHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
         break;
         case 2:
             enemiesPage.SetActive(false);
             memoriesPage.SetActive(false);
             itemsPage.SetActive(true);
+            skillsPage.SetActive(false);
             buttonType = 2;
             enemyHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
             memoriesHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
             itemsHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
+            skillsHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
         break;
+        case 3:
+            enemiesPage.SetActive(false);
+            memoriesPage.SetActive(false);
+            itemsPage.SetActive(false);
+            skillsPage.SetActive(true);
+            buttonType = 3;
+            enemyHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
+            memoriesHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
+            itemsHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
+            skillsHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
+        break;
+        }
+
+        if (skillsUnlocked == true)
+        {
+            if (healthSkillUpgraded == true)
+            {
+                healthUpgradeButton.interactable = false;
+            }
+            else
+            {
+                healthUpgradeButton.interactable = true;
+            }
+            
+            if (damageSkillUpgraded == true)
+            {
+                damageUpgradeButton.interactable = false;
+            }
+            else
+            {
+                damageUpgradeButton.interactable = true;
+            }
+            
+            if (speedSkillUpgraded == true)
+            {
+                speedUpgradeButton.interactable = false;
+            }
+            else
+            {
+                speedUpgradeButton.interactable = true;
+            }
+        }
+        else 
+        {
+        healthUpgradeButton.interactable = false;
+        damageUpgradeButton.interactable = false;
+        speedUpgradeButton.interactable = false;
         }
     }
 
@@ -142,6 +205,10 @@ public class LogSystem : MonoBehaviour
     public void ItemsTab()
     {
         currentTab = 2;
+    }
+    public void SkillsTab()
+    {
+        currentTab = 3;
     }
     
     public void ReturnToPause()
@@ -276,5 +343,29 @@ public class LogSystem : MonoBehaviour
     {
         UpdateImage(buttonIndex);
         UpdateText(buttonIndex);
+    }
+
+    public void UpgradeSpeed()
+    {
+        Debug.LogWarning("IAmSpeed");
+        speedSkillUpgraded = true;
+        speedUpgradeButton.image.sprite = speedUpgradedSprite;
+        skillsUnlocked = false;
+    }
+
+    public void UpgradeHealth()
+    {
+        Debug.LogWarning("1Up");
+        healthSkillUpgraded = true;
+        healthUpgradeButton.image.sprite = healthUpgradedSprite;
+        skillsUnlocked = false;
+    }
+
+    public void UpgradeDamage()
+    {
+        Debug.LogWarning("SayHelloToMyLittleFriend");
+        damageSkillUpgraded = true;
+        damageUpgradeButton.image.sprite = damageUpgradedSprite;
+        skillsUnlocked = false;
     }
 }
