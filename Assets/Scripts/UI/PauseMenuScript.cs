@@ -111,8 +111,10 @@ public class PauseMenuScript : MonoBehaviour
     //add log system
     public void OpenLogSystem()
     {
-        logPage.SetActive(true);
+        paused = false;
+
         PauseScreen.SetActive(false);
+        starterAssetsInputs.LogInput(true);
     }
 
         
