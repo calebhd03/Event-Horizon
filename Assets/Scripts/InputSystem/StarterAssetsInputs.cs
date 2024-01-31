@@ -52,6 +52,9 @@ namespace StarterAssets
 		public bool teleport2;
 		public bool teleport3;
 		public bool ammo;
+        public bool outerTP;
+        public bool innerTP;
+        public bool centerTP;
 
 
         private void Start()
@@ -177,12 +180,24 @@ namespace StarterAssets
 		public void OnTeleport1(InputValue value) //Dev control
 		{
 			Teleport1Input(value.isPressed);
-		}
-		public void OnTeleport2(InputValue value) //Dev control
-		{
-			Teleport2Input(value.isPressed);
-		}
-		public void OnTeleport3(InputValue value) //Dev control
+        }
+        public void OnTeleport2(InputValue value) //Dev control
+        {
+            Teleport2Input(value.isPressed);
+        }
+        public void OnOuterTP(InputValue value) //Dev control
+        {
+			OuterTPInput(value.isPressed);
+        }
+        public void OnInnerTP(InputValue value) //Dev control
+        {
+            InnerTPInput(value.isPressed);
+        }
+        public void OnCenterTP(InputValue value) //Dev control
+        {
+            CenterTPInput(value.isPressed);
+        }
+        public void OnTeleport3(InputValue value) //Dev control
 		{
 			Teleport3Input(value.isPressed);
 		}
@@ -333,12 +348,24 @@ namespace StarterAssets
 		public void Teleport2Input(bool newTeleport2State) //Dev Controls
 		{
 			teleport2 = newTeleport2State;
-		}
-		public void Teleport3Input(bool newTeleport3State) //Dev Controls
-		{
-			teleport3 = newTeleport3State;
-		}
-		public void AmmoInput(bool newAmmoState) //Dev Controls
+        }
+        public void Teleport3Input(bool newTeleport3State) //Dev Controls
+        {
+            teleport3 = newTeleport3State;
+        }
+        public void OuterTPInput(bool state) //Dev Controls
+        {
+            outerTP = state;
+        }
+        public void InnerTPInput(bool state) //Dev Controls
+        {
+            innerTP = state;
+        }
+        public void CenterTPInput(bool state) //Dev Controls
+        {
+            centerTP = state;
+        }
+        public void AmmoInput(bool newAmmoState) //Dev Controls
 		{
 			ammo = newAmmoState;
 		}
