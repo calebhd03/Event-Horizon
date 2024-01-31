@@ -26,8 +26,12 @@ public class SettingsScript : MonoBehaviour
     Resolution[] resolutions;
 
     public TMPro.TMP_Dropdown resolutionDropdown;
+
     public GameObject graphicsLine, audioLine, gameplayLine, controlsLine;
+
     public GameObject graphicsDisplay, audioDisplay, brightnessDisplay, controlsDisplay, senesitivtyDisplay;
+
+    public GameObject gameBackgroundSettings;
     
     void Start()
     {
@@ -41,6 +45,8 @@ public class SettingsScript : MonoBehaviour
         brightnessDisplay.SetActive(false);
         senesitivtyDisplay.SetActive(false);
         controlsDisplay.SetActive(false);
+
+        gameBackgroundSettings.SetActive(true);
 
         brightness.enabled = false;
         brightness.value = PlayerPrefs.GetFloat("PostExposureValue", 1);
