@@ -232,6 +232,6 @@ public class SettingsScript : MonoBehaviour
         graphicsDisplay.SetActive(false);
         brightnessDisplay.SetActive(false);
         senesitivtyDisplay.SetActive(false);
-        controlsDisplay.SetActive(false);
+        controlsDisplay.SetActive(true);
     }
 }
