@@ -145,7 +145,7 @@ namespace StarterAssets
         public Transform teleportLocation3;
 
         public PauseMenuScript pauseMenuScript;
-        public LogSystem logSystemScript;
+        LogSystem logSystem;
 
         private const float _threshold = 0.01f;
 
@@ -196,6 +196,8 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+
+            logSystem = FindObjectOfType<LogSystem>();
         }
 
         private void Update()
@@ -260,10 +262,9 @@ namespace StarterAssets
             // if there is an input and camera position is not fixed
             if (_input.look.sqrMagnitude >= _threshold)
             {
-                if (pauseMenuScript.paused == false)
+                if (pauseMenuScript.paused == false && logSystem.log == false)
                 {
-                    if (logSystemScript.log == false)
-                    {
+
                         if(!LockCameraPosition)
                         {
                             //Don't multiply mouse input by Time.deltaTime;
@@ -274,7 +275,7 @@ namespace StarterAssets
 
                         }
 
-                    }
+                    
 
                 }
             }
