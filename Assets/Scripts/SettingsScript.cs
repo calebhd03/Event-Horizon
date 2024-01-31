@@ -26,8 +26,22 @@ public class SettingsScript : MonoBehaviour
     Resolution[] resolutions;
 
     public TMPro.TMP_Dropdown resolutionDropdown;
+    public GameObject graphicsLine, audioLine, gameplayLine, controlsLine;
+    public GameObject graphicsDisplay, audioDisplay, brightnessDisplay, controlsDisplay, senesitivtyDisplay;
+    
     void Start()
     {
+        audioLine.SetActive(true);
+        graphicsLine.SetActive(false);
+        gameplayLine.SetActive(false);
+        controlsLine.SetActive(false);
+
+        audioDisplay.SetActive(true);
+        graphicsDisplay.SetActive(false);
+        brightnessDisplay.SetActive(false);
+        senesitivtyDisplay.SetActive(false);
+        controlsDisplay.SetActive(false);
+
         brightness.enabled = false;
         brightness.value = PlayerPrefs.GetFloat("PostExposureValue", 1);
         brightness.enabled = true;
@@ -163,5 +177,61 @@ public class SettingsScript : MonoBehaviour
             Debug.LogWarning("Volume is null.");
         }
 
+    }
+
+    public void AudioSelection()
+    {
+        audioLine.SetActive(true);
+        graphicsLine.SetActive(false);
+        gameplayLine.SetActive(false);
+        controlsLine.SetActive(false);
+
+        audioDisplay.SetActive(true);
+        graphicsDisplay.SetActive(false);
+        brightnessDisplay.SetActive(false);
+        senesitivtyDisplay.SetActive(false);
+        controlsDisplay.SetActive(false);
+    }
+
+    public void DisplaySelection()
+    {
+        audioLine.SetActive(false);
+        graphicsLine.SetActive(true);
+        gameplayLine.SetActive(false);
+        controlsLine.SetActive(false);
+
+        audioDisplay.SetActive(false);
+        graphicsDisplay.SetActive(true);
+        brightnessDisplay.SetActive(true);
+        senesitivtyDisplay.SetActive(false);
+        controlsDisplay.SetActive(false);
+    }
+
+    public void GameplaySelection()
+    {
+        audioLine.SetActive(false);
+        graphicsLine.SetActive(false);
+        gameplayLine.SetActive(true);
+        controlsLine.SetActive(false);
+
+        audioDisplay.SetActive(false);
+        graphicsDisplay.SetActive(false);
+        brightnessDisplay.SetActive(false);
+        senesitivtyDisplay.SetActive(true);
+        controlsDisplay.SetActive(false);
+    }
+
+    public void ControlsSelection()
+    {
+        audioLine.SetActive(false);
+        graphicsLine.SetActive(false);
+        gameplayLine.SetActive(false);
+        controlsLine.SetActive(true);
+
+        audioDisplay.SetActive(false);
+        graphicsDisplay.SetActive(false);
+        brightnessDisplay.SetActive(false);
+        senesitivtyDisplay.SetActive(false);
+        controlsDisplay.SetActive(false);
     }
 }
