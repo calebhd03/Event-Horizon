@@ -10,20 +10,20 @@ public class UpgradeSpot : MonoBehaviour
     [Tooltip("Place this on box collider where we want the upgrades to occur")]
 
     LogSystem logSystem;
-    ObjectiveText objectiveText;
+    public ObjectiveText objectiveText;
     public TextMeshProUGUI text;
    public bool Upgrade = false;
     void Start()
     {
         logSystem = FindObjectOfType<LogSystem>();
-        objectiveText = FindObjectOfType<ObjectiveText>();
+
         text = gameObject.AddComponent<TextMeshProUGUI>();
         text.text = "New Skill Tree Options";
     }
         private void OnTriggerEnter(Collider other)
     {
-        objectiveText.displayedText.text = text.text;
         objectiveText.ShowUpgradeText();
+        //objectiveText.displayedText.text = text.text;
         Upgrade = true;
             if (Upgrade == true)
             {

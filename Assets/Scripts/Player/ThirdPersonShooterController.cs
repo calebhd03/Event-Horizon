@@ -525,7 +525,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 {
                     logSystem.SetLog();
                     DisablePlayerMesh();
-                    Debug.LogWarning("this");
+                   // Debug.LogWarning("this");
                                     // for scanner not used
                     scnScr.ScanCamPriority();
                 }
@@ -533,7 +533,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 {
                     logSystem.CloseLog();
                     EnablePlayerMesh();
-                    Debug.LogWarning("this2");
+                   // Debug.LogWarning("this2");
                                     // for scanner not used
                     scnScr.SwitchCamPriority();
                 }

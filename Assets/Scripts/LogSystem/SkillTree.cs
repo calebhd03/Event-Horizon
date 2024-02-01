@@ -17,8 +17,8 @@ public class SkillTree : MonoBehaviour
         playerHealthMetric = FindObjectOfType<PlayerHealthMetric>();
         thirdPersonController = FindObjectOfType<ThirdPersonController>();
         scanCam = FindObjectOfType<ScanCam>();
-        regularPoint = scanCam.scannerCurrentObject.GetComponent<regularPoint>();
-        weakPoint = scanCam.scannerCurrentObject.GetComponent<weakPoint>();
+//        regularPoint = scanCam.scannerCurrentObject.GetComponent<regularPoint>();
+ //       weakPoint = scanCam.scannerCurrentObject.GetComponent<weakPoint>();
     }
     public void HealthUpgraded()
     {
@@ -35,7 +35,7 @@ public class SkillTree : MonoBehaviour
     {
         //regularPoint.regularDamage = regularPoint.regularDamage * damageUpgradeAmount;
         //weakPoint.weakPointDamage = weakPoint.weakPointDamage * damageUpgradeAmount;
-        regularPoint.damageUpgrade = true;
-        weakPoint.damageUpgrade = true;
+//        regularPoint.damageUpgrade = true;
+       // weakPoint.damageUpgrade = true;
     }
 }
