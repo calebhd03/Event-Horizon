@@ -35,6 +35,8 @@ public class LogSystem : MonoBehaviour
     public bool speedSkillUpgraded = false;
     public Sprite healthUpgradedSprite, damageUpgradedSprite, speedUpgradedSprite;
     private Image healthUpgradeImage, damageUpgradeImage, speedUpgradeImage;
+    AudioSource audioSource;
+    public AudioClip SwitchTabSound;
 
     void Start()
     {
@@ -43,6 +45,7 @@ public class LogSystem : MonoBehaviour
         thirdPersonController = FindObjectOfType<ThirdPersonController>();
         LogPage.SetActive(false);
         displayInfo.SetActive(false);
+        audioSource = GetComponent<AudioSource>();
         
         foreach (Button button in enemy)
         {
@@ -126,6 +129,7 @@ public class LogSystem : MonoBehaviour
             memoriesHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
             itemsHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
             skillsHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
+
         break;
         case 3:
             enemiesPage.SetActive(false);
@@ -180,12 +184,13 @@ public class LogSystem : MonoBehaviour
     public void SetLog()
     {
         log = true;
+        Debug.LogWarning("log");
         LogPage.SetActive(true);
-
     }
     public void CloseLog()
     {   
         log = false;
+        Debug.LogWarning("closelog");
         LogPage.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -194,20 +199,25 @@ public class LogSystem : MonoBehaviour
 
     public void EnemiesTab()
     {
+        audioSource.PlayOneShot(SwitchTabSound);
         currentTab = 0;
     }
 
     public void MemoriesTab()
     {
+        audioSource.PlayOneShot(SwitchTabSound);
         currentTab = 1;
+        
     }
 
     public void ItemsTab()
     {
+        audioSource.PlayOneShot(SwitchTabSound);
         currentTab = 2;
     }
     public void SkillsTab()
     {
+        audioSource.PlayOneShot(SwitchTabSound);
         currentTab = 3;
     }
     

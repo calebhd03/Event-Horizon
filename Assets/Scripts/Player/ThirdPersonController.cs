@@ -137,7 +137,7 @@ namespace StarterAssets
         public Progress progressScript; 
         public SceneTransitionController sceneTransition;
         private GameObject _mainCamera;
-        private bool _rotateOnMove =true;
+        private bool _rotateOnMove = true;
 
         [Header ("Dev Controls")]
         public Transform teleportLocation1;
@@ -145,7 +145,6 @@ namespace StarterAssets
         public Transform teleportLocation3;
 
         public PauseMenuScript pauseMenuScript;
-        public LogSystem logSystemScript;
 
         private const float _threshold = 0.01f;
 
@@ -258,25 +257,13 @@ namespace StarterAssets
         private void CameraRotation()
         {
             // if there is an input and camera position is not fixed
-            if (_input.look.sqrMagnitude >= _threshold)
+            if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition && pauseMenuScript.paused == false)
             {
-                if (pauseMenuScript.paused == false)
-                {
-                    if (logSystemScript.log == false)
-                    {
-                        if(!LockCameraPosition)
-                        {
-                            //Don't multiply mouse input by Time.deltaTime;
-                            float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+                //Don't multiply mouse input by Time.deltaTime;
+                float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-                            _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier * Sensitivity;
-                            _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier * Sensitivity;
-
-                        }
-
-                    }
-
-                }
+                _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier * Sensitivity;
+                _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier * Sensitivity;
             }
 
             // clamp our rotations so our values are limited 360 degrees
@@ -287,99 +274,123 @@ namespace StarterAssets
             CurrentCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
                 _cinemachineTargetYaw, 0.0f);
         }
-
         private void Move()
         {
-             
-        if(pauseMenuScript.paused == false && deathbool == false)
-        {            
-            // Set target speed based on move speed, sprint speed, and if sprint is pressed
-            float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
-
-            // A simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
-
-            // Note: Vector2's == operator uses approximation so is not floating point error-prone and is cheaper than magnitude
-            // If there is no input, set the target speed to 0
-            if (_input.move == Vector2.zero) targetSpeed = 0.0f;
-
-            // A reference to the player's current horizontal velocity
-            float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
-
-            float speedOffset = 0.1f;
-            float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
-
-            // Accelerate or decelerate to target speed
-            if (currentHorizontalSpeed < targetSpeed - speedOffset ||
-                currentHorizontalSpeed > targetSpeed + speedOffset)
+            if (pauseMenuScript.paused == false && deathbool == false)
             {
-                // Creates a curved result rather than a linear one, giving a more organic speed change
-                // Note T in Lerp is clamped, so we don't need to clamp our speed
-                _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
-                    Time.deltaTime * SpeedChangeRate);
+                // Set target speed based on move speed, sprint speed, and if sprint is pressed
+                float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
-                // Round speed to 3 decimal places
-                _speed = Mathf.Round(_speed * 1000f) / 1000f;
-            }
-            else
-            {
-                _speed = targetSpeed;
-            }
+                // A simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
-            _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-            if (_animationBlend < 0.01f) _animationBlend = 0f;
+                // Note: Vector2's == operator uses approximation so is not floating point error-prone and is cheaper than magnitude
+                // If there is no input, set the target speed to 0
+                if (_input.move == Vector2.zero) targetSpeed = 0.0f;
 
-            // Get the camera's forward direction without the vertical component
-            Vector3 cameraForward = Vector3.Scale(_mainCamera.transform.forward, new Vector3(1, 0, 1));
+                // A reference to the player's current horizontal velocity
+                float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
 
-            // Transform the input direction based on the camera's rotation
-            Vector3 inputDirection = Quaternion.LookRotation(cameraForward) * new Vector3(_input.move.x, 0, _input.move.y);
+                float speedOffset = 0.1f;
+                float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
 
-            if (inputDirection != Vector3.zero)
-            {
-                // Use Quaternion.LookRotation to calculate the target rotation
-                Quaternion targetRotationQuaternion = Quaternion.LookRotation(inputDirection.normalized, Vector3.up);
-
-                if (_rotateOnMove)
+                // Accelerate or decelerate to target speed
+                if (currentHorizontalSpeed < targetSpeed - speedOffset ||
+                    currentHorizontalSpeed > targetSpeed + speedOffset)
                 {
-                    // Use SmoothDamp for rotation
-                    Vector3 currentEulerAngles = transform.eulerAngles;
-                    Vector3 targetEulerAngles = targetRotationQuaternion.eulerAngles;
+                    // Creates a curved result rather than a linear one, giving a more organic speed change
+                    // Note T in Lerp is clamped, so we don't need to clamp our speed
+                    _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate);
 
-                    // Use Vector3.SmoothDamp to smooth the rotation
-                    Vector3 smoothDampedEulerAngles = Vector3.SmoothDamp(currentEulerAngles, targetEulerAngles, ref rotationVelocity, rotationSmoothTime);
-
-                    // Apply the smoothed rotation
-                    transform.rotation = Quaternion.Euler(smoothDampedEulerAngles);
+                    // Round speed to 3 decimal places
+                    _speed = Mathf.Round(_speed * 1000f) / 1000f;
+                }
+                else
+                {
+                    _speed = targetSpeed;
                 }
 
-                // Gradually adjust the forward direction based on the current and previous input direction
-                Vector3 smoothedForward = Vector3.Slerp(previousInputDirection, inputDirection.normalized, RotationSpeed * Time.deltaTime);
-                previousInputDirection = smoothedForward;
+                _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
+                if (_animationBlend < 0.01f) _animationBlend = 0f;
 
-                // Set the player's forward direction to the smoothed direction
-                transform.forward = smoothedForward;
+                // Get the camera's forward direction without the vertical component
+                Vector3 cameraForward = Vector3.Scale(_mainCamera.transform.forward, new Vector3(1, 0, 1));
 
-                // Update last target rotation while there is input
-                lastTargetRotation = targetRotationQuaternion.eulerAngles.y;
-            }
-            else if (_rotateOnMove)
-            {
-                // If there's no input, set the forward direction to the last target rotation without interpolation
-                transform.rotation = Quaternion.Euler(0.0f, lastTargetRotation, 0.0f);
-            }
+                // Transform the input direction based on the camera's rotation
+                Vector3 inputDirection = Quaternion.LookRotation(cameraForward) * new Vector3(_input.move.x, 0, _input.move.y);
 
-            // Move the player
-            _controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) +
-                            new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+                if (inputDirection != Vector3.zero)
+                {
+                    // Check if aiming or shooting, and adjust RotateOnMove accordingly
+                    if (_input.aim || _input.shoot)
+                    {
+                        _rotateOnMove = false;
+                    }
+                    else
+                    {
+                        _rotateOnMove = true;
 
-            // Update animator if using character
-            if (_hasAnimator)
-            {
-                _animator.SetFloat(_animIDSpeed, _animationBlend);
-                _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
-            }
+                        // Use Quaternion.LookRotation to calculate the target rotation
+                        Quaternion targetRotationQuaternion = Quaternion.LookRotation(inputDirection.normalized, Vector3.up);
+
+                        if (_rotateOnMove)
+                        {
+                            // Use SmoothDamp for rotation
+                            Vector3 currentEulerAngles = transform.eulerAngles;
+                            Vector3 targetEulerAngles = targetRotationQuaternion.eulerAngles;
+
+                            // Use Vector3.SmoothDamp to smooth the rotation
+                            Vector3 smoothDampedEulerAngles = Vector3.SmoothDamp(currentEulerAngles, targetEulerAngles, ref rotationVelocity, rotationSmoothTime);
+
+                            // Apply the smoothed rotation
+                            transform.rotation = Quaternion.Euler(smoothDampedEulerAngles);
+                        }
+
+                        // Gradually adjust the forward direction based on the current and previous input direction
+                        Vector3 smoothedForward = Vector3.Slerp(previousInputDirection, inputDirection.normalized, RotationSpeed * Time.deltaTime);
+                        previousInputDirection = smoothedForward;
+
+                        // Set the player's forward direction to the smoothed direction
+                        transform.forward = smoothedForward;
+
+                        // Update last target rotation while there is input
+                        lastTargetRotation = targetRotationQuaternion.eulerAngles.y;
+                    }
+                }
+                else if (_rotateOnMove)
+                {
+                    // If there's no input, set the forward direction to the last target rotation without interpolation
+                    transform.rotation = Quaternion.Euler(0.0f, lastTargetRotation, 0.0f);
+                }
+
+                // Move the player
+                _controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) +
+                                new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+
+                // Update animator if using character
+                if (_hasAnimator)
+                {
+                    _animator.SetFloat(_animIDSpeed, _animationBlend);
+                    _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+                }
             }
         }
+            private Vector3 GetAimDirection()
+        {
+            // Use the mouse position to determine the aim direction
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Plane groundPlane = new Plane(Vector3.up, transform.position);
+            float distance;
+
+            if (groundPlane.Raycast(ray, out distance))
+            {
+                Vector3 mouseWorldPosition = ray.GetPoint(distance);
+                Vector3 aimDirection = (mouseWorldPosition - transform.position).normalized;
+                return aimDirection;
+            }
+
+            return Vector3.zero;
+        }
+
 
         private void JumpAndGravity()
         {
@@ -598,7 +609,6 @@ namespace StarterAssets
                 pauseMenuScript.SetPause();
                 Debug.Log("Pause input!");
             }
-            _input.log = false;
         }
            private void Teleport()
         {
