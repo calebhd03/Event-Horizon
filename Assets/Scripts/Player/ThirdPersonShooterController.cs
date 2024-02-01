@@ -200,7 +200,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
                         aimVirtualCamera.gameObject.SetActive(true);
                         thirdPersonController.SetSensitivity(aimSensitivity);
-                        thirdPersonController.SetRotateOnMove(true);
+                        thirdPersonController.SetRotateOnMove(false);
                     
 
                     Vector3 worldAimTarget = mouseWorldPosition;
