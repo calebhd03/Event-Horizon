@@ -254,10 +254,12 @@ namespace StarterAssets
                 _animator.SetBool(_animIDGrounded, Grounded);
             }
         }
+        
         private void CameraRotation()
         {
+            LogSystem logSystem = FindObjectOfType<LogSystem>();
             // if there is an input and camera position is not fixed
-            if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition && pauseMenuScript.paused == false)
+            if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition && pauseMenuScript.paused == false && logSystem.log == false)
             {
                 //Don't multiply mouse input by Time.deltaTime;
                 float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
