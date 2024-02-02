@@ -37,6 +37,7 @@ public class LogSystem : MonoBehaviour
     private Image healthUpgradeImage, damageUpgradeImage, speedUpgradeImage;
     AudioSource audioSource;
     public AudioClip SwitchTabSound;
+    SkillTree skillTree;
 
     void Start()
     {
@@ -46,6 +47,7 @@ public class LogSystem : MonoBehaviour
         LogPage.SetActive(false);
         displayInfo.SetActive(false);
         audioSource = GetComponent<AudioSource>();
+        skillTree = FindObjectOfType<SkillTree>();
         
         foreach (Button button in enemy)
         {
@@ -361,6 +363,7 @@ public class LogSystem : MonoBehaviour
         speedSkillUpgraded = true;
         speedUpgradeButton.image.sprite = speedUpgradedSprite;
         skillsUnlocked = false;
+        skillTree.SpeedUpgraded();
     }
 
     public void UpgradeHealth()
@@ -369,6 +372,7 @@ public class LogSystem : MonoBehaviour
         healthSkillUpgraded = true;
         healthUpgradeButton.image.sprite = healthUpgradedSprite;
         skillsUnlocked = false;
+        skillTree.HealthUpgraded();
     }
 
     public void UpgradeDamage()
@@ -377,5 +381,6 @@ public class LogSystem : MonoBehaviour
         damageSkillUpgraded = true;
         damageUpgradeButton.image.sprite = damageUpgradedSprite;
         skillsUnlocked = false;
+        skillTree.DamageUpgraded();
     }
 }

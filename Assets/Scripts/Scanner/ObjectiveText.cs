@@ -9,7 +9,7 @@ using TMPro;
 
 public class ObjectiveText : MonoBehaviour
 {
-    [HideInInspector]public TextMeshProUGUI displayedText; 
+    public TextMeshProUGUI displayedText; 
     [Tooltip("The number of the objective will play the associated text from the array.")]  
     public TextMeshProUGUI[] textToDisplay;
     UpgradeSpot upgradeSpot;
@@ -44,6 +44,7 @@ public class ObjectiveText : MonoBehaviour
     public void ShowUpgradeText()
     {   
         gameObject.SetActive(true);
+        displayedText.text = upgradeSpot.text.text;
         Invoke("HideText", 3);
     }
 
