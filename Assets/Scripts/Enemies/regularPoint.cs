@@ -11,22 +11,12 @@ public class regularPoint : MonoBehaviour
     // Reference to the BasicEnemy script
     private basicEnemy basicEnemyScript;
     private bossEnemy bossEnemyScript;
-    public bool damageUpgrade = false;
-    SkillTree skillTree;
 
     private void Start()
     {
         // Get the BasicEnemy script attached to the same GameObject
         basicEnemyScript = GetComponentInParent<basicEnemy>();
         bossEnemyScript = GetComponentInParent<bossEnemy>();
-        skillTree = FindObjectOfType<SkillTree>();
-    }
-    void Update()
-    {
-        if (damageUpgrade == true)
-        {
-            regularDamage = regularDamage * skillTree.damageUpgradeAmount;
-        }
     }
 
     private void OnTriggerEnter(Collider other)

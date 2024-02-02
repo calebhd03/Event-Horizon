@@ -7,22 +7,22 @@ public class SkillTree : MonoBehaviour
 {
     PlayerHealthMetric playerHealthMetric;
     ThirdPersonController thirdPersonController;
-    regularPoint regularPoint;
-    weakPoint weakPoint;
-    ScanCam scanCam;
-    public float healthUpgradeAmount, speedUpgradedAmount, damageUpgradeAmount;
+    public regularPoint[] regularPointdamage;
+    public weakPoint[] weakPointdamage;
+    public float healthUpgradeAmount, speedUpgradedAmount, damageUpgradeAmount, upgradeHealthDifference;
     
     void Start()
     {
         playerHealthMetric = FindObjectOfType<PlayerHealthMetric>();
         thirdPersonController = FindObjectOfType<ThirdPersonController>();
-        scanCam = FindObjectOfType<ScanCam>();
-//        regularPoint = scanCam.scannerCurrentObject.GetComponent<regularPoint>();
- //       weakPoint = scanCam.scannerCurrentObject.GetComponent<weakPoint>();
+        regularPointdamage = FindObjectsOfType<regularPoint>();
+        weakPointdamage = FindObjectsOfType<weakPoint>();
     }
     public void HealthUpgraded()
     {
+        float previousMaxHealth = playerHealthMetric.maxHealth;
         playerHealthMetric.maxHealth = playerHealthMetric.maxHealth * healthUpgradeAmount;
+        playerHealthMetric.ModifyHealth(playerHealthMetric.maxHealth - previousMaxHealth);
     }
     
     public void SpeedUpgraded()
@@ -33,9 +33,16 @@ public class SkillTree : MonoBehaviour
 
     public void DamageUpgraded()
     {
-        //regularPoint.regularDamage = regularPoint.regularDamage * damageUpgradeAmount;
-        //weakPoint.weakPointDamage = weakPoint.weakPointDamage * damageUpgradeAmount;
-//        regularPoint.damageUpgrade = true;
-       // weakPoint.damageUpgrade = true;
+        foreach (regularPoint regularPoint in regularPointdamage)
+        {
+            regularPoint.regularDamage = regularPoint.regularDamage * damageUpgradeAmount;
+            
+        }
+
+        foreach (weakPoint weakPoint in weakPointdamage)
+        {
+            weakPoint.weakPointDamage = weakPoint.weakPointDamage * damageUpgradeAmount;
+            
+        }
     }
 }
