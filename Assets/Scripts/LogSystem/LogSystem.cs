@@ -29,12 +29,9 @@ public class LogSystem : MonoBehaviour
     public bool log;
     //Skills
     public bool skillsUnlocked = false;
-    public Button healthUpgradeButton, speedUpgradeButton, damageUpgradeButton;
-    public bool healthSkillUpgraded = false;
-    public bool damageSkillUpgraded = false;
-    public bool speedSkillUpgraded = false;
-    public Sprite healthUpgradedSprite, damageUpgradedSprite, speedUpgradedSprite;
-    private Image healthUpgradeImage, damageUpgradeImage, speedUpgradeImage;
+    public Button healthUpgradeButton, speedUpgradeButton, damageUpgradeButton, ammoCapactiyButton, frostButton, burnButton;
+    public bool healthSkillUpgraded = false, damageSkillUpgraded = false, speedSkillUpgraded = false,ammoSkillUpgraded = false, frostSkillUpgraded = false, burnSkillUpgraded = false;
+    public Sprite upgradedSprite;
     AudioSource audioSource;
     public AudioClip SwitchTabSound;
     SkillTree skillTree;
@@ -174,12 +171,42 @@ public class LogSystem : MonoBehaviour
             {
                 speedUpgradeButton.interactable = true;
             }
+            
+            if (ammoSkillUpgraded == true)
+            {
+                ammoCapactiyButton.interactable = false;
+            }
+            else
+            {
+                ammoCapactiyButton.interactable = true;
+            }
+            
+            if (frostSkillUpgraded == true)
+            {
+                frostButton.interactable = false;
+            }
+            else
+            {
+                frostButton.interactable = true;
+            }
+            
+            if (burnSkillUpgraded == true)
+            {
+                burnButton.interactable = false;
+            }
+            else
+            {
+                burnButton.interactable = true;
+            }
         }
         else 
         {
         healthUpgradeButton.interactable = false;
         damageUpgradeButton.interactable = false;
         speedUpgradeButton.interactable = false;
+        ammoCapactiyButton.interactable = false;
+        frostButton.interactable = false;
+        burnButton.interactable = false;
         }
     }
 
@@ -361,7 +388,7 @@ public class LogSystem : MonoBehaviour
     {
         Debug.LogWarning("IAmSpeed");
         speedSkillUpgraded = true;
-        speedUpgradeButton.image.sprite = speedUpgradedSprite;
+        speedUpgradeButton.image.sprite = upgradedSprite;
         skillsUnlocked = false;
         skillTree.SpeedUpgraded();
     }
@@ -370,7 +397,7 @@ public class LogSystem : MonoBehaviour
     {
         Debug.LogWarning("1Up");
         healthSkillUpgraded = true;
-        healthUpgradeButton.image.sprite = healthUpgradedSprite;
+        healthUpgradeButton.image.sprite = upgradedSprite;
         skillsUnlocked = false;
         skillTree.HealthUpgraded();
     }
@@ -379,8 +406,35 @@ public class LogSystem : MonoBehaviour
     {
         Debug.LogWarning("SayHelloToMyLittleFriend");
         damageSkillUpgraded = true;
-        damageUpgradeButton.image.sprite = damageUpgradedSprite;
+        damageUpgradeButton.image.sprite = upgradedSprite;
         skillsUnlocked = false;
         skillTree.DamageUpgraded();
+    }
+
+    public void UpgradeAmmoCapacity()
+    {
+        Debug.LogWarning("Ammo capacity increase");
+        ammoSkillUpgraded = true;
+        ammoCapactiyButton.image.sprite = upgradedSprite;
+        skillsUnlocked = false;
+        //Put code here for ammo capacity function or call to thirdpersonshootercontroller
+    }
+
+    public void UpgradeBurnDamage()
+    {
+        Debug.LogWarning("BURN! - Kelso");
+        burnSkillUpgraded = true;
+        burnButton.image.sprite = upgradedSprite;
+        skillsUnlocked = false;
+        //Put code here for burn damage function or call script with burn damage. probably need to be on regular point and or weak point
+    }
+
+    public void UpgradeFrostDamage()
+    {
+        Debug.LogWarning("But you told me to Freeze - the mask");
+        frostSkillUpgraded = true;
+        burnButton.image.sprite = upgradedSprite;
+        skillsUnlocked = false;
+        // put code here for frost damage function or call script with burn damage. probably need to be on regular point and or weak point
     }
 }

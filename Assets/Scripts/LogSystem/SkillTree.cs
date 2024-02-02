@@ -45,4 +45,19 @@ public class SkillTree : MonoBehaviour
             
         }
     }
+
+    public void AmmoCapacityUpgrade()
+    {
+        //this may need to be on different script
+    }
+
+    public void FrostUpgrade()
+    {
+        //this may need to be on different script
+    }
+
+    public void BurnUpgrade()
+    {
+        //this may need to be on different script
+    }
 }
