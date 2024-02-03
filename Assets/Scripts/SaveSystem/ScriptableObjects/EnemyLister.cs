@@ -1,16 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class EnemyLister : MonoBehaviour
+public class EnemyLister : MonoBehaviour 
 {
+    public EnemyData enemyData;
+
     void OnEnable()
     {
-        EnemyData.Add(this);
+        int scene = SceneManager.GetActiveScene().buildIndex;
+        enemyData.Add(scene, gameObject);
     }
     
     void OnDestroy()
     {
-        EnemyData.Remove(this);
+        int scene = SceneManager.GetActiveScene().buildIndex;
+        enemyData.Remove(scene, gameObject);
     }
 }

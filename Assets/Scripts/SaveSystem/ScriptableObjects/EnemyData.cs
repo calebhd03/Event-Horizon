@@ -1,21 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/EnemyDataScriptableObject", order = 1)]
-public abstract class EnemyData<GameObject> : ScriptableObject
+public class EnemyData : ScriptableObject
 {
-    public List<GameObject> Enemies = new List<GameObject>();
+    public List<GameObject> Enemies;
     public Vector3[] enemyPositions;
     public Vector3[] enemyHealthValues;
-
-    public void Add(GameObject gameObject)
+    //public List<GameObject>[] Enemies = new List<GameObject>[SceneManager.sceneCount];
+    
+    /*private void OnEnable()
     {
-        if (!Enemies.Contains(gameObject)) Enemies.Add(gameObject);
+        Enemies = new List<GameObject>[SceneManager.sceneCount];
+    }*/
+
+    public void Add(int scene, GameObject enemy)
+    {
+        Enemies.Add(enemy);
     }
 
-    public void Remove(GameObject gameObject)
+    public void Remove(int scene, GameObject enemy)
     {
-        if (Enemies.Contains(gameObject)) Enemies.Remove(gameObject);
+        Enemies.Remove(enemy);
     }
 }
