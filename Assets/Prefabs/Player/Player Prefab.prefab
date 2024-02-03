@@ -303,7 +303,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1034853398}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -22.87999, y: 1.8129883, z: 63.239967}
+  m_LocalPosition: {x: -22.880003, y: 1.8129761, z: 63.240017}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -567,7 +567,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1458057777}
   m_LocalRotation: {x: -0.0050446405, y: -0.97126156, z: 0.02070201, w: -0.23705904}
-  m_LocalPosition: {x: -22.87999, y: 1.8129883, z: 63.239967}
+  m_LocalPosition: {x: -22.880003, y: 1.8129761, z: 63.240017}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1092,6 +1092,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 974238578668270715, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
+      propertyPath: playerData
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ed2d50279210ac4d94671f1c8b74678, type: 2}
+    - target: {fileID: 974238578668270715, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: RecoilCameraTarget
       value: 
       objectReference: {fileID: 0}
@@ -1297,7 +1301,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3203261902030644824, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -22.194008
+      value: -22.19401
       objectReference: {fileID: 0}
     - target: {fileID: 3203261902030644824, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1305,7 +1309,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3203261902030644824, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 60.73998
+      value: 60.740025
       objectReference: {fileID: 0}
     - target: {fileID: 3203261902030644825, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_Follow
@@ -1473,31 +1477,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5542111180780342647, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 112.50598
+      value: -22.19401
       objectReference: {fileID: 0}
     - target: {fileID: 5542111180780342647, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.9437256
+      value: 1.8629761
       objectReference: {fileID: 0}
     - target: {fileID: 5542111180780342647, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 102.20683
+      value: 60.740025
       objectReference: {fileID: 0}
     - target: {fileID: 5542111180780342647, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.55279857
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5542111180780342647, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.018168636
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5542111180780342647, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.8326673
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5542111180780342647, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.027366983
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5563690195687190895, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_DefaultBlend.m_Time
@@ -1825,6 +1829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b10bd679dcc2b64fa169ca753cb0a48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: 6ed2d50279210ac4d94671f1c8b74678, type: 2}
   aimVirtualCamera: {fileID: 8155847924879877171}
   normalSensitivity: 1
   aimSensitivity: 0.5
@@ -1858,16 +1863,10 @@ MonoBehaviour:
   blackHoleCooldown: 1
   cooldownMeter: {fileID: 0}
   reloading: 0
-  standardAmmo: 100
-  standardAmmoLoaded: 6
   standardAmmoMax: 6
   standardReloadTime: 2
-  blackHoleAmmo: 20
-  blackHoleAmmoLoaded: 1
-  blackHoleAmmoMax: 1
+  nexusAmmoMax: 1
   blackHoleReloadTime: 2
-  shotgunAmmo: 60
-  shotgunAmmoLoaded: 4
   shotgunAmmoMax: 4
   shotgunReloadTime: 2
   loadedAmmoCounter: {fileID: 0}
@@ -1928,9 +1927,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f5b090553ad5fa41854a4734d36c453, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  regularPointdamage: []
+  weakPointdamage: []
   healthUpgradeAmount: 1.5
   speedUpgradedAmount: 1.5
   damageUpgradeAmount: 1.5
+  upgradeHealthDifference: 0
 --- !u!1 &7583943228127449891 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 337092540671265372, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
@@ -1977,7 +1979,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -22.194008
+      value: -22.19401
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1985,7 +1987,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 60.73998
+      value: 60.740025
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_LocalRotation.w

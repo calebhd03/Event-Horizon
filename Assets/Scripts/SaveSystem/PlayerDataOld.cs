@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class PlayerData 
-{
-
-    
+public class PlayerDataOld
+{    
     public float[] position;
 
-    public PlayerData(SaveSystemTest playerP)
+    public PlayerDataOld(SaveSystemTest playerP)
     {
         position = new float[3];
         position[0] = playerP.transform.position.x;

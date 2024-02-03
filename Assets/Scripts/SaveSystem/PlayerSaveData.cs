@@ -5,11 +5,11 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerSaveData
 {
-    public PlayerData playerData;
+    public PlayerDataOld playerData;
     public PlayerAmmoData ammoData;
     public PlayerHealth healthData;
 
-    public PlayerSaveData(PlayerData player, PlayerAmmoData ammo, PlayerHealth health)
+    public PlayerSaveData(PlayerDataOld player, PlayerAmmoData ammo, PlayerHealth health)
     {
         playerData = player;
         ammoData = ammo;

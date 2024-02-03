@@ -17,6 +17,7 @@ namespace StarterAssets
     public class ThirdPersonController : MonoBehaviour
     {
         [Header("Player")]
+        public PlayerData playerData;
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
 
@@ -173,6 +174,7 @@ namespace StarterAssets
             }
             audioSource = GetComponent<AudioSource>();
             deathScreen.SetActive(false);
+            playerData.currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         }
 
         private void Start()
@@ -200,7 +202,7 @@ namespace StarterAssets
         private void Update()
         {
             _hasAnimator = TryGetComponent(out _animator);
-
+            playerData.playerPosition = transform.position;
             Pause();
             JumpAndGravity();
             GroundedCheck();
@@ -564,7 +566,7 @@ namespace StarterAssets
             }
 
             
-            if (healthMetrics.currentHealth <= 0)
+            if (playerData.currentHealth <= 0)
             {
                 
                 if (deathbool != true)

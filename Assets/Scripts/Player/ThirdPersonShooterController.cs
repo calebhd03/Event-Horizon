@@ -7,6 +7,7 @@ using System.Collections;
 using TMPro;
 public class ThirdPersonShooterController : MonoBehaviour 
 {
+    public PlayerData playerData;
         [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
         [SerializeField] private float normalSensitivity;
         [SerializeField] private float aimSensitivity;
@@ -62,18 +63,12 @@ public class ThirdPersonShooterController : MonoBehaviour
         
         public bool reloading;
         private int ammoDifference;
-        public int standardAmmo;
-        public int standardAmmoLoaded;
         public int standardAmmoMax;
         public float standardReloadTime;
 
-        public int blackHoleAmmo;
-        public int blackHoleAmmoLoaded;
-        public int blackHoleAmmoMax;
+        public int nexusAmmoMax;
         public float blackHoleReloadTime;
 
-        public int shotgunAmmo;
-        public int shotgunAmmoLoaded;
         public int shotgunAmmoMax;
         public float shotgunReloadTime;
 
@@ -355,10 +350,10 @@ public class ThirdPersonShooterController : MonoBehaviour
                 //play shoot animation
                 animator.SetTrigger("Shoot");
 
-                if (equippedWeapon == 0 && standardAmmoLoaded > 0)//Standard Projectile Shoot
+                if (equippedWeapon == 0 && playerData.standardAmmoLoaded > 0)//Standard Projectile Shoot
                 {
                     Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
-                    standardAmmoLoaded -= 1;
+                    playerData.standardAmmoLoaded -= 1;
                     currentCooldown = standardCooldown;
                     thirdPersonController.SwitchCameraTarget();
                     AudioSource.PlayClipAtPoint(blasterSound, spawnBulletPosition.position);
@@ -369,7 +364,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                     if (BHGTool == true)
                     {
                         
-                        if (blackHoleAmmoLoaded > 0 || blackHoleAmmoLoaded <= 0)
+                        if (playerData.nexusAmmoLoaded > 0 || playerData.nexusAmmoLoaded <= 0)
                         {
                         
                          BhgIcon.SetActive(false);
@@ -379,7 +374,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                         AudioSource.PlayClipAtPoint(wallBulletSound, spawnBlackHoleBulletPosition.position);
                         }
                     }
-                    else if (blackHoleAmmoLoaded > 0 )
+                    else if (playerData.nexusAmmoLoaded > 0 )
                     {
                         
                        // BhgIcon.SetActive(true);
@@ -388,7 +383,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                         {
 
                             Instantiate(pfBlackHoleProjectile, spawnBlackHoleBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
-                            blackHoleAmmoLoaded -= 1;
+                            playerData.nexusAmmoLoaded -= 1;
                             currentCooldown = blackHoleCooldown;
                             thirdPersonController.SwitchCameraTarget();
                             AudioSource.PlayClipAtPoint(blackHoleSound, spawnBlackHoleBulletPosition.position);
@@ -406,9 +401,9 @@ public class ThirdPersonShooterController : MonoBehaviour
 
 
                 }
-                else if (equippedWeapon == 2 && shotgunAmmoLoaded > 0)
+                else if (equippedWeapon == 2 && playerData.shotgunAmmoLoaded > 0)
                 {        
-                    shotgunAmmoLoaded -= 1;
+                    playerData.shotgunAmmoLoaded -= 1;
                     currentCooldown = shotgunCooldown;
                     thirdPersonController.SwitchCameraTarget();
                     AudioSource.PlayClipAtPoint(shotgunSound, spawnShotgunBulletPosition.position);
@@ -513,7 +508,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 }
             }
 
-            if (standardAmmoLoaded == 0 || shotgunAmmoLoaded == 0 || (blackHoleAmmoLoaded == 0 && BHGTool == false))
+            if (playerData.standardAmmoLoaded == 0 || playerData.shotgunAmmoLoaded == 0 || (playerData.nexusAmmoLoaded == 0 && BHGTool == false))
             {
                 Reload();
             }
@@ -718,17 +713,17 @@ public class ThirdPersonShooterController : MonoBehaviour
         {
             if (ammoType == 0)
             {
-                standardAmmo += ammoAmount;
+                playerData.standardAmmo += ammoAmount;
                 UpdateAmmoCount();
             }
             else if (ammoType == 1)
             {
-                blackHoleAmmo += ammoAmount;
+                playerData.nexusAmmo += ammoAmount;
                 UpdateAmmoCount();
             }
             else if (ammoType == 2)
             {
-                shotgunAmmo += ammoAmount;
+                playerData.shotgunAmmo += ammoAmount;
                 UpdateAmmoCount();
             }
         }
@@ -740,13 +735,13 @@ public class ThirdPersonShooterController : MonoBehaviour
             switch (equippedWeapon)
             {
                 case 0:
-                    standardAmmoLoaded = ammoToAdd;
+                    playerData.standardAmmoLoaded = ammoToAdd;
                     break;
                 case 1:
-                    blackHoleAmmoLoaded = ammoToAdd;
+                    playerData.nexusAmmoLoaded = ammoToAdd;
                     break;
                 case 2:
-                    shotgunAmmoLoaded = ammoToAdd;
+                    playerData.shotgunAmmoLoaded = ammoToAdd;
                     break;
             }
 
@@ -758,18 +753,18 @@ public class ThirdPersonShooterController : MonoBehaviour
         {
             if (equippedWeapon == 0)
             {
-                totalAmmoCounter.text = standardAmmo.ToString();
-                loadedAmmoCounter.text = standardAmmoLoaded.ToString();
+                totalAmmoCounter.text = playerData.standardAmmo.ToString();
+                loadedAmmoCounter.text = playerData.standardAmmoLoaded.ToString();
             }
             else if (equippedWeapon == 1)
             {
-                totalAmmoCounter.text =  blackHoleAmmo.ToString();
-                loadedAmmoCounter.text = blackHoleAmmoLoaded.ToString();
+                totalAmmoCounter.text =  playerData.nexusAmmo.ToString();
+                loadedAmmoCounter.text = playerData.nexusAmmoLoaded.ToString();
             }
             else if (equippedWeapon == 2)
             {
-                totalAmmoCounter.text = shotgunAmmo.ToString();
-                loadedAmmoCounter.text = shotgunAmmoLoaded.ToString();
+                totalAmmoCounter.text = playerData.shotgunAmmo.ToString();
+                loadedAmmoCounter.text = playerData.shotgunAmmoLoaded.ToString();
             }
         }
         
@@ -856,57 +851,57 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void Reload()
     {
-        if (standardAmmoLoaded != standardAmmoMax || blackHoleAmmoLoaded != blackHoleAmmoMax || shotgunAmmoLoaded != shotgunAmmoMax)
+        if (playerData.standardAmmoLoaded != standardAmmoMax || playerData.nexusAmmoLoaded != nexusAmmoMax || playerData.shotgunAmmoLoaded != shotgunAmmoMax)
         {
         reloading = true;
 
         Debug.Log("Reloading!");
-        if(equippedWeapon == 0 && standardAmmo > 0 && standardAmmoLoaded < standardAmmoMax)
+        if(equippedWeapon == 0 && playerData.standardAmmo > 0 && playerData.standardAmmoLoaded < standardAmmoMax)
         {
             StartCoroutine(ReloadTimer(standardReloadTime));
             AudioSource.PlayClipAtPoint(blasterReloadSound, spawnBulletPosition.position);
-            ammoDifference = standardAmmoMax - standardAmmoLoaded;
-            standardAmmoLoaded += standardAmmo;
-            standardAmmo -= ammoDifference;
-            if (standardAmmo < 0)
+            ammoDifference = standardAmmoMax - playerData.standardAmmoLoaded;
+            playerData.standardAmmoLoaded += playerData.standardAmmo;
+            playerData.standardAmmo -= ammoDifference;
+            if (playerData.standardAmmo < 0)
             {
-                standardAmmo = 0;
+                playerData.standardAmmo = 0;
             }
             else
             {
-                standardAmmoLoaded = standardAmmoMax;
+                playerData.standardAmmoLoaded = standardAmmoMax;
             }
         }
-        else if(equippedWeapon == 1 && blackHoleAmmo > 0 && blackHoleAmmoLoaded < blackHoleAmmoMax && BHGTool == false)
+        else if(equippedWeapon == 1 && playerData.nexusAmmo > 0 && playerData.nexusAmmoLoaded < nexusAmmoMax && BHGTool == false)
         {
             StartCoroutine(ReloadTimer(blackHoleReloadTime));
             AudioSource.PlayClipAtPoint(blackHoleReloadSound, spawnBlackHoleBulletPosition.position);
-            ammoDifference = blackHoleAmmoMax - blackHoleAmmoLoaded;
-            blackHoleAmmoLoaded += blackHoleAmmo;
-            blackHoleAmmo -= ammoDifference;
-            if (standardAmmo < 0)
+            ammoDifference = nexusAmmoMax - playerData.nexusAmmoLoaded;
+            playerData.nexusAmmoLoaded += playerData.nexusAmmo;
+            playerData.nexusAmmo -= ammoDifference;
+            if (playerData.standardAmmo < 0)
             {
-                blackHoleAmmo = 0;
+                playerData.nexusAmmo = 0;
             }
             else
             {
-                blackHoleAmmoLoaded = blackHoleAmmoMax;
+                playerData.nexusAmmoLoaded = nexusAmmoMax;
             }
         }
-        else if(equippedWeapon == 2 && shotgunAmmo > 0 && shotgunAmmoLoaded < shotgunAmmoMax)
+        else if(equippedWeapon == 2 && playerData.shotgunAmmo > 0 && playerData.shotgunAmmoLoaded < shotgunAmmoMax)
         {
             StartCoroutine(ReloadTimer(shotgunReloadTime));
             AudioSource.PlayClipAtPoint(shotgunReloadSound, spawnShotgunBulletPosition.position);
-            ammoDifference = shotgunAmmoMax - shotgunAmmoLoaded;
-            shotgunAmmoLoaded += shotgunAmmo;
-            shotgunAmmo -= ammoDifference;
-            if (shotgunAmmo < 0)
+            ammoDifference = shotgunAmmoMax - playerData.shotgunAmmoLoaded;
+            playerData.shotgunAmmoLoaded += playerData.shotgunAmmo;
+            playerData.shotgunAmmo -= ammoDifference;
+            if (playerData.shotgunAmmo < 0)
             {
-                shotgunAmmo = 0;
+                playerData.shotgunAmmo = 0;
             }
             else
             {
-                shotgunAmmoLoaded = shotgunAmmoMax;
+                playerData.shotgunAmmoLoaded = shotgunAmmoMax;
             }
         }
         UpdateAmmoCount();

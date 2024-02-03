@@ -8,8 +8,8 @@ public class PlayerAmmoData
     public int testData;
     public int standardAmmoSave;
     public int standardAmmoLoadedSave;
-    public int blackHoleAmmoSave;
-    public int blackHoleAmmoLoadedSave;
+    public int nexusAmmoSave;
+    public int nexusAmmoLoadedSave;
     public int shotgunAmmoSave;
     public int shotgunAmmoLoadedSave;
 
@@ -18,8 +18,8 @@ public class PlayerAmmoData
         testData = playerP.testData;
         standardAmmoSave = playerP.standardAmmoSave;
         standardAmmoLoadedSave = playerP.standardAmmoLoadedSave;
-        blackHoleAmmoSave = playerP.blackHoleAmmoSave;
-        blackHoleAmmoLoadedSave = playerP.blackHoleAmmoLoadedSave;
+        nexusAmmoSave = playerP.nexusAmmoSave;
+        nexusAmmoLoadedSave = playerP.nexusAmmoLoadedSave;
         shotgunAmmoSave = playerP.shotgunAmmoSave;
         shotgunAmmoLoadedSave = playerP.shotgunAmmoLoadedSave;
     }

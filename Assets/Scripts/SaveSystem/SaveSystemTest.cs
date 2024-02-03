@@ -11,8 +11,8 @@ public class SaveSystemTest : MonoBehaviour
     public int testData = 1;
     public int standardAmmoSave;
     public int standardAmmoLoadedSave;
-    public int blackHoleAmmoSave;
-    public int blackHoleAmmoLoadedSave;
+    public int nexusAmmoSave;
+    public int nexusAmmoLoadedSave;
     public int shotgunAmmoSave;
     public int shotgunAmmoLoadedSave;
     public int currentGameHealth;
@@ -23,6 +23,7 @@ public class SaveSystemTest : MonoBehaviour
 
     // Reference to your PlayerHealthMetric script
     private PlayerHealthMetric playerHealthMetric;
+    private PlayerData playerData;
 
     void Start()
     {
@@ -32,6 +33,7 @@ public class SaveSystemTest : MonoBehaviour
 
         // Get the PlayerHealthMetric script attached to the same GameObject
         playerHealthMetric = GetComponent<PlayerHealthMetric>();
+        playerData = GetComponent<PlayerData>();
     }
 
     public void LoadGame()
@@ -47,18 +49,18 @@ public class SaveSystemTest : MonoBehaviour
 
             // Access ammunition data
             testData = saveData.ammoData.testData;
-            thirdPersonShooterController.standardAmmo = saveData.ammoData.standardAmmoSave;
-            thirdPersonShooterController.standardAmmoLoaded = saveData.ammoData.standardAmmoLoadedSave;
-            thirdPersonShooterController.blackHoleAmmo = saveData.ammoData.blackHoleAmmoSave;
-            thirdPersonShooterController.blackHoleAmmoLoaded = saveData.ammoData.blackHoleAmmoLoadedSave;
-            thirdPersonShooterController.shotgunAmmo = saveData.ammoData.shotgunAmmoSave;
-            thirdPersonShooterController.shotgunAmmoLoaded = saveData.ammoData.shotgunAmmoLoadedSave;
+            playerData.standardAmmo = saveData.ammoData.standardAmmoSave;
+            playerData.standardAmmoLoaded = saveData.ammoData.standardAmmoLoadedSave;
+            playerData.nexusAmmo = saveData.ammoData.nexusAmmoSave;
+            playerData.nexusAmmoLoaded = saveData.ammoData.nexusAmmoLoadedSave;
+            playerData.shotgunAmmo = saveData.ammoData.shotgunAmmoSave;
+            playerData.shotgunAmmoLoaded = saveData.ammoData.shotgunAmmoLoadedSave;
 
             // Call the UpdateAmmoCount() function to update the UI or game logic
             thirdPersonShooterController.UpdateAmmoCount();
 
             // Access health data
-            playerHealthMetric.currentHealth = saveData.healthData.currentGameHealth;
+            playerData.currentHealth = saveData.healthData.currentGameHealth;
 
             playerHealthMetric.UpdateHealthBar();
             
@@ -72,12 +74,12 @@ public class SaveSystemTest : MonoBehaviour
                 if (ammoData != null)
                 {
                     // Set the ammunition counts
-                    thirdPersonShooterController.standardAmmo = ammoData.standardAmmoSave;
-                    thirdPersonShooterController.standardAmmoLoaded = ammoData.standardAmmoLoadedSave;
-                    thirdPersonShooterController.blackHoleAmmo = ammoData.blackHoleAmmoSave;
-                    thirdPersonShooterController.blackHoleAmmoLoaded = ammoData.blackHoleAmmoLoadedSave;
-                    thirdPersonShooterController.shotgunAmmo = ammoData.shotgunAmmoSave;
-                    thirdPersonShooterController.shotgunAmmoLoaded = ammoData.shotgunAmmoLoadedSave;
+                    playerData.standardAmmo = ammoData.standardAmmoSave;
+                    playerData.standardAmmoLoaded = ammoData.standardAmmoLoadedSave;
+                    playerData.nexusAmmo = ammoData.nexusAmmoSave;
+                    playerData.nexusAmmoLoaded = ammoData.nexusAmmoLoadedSave;
+                    playerData.shotgunAmmo = ammoData.shotgunAmmoSave;
+                    playerData.shotgunAmmoLoaded = ammoData.shotgunAmmoLoadedSave;
                     thirdPersonShooterController.UpdateAmmoCount();
                 }
             }
@@ -91,21 +93,21 @@ public class SaveSystemTest : MonoBehaviour
         PlayerPrefs.SetInt("LastSavedSceneIndex", currentSceneIndex);
 
         // Create instances of PlayerData, PlayerAmmoData, and PlayerHealth
-        PlayerData playerData = new PlayerData(this);
+        PlayerDataOld playerDataOld = new PlayerDataOld(this);
         PlayerAmmoData ammoData = new PlayerAmmoData(this);
         PlayerHealth healthData = new PlayerHealth(this);
 
         // Set the ammunition counts and health data to be saved
-        ammoData.standardAmmoSave = thirdPersonShooterController.standardAmmo;
-        ammoData.standardAmmoLoadedSave = thirdPersonShooterController.standardAmmoLoaded;
-        ammoData.blackHoleAmmoSave = thirdPersonShooterController.blackHoleAmmo;
-        ammoData.blackHoleAmmoLoadedSave = thirdPersonShooterController.blackHoleAmmoLoaded;
-        ammoData.shotgunAmmoSave = thirdPersonShooterController.shotgunAmmo;
-        ammoData.shotgunAmmoLoadedSave = thirdPersonShooterController.shotgunAmmoLoaded;
-        healthData.currentGameHealth = playerHealthMetric.currentHealth;
+        ammoData.standardAmmoSave = playerData.standardAmmo;
+        ammoData.standardAmmoLoadedSave = playerData.standardAmmoLoaded;
+        ammoData.nexusAmmoSave = playerData.nexusAmmo;
+        ammoData.nexusAmmoLoadedSave = playerData.nexusAmmoLoaded;
+        ammoData.shotgunAmmoSave = playerData.shotgunAmmo;
+        ammoData.shotgunAmmoLoadedSave = playerData.shotgunAmmoLoaded;
+        healthData.currentGameHealth = playerData.currentHealth;
 
         // Create a PlayerSaveData instance
-        PlayerSaveData saveData = new PlayerSaveData(playerData, ammoData, healthData);
+        PlayerSaveData saveData = new PlayerSaveData(playerDataOld, ammoData, healthData);
 
         // Save the data
         SaveSystem.SavePlayer(saveData);

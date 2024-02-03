@@ -24,7 +24,7 @@ public class PlantBasedHealth : MonoBehaviour
             if(other.CompareTag("Player"))
             {
                 PlayerHealthMetric playerHealth = other.GetComponent<PlayerHealthMetric>();
-                if (playerHealth != null && playerHealth.currentHealth < playerHealth.maxHealth)
+                if (playerHealth != null && playerHealth.playerData.currentHealth < playerHealth.playerData.maxHealth)
                 {
                     used = true;
                     playerHealth.ModifyHealth(pickUpHealthAmount);
