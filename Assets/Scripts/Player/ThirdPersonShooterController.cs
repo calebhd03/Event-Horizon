@@ -200,7 +200,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
                         aimVirtualCamera.gameObject.SetActive(true);
                         thirdPersonController.SetSensitivity(aimSensitivity);
-                        thirdPersonController.SetRotateOnMove(true);
+                        thirdPersonController.SetRotateOnMove(false);
                     
 
                     Vector3 worldAimTarget = mouseWorldPosition;
@@ -322,6 +322,20 @@ public class ThirdPersonShooterController : MonoBehaviour
             EquipBlackHoleGun();
         }
 
+        if (starterAssetsInputs.swapBHG)
+        {
+            if (equippedWeapon == 1)
+            {
+                BHGTool = !BHGTool;
+            }
+
+            if (starterAssetsInputs.swapBHG == true)
+            {
+                starterAssetsInputs.swapBHG = false;
+
+            }
+        }
+
         if (starterAssetsInputs.shotgun)
         {
             EquipShotgun();
@@ -352,7 +366,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 }
                 else if (equippedWeapon == 1 )
                 {   
-                    if (starterAssetsInputs.swapBHG  )
+                    if (BHGTool == true)
                     {
                         
                         if (blackHoleAmmoLoaded > 0 || blackHoleAmmoLoaded <= 0)
@@ -445,25 +459,29 @@ public class ThirdPersonShooterController : MonoBehaviour
     
     PauseMenuScript pauseMenuScript = FindObjectOfType<PauseMenuScript>();
     LogSystem logSystem = FindObjectOfType<LogSystem>();
-    if (starterAssetsInputs.scan && pauseMenuScript.paused == false && thirdPersonController.deathbool == false)
+    if (starterAssetsInputs.scan && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
             {
                 DisablePlayerMesh();
                 starterAssetsInputs.scan = true;
-                if (logSystem.log == false)
+                // remove if and else if statement and leave following line for log to open not in scanner. 
+                scnScr.SwitchCamPriority();
+                /*if (logSystem.log == false)
                 {
                     scnScr.SwitchCamPriority();
                 }
+                
                 else if (logSystem == true)
                 {
                     scnScr.ScanCamPriority();
                     logSystem.CloseLog();
-                }
+                }*/
                 
                 if (starterAssetsInputs.scan == true)
                 {
                     starterAssetsInputs.scan = false;
 
                 }
+
                 if (scnScr.Scan == false)
                 {
                     EnablePlayerMesh();
@@ -500,23 +518,30 @@ public class ThirdPersonShooterController : MonoBehaviour
                 Reload();
             }
             
-            if (starterAssetsInputs.log && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && scnScr.Scan == true)
+            // remove scnScr.scan == true from if statement to remove requirement of being in scan mode.
+            if (starterAssetsInputs.log && pauseMenuScript.paused == false && thirdPersonController.deathbool == false)// && scnScr.Scan == true)
             {
                 if (logSystem.log == false)
                 {
                     logSystem.SetLog();
                     DisablePlayerMesh();
-                    Debug.LogWarning("this");
+                   // Debug.LogWarning("this");
+                                    // for scanner not used
+                    scnScr.ScanCamPriority();
                 }
                 else
                 {
                     logSystem.CloseLog();
                     EnablePlayerMesh();
-                    Debug.LogWarning("this2");
+                   // Debug.LogWarning("this2");
+                                    // for scanner not used
+                    scnScr.SwitchCamPriority();
                 }
                 starterAssetsInputs.log = true;
+                // for scanner == true
+                //scnScr.ScanCamPriority();
 
-                scnScr.ScanCamPriority();
+                
                 
                 
                 if (starterAssetsInputs.log == true)
@@ -896,16 +921,14 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void UpdateIcon()
     {
-        if(starterAssetsInputs.swapBHG && equippedWeapon == 1 )
+        if(BHGTool == true && equippedWeapon == 1 )
          {
              BhgIcon.SetActive(false);
-             BHGTool = true;
              reloading = false;
          }
          else if( equippedWeapon == 1)
         {
            BhgIcon.SetActive(true);
-           BHGTool = false;
          }
         else
         {

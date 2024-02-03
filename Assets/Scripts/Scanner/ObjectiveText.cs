@@ -9,14 +9,16 @@ using TMPro;
 
 public class ObjectiveText : MonoBehaviour
 {
-    private TextMeshProUGUI displayedText; 
+    public TextMeshProUGUI displayedText; 
     [Tooltip("The number of the objective will play the associated text from the array.")]  
     public TextMeshProUGUI[] textToDisplay;
+    UpgradeSpot upgradeSpot;
 
     void Start()
     {
         displayedText = GetComponentInChildren<TextMeshProUGUI>();
         gameObject.SetActive(false);
+        upgradeSpot = FindObjectOfType<UpgradeSpot>();
     }
     private void OnEnable()
     {
@@ -24,7 +26,7 @@ public class ObjectiveText : MonoBehaviour
         ScannerUI.disableObjText += HideText;
     }
 
-    void ShowText()
+    public void ShowText()
     {
         ScanCam scanCam = FindObjectOfType<ScanCam>();
         //Cursor.visible = true;
@@ -37,6 +39,13 @@ public class ObjectiveText : MonoBehaviour
         //Cursor.visible = false;
         //Cursor.lockState = CursorLockMode.Locked;
         gameObject.SetActive(false);
+    }
+
+    public void ShowUpgradeText()
+    {   
+        gameObject.SetActive(true);
+        displayedText.text = upgradeSpot.text.text;
+        Invoke("HideText", 3);
     }
 
 
