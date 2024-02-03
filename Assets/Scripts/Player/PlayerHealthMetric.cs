@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerHealthMetric : MonoBehaviour
 {
-    public float maxHealth = 100f;
-    public float currentHealth;
+    public PlayerData playerData;
 
     public RectTransform healthBar; // Reference to the UI RectTransform for the health bar
 
@@ -23,7 +22,6 @@ public class PlayerHealthMetric : MonoBehaviour
 
     private void Start()
     {
-        currentHealth = maxHealth;
         InitializeHealthBar(); // Initialize the health bar
         saveSystemTest = FindObjectOfType<SaveSystemTest>();
         audioSource = GetComponent<AudioSource>();
@@ -32,19 +30,19 @@ public class PlayerHealthMetric : MonoBehaviour
     private void Update()
     {
         // Check for changes in currentHealth and update the health bar accordingly
-        if (currentHealth != (healthBar != null ? healthBar.sizeDelta.y * maxHealth : 0f))
+        if (playerData.currentHealth != (healthBar != null ? healthBar.sizeDelta.y * playerData.maxHealth : 0f))
         {
             UpdateHealthBar();
         }
-        if (currentHealth > maxHealth * (2f/3f))
+        if (playerData.currentHealth > playerData.maxHealth * (2f/3f))
         {
             healthMeter.GetComponent<Image>().color = Color.white;
         }
-        if (currentHealth < maxHealth * (2f/3f) && currentHealth > maxHealth * (1f/3f))
+        if (playerData.currentHealth < playerData.maxHealth * (2f/3f) && playerData.currentHealth > playerData.maxHealth * (1f/3f))
         {
             healthMeter.GetComponent<Image>().color = Color.yellow;
         }
-        if (currentHealth < maxHealth * (1f/3f))
+        if (playerData.currentHealth < playerData.maxHealth * (1f/3f))
         {
             healthMeter.GetComponent<Image>().color = Color.red;
         }
@@ -52,20 +50,20 @@ public class PlayerHealthMetric : MonoBehaviour
 
     public void ModifyHealth(float amount)
     {
-        float previousHealth = currentHealth;
-        currentHealth = Mathf.Clamp(currentHealth + amount, 0f, maxHealth);
-        OnHealthChanged?.Invoke(currentHealth, maxHealth);
+        float previousHealth = playerData.currentHealth;
+        playerData.currentHealth = Mathf.Clamp(playerData.currentHealth + amount, 0f, playerData.maxHealth);
+        OnHealthChanged?.Invoke(playerData.currentHealth, playerData.maxHealth);
 
-        if (currentHealth <= 0f)
+        if (playerData.currentHealth <= 0f)
         {
             Debug.Log("Player Health 0");
         }
 
-        if (currentHealth < previousHealth)
+        if (playerData.currentHealth < previousHealth)
         {
             audioSource.PlayOneShot(healthIncreaseSound);
         }
-        else if(currentHealth > previousHealth)
+        else if(playerData.currentHealth > previousHealth)
         {
             audioSource.PlayOneShot(healthDecreaseSound);
         }
@@ -96,7 +94,7 @@ public class PlayerHealthMetric : MonoBehaviour
         if (healthBar != null && isHealthBarActive)
         {
             // Calculate the normalized value for the bar's size
-            float normalizedHealth = currentHealth / maxHealth;
+            float normalizedHealth = playerData.currentHealth / playerData.maxHealth;
             healthBar.sizeDelta = new Vector2(healthBar.sizeDelta.x, normalizedHealth * 100f);
         }
     }

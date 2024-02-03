@@ -20,9 +20,9 @@ public class SkillTree : MonoBehaviour
     }
     public void HealthUpgraded()
     {
-        float previousMaxHealth = playerHealthMetric.maxHealth;
-        playerHealthMetric.maxHealth = playerHealthMetric.maxHealth * healthUpgradeAmount;
-        playerHealthMetric.ModifyHealth(playerHealthMetric.maxHealth - previousMaxHealth);
+        float previousMaxHealth = playerHealthMetric.playerData.maxHealth;
+        playerHealthMetric.playerData.maxHealth = playerHealthMetric.playerData.maxHealth * healthUpgradeAmount;
+        playerHealthMetric.ModifyHealth(playerHealthMetric.playerData.maxHealth - previousMaxHealth);
     }
     
     public void SpeedUpgraded()
