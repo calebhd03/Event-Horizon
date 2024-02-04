@@ -23,7 +23,7 @@ public class SaveSystemTest : MonoBehaviour
 
     // Reference to your PlayerHealthMetric script
     private PlayerHealthMetric playerHealthMetric;
-    private PlayerData playerData;
+    public PlayerData playerData;
 
     void Start()
     {
@@ -33,7 +33,7 @@ public class SaveSystemTest : MonoBehaviour
 
         // Get the PlayerHealthMetric script attached to the same GameObject
         playerHealthMetric = GetComponent<PlayerHealthMetric>();
-        playerData = GetComponent<PlayerData>();
+        //playerData = GetComponent<PlayerData>();
     }
 
     public void LoadGame()
