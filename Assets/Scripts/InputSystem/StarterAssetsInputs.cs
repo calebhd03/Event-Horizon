@@ -60,7 +60,7 @@ namespace StarterAssets
 
         private void Start()
         {
-			Debug.LogWarning("START CURSOR LOCK");
+			//Debug.LogWarning("START CURSOR LOCK");
             SetCursorState(cursorLocked);
         }
 
@@ -75,7 +75,7 @@ namespace StarterAssets
 			if(cursorInputForLook)
 			{
 				LookInput(value.Get<Vector2>());
-				Debug.Log("Look input: " + value.Get<Vector2>());
+				//Debug.Log("Look input: " + value.Get<Vector2>());
 			}
 		}
 
@@ -276,7 +276,7 @@ namespace StarterAssets
 
 		private void OnApplicationFocus(bool hasFocus)
 		{
-			Debug.LogWarning("LockedCursoir");
+			//Debug.LogWarning("LockedCursoir");
 			SetCursorState(cursorLocked);
 		}
 

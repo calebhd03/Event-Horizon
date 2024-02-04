@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 public class DevSceneChanger : MonoBehaviour
 {
     public StarterAssetsInputs starterAssetsInputs;
+    public string tp1 = "VerticalSlice";
+    public string tp2 = "Inner";
+    public string tp3 = "The Center";
     // Start is called before the first frame update
     void Start()
     {
@@ -17,15 +20,15 @@ public class DevSceneChanger : MonoBehaviour
     {
         if(starterAssetsInputs.outerTP)
         {
-            SceneManager.LoadScene("VerticalSlice");
+            SceneManager.LoadScene(tp1);
         }
         if(starterAssetsInputs.innerTP)
         {
-            SceneManager.LoadScene("Inner");
+            SceneManager.LoadScene(tp2);
         }
         if(starterAssetsInputs.centerTP)
         {
-            SceneManager.LoadScene("EventH_CenterLevel");
+            SceneManager.LoadScene(tp3);
         }
     }
 }

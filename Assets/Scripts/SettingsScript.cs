@@ -148,7 +148,7 @@ public class SettingsScript : MonoBehaviour
         PlayerPrefs.SetFloat("Sensitivity", Sens.value);
         PlayerPrefs.Save();
 
-        Debug.Log("Changing sens to " + Sens.value);
+       // Debug.Log("Changing sens to " + Sens.value);
 
         ThirdPersonShooterController thirdPersonShooterController = FindObjectOfType<ThirdPersonShooterController>();
         if (thirdPersonShooterController != null)

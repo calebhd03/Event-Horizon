@@ -36,7 +36,7 @@ public class ScannerUI : MonoBehaviour
     public int currentQuest = 0;
 
 
-    void Start()
+    void Awake()
     {   
         AudioSource audioSource = GetComponent<AudioSource>();
         if (gameObject == null)
@@ -44,7 +44,7 @@ public class ScannerUI : MonoBehaviour
                 Debug.LogWarning("target canvas not there");
                 return;
             }
-        screenOverlay.SetActive(false);
+        CloseOverlay();
         //New Objective Slider
         newSlider = Instantiate(sliderPrefab, gameObject.transform);
         newSlider.SetActive(false);
@@ -141,6 +141,25 @@ public class ScannerUI : MonoBehaviour
 
         ScanCam.stopScan += DisableEnemySlider;
         ScanCam.stopScan += DisableSlider;
+    }
+
+    private void OnDisable()
+    {
+        ObjectivesScript.objSlider -= ObjectiveSlider;
+        ObjectivesScript.objSlider -= SetSliderValue;
+
+        EnemiesScanScript.eneSlider -= EnemySlider;
+        EnemiesScanScript.eneSlider -= SetEnemySlider;
+
+        ScanCam.scannerEnabled -= Overlay;
+        ScanCam.scannerDisabled -= CloseOverlay;
+        ScanCam.scannerEnabled -= Gradient;
+        ScanCam.scannerDisabled -= CloseGradient;
+        ScanCam.scannerDisabled -= DisableEnemySlider;
+        ScanCam.scannerDisabled -= DisableSlider;
+
+        ScanCam.stopScan -= DisableEnemySlider;
+        ScanCam.stopScan -= DisableSlider;
     }
     void ObjectiveSlider()
     {

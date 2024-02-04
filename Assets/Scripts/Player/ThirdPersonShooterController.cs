@@ -612,7 +612,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         shotCooldown = currentCooldown;
         RefreshWeaponIcons();
         UpdateAmmoCount();
-        Debug.Log(equippedWeapon);
+        //Debug.Log(equippedWeapon);
     }
     public void EquipShotgun()
     {
