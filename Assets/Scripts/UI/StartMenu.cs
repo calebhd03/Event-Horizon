@@ -65,4 +65,9 @@ public class StartMenu : MonoBehaviour
         Cursor.visible = false;
         SceneManager.LoadScene("Inner");
     }
+    public void LoadCenterScene()
+    {
+        Cursor.visible = false;
+        SceneManager.LoadScene("The Center");
+    }
 }
