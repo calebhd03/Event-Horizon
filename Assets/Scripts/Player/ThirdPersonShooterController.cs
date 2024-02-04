@@ -163,6 +163,11 @@ public class ThirdPersonShooterController : MonoBehaviour
                 debugTransform.position = raycastHit.point;
                 mouseWorldPosition = raycastHit.point;
             }
+            else
+            {
+                debugTransform.position = ray.GetPoint(99f);
+                mouseWorldPosition = ray.GetPoint(99f);
+            }
 
             if (starterAssetsInputs.ammo)
             {

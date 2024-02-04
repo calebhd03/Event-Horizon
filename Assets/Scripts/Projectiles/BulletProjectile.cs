@@ -8,6 +8,7 @@ public class BulletProjectile : MonoBehaviour
 
     private Rigidbody bulletRigidbody;
     private Vector3 lastPosition;
+    public float speed = 30f;
 
     private void Awake()
     {
@@ -18,7 +19,6 @@ public class BulletProjectile : MonoBehaviour
 
     private void Start()
     {
-        float speed = 30f;
         bulletRigidbody.velocity = transform.forward * speed;
         lastPosition = transform.position;
     }
