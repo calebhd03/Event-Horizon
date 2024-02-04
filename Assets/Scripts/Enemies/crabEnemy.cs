@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using StarterAssets;
 
 public class crabEnemy : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class crabEnemy : MonoBehaviour
     public Transform player;
     public NavMeshAgent agent;
     private Rigidbody rb;
+    [SerializeField] private ThirdPersonController thirdPersonController;
     private Animator animator;
     public LayerMask playerZone;
 
@@ -19,7 +21,12 @@ public class crabEnemy : MonoBehaviour
     [Header("Attack")]
     public float attackRange;
     private bool withInAttackRange;
-
+    public float jumpHeight = 1f;
+    public float jumpSpeed = 1f;
+    private bool jump = false;
+    private bool stuck = false;
+    public float landingOffset = .5f;
+    
     [Header("Drops")]
     public GameObject blasterPickupPrefab;
     public GameObject shotGunPickupPrefab;
@@ -30,9 +37,8 @@ public class crabEnemy : MonoBehaviour
     [Header("Audio")]
     public AudioClip deathAudio;
     [Range(0, 10)] public float deathAudioVolume;
-
-    public float jumpSpeed = 2;
-
+    public AudioClip stickAudio;
+    [Range(0, 10)] public float stickAudioVolume;
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -40,7 +46,7 @@ public class crabEnemy : MonoBehaviour
         agent = GetComponentInParent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-
+        thirdPersonController = FindObjectOfType<ThirdPersonController>();
     }
     // Start is called before the first frame update
     void Start()
@@ -75,11 +81,39 @@ public class crabEnemy : MonoBehaviour
     {
         agent.SetDestination(player.position);
         transform.LookAt(player);
+        jump= false;
     }
 
     private void attackPlayer()
     {
-       
+        if (!jump)
+        {
+            StartCoroutine(Jump());
+        }
+    }
+
+    private IEnumerator Jump()
+    {
+        jump = true;
+
+        Vector3 startPosition = transform.position;
+        Vector3 targetPosition = player.position + player.forward * landingOffset;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < jumpSpeed)
+        {
+            float jumpProgress = elapsedTime / jumpSpeed;
+            float jumpHeightOffset = Mathf.Sin(jumpProgress * Mathf.PI) * jumpHeight;
+
+            transform.position = Vector3.Lerp(startPosition, targetPosition, jumpProgress) + new Vector3(0f, jumpHeightOffset, 0f);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = targetPosition;
+        jump = false;
     }
     public void updateHealth()
     {
@@ -88,6 +122,7 @@ public class crabEnemy : MonoBehaviour
 
         if (healthMetrics.currentHealth <= 0)
         {
+            jump = true;
             Die();
             Debug.Log("Zero Health");
         }
@@ -121,7 +156,7 @@ public class crabEnemy : MonoBehaviour
             Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
         }
 
-        Destroy(transform.parent.gameObject);
+        Destroy(transform.gameObject);
     }
 
     private void OnDrawGizmos()
@@ -131,5 +166,42 @@ public class crabEnemy : MonoBehaviour
 
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, seeDistance);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player") && !stuck)
+        {
+            Debug.Log("Stuck to Player");
+            stuck = true;
+            iSeeYou = false;
+            attackRange = 0f;
+            seeDistance = 0f;
+            jump = true;
+            StartCoroutine(StickyDelay());
+
+            if(thirdPersonController != null)
+            {
+                thirdPersonController.MoveSpeed = 1.5f;
+                thirdPersonController.SprintSpeed = 1.5f;
+                Debug.Log("Speed has been changed");
+
+            }
+            else
+            {
+                Debug.Log("Move Speed can not be found");
+            }
+        }
+    }
+
+    private IEnumerator StickyDelay()
+    {
+        yield return new WaitForSeconds(0.5f); 
+        agent.enabled = false;
+        Vector3 offset = new Vector3(0f, 0.5f, .3f);
+        transform.parent = player;
+        transform.position = player.position;
+        transform.localPosition = offset;
+        AudioSource.PlayClipAtPoint(stickAudio, transform.position, stickAudioVolume);
     }
 }
