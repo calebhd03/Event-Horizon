@@ -58,6 +58,8 @@ public class ThirdPersonShooterController : MonoBehaviour
         private float currentCooldown;
         public float standardCooldown;
         public float blackHoleCooldown;
+        public float knifeCoolDown;
+        public bool knifeSlash = false;
         public Image cooldownMeter;
 
         
@@ -87,6 +89,8 @@ public class ThirdPersonShooterController : MonoBehaviour
         public GameObject shotgunEquipped;
         public GameObject shotgunSlot1;
         public GameObject shotgunSlot2;
+
+        public GameObject ammountCountIcon;
         
 
         [Header("Scanner Necessities")]
@@ -285,6 +289,9 @@ public class ThirdPersonShooterController : MonoBehaviour
             case 2:
                     EquipShotgun();
                 break;
+                case 3:
+                    EquipKnife();
+                    break; 
             default:
                 break;
 
@@ -336,7 +343,12 @@ public class ThirdPersonShooterController : MonoBehaviour
             EquipShotgun();
         }
 
-        if(starterAssetsInputs.reload)
+        if (starterAssetsInputs.knife)
+        {
+            EquipKnife();
+        }
+
+        if (starterAssetsInputs.reload)
         {
             Reload();
         }
@@ -424,6 +436,14 @@ public class ThirdPersonShooterController : MonoBehaviour
                         Instantiate(pfShotgunProjectile, spawnShotgunBulletPosition.position, Quaternion.LookRotation(spreadDirection, Vector3.up));
                     }
                 }
+
+                else if(equippedWeapon == 3)
+                {
+                    currentCooldown = knifeCoolDown;
+                    Debug.Log("Knife Animatoion");
+                    knifeSlash = true;
+                    Debug.Log("Knife Slash is true");
+                }
                 UpdateAmmoCount();
                 shotCooldown = 0;
                 //thirdPersonController.Recoil(0.1f);
@@ -439,7 +459,10 @@ public class ThirdPersonShooterController : MonoBehaviour
         //
         shotCooldown += Time.deltaTime;
         if (shotCooldown >= currentCooldown)
+        {
             animator.ResetTrigger("Shoot");
+            knifeSlash = false;
+        }
 
         if (isCharging == true)
         {
@@ -663,6 +686,32 @@ public class ThirdPersonShooterController : MonoBehaviour
         UpdateAmmoCount();
         Debug.Log(equippedWeapon);
     }
+    public void EquipKnife()
+    {
+        Debug.Log("Knife Equipped");
+        //animator.SetTrigger("KnifeSwitch");
+        animator.ResetTrigger("BHSwitch");
+        animator.ResetTrigger("BlasterSwitch");
+        animator.ResetTrigger("ShotgunSwitch");
+
+        //resets blaster weapon positions
+        standardWeaponObject.transform.parent = blasterHolster.transform;
+        standardWeaponObject.transform.position = blasterHolster.transform.position;
+        standardWeaponObject.transform.localEulerAngles = new Vector3(0, 0, 0);
+
+        //resets shotgun weapon positions
+        shotgunWeaponObject.transform.parent = shotgunHolster.transform;
+        shotgunWeaponObject.transform.position = shotgunHolster.transform.position;
+        shotgunWeaponObject.transform.localEulerAngles = new Vector3(0, 90, 0);
+
+        //resets BHG weapon positions
+        blackHoleWeaponObject.transform.parent = BHGHolster.transform;
+        blackHoleWeaponObject.transform.position = BHGHolster.transform.position;
+        blackHoleWeaponObject.transform.localEulerAngles = new Vector3(90, 0, -45);
+        equippedWeapon = 3;
+        RefreshWeaponIcons();
+        shotCooldown = currentCooldown;
+    }
     public void RefreshWeaponIcons()
     {
         switch (equippedWeapon)
@@ -679,6 +728,8 @@ public class ThirdPersonShooterController : MonoBehaviour
                 bhgEquipped.SetActive(false);
                 bhgSlot1.SetActive(true);
                 bhgSlot2.SetActive(false);
+
+                ammountCountIcon.SetActive(true);
                 break;
             case 1:
                 blasterEquipped.SetActive(false);
@@ -692,6 +743,8 @@ public class ThirdPersonShooterController : MonoBehaviour
                 bhgEquipped.SetActive(true);
                 bhgSlot1.SetActive(false);
                 bhgSlot2.SetActive(false);
+
+                ammountCountIcon.SetActive(true);
                 break;
             case 2:
                 blasterEquipped.SetActive(false);
@@ -705,6 +758,24 @@ public class ThirdPersonShooterController : MonoBehaviour
                 bhgEquipped.SetActive(false);
                 bhgSlot1.SetActive(true);
                 bhgSlot2.SetActive(false);
+
+                ammountCountIcon.SetActive(true);
+                break;
+            case 3:
+                Debug.Log("Knife Icon");
+                blasterEquipped.SetActive(false);
+                blasterSlot1.SetActive(false);
+                blasterSlot2.SetActive(false);
+
+                shotgunEquipped.SetActive(false);
+                shotgunSlot1.SetActive(false);
+                shotgunSlot2.SetActive(false);
+
+                bhgEquipped.SetActive(false);
+                bhgSlot1.SetActive(false);
+                bhgSlot2.SetActive(false);
+
+                ammountCountIcon.SetActive(false);
                 break;
         }
     }

@@ -45,6 +45,7 @@ namespace StarterAssets
 		public bool switchWeapon;
 		public bool blaster;
 		public bool shotgun;
+		public bool knife;
 		public bool swapBHG;
 
 		[Header ("Dev Controls")]
@@ -169,6 +170,11 @@ namespace StarterAssets
 		public void OnShotgun(InputValue value)
 		{
 			ShotgunInput(value.isPressed);
+		}
+
+		public void OnKnife(InputValue value)
+		{
+			KnifeInput(value.isPressed);
 		}
 		public void OnQuit(InputValue value)
 		{
@@ -327,6 +333,10 @@ namespace StarterAssets
 		public void ShotgunInput(bool newShotgunState)
 		{
 			shotgun = newShotgunState;
+		}
+		public void KnifeInput(bool newShotgunState)
+		{
+			knife = newShotgunState;
 		}
 		public void QuitInput(bool newQuitState)
 		{

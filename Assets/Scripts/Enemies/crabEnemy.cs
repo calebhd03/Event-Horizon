@@ -11,8 +11,10 @@ public class crabEnemy : MonoBehaviour
     public NavMeshAgent agent;
     private Rigidbody rb;
     [SerializeField] private ThirdPersonController thirdPersonController;
+    [SerializeField] private ThirdPersonShooterController ThirdPersonShooterController;
     private Animator animator;
     public LayerMask playerZone;
+    private bool knifeDeath = false;
 
     //check to find player
     private bool iSeeYou;
@@ -47,6 +49,7 @@ public class crabEnemy : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         thirdPersonController = FindObjectOfType<ThirdPersonController>();
+        ThirdPersonShooterController = FindAnyObjectByType<ThirdPersonShooterController>();
     }
     // Start is called before the first frame update
     void Start()
@@ -59,6 +62,7 @@ public class crabEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        KnifeDestroy();
         updateHealth();
         iSeeYou = Physics.CheckSphere(transform.position, seeDistance, playerZone);
         withInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerZone);
@@ -193,7 +197,6 @@ public class crabEnemy : MonoBehaviour
             }
         }
     }
-
     private IEnumerator StickyDelay()
     {
         yield return new WaitForSeconds(0.5f); 
@@ -203,5 +206,28 @@ public class crabEnemy : MonoBehaviour
         transform.position = player.position;
         transform.localPosition = offset;
         AudioSource.PlayClipAtPoint(stickAudio, transform.position, stickAudioVolume);
+    }
+
+    public void KnifeDestroy()
+    {
+        if(stuck)
+        {
+            if(ThirdPersonShooterController.knifeSlash == true)
+            {
+                knifeDeath = true;
+                if(knifeDeath)
+                {
+                    Debug.Log("Crab is Destroyed with Knife");
+                    Destroy(gameObject);
+                    AudioSource.PlayClipAtPoint(deathAudio, transform.position, deathAudioVolume);
+                    if (thirdPersonController != null)
+                    {
+                        thirdPersonController.MoveSpeed = 3f;
+                        thirdPersonController.SprintSpeed = 6f;
+                        Debug.Log("Speed has been changed back");
+                    }
+                }
+            }
+        }
     }
 }
