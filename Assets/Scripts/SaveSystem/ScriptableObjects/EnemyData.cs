@@ -9,6 +9,11 @@ public class EnemyData : ScriptableObject
     public List<GameObject> Enemies;
     public Vector3[] enemyPositions;
     public Vector3[] enemyHealthValues;
+    /*public struct[] enemies
+    {
+        public Vector3[] enemyPosition;
+        public Vector3[] enemyHealthValue;
+    }*/
     //public List<GameObject>[] Enemies = new List<GameObject>[SceneManager.sceneCount];
     
     /*private void OnEnable()
