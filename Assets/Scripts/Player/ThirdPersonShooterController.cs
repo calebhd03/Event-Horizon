@@ -376,7 +376,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                     AudioSource.PlayClipAtPoint(blasterSound, spawnBulletPosition.position);
                     blassterFlash.Play();
                 }
-                else if (equippedWeapon == 1 )
+                if (equippedWeapon == 1 )
                 {   
                     if (BHGTool == true)
                     {
@@ -418,7 +418,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
 
                 }
-                else if (equippedWeapon == 2 && playerData.shotgunAmmoLoaded > 0)
+                if (equippedWeapon == 2 && playerData.shotgunAmmoLoaded > 0)
                 {        
                     playerData.shotgunAmmoLoaded -= 1;
                     currentCooldown = shotgunCooldown;
@@ -847,6 +847,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
          public void SwitchWeaponObject(GameObject newWeaponObject)
         {
+            reloading = false;
             // Disable all weapon objects
             originalWeaponObject.SetActive(false);
             crouchedWeaponObject.SetActive(false);
