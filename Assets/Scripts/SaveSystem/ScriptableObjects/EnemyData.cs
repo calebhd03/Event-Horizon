@@ -1,19 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
+public class EnemyVariables
+{
+    public GameObject enemyObject {get; set;}
+    public float enemyHealth {get; set;}
+
+    public EnemyVariables(GameObject enemyObject, float enemyHealth)
+    {
+        this.enemyObject = enemyObject;
+        this.enemyHealth = enemyHealth;
+    }
+}
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/EnemyDataScriptableObject", order = 1)]
 public class EnemyData : ScriptableObject
 {
-    public List<GameObject> Enemies;
-    public Vector3[] enemyPositions;
-    public Vector3[] enemyHealthValues;
-    /*public struct[] enemies
-    {
-        public Vector3[] enemyPosition;
-        public Vector3[] enemyHealthValue;
-    }*/
+    public List<EnemyVariables> Enemies = new List<EnemyVariables>();
     //public List<GameObject>[] Enemies = new List<GameObject>[SceneManager.sceneCount];
     
     /*private void OnEnable()
@@ -21,13 +25,23 @@ public class EnemyData : ScriptableObject
         Enemies = new List<GameObject>[SceneManager.sceneCount];
     }*/
 
-    public void Add(int scene, GameObject enemy)
+    public void Add(GameObject enemyObject, float enemyHealth)
     {
+        var enemy = new EnemyVariables(enemyObject, enemyHealth);
         Enemies.Add(enemy);
+        Debug.Log("Enemy: " + enemy.enemyObject + ", Position: " + enemy.enemyObject.transform.position + ", Health: " + enemy.enemyHealth);
     }
 
-    public void Remove(int scene, GameObject enemy)
+    public void Remove(GameObject destroyedObject)
     {
-        Enemies.Remove(enemy);
+        Enemies.RemoveAll(enemy => enemy.enemyObject == destroyedObject);
+    }
+
+    public void GetData()
+    {
+        foreach (var enemy in Enemies)
+        {
+            Debug.Log("Enemy: " + enemy.enemyObject + ", Position: " + enemy.enemyObject.transform.position + ", Health: " + enemy.enemyHealth);
+        }
     }
 }
