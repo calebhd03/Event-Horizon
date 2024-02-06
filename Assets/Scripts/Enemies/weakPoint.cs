@@ -130,6 +130,14 @@ public class weakPoint : MonoBehaviour
             if (slowEnemy == true && randomNumber == 0)
             {
                 agent.speed = priorSpeed * slowFactor;
+                    if (basicEnemyScript != null)
+                    {
+                        basicEnemyScript.PlaySlowEffect();
+                    }
+                    if (bossEnemyScript != null)
+                    {
+                        bossEnemyScript.PlaySlowEffect();
+                    }
                 Debug.LogWarning("slow down");
                 Invoke("RestoreSpeed", slowDuration);
             }
@@ -141,5 +149,13 @@ public class weakPoint : MonoBehaviour
     void RestoreSpeed()
     {
         agent.speed = priorSpeed;
+        if (basicEnemyScript != null)
+        {
+            basicEnemyScript.StopSlowEffect();
+        }
+        if (bossEnemyScript != null)
+        {
+            bossEnemyScript.StopSlowEffect();
+        }
     }
 }

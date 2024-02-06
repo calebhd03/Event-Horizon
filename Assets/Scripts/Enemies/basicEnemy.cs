@@ -97,6 +97,9 @@ namespace StarterAssets
 
         private float hitAnimationDuration = 1.0f;
 
+        //Slow Particle effect
+        public ParticleSystem slowEffect;
+
         private void Awake()
         {
             player = GameObject.Find("Player").transform;
@@ -551,6 +554,14 @@ namespace StarterAssets
 
         // Set the EnemyHit parameter back to false
         animator.SetBool("EnemyHit", false);
+    }
+    public void PlaySlowEffect()
+    {
+        slowEffect.Play();
+    }
+    public void StopSlowEffect()
+    {
+        slowEffect.Stop();
     }
     }
 }
