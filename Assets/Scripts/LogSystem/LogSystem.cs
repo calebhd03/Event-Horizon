@@ -429,12 +429,12 @@ public class LogSystem : MonoBehaviour
         //Put code here for burn damage function or call script with burn damage. probably need to be on regular point and or weak point
     }
 
-    public void UpgradeFrostDamage()
+    public void UpgradeSlowEnemyBullets()
     {
         Debug.LogWarning("But you told me to Freeze - the mask");
         frostSkillUpgraded = true;
         burnButton.image.sprite = upgradedSprite;
         skillsUnlocked = false;
-        // put code here for frost damage function or call script with burn damage. probably need to be on regular point and or weak point
+        skillTree.SlowEnemyUpgrade();
     }
 }

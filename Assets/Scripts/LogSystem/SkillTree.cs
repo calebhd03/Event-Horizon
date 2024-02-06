@@ -10,6 +10,7 @@ public class SkillTree : MonoBehaviour
     public regularPoint[] regularPointdamage;
     public weakPoint[] weakPointdamage;
     public float healthUpgradeAmount, speedUpgradedAmount, damageUpgradeAmount, upgradeHealthDifference;
+    public bool slowEffectEnemy = false;
     
     void Start()
     {
@@ -51,9 +52,9 @@ public class SkillTree : MonoBehaviour
         //this may need to be on different script
     }
 
-    public void FrostUpgrade()
+    public void SlowEnemyUpgrade()
     {
-        //this may need to be on different script
+        slowEffectEnemy = true;
     }
 
     public void BurnUpgrade()

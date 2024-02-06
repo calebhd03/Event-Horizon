@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using StarterAssets;
+using UnityEngine.AI;
+using JetBrains.Annotations;
 
 public class regularPoint : MonoBehaviour
 {   public float regularDamage = 10f;
@@ -12,12 +14,31 @@ public class regularPoint : MonoBehaviour
     // Reference to the BasicEnemy script
     private basicEnemy basicEnemyScript;
     private bossEnemy bossEnemyScript;
+    public NavMeshAgent agent;
+    private SkillTree skillTree;
+    public bool slowEnemy, damageOverTimeEnemy;
+    public float slowDuration = 6f, slowFactor = 0.7f, priorSpeed;
 
     private void Start()
     {
         // Get the BasicEnemy script attached to the same GameObject
         basicEnemyScript = GetComponentInParent<basicEnemy>();
         bossEnemyScript = GetComponentInParent<bossEnemy>();
+        agent = GetComponentInParent<NavMeshAgent>();
+        priorSpeed = agent.speed;
+        skillTree = FindObjectOfType<SkillTree>();
+    }
+
+    void Update()
+    {
+        if (skillTree.slowEffectEnemy == true)
+        {
+            slowEnemy = true;
+        }
+        else
+        {
+            slowEnemy = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -25,7 +46,7 @@ public class regularPoint : MonoBehaviour
         if (other.CompareTag("Bullet"))
         {
             HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
-
+            SlowDownEnemy();
             if (healthMetrics != null)
             {
                 GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -55,6 +76,7 @@ public class regularPoint : MonoBehaviour
 
                 Debug.Log("Not a WeakPoint");
             }
+
 
             //Destroy(gameObject);
         }
@@ -95,5 +117,26 @@ public class regularPoint : MonoBehaviour
 
             //Destroy(gameObject);
         }
+
+    }
+
+    public void SlowDownEnemy()
+    {
+        int randomNumber = Random.Range(0, 8);
+        
+            if (slowEnemy == true && randomNumber == 0)
+            {
+                agent.speed = priorSpeed * slowFactor;
+                Debug.LogWarning("slow down");
+                Invoke("RestoreSpeed", slowDuration);
+            }
+            else
+            {
+                Debug.LogWarning("wrong number");
+            }
+    }
+    void RestoreSpeed()
+    {
+        agent.speed = priorSpeed;
     }
 }
