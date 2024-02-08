@@ -12,7 +12,9 @@ public class UpgradeSpot : MonoBehaviour
     LogSystem logSystem;
     public ObjectiveText objectiveText;
     public TextMeshProUGUI text;
-   public bool Upgrade = false;
+    public bool Upgrade = false;
+   
+    public int level;
     void Start()
     {
         logSystem = FindObjectOfType<LogSystem>();
@@ -29,7 +31,19 @@ public class UpgradeSpot : MonoBehaviour
             {
                 if(other.CompareTag("Player"))
                 {
-                    logSystem.skillsUnlocked = true;
+                    switch(level)
+                    {
+                        case 1:
+                            logSystem.skillsUnlocked = true;
+                        break;
+                        case 2:
+                            logSystem.skillsUnlocked2 = true;
+                        break;
+                        case 3:
+                            logSystem.skillsUnlocked3 = true;
+                        break;
+                    }
+                    
                     Upgrade = false;
                     Destroy(gameObject);
                 }
