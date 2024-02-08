@@ -28,8 +28,8 @@ public class LogSystem : MonoBehaviour
     private ThirdPersonController thirdPersonController;
     public bool log;
     //Skills
-    public bool skillsUnlocked = false;
-    public Button healthUpgradeButton, speedUpgradeButton, damageUpgradeButton, ammoCapactiyButton, frostButton, burnButton;
+    public bool skillsUnlocked = false, skillsUnlocked2 = false, skillsUnlocked3 = false;
+    public Button healthUpgradeButton, speedUpgradeButton, damageUpgradeButton, ammoCapactiyButton, SlowEnemyButton, DamageOverTimeButton;
     public bool healthSkillUpgraded = false, damageSkillUpgraded = false, speedSkillUpgraded = false,ammoSkillUpgraded = false, frostSkillUpgraded = false, burnSkillUpgraded = false;
     public Sprite upgradedSprite;
     AudioSource audioSource;
@@ -85,7 +85,7 @@ public class LogSystem : MonoBehaviour
             item[i].onClick.AddListener(() => OnButtonClick(index));
         }
     }
-
+    
     void Update()
     {   
         if (log == true)
@@ -142,12 +142,14 @@ public class LogSystem : MonoBehaviour
             skillsHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
         break;
         }
-
+        
         if (skillsUnlocked == true)
         {
             if (healthSkillUpgraded == true)
             {
                 healthUpgradeButton.interactable = false;
+                damageUpgradeButton.interactable = false;
+                skillsUnlocked = false;
             }
             else
             {
@@ -157,15 +159,21 @@ public class LogSystem : MonoBehaviour
             if (damageSkillUpgraded == true)
             {
                 damageUpgradeButton.interactable = false;
+                healthUpgradeButton.interactable = false;
+                skillsUnlocked = false;
             }
             else
             {
                 damageUpgradeButton.interactable = true;
             }
-            
+        }
+        else if (skillsUnlocked2 == true)
+        {
             if (speedSkillUpgraded == true)
             {
                 speedUpgradeButton.interactable = false;
+                ammoCapactiyButton.interactable = false;
+                skillsUnlocked2 = false;
             }
             else
             {
@@ -175,28 +183,36 @@ public class LogSystem : MonoBehaviour
             if (ammoSkillUpgraded == true)
             {
                 ammoCapactiyButton.interactable = false;
+                speedUpgradeButton.interactable = false;
+                skillsUnlocked2 = false;
             }
             else
             {
                 ammoCapactiyButton.interactable = true;
             }
-            
+        }
+        else if (skillsUnlocked3 == true)
+        {
             if (frostSkillUpgraded == true)
             {
-                frostButton.interactable = false;
+                SlowEnemyButton.interactable = false;
+                DamageOverTimeButton.interactable = false;
+                skillsUnlocked3 = false;
             }
             else
             {
-                frostButton.interactable = true;
+                SlowEnemyButton.interactable = true;
             }
             
             if (burnSkillUpgraded == true)
             {
-                burnButton.interactable = false;
+                DamageOverTimeButton.interactable = false;
+                SlowEnemyButton.interactable = false;
+                skillsUnlocked3 = false;
             }
             else
             {
-                burnButton.interactable = true;
+                DamageOverTimeButton.interactable = true;
             }
         }
         else 
@@ -205,21 +221,21 @@ public class LogSystem : MonoBehaviour
         damageUpgradeButton.interactable = false;
         speedUpgradeButton.interactable = false;
         ammoCapactiyButton.interactable = false;
-        frostButton.interactable = false;
-        burnButton.interactable = false;
+        SlowEnemyButton.interactable = false;
+        DamageOverTimeButton.interactable = false;
         }
     }
 
     public void SetLog()
     {
         log = true;
-        Debug.LogWarning("log");
+        //Debug.LogWarning("log");
         LogPage.SetActive(true);
     }
     public void CloseLog()
     {   
         log = false;
-        Debug.LogWarning("closelog");
+        //Debug.LogWarning("closelog");
         LogPage.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -265,7 +281,7 @@ public class LogSystem : MonoBehaviour
         }
     else
     {
-        Debug.LogError("Invalid enemy index: " + number);
+        //Debug.LogError("Invalid enemy index: " + number);
     }
     }
     public void UpdateMemoryLog()
@@ -386,55 +402,49 @@ public class LogSystem : MonoBehaviour
 
     public void UpgradeSpeed()
     {
-        Debug.LogWarning("IAmSpeed");
+        //Debug.LogWarning("IAmSpeed");
         speedSkillUpgraded = true;
         speedUpgradeButton.image.sprite = upgradedSprite;
-        skillsUnlocked = false;
         skillTree.SpeedUpgraded();
     }
 
     public void UpgradeHealth()
     {
-        Debug.LogWarning("1Up");
+        //Debug.LogWarning("1Up");
         healthSkillUpgraded = true;
         healthUpgradeButton.image.sprite = upgradedSprite;
-        skillsUnlocked = false;
         skillTree.HealthUpgraded();
     }
 
     public void UpgradeDamage()
     {
-        Debug.LogWarning("SayHelloToMyLittleFriend");
+        //Debug.LogWarning("SayHelloToMyLittleFriend");
         damageSkillUpgraded = true;
         damageUpgradeButton.image.sprite = upgradedSprite;
-        skillsUnlocked = false;
         skillTree.DamageUpgraded();
     }
 
     public void UpgradeAmmoCapacity()
     {
-        Debug.LogWarning("Ammo capacity increase");
+        //Debug.LogWarning("Ammo capacity increase");
         ammoSkillUpgraded = true;
         ammoCapactiyButton.image.sprite = upgradedSprite;
-        skillsUnlocked = false;
         //Put code here for ammo capacity function or call to thirdpersonshootercontroller
     }
 
-    public void UpgradeBurnDamage()
+    public void UpgradeDamageOverTime()
     {
-        Debug.LogWarning("BURN! - Kelso");
+        //Debug.LogWarning("BURN! - Kelso");
         burnSkillUpgraded = true;
-        burnButton.image.sprite = upgradedSprite;
-        skillsUnlocked = false;
-        //Put code here for burn damage function or call script with burn damage. probably need to be on regular point and or weak point
+        DamageOverTimeButton.image.sprite = upgradedSprite;
+        skillTree.DamageOverTimeUpgrade();
     }
 
     public void UpgradeSlowEnemyBullets()
     {
-        Debug.LogWarning("But you told me to Freeze - the mask");
+        //Debug.LogWarning("But you told me to Freeze - the mask");
         frostSkillUpgraded = true;
-        burnButton.image.sprite = upgradedSprite;
-        skillsUnlocked = false;
+        SlowEnemyButton.image.sprite = upgradedSprite;
         skillTree.SlowEnemyUpgrade();
     }
 }

@@ -10,7 +10,7 @@ public class SkillTree : MonoBehaviour
     public regularPoint[] regularPointdamage;
     public weakPoint[] weakPointdamage;
     public float healthUpgradeAmount, speedUpgradedAmount, damageUpgradeAmount, upgradeHealthDifference;
-    public bool slowEffectEnemy = false;
+    public bool slowEffectEnemy = false, damageOverTime = false;
     
     void Start()
     {
@@ -57,8 +57,9 @@ public class SkillTree : MonoBehaviour
         slowEffectEnemy = true;
     }
 
-    public void BurnUpgrade()
+    public void DamageOverTimeUpgrade()
     {
-        //this may need to be on different script
+        damageOverTime = true;
     }
+
 }

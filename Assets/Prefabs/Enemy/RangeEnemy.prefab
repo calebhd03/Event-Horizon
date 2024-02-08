@@ -59,8 +59,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weakPointDamage: 20
+  knifeDamage: 10
   damageSound: {fileID: 8300000, guid: 780f0a773e3715a4493f66029cd5a971, type: 3}
+  agent: {fileID: 0}
   damageUpgrade: 0
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 3
+  damageOverTimeDuration: 6
+  elapsedTime: 10
 --- !u!1 &3787874207407574268
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,7 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  currentHealth: 0
+  currentHealth: 100
   healthBar: {fileID: 0}
   isHealthBarActive: 1
 --- !u!195 &2519514252711871096
@@ -530,6 +540,8 @@ MonoBehaviour:
   bHPickupPrefab: {fileID: 1464895933930130252, guid: 8f0d8942908b01c41b83f3c8c7be7cef, type: 3}
   healthPickupPrefab: {fileID: 1464895933930130252, guid: f867f91f0bffc4f4db651b1be23a1a15, type: 3}
   pickupDropChance: 0.3
+  slowEffect: {fileID: 7493982426277892450}
+  damageOverTimeEffect: {fileID: 7493982426277892450}
 --- !u!114 &6111425175308292231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -758,7 +770,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
+  agent: {fileID: 0}
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 3
+  damageOverTimeDuration: 6
+  elapsedTime: 10
 --- !u!65 &6481565505749815110
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1603,7 +1625,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
+  agent: {fileID: 0}
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 3
+  damageOverTimeDuration: 6
+  elapsedTime: 10
 --- !u!1 &5056543534443786597 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3545991746167468074, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1635,7 +1667,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
+  agent: {fileID: 0}
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 3
+  damageOverTimeDuration: 6
+  elapsedTime: 10
 --- !u!1 &6103054923910184670 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2570428556912623507, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1667,7 +1709,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
+  agent: {fileID: 0}
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 3
+  damageOverTimeDuration: 6
+  elapsedTime: 10
 --- !u!1 &6670897579769476256 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6085949449992227347, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1699,7 +1751,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
+  agent: {fileID: 0}
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 3
+  damageOverTimeDuration: 6
+  elapsedTime: 10
 --- !u!1 &6847586429682072362 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2890770733526071911, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1731,7 +1793,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
+  agent: {fileID: 0}
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 3
+  damageOverTimeDuration: 6
+  elapsedTime: 10
 --- !u!1 &7153829758656466935 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1467634142891003580, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1763,8 +1835,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weakPointDamage: 20
+  knifeDamage: 10
   damageSound: {fileID: 8300000, guid: 780f0a773e3715a4493f66029cd5a971, type: 3}
+  agent: {fileID: 0}
   damageUpgrade: 0
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 3
+  damageOverTimeDuration: 6
+  elapsedTime: 10
 --- !u!1 &7929014858251315041 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7417408547777173970, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1796,7 +1878,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
+  agent: {fileID: 0}
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 3
+  damageOverTimeDuration: 6
+  elapsedTime: 10
 --- !u!1 &8307105992717274113 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -311122046114860366, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1828,4 +1920,76 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
+  agent: {fileID: 0}
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 3
+  damageOverTimeDuration: 6
+  elapsedTime: 10
+--- !u!1001 &6638330176912520049
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1111493813141248344}
+    m_Modifications:
+    - target: {fileID: 1558592073677786856, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_Name
+      value: Slow Particle Effect
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.045
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.788244
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.6153629
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 75.957
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+--- !u!198 &7493982426277892450 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4314430095859130899, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+  m_PrefabInstance: {fileID: 6638330176912520049}
+  m_PrefabAsset: {fileID: 0}

@@ -59,8 +59,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weakPointDamage: 20
+  knifeDamage: 10
   damageSound: {fileID: 8300000, guid: 780f0a773e3715a4493f66029cd5a971, type: 3}
+  agent: {fileID: 0}
   damageUpgrade: 0
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 3
+  damageOverTimeDuration: 6
+  elapsedTime: 10
 --- !u!1 &460996748575234140
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,7 +702,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
+  agent: {fileID: 0}
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 3
+  damageOverTimeDuration: 6
+  elapsedTime: 10
 --- !u!1 &4973244206653304215
 GameObject:
   m_ObjectHideFlags: 0
@@ -823,6 +843,7 @@ Transform:
   - {fileID: 1319893196424914120}
   - {fileID: 6407285430750896918}
   - {fileID: 543450652062941055}
+  - {fileID: 6799879238826513568}
   m_Father: {fileID: 4973244207957182976}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -1076,6 +1097,8 @@ MonoBehaviour:
   healthPickupPrefab: {fileID: 1464895933930130252, guid: f867f91f0bffc4f4db651b1be23a1a15, type: 3}
   pickupDropChance: 0
   Portal: {fileID: 0}
+  slowEffect: {fileID: 414328326070644236}
+  damageOverTimeEffect: {fileID: 414328326070644236}
 --- !u!195 &1596564476
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1277,7 +1300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 500
-  currentHealth: 0
+  currentHealth: 500
   healthBar: {fileID: 4973244205972954754}
   isHealthBarActive: 1
 --- !u!114 &3397176499326819486
@@ -1712,4 +1735,71 @@ Animator:
 Transform:
   m_CorrespondingSourceObject: {fileID: 8946126595342865466, guid: cb14ae8fb859b8342973264c127b1456, type: 3}
   m_PrefabInstance: {fileID: 1670846612}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4494612472193518623
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4973244207133764573}
+    m_Modifications:
+    - target: {fileID: 1558592073677786856, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_Name
+      value: Slow Particle Effect
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.045
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.788244
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.6153629
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 75.957
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+--- !u!198 &414328326070644236 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4314430095859130899, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+  m_PrefabInstance: {fileID: 4494612472193518623}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6799879238826513568 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+  m_PrefabInstance: {fileID: 4494612472193518623}
   m_PrefabAsset: {fileID: 0}

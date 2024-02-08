@@ -17,7 +17,6 @@ public class HealthMetrics : MonoBehaviour
 
     private void Start()
     {
-        currentHealth = maxHealth;
         InitializeHealthBar(); // Initialize the health bar
     }
 

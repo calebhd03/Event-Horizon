@@ -14,10 +14,11 @@ public class regularPoint : MonoBehaviour
     // Reference to the BasicEnemy script
     private basicEnemy basicEnemyScript;
     private bossEnemy bossEnemyScript;
+    private HealthMetrics healthMetrics;
     public NavMeshAgent agent;
     private SkillTree skillTree;
     public bool slowEnemy, damageOverTimeEnemy;
-    public float slowDuration = 6f, slowFactor = 0.7f, priorSpeed;
+    public float slowDuration = 6f, slowFactor = 0.7f, priorSpeed, damageOverTime = 3f, damageOverTimeDuration = 6f;
 
     private void Start()
     {
@@ -27,6 +28,7 @@ public class regularPoint : MonoBehaviour
         agent = GetComponentInParent<NavMeshAgent>();
         priorSpeed = agent.speed;
         skillTree = FindObjectOfType<SkillTree>();
+        healthMetrics = GetComponentInParent<HealthMetrics>();
     }
 
     void Update()
@@ -39,14 +41,23 @@ public class regularPoint : MonoBehaviour
         {
             slowEnemy = false;
         }
+        if (skillTree.damageOverTime == true)
+        {
+            damageOverTimeEnemy = true;
+        }
+        else
+        {
+            damageOverTimeEnemy = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Bullet"))
         {
-            HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+            
             SlowDownEnemy();
+            StartCoroutine(DoDamageOverTime());
             if (healthMetrics != null)
             {
                 GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -124,9 +135,17 @@ public class regularPoint : MonoBehaviour
     {
         int randomNumber = Random.Range(0, 8);
         
-            if (slowEnemy == true && randomNumber == 0)
+            if (slowEnemy == true && randomNumber >= 0)
             {
                 agent.speed = priorSpeed * slowFactor;
+                    if (basicEnemyScript != null)
+                    {
+                        basicEnemyScript.PlaySlowEffect();
+                    }
+                    if (bossEnemyScript != null)
+                    {
+                        bossEnemyScript.PlaySlowEffect();
+                    }
                 Debug.LogWarning("slow down");
                 Invoke("RestoreSpeed", slowDuration);
             }
@@ -138,5 +157,50 @@ public class regularPoint : MonoBehaviour
     void RestoreSpeed()
     {
         agent.speed = priorSpeed;
+        if (basicEnemyScript != null)
+        {
+            basicEnemyScript.StopSlowEffect();
+        }
+        if (bossEnemyScript != null)
+        {
+            bossEnemyScript.StopSlowEffect();
+        }
+    }
+
+    private IEnumerator DoDamageOverTime()
+    {
+        int randomNumber = Random.Range(0, 8);
+        
+            if (damageOverTimeEnemy == true && randomNumber >= 0)
+            {       
+                if (basicEnemyScript != null)
+                    {
+                        basicEnemyScript.PlayDamageOverTimeEffect();
+                    }
+                    if (bossEnemyScript != null)
+                    {
+                        bossEnemyScript.PlayDamageOverTimeEffect();
+                    }
+                Debug.LogError("Burning Sensation");
+                Invoke("StopDamageOverTime", damageOverTimeDuration);
+                float elapsedTime = 0f;
+                while (elapsedTime < damageOverTimeDuration)
+                {
+                   healthMetrics.ModifyHealth(-damageOverTime * Time.deltaTime);
+                   elapsedTime += Time.deltaTime;
+                   yield return null; 
+                }
+            }
+    }
+    void StopDamageOverTime()
+    {
+        if (basicEnemyScript != null)
+        {
+            basicEnemyScript.StopDamageOverTimeEffect();
+        }
+        if (bossEnemyScript != null)
+        {
+            bossEnemyScript.StopDamageOverTimeEffect();
+        }
     }
 }
