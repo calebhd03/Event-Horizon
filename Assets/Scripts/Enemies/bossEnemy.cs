@@ -70,7 +70,7 @@ public class bossEnemy : MonoBehaviour
     public GameObject Portal;
 
     //Slow Particle effect
-    public ParticleSystem slowEffect;
+    public ParticleSystem slowEffect, damageOverTimeEffect;
 
 
     // Start is called before the first frame update
@@ -401,5 +401,13 @@ public class bossEnemy : MonoBehaviour
         public void StopSlowEffect()
         {
             slowEffect.Stop();
+        }
+        public void PlayDamageOverTimeEffect()
+        {
+            damageOverTimeEffect.Play();
+        }
+        public void StopDamageOverTimeEffect()
+        {
+            damageOverTimeEffect.Stop();
         }
 }
