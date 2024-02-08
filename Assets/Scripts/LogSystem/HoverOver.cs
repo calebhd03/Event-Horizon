@@ -21,7 +21,7 @@ public class HoverOver : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {   
         if(logSystem.skillsUnlocked == true)
         {
-            Debug.LogWarning("hover");
+            //Debug.LogWarning("hover");
             toolTip.ShowToolTip();
             toolTip.toolTipText.text = thisButtonsText.text;
         }
@@ -29,7 +29,7 @@ public class HoverOver : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.LogWarning("not hover");
+        //Debug.LogWarning("not hover");
         toolTip.HideToolTip();
     }
 }

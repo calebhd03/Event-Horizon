@@ -98,7 +98,7 @@ namespace StarterAssets
         private float hitAnimationDuration = 1.0f;
 
         //Slow Particle effect
-        public ParticleSystem slowEffect;
+        public ParticleSystem slowEffect, damageOverTimeEffect;
 
         private void Awake()
         {
@@ -562,6 +562,14 @@ namespace StarterAssets
     public void StopSlowEffect()
     {
         slowEffect.Stop();
+    }
+    public void PlayDamageOverTimeEffect()
+    {
+        damageOverTimeEffect.Play();
+    }
+    public void StopDamageOverTimeEffect()
+    {
+        damageOverTimeEffect.Stop();
     }
     }
 }

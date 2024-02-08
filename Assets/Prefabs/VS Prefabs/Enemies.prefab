@@ -818,7 +818,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
+  agent: {fileID: 0}
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 3
+  damageOverTimeDuration: 6
+  elapsedTime: 0
 --- !u!1 &9096333319813561855
 GameObject:
   m_ObjectHideFlags: 0
@@ -878,8 +888,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weakPointDamage: 20
+  knifeDamage: 10
   damageSound: {fileID: 8300000, guid: 780f0a773e3715a4493f66029cd5a971, type: 3}
+  agent: {fileID: 0}
   damageUpgrade: 0
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 3
+  damageOverTimeDuration: 6
+  elapsedTime: 0
 --- !u!1001 &34120399397374007
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1015,6 +1035,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 34120399434374087}
     m_Modifications:
+    - target: {fileID: 1638212880512060289, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
+      propertyPath: elapsedTime
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3327325065779069001, guid: 51f38caffc500b9469cdefb721e64ded, type: 3}
       propertyPath: number
       value: 1
