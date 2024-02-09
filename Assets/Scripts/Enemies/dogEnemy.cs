@@ -136,6 +136,7 @@ public class dogEnemy : MonoBehaviour
     {
         agent.SetDestination(player.position);
         transform.LookAt(player);
+        transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
     }
 
     private void attackPlayer()
@@ -233,6 +234,13 @@ public class dogEnemy : MonoBehaviour
         }
 
         Destroy(transform.parent.gameObject);
+    }
+
+    public void SetISeeYou()
+    {
+        iSeeYou = true;
+        transform.LookAt(player);
+        chasePlayer();
     }
 
     private void OnDrawGizmos()

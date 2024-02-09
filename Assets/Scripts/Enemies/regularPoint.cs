@@ -20,6 +20,8 @@ public class regularPoint : MonoBehaviour
     public bool slowEnemy, damageOverTimeEnemy;
     public float slowDuration = 6f, slowFactor = 0.7f, priorSpeed, damageOverTime = 3f, damageOverTimeDuration = 6f;
 
+    public GameObject[] armorPieces;
+
     private void Start()
     {
         // Get the BasicEnemy script attached to the same GameObject
@@ -70,8 +72,24 @@ public class regularPoint : MonoBehaviour
                         AudioSource.PlayClipAtPoint(damageSound, playerListener.transform.position);
                     }
                 }
+                if (armorPieces.Length == 0)
+                {
+                    healthMetrics.ModifyHealth(-regularDamage);
+                    return;
+                }
 
-                healthMetrics.ModifyHealth(-regularDamage);
+                foreach (GameObject armorPiece in armorPieces)
+                {
+                    if (armorPiece != null)
+                    {
+                        healthMetrics.ModifyHealth(-5);
+                        Debug.Log("Armor Damage");
+                    }
+                    else
+                    {
+                        healthMetrics.ModifyHealth(-regularDamage);
+                    }
+                }
 
                 // Set iSeeYou to true in the BasicEnemy script
                 if (basicEnemyScript != null)

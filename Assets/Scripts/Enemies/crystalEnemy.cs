@@ -19,10 +19,20 @@ public class crystalEnemy : MonoBehaviour
 
     //check to find player
     private bool iSeeYou;
+    private bool iHearYou;
+    public float hearDistance;
 
     [Header("Attack")]
     public float attackRange;
     private bool withInAttackRange;
+    private bool isAttacking = false;
+    public float attackAnimationDuration = 3.0f;
+    //public float moveBackDistance = 3.0f;
+    public float attackCooldown = 6.0f;
+    private float nextAttackTime = 0.0f;
+    private bool isMovingBackwards;
+    private float backwardSpeed = 5.0f;
+    private float backWardMoveDuration = 2.0f;
 
     [Header("Patrol")]
     public Transform[] movePoints;
@@ -67,7 +77,6 @@ public class crystalEnemy : MonoBehaviour
             if (distanceTarget <= viewRadius && !Physics.Raycast(transform.position, playerTarget, distanceTarget, obstacleZone))
             {
                 iSeeYou = true;
-                //hearDistance = 0;
                 transform.LookAt(player);
                 Debug.DrawRay(transform.position, playerTarget * viewRadius * viewAngle, Color.blue); //debug raycast line to show if enemy can see the player
             }
@@ -82,11 +91,17 @@ public class crystalEnemy : MonoBehaviour
             iSeeYou = false;
         }
 
+        iHearYou = Physics.CheckSphere(transform.position, hearDistance, playerZone);
         withInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerZone);
-        if (iSeeYou == false && withInAttackRange == false)
+
+        if (iHearYou == true)
         {
 
+            iSeeYou = true;
+        }
 
+        if (iSeeYou == false && withInAttackRange == false)
+        {
             if (!agent.pathPending && agent.remainingDistance < 0.1f)
             {
                 Patrol();
@@ -124,12 +139,78 @@ public class crystalEnemy : MonoBehaviour
     {
         agent.SetDestination(player.position);
         transform.LookAt(player);
+        transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
     }
 
     private void attackPlayer()
     {
-       //attack
+        if (isAttacking == false && Time.time >= nextAttackTime)
+        {
+            agent.SetDestination(transform.position);
+            transform.LookAt(player);
+            transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+            isAttacking = true;
+
+            nextAttackTime = Time.time + attackCooldown;
+
+            if (isAttacking == true)
+            {
+                animator.SetBool("MeleeAttack", true);
+            }
+
+            else
+            {
+                animator.SetBool("MeleeAttack", false);
+            }
+
+            Invoke(nameof(meleeAttackCoolDown), attackAnimationDuration);
+        }
     }
+
+    private void meleeAttackCoolDown()
+    {
+        //animator.SetBool("MeleeAttack", false);
+        isAttacking = false;
+        if (!isMovingBackwards)
+        {
+            isMovingBackwards = true;
+            StartCoroutine(moveBackWards());
+        }
+        else
+        {
+            StopCoroutine(moveBackWards());
+        }
+        transform.LookAt(player);
+        transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        //Debug.Log("Sword Recharge");
+    }
+
+    private IEnumerator moveBackWards()
+    {
+        float Timer = 0f;
+        while (Timer < backWardMoveDuration)
+        {
+            float backStep = backwardSpeed * Time.deltaTime;
+            Vector3 backwardDirection = -agent.transform.forward * backStep;
+            agent.Move(backwardDirection);
+            Timer += Time.deltaTime;
+            yield return null;
+        }
+
+        isMovingBackwards = false;
+    }
+
+    /*private void MoveBackAfterAttack()
+    {
+        Debug.Log("Moving back");
+        isAttacking = false;
+
+        Vector3 toPlayerDirection = (player.position - transform.position).normalized;
+        Vector3 moveBackPosition = transform.position - toPlayerDirection * moveBackDistance;
+        agent.SetDestination(moveBackPosition);
+        transform.LookAt(player);
+        transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+    }*/
 
     public void updateHealth()
     {
@@ -174,10 +255,20 @@ public class crystalEnemy : MonoBehaviour
         Destroy(transform.parent.gameObject);
     }
 
+    public void SetISeeYou()
+    {
+        iSeeYou = true;
+        transform.LookAt(player);
+        chasePlayer();
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.black;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, hearDistance);
     }
     //Visual representation for debugging the cone of vision of the enemy. Shows the ray cast for debugging
     private void DrawFieldOfVision()
