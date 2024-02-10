@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class dogEnemy : MonoBehaviour
+public class crystalEnemy : MonoBehaviour
 {
     [SerializeField] EnemyHealthBar healthBar;
     public Transform player;
@@ -20,22 +20,23 @@ public class dogEnemy : MonoBehaviour
     //check to find player
     private bool iSeeYou;
     private bool iHearYou;
-
-    [Header("Patrol")]
-    public Transform[] movePoints;
-    private int destinationPoints = 0;
+    public float hearDistance;
 
     [Header("Attack")]
     public float attackRange;
     private bool withInAttackRange;
     private bool isAttacking = false;
-    public float attackCloseDistance = 2.5f;
-    public float attackAnimationDuration = 2.0f;
-    public float moveBackDistance = 3.0f;
-    private float attackCooldown = 10.0f;
+    public float attackAnimationDuration = 3.0f;
+    //public float moveBackDistance = 3.0f;
+    public float attackCooldown = 6.0f;
     private float nextAttackTime = 0.0f;
-    public float moveDistance = 3f;
-    private float animationEndDelay = 5.0f; // must be longer did animation duration float above in the header attack
+    private bool isMovingBackwards;
+    private float backwardSpeed = 5.0f;
+    private float backWardMoveDuration = 2.0f;
+
+    [Header("Patrol")]
+    public Transform[] movePoints;
+    private int destinationPoints = 0;
 
     [Header("Drops")]
     public GameObject blasterPickupPrefab;
@@ -47,7 +48,6 @@ public class dogEnemy : MonoBehaviour
     [Header("Audio")]
     public AudioClip deathAudio;
     [Range(0, 10)] public float deathAudioVolume;
-
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -55,7 +55,6 @@ public class dogEnemy : MonoBehaviour
         agent = GetComponentInParent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-
     }
     // Start is called before the first frame update
     void Start()
@@ -78,7 +77,6 @@ public class dogEnemy : MonoBehaviour
             if (distanceTarget <= viewRadius && !Physics.Raycast(transform.position, playerTarget, distanceTarget, obstacleZone))
             {
                 iSeeYou = true;
-                //hearDistance = 0;
                 transform.LookAt(player);
                 Debug.DrawRay(transform.position, playerTarget * viewRadius * viewAngle, Color.blue); //debug raycast line to show if enemy can see the player
             }
@@ -93,12 +91,17 @@ public class dogEnemy : MonoBehaviour
             iSeeYou = false;
         }
 
+        iHearYou = Physics.CheckSphere(transform.position, hearDistance, playerZone);
         withInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerZone);
+
+        if (iHearYou == true)
+        {
+
+            iSeeYou = true;
+        }
 
         if (iSeeYou == false && withInAttackRange == false)
         {
-          
-
             if (!agent.pathPending && agent.remainingDistance < 0.1f)
             {
                 Patrol();
@@ -118,7 +121,8 @@ public class dogEnemy : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
         }
         //Debug field of view of enemy, shows raycast
-        DrawFieldOfVision();   
+        DrawFieldOfVision();
+
     }
     public void Patrol()
     {
@@ -131,7 +135,6 @@ public class dogEnemy : MonoBehaviour
         destinationPoints = (destinationPoints + 1) % movePoints.Length;
         //Debug.Log("moving to " + agent.destination);
     }
-
     private void chasePlayer() //chase player once found
     {
         agent.SetDestination(player.position);
@@ -141,26 +144,63 @@ public class dogEnemy : MonoBehaviour
 
     private void attackPlayer()
     {
-        if (!isAttacking && Time.time >= nextAttackTime)
+        if (isAttacking == false && Time.time >= nextAttackTime)
         {
-            Debug.Log("Dog Attack");
-            //animator.SetTrigger("Attack");
-            isAttacking = true;
-
-            // Set the next allowed attack time based on the cooldown
-            nextAttackTime = Time.time + attackCooldown;
-
-            Vector3 attackPosition = player.position - transform.forward * attackCloseDistance;
-            agent.SetDestination(attackPosition);
+            agent.SetDestination(transform.position);
             transform.LookAt(player);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-            Invoke(nameof(MoveBackAfterAttack), attackAnimationDuration);
-            InvokeRepeating("AttackMoving", animationEndDelay, 1f);
-            Invoke(nameof(CancelAttackMoving), attackCooldown - 1f);
+            isAttacking = true;
+
+            nextAttackTime = Time.time + attackCooldown;
+
+            if (isAttacking == true)
+            {
+                animator.SetBool("MeleeAttack", true);
+            }
+
+            else
+            {
+                animator.SetBool("MeleeAttack", false);
+            }
+
+            Invoke(nameof(meleeAttackCoolDown), attackAnimationDuration);
         }
     }
 
-    private void MoveBackAfterAttack()
+    private void meleeAttackCoolDown()
+    {
+        //animator.SetBool("MeleeAttack", false);
+        isAttacking = false;
+        if (!isMovingBackwards)
+        {
+            isMovingBackwards = true;
+            StartCoroutine(moveBackWards());
+        }
+        else
+        {
+            StopCoroutine(moveBackWards());
+        }
+        transform.LookAt(player);
+        transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        //Debug.Log("Sword Recharge");
+    }
+
+    private IEnumerator moveBackWards()
+    {
+        float Timer = 0f;
+        while (Timer < backWardMoveDuration)
+        {
+            float backStep = backwardSpeed * Time.deltaTime;
+            Vector3 backwardDirection = -agent.transform.forward * backStep;
+            agent.Move(backwardDirection);
+            Timer += Time.deltaTime;
+            yield return null;
+        }
+
+        isMovingBackwards = false;
+    }
+
+    /*private void MoveBackAfterAttack()
     {
         Debug.Log("Moving back");
         isAttacking = false;
@@ -170,29 +210,8 @@ public class dogEnemy : MonoBehaviour
         agent.SetDestination(moveBackPosition);
         transform.LookAt(player);
         transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-    }
+    }*/
 
-    private void AttackMoving()
-    {
-        Debug.Log("Moving left and right");
-        Vector3 rightDestination = agent.transform.position + transform.right * moveDistance;
-        Vector3 leftDestination = agent.transform.position - transform.right * moveDistance;
-
-        if (Random.value > 0.5f)
-        {
-            agent.SetDestination(leftDestination);
-        }
-        else
-        {
-            agent.SetDestination(rightDestination);
-        }
-    }
-
-    private void CancelAttackMoving()
-    {
-        Debug.Log("Cancel left and right");
-        CancelInvoke("AttackMoving");
-    }
     public void updateHealth()
     {
         HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
@@ -247,6 +266,9 @@ public class dogEnemy : MonoBehaviour
     {
         Gizmos.color = Color.black;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, hearDistance);
     }
     //Visual representation for debugging the cone of vision of the enemy. Shows the ray cast for debugging
     private void DrawFieldOfVision()
