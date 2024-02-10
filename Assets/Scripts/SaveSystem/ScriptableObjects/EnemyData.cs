@@ -17,31 +17,35 @@ public class EnemyVariables
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/EnemyDataScriptableObject", order = 1)]
 public class EnemyData : ScriptableObject
 {
-    public List<EnemyVariables> Enemies = new List<EnemyVariables>();
-    //public List<GameObject>[] Enemies = new List<GameObject>[SceneManager.sceneCount];
-    
-    /*private void OnEnable()
-    {
-        Enemies = new List<GameObject>[SceneManager.sceneCount];
-    }*/
+    public Dictionary<int, List<EnemyVariables>> Enemies = new Dictionary<int, List<EnemyVariables>>();
 
-    public void Add(GameObject enemyObject, float enemyHealth)
+    public void Add(int scene, GameObject enemyObject, float enemyHealth)
     {
-        var enemy = new EnemyVariables(enemyObject, enemyHealth);
-        Enemies.Add(enemy);
-        Debug.Log("Enemy: " + enemy.enemyObject + ", Position: " + enemy.enemyObject.transform.position + ", Health: " + enemy.enemyHealth);
-    }
-
-    public void Remove(GameObject destroyedObject)
-    {
-        Enemies.RemoveAll(enemy => enemy.enemyObject == destroyedObject);
-    }
-
-    public void GetData()
-    {
-        foreach (var enemy in Enemies)
+        if (!Enemies.ContainsKey(scene))
         {
-            Debug.Log("Enemy: " + enemy.enemyObject + ", Position: " + enemy.enemyObject.transform.position + ", Health: " + enemy.enemyHealth);
+            Enemies[scene] = new List<EnemyVariables>();
+        }
+        Enemies[scene].Add(new EnemyVariables(enemyObject, enemyHealth));
+        var addedEnemy = Enemies[scene][Enemies[scene].Count - 1];
+        Debug.Log("Scene: " + scene + ", Enemy: " + addedEnemy.enemyObject + ", Position: " + addedEnemy.enemyObject.transform.position + ", Health: " + addedEnemy.enemyHealth);
+    }
+
+    public void Remove(int scene, GameObject destroyedObject)
+    {
+        if (Enemies.ContainsKey(scene))
+        {
+            Enemies[scene].RemoveAll(enemy => enemy.enemyObject == destroyedObject);
+        }
+    }
+
+    public void GetData(int scene)
+    {
+        if (Enemies.ContainsKey(scene))
+        {
+            foreach (var enemy in Enemies[scene])
+            {
+                Debug.Log("Scene: " + scene + ", Enemy: " + enemy.enemyObject + ", Position: " + enemy.enemyObject.transform.position + ", Health: " + enemy.enemyHealth);
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [CustomEditor(typeof(EnemyData))]
 public class EnemyDataEditor : Editor
@@ -13,7 +14,8 @@ public class EnemyDataEditor : Editor
 
             if(GUILayout.Button("Get Data", GUILayout.Height(40)))
             {
-                script.GetData();
+                int scene = SceneManager.GetActiveScene().buildIndex;
+                script.GetData(scene);
             }
         
     }   

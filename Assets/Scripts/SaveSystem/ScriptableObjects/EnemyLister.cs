@@ -8,17 +8,17 @@ public class EnemyLister : MonoBehaviour
     public EnemyData enemyData;
     public HealthMetrics healthMetrics;
     [SerializeField]private int listIndex;
+    public int scene;
 
     void OnEnable()
     {
         healthMetrics = GetComponent<HealthMetrics>();
-        int scene = SceneManager.GetActiveScene().buildIndex;
-        enemyData.Add(gameObject, healthMetrics.currentHealth);
+        scene = SceneManager.GetActiveScene().buildIndex;
+        enemyData.Add(scene, gameObject, healthMetrics.currentHealth);
     }
     
     void OnDestroy()
     {
-        int scene = SceneManager.GetActiveScene().buildIndex;
-        enemyData.Remove(gameObject);
+        enemyData.Remove(scene, gameObject);
     }
 }

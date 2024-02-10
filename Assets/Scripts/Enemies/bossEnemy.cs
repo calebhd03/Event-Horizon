@@ -203,8 +203,8 @@ public class bossEnemy : MonoBehaviour
 
     private void updateSpeed()
     {
-        Debug.Log("agent.velocity = " + agent.velocity);
-        Debug.Log("agent.isStopped = " + agent.isStopped);
+        //Debug.Log("agent.velocity = " + agent.velocity);
+        //Debug.Log("agent.isStopped = " + agent.isStopped);
         animator.SetInteger("MovSpeed", (int) agent.velocity.magnitude);
     }
 
