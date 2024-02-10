@@ -35,7 +35,7 @@ public class Scanning : MonoBehaviour
         }
     }
 
-    public void ScanCamPriority()
+    public void SwitchCamPriority()
     {
 
         if (MainCamera)
@@ -54,5 +54,23 @@ public class Scanning : MonoBehaviour
             AimCam.Priority = 10;
         }
         MainCamera = !MainCamera;
-    }    
+    }
+    public void MainCamPriority()
+    {
+            audioSource.Play();
+            Scan = false;
+            MainCam.Priority = 10;
+            ScanCam.Priority = 0;
+            AimCam.Priority = 10;
+            MainCamera = !MainCamera;
+    } 
+    public void ScanCamPriority()
+    {
+            audioSource.Play();
+            Scan = true;
+            MainCam.Priority = 0;
+            ScanCam.Priority = 3;
+            AimCam.Priority = 0;
+            MainCamera = !MainCamera;
+    }   
 }

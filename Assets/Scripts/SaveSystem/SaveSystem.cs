@@ -4,23 +4,23 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem 
 {
-    public static void SavePlayerData(PlayerData playerData)
+    public static void SavePlayerData(PlayerDataOld playerDataOld)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/playerData.data";
         FileStream stream = new FileStream(path, FileMode.Create);
-        formatter.Serialize(stream, playerData);
+        formatter.Serialize(stream, playerDataOld);
         stream.Close();
     }
 
-    public static PlayerData LoadPlayerData()
+    public static PlayerDataOld LoadPlayerData()
     {
         string path = Application.persistentDataPath + "/playerData.data";
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
-            PlayerData data = formatter.Deserialize(stream) as PlayerData;
+            PlayerDataOld data = formatter.Deserialize(stream) as PlayerDataOld;
             stream.Close();
             return data;
         }
@@ -59,13 +59,13 @@ public static void SavePlayer(PlayerSaveData saveData)
 
     public static PlayerSaveData LoadPlayer()
     {
-        PlayerData playerData = LoadPlayerData();
+        PlayerDataOld playerDataOld = LoadPlayerData();
         PlayerAmmoData ammoData = LoadPlayerAmmoData();
         PlayerHealth healthData = LoadPlayerHealth();
 
-        if (playerData != null && ammoData != null && healthData != null)
+        if (playerDataOld != null && ammoData != null && healthData != null)
         {
-            return new PlayerSaveData(playerData, ammoData, healthData);
+            return new PlayerSaveData(playerDataOld, ammoData, healthData);
         }
         return null;
     }

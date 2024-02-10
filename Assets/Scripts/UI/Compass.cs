@@ -23,7 +23,8 @@ public class Compass : MonoBehaviour
     GameObject newMarker;
 
     float compassUnit;
-    float maxDistance = 75f;
+    float maxDistance = 65f;
+    public GameObject scannerCurrentObject;
 
     private void Start()
     {
@@ -34,7 +35,7 @@ public class Compass : MonoBehaviour
     }
 
     private void Update()
-    {
+    {        
         compassImage.uvRect = new Rect (player.localEulerAngles.y / 360f, 0f, 1f,1f);
 
         foreach (QuestMarker marker in questMarkers)
@@ -44,7 +45,7 @@ public class Compass : MonoBehaviour
                 marker.image.rectTransform.anchoredPosition = GetPosOnCompass(marker);
 
                 float dst = Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), marker.position);
-                float scale =0f;
+                float scale =.1f;
 
                 if( dst < maxDistance)
                 {

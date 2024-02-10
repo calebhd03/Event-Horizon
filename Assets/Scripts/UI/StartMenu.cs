@@ -12,9 +12,12 @@ public class StartMenu : MonoBehaviour
     public GameObject start;
     public GameObject menu;
     public GameObject startButton;
+    public GameObject VSSceneButton;
+    public GameObject InnerSceneButton;
 
     void Start()
     {
+        Cursor.visible = true;
         start.SetActive(true);
         menu.SetActive(false);
     }
@@ -40,15 +43,31 @@ public class StartMenu : MonoBehaviour
         Cursor.visible = false;
         SceneManager.LoadScene("ArtPrototype");
     }
-
-    public void LoadVerticalSlice()
+    public void StartGame()
     {
         Cursor.visible = false;
         SceneManager.LoadScene("IntroCutScene");
     }
 
+    public void LoadVerticalSlice()
+    {
+        Cursor.visible = false;
+        SceneManager.LoadScene("VerticalSlice");
+    }
+
     public void SetSelected(GameObject gameObject)
     {
         EventSystem.current.SetSelectedGameObject(gameObject);
+    }
+
+    public void LoadInnerScene()
+    {
+        Cursor.visible = false;
+        SceneManager.LoadScene("Inner");
+    }
+    public void LoadCenterScene()
+    {
+        Cursor.visible = false;
+        SceneManager.LoadScene("The Center");
     }
 }

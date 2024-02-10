@@ -20,6 +20,7 @@ public class ScanCam : MonoBehaviour
     public delegate void StopScan();
     public static event StopScan stopScan;
     public int currentClipIndex;
+    int hitLayer;
     void Start()
     {
         scannerCurrentObject = null;
@@ -28,6 +29,7 @@ public class ScanCam : MonoBehaviour
     void Update()
     {
         Scanning scnScr = Scanningobject.GetComponent<Scanning>();
+        LogSystem logSys = FindObjectOfType<LogSystem>();
 
         if (scnScr.Scan == true)
         {
@@ -41,9 +43,11 @@ public class ScanCam : MonoBehaviour
             //Debug.DrawRay(LookRay.origin, LookRay.direction * range, Color.blue);
             Physics.Raycast(LookRay, out RaycastHit hit, range);
             if(hit.collider != null)
-            switch(hit.collider.tag)
+            {        
+            hitLayer = hit.collider.gameObject.layer;    
+            switch(hitLayer)
             {
-                case "Objective":
+                case 8:
                     scannerCurrentObject = hit.collider.gameObject;                     
                     ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
                     ScannerUI scannerUI = FindObjectOfType<ScannerUI>();
@@ -52,36 +56,40 @@ public class ScanCam : MonoBehaviour
                         objScr.highlight();
                         currentClipIndex = objScr.number;
                         scannerUI.quest = objScr.number;
+                        logSys.number = objScr.number;
                         }
                 break;
 
-                case "Memory":
+                case 17:
                     scannerCurrentObject = hit.collider.gameObject;                     
                     ObjectivesScript objScr1 = hit.collider.GetComponent<ObjectivesScript>();
                     if (objScr1 != null)
                         {                        
                         objScr1.highlight();
                         currentClipIndex = objScr1.number;
+                        logSys.number = objScr1.number;
                         }
                 break;
 
-                case "Item":
+                case 7:
                     scannerCurrentObject = hit.collider.gameObject;                    
                     ItemsScript itmScr = hit.collider.GetComponent<ItemsScript>();
                     if (itmScr != null)
                         {                        
                             itmScr.highlight();
+                            logSys.number = itmScr.number;
                         }
                         
                 break;
 
-                case "Enemy":
+                case 9:
                     scannerCurrentObject = hit.collider.gameObject;                 
-                    EnemiesScanScript eneScr = hit.collider.GetComponent<EnemiesScanScript>();
+                    EnemiesScanScript eneScr = hit.collider.GetComponent<EnemiesScanScript>() ?? hit.collider.GetComponentInParent<EnemiesScanScript>() ?? hit.collider.GetComponentInChildren<EnemiesScanScript>();
                     if (eneScr != null)
                         {
                             eneScr.highlight();
                             currentClipIndex = eneScr.number;
+                            logSys.number = eneScr.number;
                         }           
                 break;
 
@@ -89,8 +97,7 @@ public class ScanCam : MonoBehaviour
                     scannerCurrentObject = null;
                 break;
             }
-            else
-            scannerCurrentObject = null;     
+            }
         }
         else
         {
@@ -106,9 +113,11 @@ public class ScanCam : MonoBehaviour
 
         Physics.Raycast(scanRay, out RaycastHit hit, range);
             if(hit.collider != null)
-            switch(hit.collider.tag)
+            {
+            hitLayer = hit.collider.gameObject.layer; 
+            switch(hitLayer)
         {
-            case "Objective":
+            case 8:
             ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
             if (objScr != null)
             { 
@@ -116,7 +125,7 @@ public class ScanCam : MonoBehaviour
             }
             break;
 
-            case "Memory":
+            case 17:
             ObjectivesScript objScr1 = hit.collider.GetComponent<ObjectivesScript>();
             if (objScr1 != null)
             { 
@@ -124,7 +133,7 @@ public class ScanCam : MonoBehaviour
             }
             break;
 
-            case "Item":
+            case 7:
             ItemsScript itmScr = hit.collider.GetComponent<ItemsScript>();
             if (itmScr != null)
             {  
@@ -132,14 +141,15 @@ public class ScanCam : MonoBehaviour
             }
             break;
             
-            case "Enemy":
-            EnemiesScanScript eneScr = hit.collider.GetComponent<EnemiesScanScript>();
+            case 9:
+            EnemiesScanScript eneScr = hit.collider.GetComponent<EnemiesScanScript>() ?? hit.collider.GetComponentInParent<EnemiesScanScript>() ?? hit.collider.GetComponentInChildren<EnemiesScanScript>();
             if (eneScr != null)
             {
                 eneScr.ScriptActive();    
             }
             break;        
         }
+            }
     }
 
     public void StopScanObj()

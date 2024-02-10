@@ -334,6 +334,7 @@ GameObject:
   - component: {fileID: 2975911728890364027}
   - component: {fileID: 2975911728890364029}
   - component: {fileID: 7818125580151512886}
+  - component: {fileID: 6065524620608248955}
   m_Layer: 0
   m_Name: HardEnemy
   m_TagString: WeakPoint
@@ -395,6 +396,19 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6065524620608248955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2975911728890364031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9167e61b08172b142bbcdd87316ae320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyData: {fileID: 11400000, guid: f3c8e3f0cc287624eb9a3ff5ba8b4c78, type: 2}
 --- !u!1 &2975911728972710352
 GameObject:
   m_ObjectHideFlags: 0
@@ -841,6 +855,13 @@ MonoBehaviour:
   maxMag: 20
   fireRate: 0.5
   moveDistance: 7
+  deathAudio: {fileID: 0}
+  deathAudioVolume: 0
+  blasterPickupPrefab: {fileID: 0}
+  shotGunPickupPrefab: {fileID: 0}
+  bHPickupPrefab: {fileID: 0}
+  healthPickupPrefab: {fileID: 0}
+  pickupDropChance: 0.3
 --- !u!114 &3647091406776125130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1101,6 +1122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weakPointDamage: 20
   damageSound: {fileID: 8300000, guid: 780f0a773e3715a4493f66029cd5a971, type: 3}
+  damageUpgrade: 0
 --- !u!1001 &2975911729555848393
 PrefabInstance:
   m_ObjectHideFlags: 0

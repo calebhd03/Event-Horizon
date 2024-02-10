@@ -4,41 +4,69 @@ using TMPro;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.UI;
+using StarterAssets;
+using JetBrains.Annotations;
 
 public class LogSystem : MonoBehaviour
 {
-    [SerializeField] GameObject enemiesButton, memoriesButton, itemButton, returnButton;
-    [SerializeField] GameObject enemiesPage, memoriesPage, itemsPage, pauseMenu, LogPage;
-    [SerializeField] Button[] enemy, memory, item;
+    [SerializeField] GameObject enemiesButton, memoriesButton, itemButton, skillsButton, returnButton;
+    [SerializeField] public GameObject enemiesPage, memoriesPage, itemsPage, pauseMenu, LogPage, skillsPage;
+    [SerializeField] public Button[] enemy, memory, item;
     [HideInInspector] public Image[] enemyImage, memoryImage, itemImage;
     [SerializeField] Sprite[] enemySprite, memorySprite, itemSprite;
     [SerializeField] TextMeshProUGUI[] enemyText, memoryText, itemText;
+    public Color enemyPage;
     public static int currentTab;
     private int buttonType;
     [SerializeField] GameObject displayInfo;
     public Image setImage;
     public TextMeshProUGUI setText;
+    public TextMeshProUGUI enemyHeadingText, memoriesHeadingText, itemsHeadingText, skillsHeadingText;
+    public GameObject scannerCurrentObject;
+    public int number;
+    private StarterAssetsInputs starterAssetsInputs;
+    private ThirdPersonController thirdPersonController;
+    public bool log;
+    //Skills
+    public bool skillsUnlocked = false, skillsUnlocked2 = false, skillsUnlocked3 = false;
+    public Button healthUpgradeButton, speedUpgradeButton, damageUpgradeButton, ammoCapactiyButton, SlowEnemyButton, DamageOverTimeButton;
+    public bool healthSkillUpgraded = false, damageSkillUpgraded = false, speedSkillUpgraded = false,ammoSkillUpgraded = false, frostSkillUpgraded = false, burnSkillUpgraded = false;
+    public Sprite upgradedSprite;
+    AudioSource audioSource;
+    public AudioClip SwitchTabSound;
+    SkillTree skillTree;
 
     void Start()
     {
+        log = false;
+        starterAssetsInputs = FindObjectOfType<StarterAssetsInputs>();
+        thirdPersonController = FindObjectOfType<ThirdPersonController>();
         LogPage.SetActive(false);
+        displayInfo.SetActive(false);
+        audioSource = GetComponent<AudioSource>();
+        skillTree = FindObjectOfType<SkillTree>();
         
         foreach (Button button in enemy)
         {
             button.interactable = false;
+            button.gameObject.SetActive(false);
         }
         foreach (Button button in memory)
         {
             button.interactable = false;
+            button.gameObject.SetActive(false);
         }
         foreach (Button button in item)
         {
             button.interactable = false;
+            button.gameObject.SetActive(false);
         }
+
         
         enemyImage = new Image[enemy.Length];
         memoryImage = new Image[memory.Length];
         itemImage = new Image[item.Length];
+
 
         // Attach the OnClick method to each button's click event
         for (int i = 0; i < enemy.Length; i++)
@@ -57,46 +85,185 @@ public class LogSystem : MonoBehaviour
             item[i].onClick.AddListener(() => OnButtonClick(index));
         }
     }
-
+    
     void Update()
-    {
+    {   
+        if (log == true)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            Time.timeScale = 0;
+        }
         switch (currentTab)
         {
         case 0:
             enemiesPage.SetActive(true);
             memoriesPage.SetActive(false);
             itemsPage.SetActive(false);
+            skillsPage.SetActive(false);
             buttonType = 0;
-            
+            enemyHeadingText.color = new Color(1f, 0f, 0f, 1f);
+            memoriesHeadingText.color = new Color(1f, 0f, 0f, 1f);
+            itemsHeadingText.color = new Color(1f, 0f, 0f, 1f);
+            skillsHeadingText.color = new Color(1f, 0f, 0f, 1f);
         break;
         case 1:
             enemiesPage.SetActive(false);
             memoriesPage.SetActive(true);
             itemsPage.SetActive(false);
+            skillsPage.SetActive(false);
             buttonType = 1;
+            enemyHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
+            memoriesHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
+            itemsHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
+            skillsHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
         break;
         case 2:
             enemiesPage.SetActive(false);
             memoriesPage.SetActive(false);
             itemsPage.SetActive(true);
+            skillsPage.SetActive(false);
             buttonType = 2;
+            enemyHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
+            memoriesHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
+            itemsHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
+            skillsHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
+
+        break;
+        case 3:
+            enemiesPage.SetActive(false);
+            memoriesPage.SetActive(false);
+            itemsPage.SetActive(false);
+            skillsPage.SetActive(true);
+            buttonType = 3;
+            enemyHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
+            memoriesHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
+            itemsHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
+            skillsHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
         break;
         }
+        
+        if (skillsUnlocked == true)
+        {
+            if (healthSkillUpgraded == true)
+            {
+                healthUpgradeButton.interactable = false;
+                damageUpgradeButton.interactable = false;
+                skillsUnlocked = false;
+            }
+            else
+            {
+                healthUpgradeButton.interactable = true;
+            }
+            
+            if (damageSkillUpgraded == true)
+            {
+                damageUpgradeButton.interactable = false;
+                healthUpgradeButton.interactable = false;
+                skillsUnlocked = false;
+            }
+            else
+            {
+                damageUpgradeButton.interactable = true;
+            }
+        }
+        else if (skillsUnlocked2 == true)
+        {
+            if (speedSkillUpgraded == true)
+            {
+                speedUpgradeButton.interactable = false;
+                ammoCapactiyButton.interactable = false;
+                skillsUnlocked2 = false;
+            }
+            else
+            {
+                speedUpgradeButton.interactable = true;
+            }
+            
+            if (ammoSkillUpgraded == true)
+            {
+                ammoCapactiyButton.interactable = false;
+                speedUpgradeButton.interactable = false;
+                skillsUnlocked2 = false;
+            }
+            else
+            {
+                ammoCapactiyButton.interactable = true;
+            }
+        }
+        else if (skillsUnlocked3 == true)
+        {
+            if (frostSkillUpgraded == true)
+            {
+                SlowEnemyButton.interactable = false;
+                DamageOverTimeButton.interactable = false;
+                skillsUnlocked3 = false;
+            }
+            else
+            {
+                SlowEnemyButton.interactable = true;
+            }
+            
+            if (burnSkillUpgraded == true)
+            {
+                DamageOverTimeButton.interactable = false;
+                SlowEnemyButton.interactable = false;
+                skillsUnlocked3 = false;
+            }
+            else
+            {
+                DamageOverTimeButton.interactable = true;
+            }
+        }
+        else 
+        {
+        healthUpgradeButton.interactable = false;
+        damageUpgradeButton.interactable = false;
+        speedUpgradeButton.interactable = false;
+        ammoCapactiyButton.interactable = false;
+        SlowEnemyButton.interactable = false;
+        DamageOverTimeButton.interactable = false;
+        }
+    }
+
+    public void SetLog()
+    {
+        log = true;
+        //Debug.LogWarning("log");
+        LogPage.SetActive(true);
+    }
+    public void CloseLog()
+    {   
+        log = false;
+        //Debug.LogWarning("closelog");
+        LogPage.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Time.timeScale = 1;
     }
 
     public void EnemiesTab()
     {
+        audioSource.PlayOneShot(SwitchTabSound);
         currentTab = 0;
     }
 
     public void MemoriesTab()
     {
+        audioSource.PlayOneShot(SwitchTabSound);
         currentTab = 1;
+        
     }
 
     public void ItemsTab()
     {
+        audioSource.PlayOneShot(SwitchTabSound);
         currentTab = 2;
+    }
+    public void SkillsTab()
+    {
+        audioSource.PlayOneShot(SwitchTabSound);
+        currentTab = 3;
     }
     
     public void ReturnToPause()
@@ -106,39 +273,39 @@ public class LogSystem : MonoBehaviour
     }
     public void UpdateEnemyLog()
     {
-        EnemiesScanScript enemiesScanScript = FindObjectOfType<EnemiesScanScript>();
-        if (enemiesScanScript.number >= 0 && enemiesScanScript.number < enemyImage.Length)
+        if (number >= 0 && number < enemyImage.Length)
         {
-        enemy[enemiesScanScript.number].image.sprite = enemySprite[enemiesScanScript.number];
-        enemy[enemiesScanScript.number].interactable = true;
+        enemy[number].image.sprite = enemySprite[number];
+        enemy[number].interactable = true;
+        enemy[number].gameObject.SetActive(true);
         }
     else
     {
-        Debug.LogError("Invalid enemy index: " + enemiesScanScript.number);
+        //Debug.LogError("Invalid enemy index: " + number);
     }
     }
     public void UpdateMemoryLog()
     {
-        ObjectivesScript objectivesScript = FindObjectOfType<ObjectivesScript>();
-        if (objectivesScript.number >= 0 && objectivesScript.number < memoryImage.Length)
+        if (number >= 0 && number < memoryImage.Length)
         {
-        memory[objectivesScript.number].image.sprite = memorySprite[objectivesScript.number];
-        memory[objectivesScript.number].interactable = true;
+        memory[number].image.sprite = memorySprite[number];
+        memory[number].interactable = true;
+        memory[number].gameObject.SetActive(true);
         }
     }
     public void UpdateItemLog()
     {
-        ItemsScript itemsScript = FindObjectOfType<ItemsScript>();
-        if (itemsScript.number >= 0 && itemsScript.number < itemImage.Length)
+        if (number >= 0 && number < itemImage.Length)
         {
-        item[itemsScript.number].image.sprite = itemSprite[itemsScript.number];
-        item[itemsScript.number].interactable = true;
+        item[number].image.sprite = itemSprite[number];
+        item[number].interactable = true;
+        item[number].gameObject.SetActive(true);
         }
     }
 
-    public void TestButton()
+    public void ReturnButton()
     {
-        Debug.LogWarning("button works");
+        starterAssetsInputs.LogInput(true);
     }
 
     public void DisplayInfo()
@@ -171,8 +338,6 @@ public class LogSystem : MonoBehaviour
                         {
                             Debug.LogError("SourceButton does not have an Image component!");
                         }
-                        EnemiesScanScript enemiesScanScript = FindObjectOfType<EnemiesScanScript>();
-                        setText.text = enemyText[enemiesScanScript.number].text;
                 break;
                 case 1:
                         Image sourceImage1 = memory[buttonIndex].GetComponent<Image>();
@@ -189,8 +354,6 @@ public class LogSystem : MonoBehaviour
                         {
                             Debug.LogError("SourceButton does not have an Image component!");
                         }
-                        ObjectivesScript objectivesScript = FindObjectOfType<ObjectivesScript>();
-                        setText.text = memoryText[objectivesScript.number].text;
                 break;
                 case 2:
                         Image sourceImage2 = enemy[buttonIndex].GetComponent<Image>();
@@ -207,8 +370,23 @@ public class LogSystem : MonoBehaviour
                         {
                             Debug.LogError("SourceButton does not have an Image component!");
                         }
-                        ItemsScript itemsScript = FindObjectOfType<ItemsScript>();
-                        setText.text = itemText[itemsScript.number].text;
+                break;
+            }
+
+
+    }
+        void UpdateText(int buttonIndex)
+    {
+            switch (buttonType)
+            {
+                case 0:
+                        setText.text = enemyText[buttonIndex].text;
+                break;
+                case 1:
+                        setText.text = memoryText[buttonIndex].text;
+                break;
+                case 2:
+                        setText.text = itemText[buttonIndex].text;
                 break;
             }
 
@@ -219,5 +397,54 @@ public class LogSystem : MonoBehaviour
     void OnButtonClick(int buttonIndex)
     {
         UpdateImage(buttonIndex);
+        UpdateText(buttonIndex);
+    }
+
+    public void UpgradeSpeed()
+    {
+        //Debug.LogWarning("IAmSpeed");
+        speedSkillUpgraded = true;
+        speedUpgradeButton.image.sprite = upgradedSprite;
+        skillTree.SpeedUpgraded();
+    }
+
+    public void UpgradeHealth()
+    {
+        //Debug.LogWarning("1Up");
+        healthSkillUpgraded = true;
+        healthUpgradeButton.image.sprite = upgradedSprite;
+        skillTree.HealthUpgraded();
+    }
+
+    public void UpgradeDamage()
+    {
+        //Debug.LogWarning("SayHelloToMyLittleFriend");
+        damageSkillUpgraded = true;
+        damageUpgradeButton.image.sprite = upgradedSprite;
+        skillTree.DamageUpgraded();
+    }
+
+    public void UpgradeAmmoCapacity()
+    {
+        //Debug.LogWarning("Ammo capacity increase");
+        ammoSkillUpgraded = true;
+        ammoCapactiyButton.image.sprite = upgradedSprite;
+        //Put code here for ammo capacity function or call to thirdpersonshootercontroller
+    }
+
+    public void UpgradeDamageOverTime()
+    {
+        //Debug.LogWarning("BURN! - Kelso");
+        burnSkillUpgraded = true;
+        DamageOverTimeButton.image.sprite = upgradedSprite;
+        skillTree.DamageOverTimeUpgrade();
+    }
+
+    public void UpgradeSlowEnemyBullets()
+    {
+        //Debug.LogWarning("But you told me to Freeze - the mask");
+        frostSkillUpgraded = true;
+        SlowEnemyButton.image.sprite = upgradedSprite;
+        skillTree.SlowEnemyUpgrade();
     }
 }

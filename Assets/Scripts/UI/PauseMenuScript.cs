@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using StarterAssets;
-
-
+using UnityEngine.SceneManagement;
 
 public class PauseMenuScript : MonoBehaviour
 {
@@ -13,12 +12,13 @@ public class PauseMenuScript : MonoBehaviour
     public GameObject settingsScreen;
     public GameObject inventoryScreen;
     public GameObject upgradeScreen;
-    public GameObject logSystem;
+    public GameObject logPage;
     public GameObject HUD;
     
     public bool paused = false;
 
     private StarterAssetsInputs starterAssetsInputs;
+    LogSystem logSystem;
 
     public GameObject Player;
 
@@ -26,7 +26,7 @@ public class PauseMenuScript : MonoBehaviour
 
     private void Start()
     {
-    
+        logSystem = FindObjectOfType<LogSystem>();
          starterAssetsInputs = Player.GetComponent<StarterAssetsInputs>();
     }
     public void SetSave()
@@ -57,7 +57,6 @@ public class PauseMenuScript : MonoBehaviour
             settingsScreen.SetActive(false);
             inventoryScreen.SetActive(false);
             upgradeScreen.SetActive(false);
-            logSystem.SetActive(false);
             ClosePause();
         }
     }
@@ -70,7 +69,7 @@ public class PauseMenuScript : MonoBehaviour
             Time.timeScale = 0;
             HUD.SetActive(false);
             PauseScreen.SetActive(true);
-
+            
         }
     public void ClosePause()
     {
@@ -79,7 +78,6 @@ public class PauseMenuScript : MonoBehaviour
         settingsScreen.SetActive(false);
         inventoryScreen.SetActive(false);
         upgradeScreen.SetActive(false);
-        logSystem.SetActive(false);
 
         paused = false;
         HUD.SetActive(true);
@@ -109,11 +107,18 @@ public class PauseMenuScript : MonoBehaviour
             upgradeScreen.SetActive(true);
             PauseScreen.SetActive(false);
         }
+
     //add log system
     public void OpenLogSystem()
     {
-        logSystem.SetActive(true);
+        
+        paused = false;
+
         PauseScreen.SetActive(false);
+        if (logSystem.log == false)
+        {
+        starterAssetsInputs.LogInput(true);
+        }
     }
 
         
@@ -134,11 +139,11 @@ public class PauseMenuScript : MonoBehaviour
         PauseScreen.SetActive(true);
     }
     //add log system
-    public void CloseLogSystem()
+    /*public void CloseLogSystem()
     {
-        logSystem.SetActive(false);
+        logPage.SetActive(false);
         PauseScreen.SetActive(true);
-    }
+    }*/
 
     public void returnPause()
     {
@@ -149,6 +154,11 @@ public class PauseMenuScript : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("Start Menu");
     }
 
     public void PauseFalse()

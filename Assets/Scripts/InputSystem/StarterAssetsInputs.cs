@@ -22,6 +22,7 @@ namespace StarterAssets
 		public bool scan;
 		public bool scanaim;
 		public bool scanobj;
+		public bool log;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -38,11 +39,13 @@ namespace StarterAssets
 		[Header ("Menu Systems")]
 		public bool pause;
 		public bool quit;
+		public bool Confirm;
 
 		public bool blackHoleGun;
 		public bool switchWeapon;
 		public bool blaster;
 		public bool shotgun;
+		public bool knife;
 		public bool swapBHG;
 
 		[Header ("Dev Controls")]
@@ -50,10 +53,14 @@ namespace StarterAssets
 		public bool teleport2;
 		public bool teleport3;
 		public bool ammo;
+        public bool outerTP;
+        public bool innerTP;
+        public bool centerTP;
+
 
         private void Start()
         {
-			Debug.LogWarning("START CURSOR LOCK");
+			//Debug.LogWarning("START CURSOR LOCK");
             SetCursorState(cursorLocked);
         }
 
@@ -68,6 +75,7 @@ namespace StarterAssets
 			if(cursorInputForLook)
 			{
 				LookInput(value.Get<Vector2>());
+				//Debug.Log("Look input: " + value.Get<Vector2>());
 			}
 		}
 
@@ -93,10 +101,10 @@ namespace StarterAssets
 
 		public void OnShoot(InputValue value)
 		{
-			if( aim == true)
-			{
+			//if( aim == true)
+			//{
 			ShootInput(value.isPressed);
-			}
+			//}
 		}
 		public void OnScan(InputValue value)
 		{
@@ -114,6 +122,10 @@ namespace StarterAssets
 		public void OnScroll(InputValue value)
 		{
 			ScrollInput(value.Get<Vector2>());
+		}
+		public void OnLog(InputValue value)
+		{
+			LogInput(value.isPressed);
 		}
 
 		public void OnSave(InputValue value) //Save System Test input
@@ -135,6 +147,10 @@ namespace StarterAssets
 		{
 			PauseInput(value.isPressed);
 		}
+		public void OnConfirm(InputValue value)
+		{
+			ConfirmInput(value.isPressed);
+		}
 		public void OnFlashlight(InputValue value)
         {
 			FlashlightInput(value.isPressed);
@@ -155,6 +171,11 @@ namespace StarterAssets
 		{
 			ShotgunInput(value.isPressed);
 		}
+
+		public void OnKnife(InputValue value)
+		{
+			KnifeInput(value.isPressed);
+		}
 		public void OnQuit(InputValue value)
 		{
 			QuitInput(value.isPressed);
@@ -166,12 +187,24 @@ namespace StarterAssets
 		public void OnTeleport1(InputValue value) //Dev control
 		{
 			Teleport1Input(value.isPressed);
-		}
-		public void OnTeleport2(InputValue value) //Dev control
-		{
-			Teleport2Input(value.isPressed);
-		}
-		public void OnTeleport3(InputValue value) //Dev control
+        }
+        public void OnTeleport2(InputValue value) //Dev control
+        {
+            Teleport2Input(value.isPressed);
+        }
+        public void OnOuterTP(InputValue value) //Dev control
+        {
+			OuterTPInput(value.isPressed);
+        }
+        public void OnInnerTP(InputValue value) //Dev control
+        {
+            InnerTPInput(value.isPressed);
+        }
+        public void OnCenterTP(InputValue value) //Dev control
+        {
+            CenterTPInput(value.isPressed);
+        }
+        public void OnTeleport3(InputValue value) //Dev control
 		{
 			Teleport3Input(value.isPressed);
 		}
@@ -236,10 +269,14 @@ namespace StarterAssets
 		{
 			scanobj = newScanobjState;
 		}
+		public void LogInput(bool newLogState)
+		{
+			log = newLogState;
+		}
 
 		private void OnApplicationFocus(bool hasFocus)
 		{
-			Debug.LogWarning("LockedCursoir");
+			//Debug.LogWarning("LockedCursoir");
 			SetCursorState(cursorLocked);
 		}
 
@@ -297,9 +334,18 @@ namespace StarterAssets
 		{
 			shotgun = newShotgunState;
 		}
+		public void KnifeInput(bool newShotgunState)
+		{
+			knife = newShotgunState;
+		}
 		public void QuitInput(bool newQuitState)
 		{
 			quit = newQuitState;
+		}
+
+		public void ConfirmInput(bool newConfrimState)
+		{
+			Confirm = newConfrimState;
 		}
 
 		public void ReloadInput(bool newReloadState)
@@ -313,12 +359,24 @@ namespace StarterAssets
 		public void Teleport2Input(bool newTeleport2State) //Dev Controls
 		{
 			teleport2 = newTeleport2State;
-		}
-		public void Teleport3Input(bool newTeleport3State) //Dev Controls
-		{
-			teleport3 = newTeleport3State;
-		}
-		public void AmmoInput(bool newAmmoState) //Dev Controls
+        }
+        public void Teleport3Input(bool newTeleport3State) //Dev Controls
+        {
+            teleport3 = newTeleport3State;
+        }
+        public void OuterTPInput(bool state) //Dev Controls
+        {
+            outerTP = state;
+        }
+        public void InnerTPInput(bool state) //Dev Controls
+        {
+            innerTP = state;
+        }
+        public void CenterTPInput(bool state) //Dev Controls
+        {
+            centerTP = state;
+        }
+        public void AmmoInput(bool newAmmoState) //Dev Controls
 		{
 			ammo = newAmmoState;
 		}
