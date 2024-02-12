@@ -19,7 +19,7 @@ public class HoverOver : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnPointerEnter(PointerEventData eventData)
     {   
-        if(logSystem.skillsUnlocked == true)
+        if(logSystem.skillsUnlocked == true || logSystem.skillsUnlocked2 == true || logSystem.skillsUnlocked3 == true)
         {
             //Debug.LogWarning("hover");
             toolTip.ShowToolTip();

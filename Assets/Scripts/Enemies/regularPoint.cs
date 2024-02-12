@@ -19,6 +19,9 @@ public class regularPoint : MonoBehaviour
     private SkillTree skillTree;
     public bool slowEnemy, damageOverTimeEnemy;
     public float slowDuration = 6f, slowFactor = 0.7f, priorSpeed, damageOverTime = 3f, damageOverTimeDuration = 6f;
+    //Melee Upgrade
+    public bool meleeUp;
+    public float knifeDamageUpFactor = 5f;
 
     public GameObject[] armorPieces;
 
@@ -50,6 +53,14 @@ public class regularPoint : MonoBehaviour
         else
         {
             damageOverTimeEnemy = false;
+        }
+        if (skillTree.meleeDamage == true)
+        {
+            meleeUp = true;
+        }
+        else
+        {
+            meleeUp = false;
         }
     }
 
@@ -126,8 +137,15 @@ public class regularPoint : MonoBehaviour
                         AudioSource.PlayClipAtPoint(damageSound, playerListener.transform.position);
                     }
                 }
-
+                
+                if (meleeUp == true)
+                {
+                    healthMetrics.ModifyHealth(-regularKnifeDamage * knifeDamageUpFactor);
+                }
+                else
+                {
                 healthMetrics.ModifyHealth(-regularKnifeDamage);
+                }
 
                 // Set iSeeYou to true in the BasicEnemy script
                 if (basicEnemyScript != null)

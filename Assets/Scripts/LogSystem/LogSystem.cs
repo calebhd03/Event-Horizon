@@ -30,7 +30,10 @@ public class LogSystem : MonoBehaviour
     //Skills
     public bool skillsUnlocked = false, skillsUnlocked2 = false, skillsUnlocked3 = false;
     public Button healthUpgradeButton, speedUpgradeButton, damageUpgradeButton, ammoCapactiyButton, SlowEnemyButton, DamageOverTimeButton;
-    public bool healthSkillUpgraded = false, damageSkillUpgraded = false, speedSkillUpgraded = false,ammoSkillUpgraded = false, frostSkillUpgraded = false, burnSkillUpgraded = false;
+    public Button meleeButton;
+    public bool healthSkillUpgraded = false, damageSkillUpgraded = false, speedSkillUpgraded = false;
+    public bool ammoSkillUpgraded = false, SlowEnemyUpgraded = false, DamageOverTimeSkillUpgraded = false;
+    public bool meleeSkillUpgraded = false;
     public Sprite upgradedSprite;
     AudioSource audioSource;
     public AudioClip SwitchTabSound;
@@ -171,6 +174,7 @@ public class LogSystem : MonoBehaviour
         {
             if (speedSkillUpgraded == true)
             {
+                meleeButton.interactable = false;
                 speedUpgradeButton.interactable = false;
                 ammoCapactiyButton.interactable = false;
                 skillsUnlocked2 = false;
@@ -182,6 +186,7 @@ public class LogSystem : MonoBehaviour
             
             if (ammoSkillUpgraded == true)
             {
+                meleeButton.interactable = false;
                 ammoCapactiyButton.interactable = false;
                 speedUpgradeButton.interactable = false;
                 skillsUnlocked2 = false;
@@ -190,10 +195,21 @@ public class LogSystem : MonoBehaviour
             {
                 ammoCapactiyButton.interactable = true;
             }
+            if (meleeSkillUpgraded == true)
+            {
+                meleeButton.interactable = false;
+                ammoCapactiyButton.interactable = false;
+                speedUpgradeButton.interactable = false;
+                skillsUnlocked2 = false;
+            }
+            else
+            {
+                meleeButton.interactable = true;
+            }
         }
         else if (skillsUnlocked3 == true)
         {
-            if (frostSkillUpgraded == true)
+            if (SlowEnemyUpgraded == true)
             {
                 SlowEnemyButton.interactable = false;
                 DamageOverTimeButton.interactable = false;
@@ -204,7 +220,7 @@ public class LogSystem : MonoBehaviour
                 SlowEnemyButton.interactable = true;
             }
             
-            if (burnSkillUpgraded == true)
+            if (DamageOverTimeSkillUpgraded == true)
             {
                 DamageOverTimeButton.interactable = false;
                 SlowEnemyButton.interactable = false;
@@ -223,6 +239,7 @@ public class LogSystem : MonoBehaviour
         ammoCapactiyButton.interactable = false;
         SlowEnemyButton.interactable = false;
         DamageOverTimeButton.interactable = false;
+        meleeButton.interactable = false;
         }
     }
 
@@ -435,7 +452,7 @@ public class LogSystem : MonoBehaviour
     public void UpgradeDamageOverTime()
     {
         //Debug.LogWarning("BURN! - Kelso");
-        burnSkillUpgraded = true;
+        DamageOverTimeSkillUpgraded = true;
         DamageOverTimeButton.image.sprite = upgradedSprite;
         skillTree.DamageOverTimeUpgrade();
     }
@@ -443,8 +460,14 @@ public class LogSystem : MonoBehaviour
     public void UpgradeSlowEnemyBullets()
     {
         //Debug.LogWarning("But you told me to Freeze - the mask");
-        frostSkillUpgraded = true;
+        SlowEnemyUpgraded = true;
         SlowEnemyButton.image.sprite = upgradedSprite;
         skillTree.SlowEnemyUpgrade();
+    }
+    public void UpgradeMeleeDamage()
+    {
+        meleeSkillUpgraded = true;
+        meleeButton.image.sprite = upgradedSprite;
+        skillTree.MeleeDamageUpgrade();
     }
 }
