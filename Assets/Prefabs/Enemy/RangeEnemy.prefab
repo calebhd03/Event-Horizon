@@ -70,7 +70,8 @@ MonoBehaviour:
   priorSpeed: 0
   damageOverTime: 3
   damageOverTimeDuration: 6
-  elapsedTime: 10
+  meleeUp: 0
+  knifeDamageUpFactor: 5
 --- !u!1 &3787874207407574268
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,6 +257,7 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: f3c8e3f0cc287624eb9a3ff5ba8b4c78, type: 2}
   healthMetrics: {fileID: 6111425174447714645}
   listIndex: 0
+  scene: 0
 --- !u!1 &6111425174583352918
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,7 +573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Scanned: 0
-  criticalPointReveal: {fileID: 0}
+  criticalPointReveal: {fileID: 3787874207407574268}
   number: 0
 --- !u!95 &1199361587979115083
 Animator:
@@ -782,7 +784,9 @@ MonoBehaviour:
   priorSpeed: 0
   damageOverTime: 3
   damageOverTimeDuration: 6
-  elapsedTime: 10
+  meleeUp: 0
+  knifeDamageUpFactor: 5
+  armorPieces: []
 --- !u!65 &6481565505749815110
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1637,7 +1641,9 @@ MonoBehaviour:
   priorSpeed: 0
   damageOverTime: 3
   damageOverTimeDuration: 6
-  elapsedTime: 10
+  meleeUp: 0
+  knifeDamageUpFactor: 5
+  armorPieces: []
 --- !u!1 &5056543534443786597 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3545991746167468074, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1679,7 +1685,9 @@ MonoBehaviour:
   priorSpeed: 0
   damageOverTime: 3
   damageOverTimeDuration: 6
-  elapsedTime: 10
+  meleeUp: 0
+  knifeDamageUpFactor: 5
+  armorPieces: []
 --- !u!1 &6103054923910184670 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2570428556912623507, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1721,7 +1729,9 @@ MonoBehaviour:
   priorSpeed: 0
   damageOverTime: 3
   damageOverTimeDuration: 6
-  elapsedTime: 10
+  meleeUp: 0
+  knifeDamageUpFactor: 5
+  armorPieces: []
 --- !u!1 &6670897579769476256 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6085949449992227347, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1763,7 +1773,9 @@ MonoBehaviour:
   priorSpeed: 0
   damageOverTime: 3
   damageOverTimeDuration: 6
-  elapsedTime: 10
+  meleeUp: 0
+  knifeDamageUpFactor: 5
+  armorPieces: []
 --- !u!1 &6847586429682072362 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2890770733526071911, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1805,7 +1817,9 @@ MonoBehaviour:
   priorSpeed: 0
   damageOverTime: 3
   damageOverTimeDuration: 6
-  elapsedTime: 10
+  meleeUp: 0
+  knifeDamageUpFactor: 5
+  armorPieces: []
 --- !u!1 &7153829758656466935 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1467634142891003580, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1848,7 +1862,8 @@ MonoBehaviour:
   priorSpeed: 0
   damageOverTime: 3
   damageOverTimeDuration: 6
-  elapsedTime: 10
+  meleeUp: 0
+  knifeDamageUpFactor: 5
 --- !u!1 &7929014858251315041 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7417408547777173970, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1890,7 +1905,9 @@ MonoBehaviour:
   priorSpeed: 0
   damageOverTime: 3
   damageOverTimeDuration: 6
-  elapsedTime: 10
+  meleeUp: 0
+  knifeDamageUpFactor: 5
+  armorPieces: []
 --- !u!1 &8307105992717274113 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -311122046114860366, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1932,7 +1949,9 @@ MonoBehaviour:
   priorSpeed: 0
   damageOverTime: 3
   damageOverTimeDuration: 6
-  elapsedTime: 10
+  meleeUp: 0
+  knifeDamageUpFactor: 5
+  armorPieces: []
 --- !u!1001 &6638330176912520049
 PrefabInstance:
   m_ObjectHideFlags: 0
