@@ -32,7 +32,7 @@ public class LogSystem : MonoBehaviour
     public Button healthUpgradeButton, speedUpgradeButton, damageUpgradeButton, ammoCapactiyButton, SlowEnemyButton, DamageOverTimeButton;
     public Button meleeButton;
     public bool healthSkillUpgraded = false, damageSkillUpgraded = false, speedSkillUpgraded = false;
-    public bool ammoSkillUpgraded = false, frostSkillUpgraded = false, burnSkillUpgraded = false;
+    public bool ammoSkillUpgraded = false, SlowEnemyUpgraded = false, DamageOverTimeSkillUpgraded = false;
     public bool meleeSkillUpgraded = false;
     public Sprite upgradedSprite;
     AudioSource audioSource;
@@ -209,7 +209,7 @@ public class LogSystem : MonoBehaviour
         }
         else if (skillsUnlocked3 == true)
         {
-            if (frostSkillUpgraded == true)
+            if (SlowEnemyUpgraded == true)
             {
                 SlowEnemyButton.interactable = false;
                 DamageOverTimeButton.interactable = false;
@@ -220,7 +220,7 @@ public class LogSystem : MonoBehaviour
                 SlowEnemyButton.interactable = true;
             }
             
-            if (burnSkillUpgraded == true)
+            if (DamageOverTimeSkillUpgraded == true)
             {
                 DamageOverTimeButton.interactable = false;
                 SlowEnemyButton.interactable = false;
@@ -452,7 +452,7 @@ public class LogSystem : MonoBehaviour
     public void UpgradeDamageOverTime()
     {
         //Debug.LogWarning("BURN! - Kelso");
-        burnSkillUpgraded = true;
+        DamageOverTimeSkillUpgraded = true;
         DamageOverTimeButton.image.sprite = upgradedSprite;
         skillTree.DamageOverTimeUpgrade();
     }
@@ -460,7 +460,7 @@ public class LogSystem : MonoBehaviour
     public void UpgradeSlowEnemyBullets()
     {
         //Debug.LogWarning("But you told me to Freeze - the mask");
-        frostSkillUpgraded = true;
+        SlowEnemyUpgraded = true;
         SlowEnemyButton.image.sprite = upgradedSprite;
         skillTree.SlowEnemyUpgrade();
     }

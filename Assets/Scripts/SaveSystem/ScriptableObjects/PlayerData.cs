@@ -27,6 +27,9 @@ public class PlayerData : ScriptableObject
     public int nexusAmmo;
     public int nexusAmmoLoaded;
     public int nexusAmmoMax;
+    [Header ("Skills")]
+        public bool SaveDamageUpgrade = false, SaveHealthUpgrade = false, SaveMeleeDamageUpgrade = false, SaveSpeedUpgrade = false;
+        public bool SaveDamageOverTimeUpgrade = false, SaveAmmoCapacityUpgrade = false, SaveSlowEnemyUpgrade = false;
     
     public void ResetHealthAmmo()
     {
@@ -38,4 +41,5 @@ public class PlayerData : ScriptableObject
         nexusAmmo = nexusAmmoDefault;
         nexusAmmoLoaded = nexusAmmoMax;
     }
+
 }
