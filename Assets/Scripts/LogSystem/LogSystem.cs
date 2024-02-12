@@ -38,6 +38,7 @@ public class LogSystem : MonoBehaviour
     AudioSource audioSource;
     public AudioClip SwitchTabSound;
     SkillTree skillTree;
+    public Scanning scnScr;
 
     void Start()
     {
@@ -48,6 +49,7 @@ public class LogSystem : MonoBehaviour
         displayInfo.SetActive(false);
         audioSource = GetComponent<AudioSource>();
         skillTree = FindObjectOfType<SkillTree>();
+        scnScr = FindObjectOfType<Scanning>();
         
         foreach (Button button in enemy)
         {
@@ -253,6 +255,7 @@ public class LogSystem : MonoBehaviour
     public void CloseLog()
     {   
         log = false;
+        scnScr.HudObject.SetActive(true);
         //Debug.LogWarning("closelog");
         LogPage.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;

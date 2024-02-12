@@ -12,7 +12,7 @@ public class PauseMenuScript : MonoBehaviour
     public GameObject settingsScreen;
     public GameObject inventoryScreen;
     public GameObject upgradeScreen;
-    public GameObject logPage;
+    //public GameObject logPage;
     public GameObject HUD;
     
     public bool paused = false;
@@ -117,7 +117,6 @@ public class PauseMenuScript : MonoBehaviour
     {
         
         paused = false;
-        Invoke("DelayShoot", 0.1f);
 
         PauseScreen.SetActive(false);
         if (logSystem.log == false)
