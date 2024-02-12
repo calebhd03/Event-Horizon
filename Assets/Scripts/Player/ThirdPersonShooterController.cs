@@ -121,6 +121,10 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         //movement while scanning
         private SkinnedMeshRenderer playermesh;
+        //scripts
+        PauseMenuScript pauseMenuScript;
+        LogSystem logSystem;
+
 
         private void Awake()
         {
@@ -137,6 +141,8 @@ public class ThirdPersonShooterController : MonoBehaviour
             RefreshWeaponIcons();
             EquipBlaster();
             SettingsScript settings = FindObjectOfType<SettingsScript>();
+            pauseMenuScript = FindObjectOfType<PauseMenuScript>();
+            logSystem = FindObjectOfType<LogSystem>();
         }
 
         private void Update()
@@ -354,7 +360,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             Reload();
         }
 
-        if (starterAssetsInputs.shoot)
+        if (starterAssetsInputs.shoot && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
         {
             Vector3 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
 
@@ -476,8 +482,6 @@ public class ThirdPersonShooterController : MonoBehaviour
             isCharging = false;
         }
     
-    PauseMenuScript pauseMenuScript = FindObjectOfType<PauseMenuScript>();
-    LogSystem logSystem = FindObjectOfType<LogSystem>();
     if (starterAssetsInputs.scan && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
             {
                 DisablePlayerMesh();

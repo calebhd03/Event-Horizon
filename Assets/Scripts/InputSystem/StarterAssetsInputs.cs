@@ -57,11 +57,14 @@ namespace StarterAssets
         public bool innerTP;
         public bool centerTP;
 
+		public bool delayShoot;
+
 
         private void Start()
         {
 			//Debug.LogWarning("START CURSOR LOCK");
             SetCursorState(cursorLocked);
+			delayShoot = false;
         }
 
 #if ENABLE_INPUT_SYSTEM
@@ -101,10 +104,10 @@ namespace StarterAssets
 
 		public void OnShoot(InputValue value)
 		{
-			//if( aim == true)
-			//{
+			if(delayShoot == false)
+			{
 			ShootInput(value.isPressed);
-			//}
+			}
 		}
 		public void OnScan(InputValue value)
 		{
