@@ -35,6 +35,7 @@ public class PauseMenuScript : MonoBehaviour
         //starterAssetsInputs.PauseInput(false);
         starterAssetsInputs.SaveInput(true);
         paused = false;
+        Invoke("DelayShoot", 0.1f);
     }
     public void SetLoad()
     {
@@ -42,6 +43,7 @@ public class PauseMenuScript : MonoBehaviour
         //starterAssetsInputs.PauseInput(false);
         starterAssetsInputs.LoadInput(true);
         paused = false;
+        Invoke("DelayShoot", 0.1f);
     }
 
     public void SetPause()
@@ -58,6 +60,7 @@ public class PauseMenuScript : MonoBehaviour
             inventoryScreen.SetActive(false);
             upgradeScreen.SetActive(false);
             ClosePause();
+            Invoke("DelayShoot", 0.1f);
         }
     }
     //The three functions here open their respective menus and close out the main
@@ -69,6 +72,7 @@ public class PauseMenuScript : MonoBehaviour
             Time.timeScale = 0;
             HUD.SetActive(false);
             PauseScreen.SetActive(true);
+            starterAssetsInputs.delayShoot = true;
             
         }
     public void ClosePause()
@@ -113,6 +117,7 @@ public class PauseMenuScript : MonoBehaviour
     {
         
         paused = false;
+        Invoke("DelayShoot", 0.1f);
 
         PauseScreen.SetActive(false);
         if (logSystem.log == false)
@@ -164,5 +169,11 @@ public class PauseMenuScript : MonoBehaviour
     public void PauseFalse()
     {
         starterAssetsInputs.PauseInput(false);
+        Invoke("DelayShoot", 0.1f);
+    }
+
+    public void DelayShoot()
+    {
+        starterAssetsInputs.delayShoot = false;
     }
 }

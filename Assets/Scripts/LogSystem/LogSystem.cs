@@ -248,6 +248,7 @@ public class LogSystem : MonoBehaviour
         log = true;
         //Debug.LogWarning("log");
         LogPage.SetActive(true);
+        starterAssetsInputs.delayShoot = true;
     }
     public void CloseLog()
     {   
@@ -257,6 +258,7 @@ public class LogSystem : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1;
+        Invoke("DelayShoot", 0.1f);
     }
 
     public void EnemiesTab()
@@ -469,5 +471,10 @@ public class LogSystem : MonoBehaviour
         meleeSkillUpgraded = true;
         meleeButton.image.sprite = upgradedSprite;
         skillTree.MeleeDamageUpgrade();
+    }
+    
+    public void DelayShoot()
+    {
+        starterAssetsInputs.delayShoot = false;
     }
 }
