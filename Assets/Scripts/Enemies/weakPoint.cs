@@ -17,6 +17,9 @@ public class weakPoint : MonoBehaviour
     SkillTree skillTree;
     public bool slowEnemy, damageOverTimeEnemy;
     public float slowDuration = 6f, slowFactor = 0.7f, priorSpeed, damageOverTime = 3f, damageOverTimeDuration = 6f;
+    //Melee Upgrade
+    public bool meleeUp;
+    public float knifeDamageUpFactor = 5f;
 
     private void Start()
     {
@@ -50,6 +53,14 @@ public class weakPoint : MonoBehaviour
         else
         {
             damageOverTimeEnemy = false;
+        }
+        if (skillTree.meleeDamage == true)
+        {
+            meleeUp = true;
+        }
+        else
+        {
+            meleeUp = false;
         }
     }
 
@@ -110,7 +121,15 @@ public class weakPoint : MonoBehaviour
                     }
                 }
 
+                if (meleeUp == true)
+                {
+                    healthMetrics.ModifyHealth(-knifeDamage * knifeDamageUpFactor);
+                }
+                else
+                {
                 healthMetrics.ModifyHealth(-knifeDamage);
+                }
+                
                 Debug.Log("A  WeakPoint");
                 // Set iSeeYou to true in the BasicEnemy script
                 if (basicEnemyScript != null)
