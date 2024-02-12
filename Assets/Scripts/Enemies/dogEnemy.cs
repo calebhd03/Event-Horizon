@@ -20,6 +20,7 @@ public class dogEnemy : MonoBehaviour
     //check to find player
     private bool iSeeYou;
     private bool iHearYou;
+    public float hearDistance;
 
     [Header("Patrol")]
     public Transform[] movePoints;
@@ -78,7 +79,6 @@ public class dogEnemy : MonoBehaviour
             if (distanceTarget <= viewRadius && !Physics.Raycast(transform.position, playerTarget, distanceTarget, obstacleZone))
             {
                 iSeeYou = true;
-                //hearDistance = 0;
                 transform.LookAt(player);
                 Debug.DrawRay(transform.position, playerTarget * viewRadius * viewAngle, Color.blue); //debug raycast line to show if enemy can see the player
             }
@@ -94,6 +94,13 @@ public class dogEnemy : MonoBehaviour
         }
 
         withInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerZone);
+        iHearYou = Physics.CheckSphere(transform.position, hearDistance, playerZone);
+        if (iHearYou == true)
+        {
+
+            iSeeYou = true;
+        }
+
 
         if (iSeeYou == false && withInAttackRange == false)
         {
@@ -247,6 +254,9 @@ public class dogEnemy : MonoBehaviour
     {
         Gizmos.color = Color.black;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, hearDistance);
     }
     //Visual representation for debugging the cone of vision of the enemy. Shows the ray cast for debugging
     private void DrawFieldOfVision()

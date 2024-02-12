@@ -59,7 +59,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
+  agent: {fileID: 0}
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 3
+  damageOverTimeDuration: 6
+  armorPieces: []
 --- !u!1 &1375103745158194235
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,6 +288,7 @@ MonoBehaviour:
     m_Bits: 8
   viewRadius: 15
   viewAngle: 100
+  hearDistance: 7
   movePoints: []
   attackRange: 8
   attackCloseDistance: 2.5
@@ -703,6 +714,7 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: f3c8e3f0cc287624eb9a3ff5ba8b4c78, type: 2}
   healthMetrics: {fileID: 1375103746728593474}
   listIndex: 0
+  scene: 0
 --- !u!1 &6386212331391991737
 GameObject:
   m_ObjectHideFlags: 0
