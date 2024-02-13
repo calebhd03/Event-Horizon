@@ -9,6 +9,7 @@ public class metoerDamage : MonoBehaviour
     public AudioClip missSound;
     public LayerMask ground;
     private bool groundTouch = false;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
@@ -21,10 +22,10 @@ public class metoerDamage : MonoBehaviour
 
                 if (player != null && damageSound != null)
                 {
-                    AudioListener playerListener = player.GetComponentInChildren<AudioListener>();
-                    if (playerListener != null)
+                    AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
+                    if (audioSource != null)
                     {
-                        AudioSource.PlayClipAtPoint(damageSound, playerListener.transform.position);
+                        audioSource.PlayOneShot(damageSound);
                     }
                 }
                 playerHealthMetric.ModifyHealth(-meteorDamage);
@@ -37,10 +38,10 @@ public class metoerDamage : MonoBehaviour
 
             if (player != null && damageSound != null)
             {
-                AudioListener playerListener = player.GetComponentInChildren<AudioListener>();
-                if (playerListener != null)
+                AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
+                if (audioSource != null)
                 {
-                    AudioSource.PlayClipAtPoint(missSound, playerListener.transform.position);
+                    audioSource.PlayOneShot(missSound);
                 }
             }
             groundTouch = true;

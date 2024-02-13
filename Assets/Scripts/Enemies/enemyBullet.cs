@@ -6,6 +6,7 @@ public class enemyBullet : MonoBehaviour
 {
     public float bulletDamage = 20f;
     public AudioClip damageSound;
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Player")
@@ -18,10 +19,10 @@ public class enemyBullet : MonoBehaviour
 
                 if (player != null && damageSound != null)
                 {
-                    AudioListener playerListener = player.GetComponentInChildren<AudioListener>();
-                    if (playerListener != null)
+                    AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
+                    if (audioSource != null)
                     {
-                        AudioSource.PlayClipAtPoint(damageSound, playerListener.transform.position);
+                        audioSource.PlayOneShot(damageSound);
                     }
                 }
                 playerHealthMetric.ModifyHealth(-bulletDamage);

@@ -2011,7 +2011,7 @@ AudioSource:
   m_GameObject: {fileID: 5502654824631323240}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 5748461615803123587, guid: cc46b327e10c02d46b24182aae5e9e5f, type: 2}
   m_audioClip: {fileID: 8300000, guid: b705d340fbca54543824acce1348b76a, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -2112,6 +2112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   agent: {fileID: 0}
+  animator: {fileID: 0}
   playerZone:
     serializedVersion: 2
     m_Bits: 8
@@ -2128,6 +2129,8 @@ MonoBehaviour:
   meteorSpeed: 10
   slashWindUp: 12
   aoeRingPrefab: {fileID: 0}
+  aoeCloseRingPrefab: {fileID: 0}
+  aoeCloseWarningPrefab: {fileID: 0}
   aoeSpawn: {fileID: 0}
   aoeWindUp: 2
   healthBar: {fileID: 0}
@@ -2140,6 +2143,8 @@ MonoBehaviour:
   healthPickupPrefab: {fileID: 0}
   pickupDropChance: 0.3
   Portal: {fileID: 0}
+  slowEffect: {fileID: 0}
+  damageOverTimeEffect: {fileID: 0}
 --- !u!1 &5897994901591770099
 GameObject:
   m_ObjectHideFlags: 0

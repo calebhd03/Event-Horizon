@@ -70,6 +70,8 @@ MonoBehaviour:
   priorSpeed: 0
   damageOverTime: 3
   damageOverTimeDuration: 6
+  meleeUp: 0
+  knifeDamageUpFactor: 5
 --- !u!1 &460996748575234140
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,6 +579,8 @@ MonoBehaviour:
   priorSpeed: 0
   damageOverTime: 3
   damageOverTimeDuration: 6
+  meleeUp: 0
+  knifeDamageUpFactor: 5
   armorPieces: []
 --- !u!1 &4973244206653304215
 GameObject:
@@ -830,7 +834,7 @@ AudioSource:
   m_GameObject: {fileID: 4973244207133764569}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 5748461615803123587, guid: cc46b327e10c02d46b24182aae5e9e5f, type: 2}
   m_audioClip: {fileID: 8300000, guid: b705d340fbca54543824acce1348b76a, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.4
@@ -970,7 +974,6 @@ MonoBehaviour:
   meteorSpeed: 10
   meteorSpawnSound: {fileID: 8300000, guid: 204dac5665027be4e979bd008d7d4705, type: 3}
   deathAudio: {fileID: 8300000, guid: 1178852854510bc48a2e0aabb1408593, type: 3}
-  deathAudioVolume: 5
   summonWindUp: 2
   Enemies:
   - {fileID: 2858620025199205393, guid: 833f05e868d659e4fbb4fde05a50fa9f, type: 3}

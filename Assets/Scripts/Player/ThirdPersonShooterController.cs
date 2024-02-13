@@ -125,6 +125,9 @@ public class ThirdPersonShooterController : MonoBehaviour
         PauseMenuScript pauseMenuScript;
         LogSystem logSystem;
 
+        //Sound
+        AudioSource audioSource;
+
 
         private void Awake()
         {
@@ -143,6 +146,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             SettingsScript settings = FindObjectOfType<SettingsScript>();
             pauseMenuScript = FindObjectOfType<PauseMenuScript>();
             logSystem = FindObjectOfType<LogSystem>();
+            audioSource = GetComponent<AudioSource>();
         }
 
         private void Update()
@@ -262,7 +266,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                         }
             }
 
-        if (starterAssetsInputs.scroll != Vector2.zero)
+        if (starterAssetsInputs.scroll != Vector2.zero && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
             {
 
             //equippedWeapon = equippedWeapon++;
@@ -305,7 +309,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
 
-        if (starterAssetsInputs.switchWeapon && Time.time - lastSwitchTime >= switchCoolDown)
+        if (starterAssetsInputs.switchWeapon && Time.time - lastSwitchTime >= switchCoolDown && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
         {
             if (equippedWeapon != 0)
             {
@@ -321,17 +325,17 @@ public class ThirdPersonShooterController : MonoBehaviour
             Debug.Log(equippedWeapon);
         }
 
-        if (starterAssetsInputs.blaster)
+        if (starterAssetsInputs.blaster && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
         {
             EquipBlaster();
         }
 
-        if (starterAssetsInputs.blackHoleGun)
+        if (starterAssetsInputs.blackHoleGun && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
         {
             EquipBlackHoleGun();
         }
 
-        if (starterAssetsInputs.swapBHG)
+        if (starterAssetsInputs.swapBHG && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
         {
             if (equippedWeapon == 1)
             {
@@ -345,17 +349,17 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
 
-        if (starterAssetsInputs.shotgun)
+        if (starterAssetsInputs.shotgun && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
         {
             EquipShotgun();
         }
 
-        if (starterAssetsInputs.knife)
+        if (starterAssetsInputs.knife && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
         {
             EquipKnife();
         }
 
-        if (starterAssetsInputs.reload)
+        if (starterAssetsInputs.reload && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
         {
             Reload();
         }
@@ -375,7 +379,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                     playerData.standardAmmoLoaded -= 1;
                     currentCooldown = standardCooldown;
                     thirdPersonController.SwitchCameraTarget();
-                    AudioSource.PlayClipAtPoint(blasterSound, spawnBulletPosition.position);
+                    audioSource.PlayOneShot(blasterSound);
                     blassterFlash.Play();
                 }
                 if (equippedWeapon == 1 )
@@ -390,7 +394,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                         Instantiate(pfWallProjectile, spawnBlackHoleBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                         currentCooldown = blackHoleCooldown;
                         thirdPersonController.SwitchCameraTarget();
-                        AudioSource.PlayClipAtPoint(wallBulletSound, spawnBlackHoleBulletPosition.position);
+                        audioSource.PlayOneShot(wallBulletSound);
                         }
                     }
                     else if (playerData.nexusAmmoLoaded > 0 )
@@ -405,14 +409,14 @@ public class ThirdPersonShooterController : MonoBehaviour
                             playerData.nexusAmmoLoaded -= 1;
                             currentCooldown = blackHoleCooldown;
                             thirdPersonController.SwitchCameraTarget();
-                            AudioSource.PlayClipAtPoint(blackHoleSound, spawnBlackHoleBulletPosition.position);
+                            audioSource.PlayOneShot(blackHoleSound);
                             BHGfiring();
                             chargeTime = 0;
                             isCharged = false;
                         }
                         else
                         {
-                            AudioSource.PlayClipAtPoint(blackHoleChargeSound, spawnBlackHoleBulletPosition.position);
+                            audioSource.PlayOneShot(blackHoleChargeSound);
                             BHGcharging();
                         }
 
@@ -425,7 +429,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                     playerData.shotgunAmmoLoaded -= 1;
                     currentCooldown = shotgunCooldown;
                     thirdPersonController.SwitchCameraTarget();
-                    AudioSource.PlayClipAtPoint(shotgunSound, spawnShotgunBulletPosition.position);
+                    audioSource.PlayOneShot(shotgunSound);
                     shotgunFlash.Play();
                     for (int i = 0; i < 4; i++) // Fire 4 pellets in a cone
                     {
@@ -936,7 +940,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         if(equippedWeapon == 0 && playerData.standardAmmo > 0 && playerData.standardAmmoLoaded < playerData.standardAmmoMax)
         {
             StartCoroutine(ReloadTimer(standardReloadTime));
-            AudioSource.PlayClipAtPoint(blasterReloadSound, spawnBulletPosition.position);
+            audioSource.PlayOneShot(blasterReloadSound);
             ammoDifference = playerData.standardAmmoMax - playerData.standardAmmoLoaded;
             playerData.standardAmmoLoaded += playerData.standardAmmo;
             playerData.standardAmmo -= ammoDifference;
@@ -952,7 +956,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         else if(equippedWeapon == 1 && playerData.nexusAmmo > 0 && playerData.nexusAmmoLoaded < playerData.nexusAmmoMax && BHGTool == false)
         {
             StartCoroutine(ReloadTimer(blackHoleReloadTime));
-            AudioSource.PlayClipAtPoint(blackHoleReloadSound, spawnBlackHoleBulletPosition.position);
+            audioSource.PlayOneShot(blackHoleReloadSound);
             ammoDifference = playerData.nexusAmmoMax - playerData.nexusAmmoLoaded;
             playerData.nexusAmmoLoaded += playerData.nexusAmmo;
             playerData.nexusAmmo -= ammoDifference;
@@ -968,7 +972,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         else if(equippedWeapon == 2 && playerData.shotgunAmmo > 0 && playerData.shotgunAmmoLoaded < playerData.shotgunAmmoMax)
         {
             StartCoroutine(ReloadTimer(shotgunReloadTime));
-            AudioSource.PlayClipAtPoint(shotgunReloadSound, spawnShotgunBulletPosition.position);
+            audioSource.PlayOneShot(shotgunReloadSound);
             ammoDifference = playerData.shotgunAmmoMax - playerData.shotgunAmmoLoaded;
             playerData.shotgunAmmoLoaded += playerData.shotgunAmmo;
             playerData.shotgunAmmo -= ammoDifference;

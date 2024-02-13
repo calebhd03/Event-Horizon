@@ -11,9 +11,9 @@ public class SettingsScript : MonoBehaviour
 {
     public AudioMixer mainMixer;
 
-    public TMP_Text mastLabel, musicLabel, sfxLabel;
+    public TMP_Text mastLabel, musicLabel, sfxLabel, ambienceLabel;
 
-    public Slider mastSlider, musicSlider, sfxSlider;
+    public Slider mastSlider, musicSlider, sfxSlider, ambienceSlider;
 
     public Slider Sens;
 
@@ -66,9 +66,13 @@ public class SettingsScript : MonoBehaviour
         mainMixer.GetFloat("SFXVol", out volume);
         sfxSlider.value = volume;
 
+        mainMixer.GetFloat("AmbienceVol", out volume);
+        ambienceSlider.value = volume;
+
         mastLabel.text = Mathf.RoundToInt(mastSlider.value + 80).ToString();
         musicLabel.text = Mathf.RoundToInt(musicSlider.value + 80).ToString();
         sfxLabel.text = Mathf.RoundToInt(sfxSlider.value + 80).ToString();
+        ambienceLabel.text = Mathf.RoundToInt(ambienceSlider.value + 80).ToString();
 
         resolutions = Screen.resolutions;
         resolutionDropdown.ClearOptions();
@@ -126,6 +130,16 @@ public class SettingsScript : MonoBehaviour
         PlayerPrefs.SetFloat("SFXVol", sfxSlider.value);
         PlayerPrefs.Save();
 
+    }
+
+    public void setAmbienceVol()
+    {
+        ambienceLabel.text = Mathf.RoundToInt(ambienceSlider.value + 80).ToString();
+
+        mainMixer.SetFloat("AmbienceVol", ambienceSlider.value);
+
+        PlayerPrefs.SetFloat("AmbienceVol", ambienceSlider.value);
+        PlayerPrefs.Save();
     }
     public void setQuality(int qualityIndex)
     {

@@ -30,14 +30,15 @@ public class plantEnemy : MonoBehaviour
     public float pickupDropChance = 0.3f;
 
     [Header("Audio")]
+    AudioSource audioSource;
     public AudioClip projectileSpawnSound;
     public AudioClip deathAudio;
-    [Range(0, 10)] public float deathAudioVolume;
 
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
         healthBar = GetComponentInChildren<EnemyHealthBar>();
+        audioSource = GetComponent<AudioSource>();
     }
     // Start is called before the first frame update
     void Start()
@@ -116,7 +117,7 @@ public class plantEnemy : MonoBehaviour
     private IEnumerator WaitAndDropStuff(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        AudioSource.PlayClipAtPoint(deathAudio, transform.position, deathAudioVolume);
+        audioSource.PlayOneShot(deathAudio);
 
         // Call DropStuff after waiting for 3 seconds
         DropStuff();

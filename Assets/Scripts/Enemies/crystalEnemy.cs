@@ -46,8 +46,8 @@ public class crystalEnemy : MonoBehaviour
     public float pickupDropChance = 0.3f;
 
     [Header("Audio")]
+    AudioSource audioSource;
     public AudioClip deathAudio;
-    [Range(0, 10)] public float deathAudioVolume;
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -62,6 +62,7 @@ public class crystalEnemy : MonoBehaviour
         HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
         healthMetrics.currentHealth = healthMetrics.maxHealth;
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -232,7 +233,7 @@ public class crystalEnemy : MonoBehaviour
     private IEnumerator WaitAndDropStuff(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        AudioSource.PlayClipAtPoint(deathAudio, transform.position, deathAudioVolume);
+        audioSource.PlayOneShot(deathAudio);
 
         // Call DropStuff after waiting for 3 seconds
         DropStuff();

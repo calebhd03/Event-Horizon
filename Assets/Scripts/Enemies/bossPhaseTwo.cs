@@ -27,9 +27,9 @@ public class bossPhaseTwo : MonoBehaviour
     public float meteorSpeed = 10f;
     
     [Header("Audio")]
+    AudioSource audioSource1;
     public AudioClip meteorSpawnSound;
     public AudioClip deathAudio;
-    [Range(0, 10)] public float deathAudioVolume;
 
     [Header("Enemy Spawns")]
     public float summonWindUp;
@@ -66,6 +66,7 @@ public class bossPhaseTwo : MonoBehaviour
         healthBar = GetComponentInChildren<EnemyHealthBar>();
         rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
+        audioSource1 = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -184,10 +185,10 @@ public class bossPhaseTwo : MonoBehaviour
     {
         if (player != null && meteorSpawnSound != null)
         {
-            AudioListener playerListener = player.GetComponentInChildren<AudioListener>();
-            if (playerListener != null)
+            AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
+            if (audioSource != null)
             {
-                AudioSource.PlayClipAtPoint(meteorSpawnSound, playerListener.transform.position);
+                audioSource.PlayOneShot(meteorSpawnSound);
             }
         }
     }
@@ -238,7 +239,7 @@ public class bossPhaseTwo : MonoBehaviour
     private IEnumerator WaitAndDropStuff(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        AudioSource.PlayClipAtPoint(deathAudio, transform.position, deathAudioVolume);
+        audioSource1.PlayOneShot(deathAudio);
 
         // Call DropStuff after waiting for 3 seconds
         DropStuff();

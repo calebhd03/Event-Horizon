@@ -57,9 +57,9 @@ public class bossEnemy : MonoBehaviour
     private Rigidbody rb;
 
     [Header("Audio")]
+    AudioSource audioSource1;
     public AudioClip meteorSpawnSound;
     public AudioClip deathAudio;
-    [Range(0, 10)] public float deathAudioVolume;
 
     [Header("Drops")]
     public GameObject blasterPickupPrefab;
@@ -87,6 +87,7 @@ public class bossEnemy : MonoBehaviour
         {
             armAnim = childTransform.GetComponent<Animator>();
         }
+        audioSource1 = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -229,10 +230,10 @@ public class bossEnemy : MonoBehaviour
 
         if (player != null && meteorSpawnSound != null)
         {
-            AudioListener playerListener = player.GetComponentInChildren<AudioListener>();
-            if (playerListener != null)
+            AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
+            if (audioSource != null)
             {
-                AudioSource.PlayClipAtPoint(meteorSpawnSound, playerListener.transform.position);
+                audioSource.PlayOneShot(meteorSpawnSound);
             }
         }
         summonMeteor(rightMeteor.position, Quaternion.identity);
@@ -240,10 +241,10 @@ public class bossEnemy : MonoBehaviour
 
         if (player != null && meteorSpawnSound != null)
         {
-            AudioListener playerListener = player.GetComponentInChildren<AudioListener>();
-            if (playerListener != null)
+            AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
+            if (audioSource != null)
             {
-                AudioSource.PlayClipAtPoint(meteorSpawnSound, playerListener.transform.position);
+                audioSource.PlayOneShot(meteorSpawnSound);
             }
         }
         summonMeteor(leftMeteor.position, Quaternion.identity);
@@ -251,10 +252,10 @@ public class bossEnemy : MonoBehaviour
 
         if (player != null && meteorSpawnSound != null)
         {
-            AudioListener playerListener = player.GetComponentInChildren<AudioListener>();
-            if (playerListener != null)
+            AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
+            if (audioSource != null)
             {
-                AudioSource.PlayClipAtPoint(meteorSpawnSound, playerListener.transform.position);
+                audioSource.PlayOneShot(meteorSpawnSound);
             }
         }
         summonMeteor(middleMeteor.position, Quaternion.identity);
@@ -364,7 +365,7 @@ public class bossEnemy : MonoBehaviour
         private IEnumerator WaitAndDropStuff(float waitTime)
         {
             yield return new WaitForSeconds(waitTime);
-             AudioSource.PlayClipAtPoint(deathAudio, transform.position, deathAudioVolume);
+            audioSource1.PlayOneShot(deathAudio);
 
             // Call DropStuff after waiting for 3 seconds
             DropStuff();

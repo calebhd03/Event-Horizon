@@ -9,7 +9,6 @@ public class DeathScreen : MonoBehaviour
 {
     SaveSystemTest saveSystemTest;
     Progress progressScript; 
-    public AudioClip audioClip;
     private StarterAssetsInputs starterAssetsInputs;
     public GameObject Player;
     void Awake()

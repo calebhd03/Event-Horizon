@@ -85,8 +85,8 @@ namespace StarterAssets
         private float backWardMoveDuration = 1.0f;
 
         [Header("Audio")]
+        AudioSource audioSource;
         public AudioClip deathAudio;
-        [Range(0, 10)] public float deathAudioVolume;
 
         [Header("Drops")]
         public GameObject blasterPickupPrefab;
@@ -99,6 +99,7 @@ namespace StarterAssets
 
         //Slow Particle effect
         public ParticleSystem slowEffect, damageOverTimeEffect;
+        
 
         private void Awake()
         {
@@ -108,6 +109,7 @@ namespace StarterAssets
             animator = GetComponent<Animator>();
 
             healthBar = GetComponentInChildren<EnemyHealthBar>();
+            audioSource = GetComponent<AudioSource>();
         }
 
         // Start is called before the first frame update
@@ -511,7 +513,7 @@ namespace StarterAssets
         private IEnumerator WaitAndDropStuff(float waitTime)
         {
             yield return new WaitForSeconds(waitTime);
-             AudioSource.PlayClipAtPoint(deathAudio, transform.position, deathAudioVolume);
+            audioSource.PlayOneShot(deathAudio);
 
             // Call DropStuff after waiting for 3 seconds
             DropStuff();

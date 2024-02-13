@@ -398,6 +398,7 @@ GameObject:
   - component: {fileID: 7138848965131079094}
   - component: {fileID: 8050137914616221530}
   - component: {fileID: 4758624329019503078}
+  - component: {fileID: 3866707403706753263}
   m_Layer: 9
   m_Name: crabEnemy
   m_TagString: Enemy
@@ -558,6 +559,7 @@ MonoBehaviour:
   player: {fileID: 0}
   agent: {fileID: 0}
   thirdPersonController: {fileID: 0}
+  ThirdPersonShooterController: {fileID: 0}
   playerZone:
     serializedVersion: 2
     m_Bits: 8
@@ -572,9 +574,7 @@ MonoBehaviour:
   healthPickupPrefab: {fileID: 1464895933930130252, guid: f867f91f0bffc4f4db651b1be23a1a15, type: 3}
   pickupDropChance: 0.3
   deathAudio: {fileID: 8300000, guid: 47db3882bc8a1ce4b88ea62d7f9df191, type: 3}
-  deathAudioVolume: 5
   stickAudio: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
-  stickAudioVolume: 5
 --- !u!54 &8050137914616221530
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -607,6 +607,102 @@ MonoBehaviour:
   currentHealth: 0
   healthBar: {fileID: 0}
   isHealthBarActive: 1
+--- !u!82 &3866707403706753263
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2858620025199205393}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 5748461615803123587, guid: cc46b327e10c02d46b24182aae5e9e5f, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2858620025322188910
 GameObject:
   m_ObjectHideFlags: 0
@@ -653,7 +749,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
+  agent: {fileID: 0}
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 3
+  damageOverTimeDuration: 6
+  meleeUp: 0
+  knifeDamageUpFactor: 5
+  armorPieces: []
 --- !u!65 &6754401971363126421
 BoxCollider:
   m_ObjectHideFlags: 0

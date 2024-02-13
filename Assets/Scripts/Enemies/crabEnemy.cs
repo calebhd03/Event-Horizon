@@ -37,10 +37,9 @@ public class crabEnemy : MonoBehaviour
     public float pickupDropChance = 0.3f;
 
     [Header("Audio")]
+    AudioSource audioSource;
     public AudioClip deathAudio;
-    [Range(0, 10)] public float deathAudioVolume;
     public AudioClip stickAudio;
-    [Range(0, 10)] public float stickAudioVolume;
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -57,6 +56,7 @@ public class crabEnemy : MonoBehaviour
         HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
         healthMetrics.currentHealth = healthMetrics.maxHealth;
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -140,7 +140,7 @@ public class crabEnemy : MonoBehaviour
     private IEnumerator WaitAndDropStuff(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        AudioSource.PlayClipAtPoint(deathAudio, transform.position, deathAudioVolume);
+        audioSource.PlayOneShot(deathAudio);
 
         // Call DropStuff after waiting for 3 seconds
         DropStuff();
@@ -205,7 +205,7 @@ public class crabEnemy : MonoBehaviour
         transform.parent = player;
         transform.position = player.position;
         transform.localPosition = offset;
-        AudioSource.PlayClipAtPoint(stickAudio, transform.position, stickAudioVolume);
+        audioSource.PlayOneShot(stickAudio);
     }
 
     public void KnifeDestroy()
@@ -219,7 +219,7 @@ public class crabEnemy : MonoBehaviour
                 {
                     Debug.Log("Crab is Destroyed with Knife");
                     Destroy(gameObject);
-                    AudioSource.PlayClipAtPoint(deathAudio, transform.position, deathAudioVolume);
+                    audioSource.PlayOneShot(deathAudio);
                     if (thirdPersonController != null)
                     {
                         thirdPersonController.MoveSpeed = 3f;

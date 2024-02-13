@@ -76,10 +76,10 @@ public class weakPoint : MonoBehaviour
 
                 if (player != null && damageSound != null)
                 {
-                    AudioListener playerListener = player.GetComponentInChildren<AudioListener>();
-                    if (playerListener != null)
+                    AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
+                    if (audioSource != null)
                     {
-                        AudioSource.PlayClipAtPoint(damageSound, playerListener.transform.position);
+                        audioSource.PlayOneShot(damageSound);
                     }
                 }
 
@@ -114,10 +114,10 @@ public class weakPoint : MonoBehaviour
 
                 if (player != null && damageSound != null)
                 {
-                    AudioListener playerListener = player.GetComponentInChildren<AudioListener>();
-                    if (playerListener != null)
+                    AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
+                    if (audioSource != null)
                     {
-                        AudioSource.PlayClipAtPoint(damageSound, playerListener.transform.position);
+                        audioSource.PlayOneShot(damageSound);
                     }
                 }
 

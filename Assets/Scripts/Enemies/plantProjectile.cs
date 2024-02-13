@@ -12,8 +12,6 @@ public class plantProjectile : MonoBehaviour
     private bool damageTaken = false;
     private bool cloudSpawned = false;
 
-    // Start is called before the first frame update
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player" && !damageTaken)
@@ -26,10 +24,10 @@ public class plantProjectile : MonoBehaviour
 
                 if (player != null && damageSound != null)
                 {
-                    AudioListener playerListener = player.GetComponentInChildren<AudioListener>();
-                    if (playerListener != null)
+                    AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
+                    if (audioSource != null)
                     {
-                        AudioSource.PlayClipAtPoint(damageSound, playerListener.transform.position);
+                        audioSource.PlayOneShot(damageSound);
                     }
                 }
 

@@ -6,13 +6,12 @@ public class enemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public Transform spawnLocation;
+    AudioSource audioSource;
     public AudioClip spawnAudio;
-    [Range(0, 10)] public float spawnAudioVolume;
     private bool trigger = false;
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -28,7 +27,7 @@ public class enemySpawner : MonoBehaviour
             trigger = true;
             Debug.Log("Spawn Enemy");
             GameObject enemy = Instantiate(enemyPrefab, spawnLocation.position, Quaternion.identity);
-            AudioSource.PlayClipAtPoint(spawnAudio, spawnLocation.position, spawnAudioVolume);
+            audioSource.PlayOneShot(spawnAudio);
         }
     }
 }
