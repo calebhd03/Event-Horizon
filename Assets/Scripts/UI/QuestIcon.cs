@@ -4,6 +4,20 @@ using UnityEngine;
 
 public class QuestIcon : MonoBehaviour
 {
+    Compass compass;
+    void Awake()
+    {
+        compass = FindObjectOfType<Compass>();
+    }
+
+    void Update()
+    {
+        if(compass.previousMarker == this.gameObject)
+        {
+            Hide();
+        }
+    }
+
     public void Delete()
     {
         Destroy(gameObject);

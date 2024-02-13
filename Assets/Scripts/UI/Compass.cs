@@ -21,6 +21,7 @@ public class Compass : MonoBehaviour
     public QuestMarker eight;
     
     GameObject newMarker;
+    public GameObject currentMarker, previousMarker;
 
     float compassUnit;
     float maxDistance = 65f;
@@ -60,13 +61,16 @@ public class Compass : MonoBehaviour
     {
         if (marker != null)
         {
-            QuestIcon questIcon = FindObjectOfType<QuestIcon>();
+            previousMarker = currentMarker;
+            //QuestIcon questIcon = FindObjectOfType<QuestIcon>();
             AddQuestMarker(marker);
-            if (questIcon != null)
+            /*if (questIcon != null)
             {
+                Debug.LogError("hide that icon");
                 questIcon.Hide();
             }
-            else{}
+            else{}*/
+            //Destroy(previousMarker);
         }
         else
         {
@@ -81,6 +85,7 @@ public class Compass : MonoBehaviour
         marker.image.sprite = marker.icon;
 
         questMarkers.Add(marker);
+        currentMarker = newMarker;
     }
 
     Vector2 GetPosOnCompass (QuestMarker marker)
