@@ -140,6 +140,8 @@ namespace StarterAssets
         private GameObject _mainCamera;
         private bool _rotateOnMove = true;
 
+        public AudioClip riftSound;
+
         [Header ("Dev Controls")]
         public Transform teleportLocation1;
         public Transform teleportLocation2;
@@ -614,6 +616,40 @@ namespace StarterAssets
                 Debug.Log("Pause input!");
             }
         }
+            private void OnTriggerEnter(Collider other)
+        {
+            // Check if the collider is tagged as "RiftPoint"
+            if (other.CompareTag("RiftPoint"))
+            {
+                Debug.Log("RiftPointCollision");
+
+                // Get the RiftTransform from the collided object's Rift script
+                Rift rift = other.GetComponent<Rift>();
+                if (rift != null)
+                {
+                    Transform riftTransform = rift.RiftTransform;
+                    if (riftTransform != null)
+                    {
+                        // Play the teleport sound effect
+                        if (riftSound != null)
+                        {
+                            audioSource.PlayOneShot(riftSound);
+                        }
+
+                        // Teleport the player to the specified location
+                        TeleportToLocation(riftTransform);
+                    }
+                    else
+                    {
+                        Debug.LogError("RiftTransform is not assigned in the Rift script on " + other.name);
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Rift script is missing on " + other.name);
+                }
+            }
+        }
            private void Teleport()
         {
             if (_input.teleport1)
@@ -630,7 +666,7 @@ namespace StarterAssets
             }
         }
 
-        private void TeleportToLocation(Transform targetTransform)
+        public void TeleportToLocation(Transform targetTransform)
         {
             if (targetTransform != null)
             {
