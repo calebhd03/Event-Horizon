@@ -59,7 +59,11 @@ public class StartMenu : MonoBehaviour
     {
         EventSystem.current.SetSelectedGameObject(gameObject);
     }
-
+     public void LoadTheOuterVer2Scene()
+    {
+        Cursor.visible = false;
+        SceneManager.LoadScene("TheOuterVer2");
+    }
     public void LoadInnerScene()
     {
         Cursor.visible = false;
