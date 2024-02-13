@@ -10,7 +10,8 @@ public class plantProjectile : MonoBehaviour
     public LayerMask ground;
     private bool groundTouch = false;
     private bool damageTaken = false;
-    private bool cloudSpawned = false;
+    private bool cloudSpawnedOnGround = false;
+    private bool cloudSpawnedOnPlayer = false;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -35,9 +36,10 @@ public class plantProjectile : MonoBehaviour
                 {
                     damageTaken = true;
 
-                    if (!cloudSpawned)
+                    if (!cloudSpawnedOnPlayer)
                     {
-                        cloudSpawned = true;
+                        cloudSpawnedOnPlayer = true;
+                        cloudSpawnedOnGround = true;
                         PlantCloud();
                     }
                     playerHealthMetric.ModifyHealth(-projectileDamage);
@@ -52,7 +54,12 @@ public class plantProjectile : MonoBehaviour
         {
             damageTaken = true;
             groundTouch = true;
-            PlantCloud();
+            if(!cloudSpawnedOnGround)
+            {
+                cloudSpawnedOnGround = true;
+                cloudSpawnedOnPlayer = true;
+                PlantCloud();
+            }
             //Destroy(gameObject);
         }
     }
