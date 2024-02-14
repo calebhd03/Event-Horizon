@@ -99,6 +99,10 @@ namespace StarterAssets
 
         //Slow Particle effect
         public ParticleSystem slowEffect, damageOverTimeEffect;
+
+        //upgrade
+        public float knockBackForce = 10f, knockBackTimer = 0f;
+
         
 
         private void Awake()
@@ -267,6 +271,16 @@ namespace StarterAssets
 
             //Debug field of view of enemy, shows raycast
             DrawFieldOfVision();
+
+            //knockback
+            if(knockBackTimer > 0)
+                {
+                    //HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+                    Debug.LogError("counting knockback timer");
+                    Vector3 knockBackDirection = gameObject.transform.position - player.transform.position;
+                    transform.position += knockBackDirection.normalized * knockBackForce * Time.deltaTime;
+                    knockBackTimer -=Time.deltaTime;
+                }
         }
 
         //new movement between points but would have to manually add for each enemy
@@ -573,5 +587,9 @@ namespace StarterAssets
     {
         damageOverTimeEffect.Stop();
     }
+    public void KnockBackEffect()
+    {
+        knockBackTimer = .3f;
     }
+}
 }
