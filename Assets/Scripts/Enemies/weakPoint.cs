@@ -18,7 +18,7 @@ public class weakPoint : MonoBehaviour
     public bool slowEnemy, damageOverTimeEnemy;
     public float slowDuration = 6f, slowFactor = 0.7f, priorSpeed, damageOverTime = 3f, damageOverTimeDuration = 6f;
     //Melee Upgrade
-    public bool meleeUp;
+    public bool meleeUp, knockBackUp;
     public float knifeDamageUpFactor = 5f;
 
     private void Start()
@@ -62,6 +62,14 @@ public class weakPoint : MonoBehaviour
         {
             meleeUp = false;
         }
+        if (skillTree.knockBack == true)
+        {
+            knockBackUp = true;
+        }
+        else
+        {
+            knockBackUp = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -70,6 +78,7 @@ public class weakPoint : MonoBehaviour
         {
             SlowDownEnemy();
             StartCoroutine(DoDamageOverTime());
+            knockBackAttack();
             if (healthMetrics != null)
             {
                 GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -222,6 +231,22 @@ public class weakPoint : MonoBehaviour
         if (bossEnemyScript != null)
         {
             bossEnemyScript.StopDamageOverTimeEffect();
+        }
+    }
+    
+    void knockBackAttack()
+    {
+        int randomNumber = Random.Range(0, 5);
+        if(knockBackUp == true && randomNumber >= 0)
+        {
+            if (basicEnemyScript != null)
+                {
+                    basicEnemyScript.KnockBackEffect();
+                }
+            if (bossEnemyScript != null)
+                {
+                    //bossEnemyScript.KnockBackEffect();
+                }
         }
     }
 }

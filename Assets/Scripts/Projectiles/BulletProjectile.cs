@@ -25,7 +25,7 @@ public class BulletProjectile : MonoBehaviour
 
     private void FixedUpdate()
     {
-        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","EnemyColider"));
+        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","EnemyColider","EnemyLayer"));
         if (Physics.Linecast(transform.position, lastPosition, out RaycastHit hitInfo, layerMask))
         {
             transform.position = lastPosition;
@@ -44,7 +44,8 @@ public class BulletProjectile : MonoBehaviour
             layerMask == LayerMask.NameToLayer("Player") ||
             layerMask == LayerMask.NameToLayer("GunLayer")||
             layerMask == LayerMask.NameToLayer("WallBullet")||
-            layerMask == LayerMask.NameToLayer("EnemyColider"))
+            layerMask == LayerMask.NameToLayer("EnemyColider")||
+            layerMask == LayerMask.NameToLayer("EnemyLayer"))
 
         {
             // Do nothing if the collider is on the specified layers
@@ -55,7 +56,6 @@ public class BulletProjectile : MonoBehaviour
         if (other.GetComponent<HealthMetrics>() != null)
         {
             HealthMetrics healthMetrics = other.GetComponent<HealthMetrics>();
-
             if (healthMetrics != null)
             {
                 Instantiate(vfxHit, transform.position, Quaternion.identity);

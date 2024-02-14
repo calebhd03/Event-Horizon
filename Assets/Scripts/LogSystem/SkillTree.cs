@@ -12,7 +12,7 @@ public class SkillTree : MonoBehaviour
     public regularPoint[] regularPointdamage;
     public weakPoint[] weakPointdamage;
     public float healthUpgradeAmount, speedUpgradedAmount, damageUpgradeAmount, upgradeHealthDifference;
-    public bool slowEffectEnemy = false, damageOverTime = false, meleeDamage = false;
+    public bool slowEffectEnemy = false, damageOverTime = false, meleeDamage = false, knockBack = false;
     
     void Start()
     {
@@ -52,6 +52,11 @@ public class SkillTree : MonoBehaviour
         if(playerHealthMetric.playerData.SaveAmmoCapacityUpgrade == true)
         {
             logSystem.ammoSkillUpgraded = true;
+        }
+        if(playerHealthMetric.playerData.SaveKnockBackUpgrade == true)
+        {
+            logSystem.knockBackUpgraded = true;
+            knockBackUpgrade();
         }
     }
     public void HealthUpgraded()
@@ -106,6 +111,12 @@ public class SkillTree : MonoBehaviour
     {
         meleeDamage = true;
         playerHealthMetric.playerData.SaveMeleeDamageUpgrade = true;
+    }
+
+    public void knockBackUpgrade()
+    {
+        knockBack = true;
+        playerHealthMetric.playerData.SaveKnockBackUpgrade = true;
     }
 
 }

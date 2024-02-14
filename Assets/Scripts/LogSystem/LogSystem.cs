@@ -30,10 +30,10 @@ public class LogSystem : MonoBehaviour
     //Skills
     public bool skillsUnlocked = false, skillsUnlocked2 = false, skillsUnlocked3 = false;
     public Button healthUpgradeButton, speedUpgradeButton, damageUpgradeButton, ammoCapactiyButton, SlowEnemyButton, DamageOverTimeButton;
-    public Button meleeButton;
+    public Button meleeButton, knockBackButton;
     public bool healthSkillUpgraded = false, damageSkillUpgraded = false, speedSkillUpgraded = false;
     public bool ammoSkillUpgraded = false, SlowEnemyUpgraded = false, DamageOverTimeSkillUpgraded = false;
-    public bool meleeSkillUpgraded = false;
+    public bool meleeSkillUpgraded = false, knockBackUpgraded;
     public Sprite upgradedSprite;
     AudioSource audioSource;
     public AudioClip SwitchTabSound;
@@ -213,6 +213,7 @@ public class LogSystem : MonoBehaviour
         {
             if (SlowEnemyUpgraded == true)
             {
+                knockBackButton.interactable = false;
                 SlowEnemyButton.interactable = false;
                 DamageOverTimeButton.interactable = false;
                 skillsUnlocked3 = false;
@@ -224,6 +225,7 @@ public class LogSystem : MonoBehaviour
             
             if (DamageOverTimeSkillUpgraded == true)
             {
+                knockBackButton.interactable = false;
                 DamageOverTimeButton.interactable = false;
                 SlowEnemyButton.interactable = false;
                 skillsUnlocked3 = false;
@@ -231,6 +233,17 @@ public class LogSystem : MonoBehaviour
             else
             {
                 DamageOverTimeButton.interactable = true;
+            }
+            if (knockBackUpgraded == true)
+            {
+                knockBackButton.interactable = false;
+                DamageOverTimeButton.interactable = false;
+                SlowEnemyButton.interactable = false;
+                skillsUnlocked3 = false;
+            }
+            else
+            {
+                knockBackButton.interactable = true;
             }
         }
         else 
@@ -242,6 +255,7 @@ public class LogSystem : MonoBehaviour
         SlowEnemyButton.interactable = false;
         DamageOverTimeButton.interactable = false;
         meleeButton.interactable = false;
+        knockBackButton.interactable = false;
         }
     }
 
@@ -474,6 +488,13 @@ public class LogSystem : MonoBehaviour
         meleeSkillUpgraded = true;
         meleeButton.image.sprite = upgradedSprite;
         skillTree.MeleeDamageUpgrade();
+    }
+
+    public void UpgradeKnockBack()
+    {
+        knockBackUpgraded = true;
+        knockBackButton.image.sprite = upgradedSprite;
+        skillTree.knockBackUpgrade();
     }
     
     public void DelayShoot()

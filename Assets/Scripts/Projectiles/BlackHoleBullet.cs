@@ -60,7 +60,7 @@ public class BlackHoleBullet : MonoBehaviour
         {
             if(hitCollider.tag == "Enemy")
             {
-                StartCoroutine(DestroyTarget(hitCollider));
+               // StartCoroutine(DestroyTarget(hitCollider));
             }
         }
     }
@@ -86,7 +86,7 @@ public class BlackHoleBullet : MonoBehaviour
         Destroy(gameObject);
     }
 
-    IEnumerator DestroyTarget(Collider target)
+    /*IEnumerator DestroyTarget(Collider target)
     {
         if(target.tag == "Enemy")
         {
@@ -105,7 +105,7 @@ public class BlackHoleBullet : MonoBehaviour
                 Destroy(target.gameObject);
             }
         }
-    }
+    }*/
 
     private void OnDrawGizmos()
     {

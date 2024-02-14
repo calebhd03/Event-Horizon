@@ -34,7 +34,7 @@ public class Portal : MonoBehaviour
 
     private void OnEnable()
     {
-        AndDestroy();
+       // AndDestroy();
     }
 
 
@@ -67,7 +67,7 @@ public class Portal : MonoBehaviour
         }
     }
 
-    public void AndDestroy()
+    /*public void AndDestroy()
     {
         // Find and destroy all objects tagged as "Enemy"
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -75,7 +75,7 @@ public class Portal : MonoBehaviour
         {
             Destroy(enemy);
         }
-    }
+    }*/
 
     public void PortalCamPriority()
     {
