@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 177887115365128578}
-  m_LocalRotation: {x: -0, y: 0.788244, z: -0.6153629, w: 0}
-  m_LocalPosition: {x: 0, y: 0.045, z: -0.0001}
-  m_LocalScale: {x: 0.035714284, y: 0.03571428, z: 0.03571428}
+  m_LocalRotation: {x: -0, y: 0.9924999, z: 0.122245476, w: 0}
+  m_LocalPosition: {x: 0, y: 0.00009999797, z: 0.04500001}
+  m_LocalScale: {x: 0.035714272, y: 0.03571428, z: 0.035714284}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7445039890647817871}
-  m_RootOrder: 2
+  m_Father: {fileID: 6975304434966871019}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 75.957, y: 180, z: 0}
 --- !u!198 &5997740552970107821
 ParticleSystem:
@@ -620,17 +620,17 @@ ParticleSystem:
           outSlope: 0
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0
         - serializedVersion: 3
           time: 1
-          value: 0
+          value: 1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -3612,7 +3612,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 4
     type: 0
     collisionMode: 0
@@ -3620,7 +3620,8 @@ ParticleSystem:
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
     multiplyColliderForceByCollisionAngle: 1
-    m_Planes: []
+    m_Planes:
+    - {fileID: 0}
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
@@ -5299,6 +5300,8 @@ MonoBehaviour:
   pickupDropChance: 0.3
   slowEffect: {fileID: 7331244988965280216}
   damageOverTimeEffect: {fileID: 7331244988965280216}
+  knockBackForce: 10
+  knockBackTimer: 0
 --- !u!114 &986633095995325602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5328,6 +5331,7 @@ MonoBehaviour:
   Scanned: 0
   criticalPointReveal: {fileID: 430081181259919508}
   number: 0
+  weakPointReveal: []
 --- !u!95 &5196923581864970213
 Animator:
   serializedVersion: 5
@@ -5613,6 +5617,7 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
 --- !u!1 &986633096713724794
@@ -5891,6 +5896,7 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
 --- !u!1 &6111330932884547049
 GameObject:
@@ -6028,9 +6034,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slow Particle Effect
       objectReference: {fileID: 0}
+    - target: {fileID: 4314430095859130899, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6592,6 +6602,7 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
 --- !u!1 &826775214723385376 stripped
@@ -6637,6 +6648,7 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
 --- !u!1 &1978783435855465430 stripped
 GameObject:
@@ -6680,6 +6692,7 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
 --- !u!1 &3326069199645363224 stripped
@@ -6724,6 +6737,7 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
 --- !u!1 &3795694386341557111 stripped
@@ -6768,6 +6782,7 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
 --- !u!114 &8959913235031862671
@@ -6826,8 +6841,14 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
+--- !u!4 &6975304434966871019 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6160864238912143, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
+  m_PrefabInstance: {fileID: 6978504818902989156}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7445039890647817871 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
