@@ -21,13 +21,14 @@ public class PauseMenuScript : MonoBehaviour
     LogSystem logSystem;
 
     public GameObject Player;
+    public bool dialogActive = false;
 
 
 
     private void Start()
     {
         logSystem = FindObjectOfType<LogSystem>();
-         starterAssetsInputs = Player.GetComponent<StarterAssetsInputs>();
+        starterAssetsInputs = Player.GetComponent<StarterAssetsInputs>();
     }
     public void SetSave()
     {
@@ -88,7 +89,10 @@ public class PauseMenuScript : MonoBehaviour
         PauseScreen.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        if (dialogActive == false)
+        {
         Time.timeScale = 1;
+        }
 
         starterAssetsInputs.PauseInput(false);
         PauseFalse();

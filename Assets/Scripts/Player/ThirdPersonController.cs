@@ -93,6 +93,8 @@ namespace StarterAssets
         public GameObject deathScreen;
         public bool deathbool = false;
 
+        //Dialog
+        //Dialog dialog;
 
 
         // cinemachine
@@ -198,6 +200,8 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+
+            //dialog = FindObjectOfType<Dialog>();
         }
 
         private void Update()
@@ -262,7 +266,7 @@ namespace StarterAssets
         {
             LogSystem logSystem = FindObjectOfType<LogSystem>();
             // if there is an input and camera position is not fixed
-            if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition && pauseMenuScript.paused == false && logSystem.log == false)
+            if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition && pauseMenuScript.paused == false && logSystem.log == false/* && dialog.dialogActive == false*/)
             {
                 //Don't multiply mouse input by Time.deltaTime;
                 float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;

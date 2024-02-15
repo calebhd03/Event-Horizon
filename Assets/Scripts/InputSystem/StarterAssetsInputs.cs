@@ -58,6 +58,7 @@ namespace StarterAssets
         public bool centerTP;
 
 		public bool delayShoot;
+		public bool interact;
 
 
         private void Start()
@@ -218,6 +219,10 @@ namespace StarterAssets
 		public void OnSwapBHG(InputValue value)
 		{
 			SwapBHGInput(value.isPressed);
+		}
+		public void OnInteract(InputValue value)
+		{
+			InteractInput(value.isPressed);
 		}
 		
 #endif
@@ -389,6 +394,10 @@ namespace StarterAssets
 			{
 				swapBHG = !swapBHG;
 			}
+		}
+		public void InteractInput(bool newInteractState) //Dev Controls
+		{
+			interact = newInteractState;
 		}
 	}
 }

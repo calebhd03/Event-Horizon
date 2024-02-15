@@ -5,7 +5,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Dialog : MonoBehaviour
+
+public class TriggerDialog : MonoBehaviour
 {
     [Tooltip ("Dialog clips should match order of the dialog text.")]
     public AudioClip[] dialogClips;
@@ -48,23 +49,24 @@ public class Dialog : MonoBehaviour
         }
     }
 
-    public void TriggerDialogue()
+    void OnTriggerEnter(Collider other)
     {
-        dialogActive = true;
-        pauseMenuScript.dialogActive = true;
-        Time.timeScale = 0;
-        objectiveText.ShowDialogText();
-        audioSource.clip = dialogClips[number];
-        audioSource.Play();
-        objectiveText.displayedText.text = dialogText[number].text;
-        number += 1;
-        if (number >= dialogClips.Length)
+        if(other.CompareTag("Player") && dialogActive == false)
         {
-            number = 0;
-            dialogActive = false;
-            Time.timeScale = 1;
-            pauseMenuScript.dialogActive = false;
-            StartCoroutine(TurnOffText());
+            dialogActive = true;
+            pauseMenuScript.dialogActive = true;
+            objectiveText.ShowDialogText();
+            audioSource.clip = dialogClips[number];
+            audioSource.Play();
+            objectiveText.displayedText.text = dialogText[number].text;
+            number += 1;
+                if (number >= dialogClips.Length)
+                {
+                    number = 0;
+                    //dialogActive = false;
+                    pauseMenuScript.dialogActive = false;
+                    StartCoroutine(TurnOffText());
+                }
         }
     }
 
@@ -74,4 +76,3 @@ public class Dialog : MonoBehaviour
         objectiveText.HideDialogText();
     }
 }
-

@@ -48,5 +48,14 @@ public class ObjectiveText : MonoBehaviour
         Invoke("HideText", 3);
     }
 
+    public void ShowDialogText()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void HideDialogText()
+    {
+        gameObject.SetActive(false);
+    }
 
 }
