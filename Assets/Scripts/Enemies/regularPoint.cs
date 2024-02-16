@@ -18,12 +18,14 @@ public class regularPoint : MonoBehaviour
     public NavMeshAgent agent;
     private SkillTree skillTree;
     public bool slowEnemy, damageOverTimeEnemy;
-    public float slowDuration = 6f, slowFactor = 0.7f, priorSpeed, damageOverTime = 3f, damageOverTimeDuration = 6f;
+    public float slowDuration = 6f, slowFactor = 0.7f, priorSpeed, damageOverTime = 5f, damageOverTimeDuration = 4f;
     //Melee Upgrade
     public bool meleeUp, knockBackUp;
     public float knifeDamageUpFactor = 5f;
 
     public GameObject[] armorPieces;
+    public bool stopStackDamage = false;
+    regularPoint[] regularPoints;
 
     private void Start()
     {
@@ -34,6 +36,7 @@ public class regularPoint : MonoBehaviour
         priorSpeed = agent.speed;
         skillTree = FindObjectOfType<SkillTree>();
         healthMetrics = GetComponentInParent<HealthMetrics>();
+        regularPoints = basicEnemyScript.GetComponentsInChildren<regularPoint>();
     }
 
     void Update()
@@ -70,6 +73,20 @@ public class regularPoint : MonoBehaviour
         {
             knockBackUp = false;
         }
+        if (stopStackDamage == true)
+        {
+            foreach (regularPoint regulars in regularPoints)
+            {
+                regulars.stopStackDamage = true;
+            }
+        }
+        else if (stopStackDamage == false)
+        {
+            foreach (regularPoint regulars in regularPoints)
+            {
+                regulars.stopStackDamage = false;
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -78,7 +95,10 @@ public class regularPoint : MonoBehaviour
         {
             
             SlowDownEnemy();
+            if (stopStackDamage == false)
+            {
             StartCoroutine(DoDamageOverTime());
+            }
             knockBackAttack();
             if (healthMetrics != null)
             {
@@ -218,6 +238,7 @@ public class regularPoint : MonoBehaviour
         
             if (damageOverTimeEnemy == true && randomNumber >= 0)
             {       
+                stopStackDamage = true;
                 if (basicEnemyScript != null)
                     {
                         basicEnemyScript.PlayDamageOverTimeEffect();
@@ -233,6 +254,7 @@ public class regularPoint : MonoBehaviour
                 {
                    healthMetrics.ModifyHealth(-damageOverTime * Time.deltaTime);
                    elapsedTime += Time.deltaTime;
+                   
                    yield return null; 
                 }
             }
@@ -247,6 +269,7 @@ public class regularPoint : MonoBehaviour
         {
             bossEnemyScript.StopDamageOverTimeEffect();
         }
+        stopStackDamage = false;
     }
         void knockBackAttack()
     {

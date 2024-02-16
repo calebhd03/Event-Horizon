@@ -35,10 +35,12 @@ public class SkillTree : MonoBehaviour
         if(playerHealthMetric.playerData.SaveDamageOverTimeUpgrade == true)
         {
             logSystem.DamageOverTimeSkillUpgraded = true;
+            damageOverTime = true;
         }
         if(playerHealthMetric.playerData.SaveMeleeDamageUpgrade == true)
         {
             logSystem.meleeSkillUpgraded = true;
+            meleeDamage = true;
         }
         if(playerHealthMetric.playerData.SaveSpeedUpgrade == true)
         {
@@ -48,6 +50,7 @@ public class SkillTree : MonoBehaviour
         if(playerHealthMetric.playerData.SaveSlowEnemyUpgrade == true)
         {
             logSystem.SlowEnemyUpgraded = true;
+            slowEffectEnemy = true;
         }
         if(playerHealthMetric.playerData.SaveAmmoCapacityUpgrade == true)
         {

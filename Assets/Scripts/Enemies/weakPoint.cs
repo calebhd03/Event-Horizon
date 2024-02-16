@@ -16,10 +16,12 @@ public class weakPoint : MonoBehaviour
     public bool damageUpgrade = false;
     SkillTree skillTree;
     public bool slowEnemy, damageOverTimeEnemy;
-    public float slowDuration = 6f, slowFactor = 0.7f, priorSpeed, damageOverTime = 3f, damageOverTimeDuration = 6f;
+    public float slowDuration = 6f, slowFactor = 0.7f, priorSpeed, damageOverTime = 5f, damageOverTimeDuration = 4f;
     //Melee Upgrade
     public bool meleeUp, knockBackUp;
     public float knifeDamageUpFactor = 5f;
+    public bool stopStackDamage = false;
+    weakPoint[] weakPoints;
 
     private void Start()
     {
@@ -30,6 +32,7 @@ public class weakPoint : MonoBehaviour
         priorSpeed = agent.speed;
         skillTree = FindObjectOfType<SkillTree>();
         healthMetrics = GetComponentInParent<HealthMetrics>();
+        weakPoints = basicEnemyScript.GetComponentsInChildren<weakPoint>();
     }
     void Update()
     {
@@ -70,6 +73,20 @@ public class weakPoint : MonoBehaviour
         {
             knockBackUp = false;
         }
+        if (stopStackDamage == true)
+        {
+            foreach (weakPoint weaklings in weakPoints)
+            {
+                weaklings.stopStackDamage = true;
+            }
+        }
+        else if (stopStackDamage == false)
+        {
+            foreach (weakPoint weaklings in weakPoints)
+            {
+                weaklings.stopStackDamage = false;
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -77,7 +94,10 @@ public class weakPoint : MonoBehaviour
         if (other.CompareTag("Bullet"))
         {
             SlowDownEnemy();
+            if (stopStackDamage == false)
+            {
             StartCoroutine(DoDamageOverTime());
+            }
             knockBackAttack();
             if (healthMetrics != null)
             {
@@ -196,9 +216,10 @@ public class weakPoint : MonoBehaviour
     private IEnumerator DoDamageOverTime()
     {
         int randomNumber = Random.Range(0, 8);
-        
-            if (damageOverTimeEnemy == true && randomNumber >= 0)
+    
+                if (damageOverTimeEnemy == true && randomNumber >= 0)
             {
+                stopStackDamage = true;
                 if (basicEnemyScript != null)
                     {
                         basicEnemyScript.PlayDamageOverTimeEffect();
@@ -216,6 +237,7 @@ public class weakPoint : MonoBehaviour
                     {
                     healthMetrics.ModifyHealth(-damageOverTime * Time.deltaTime);
                     elapsedTime += Time.deltaTime;
+                    
                     yield return null; 
                     }
                 }
@@ -232,6 +254,7 @@ public class weakPoint : MonoBehaviour
         {
             bossEnemyScript.StopDamageOverTimeEffect();
         }
+        stopStackDamage = false;
     }
     
     void knockBackAttack()
