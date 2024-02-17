@@ -92,4 +92,28 @@ public static void SavePlayer(PlayerSaveData saveData)
         }
         return null;
     }
+    public static void SaveEnemyData(EnemyData enemyData)
+    {
+        // Save enemy data using binary serialization
+        BinaryFormatter formatter = new BinaryFormatter();
+        string path = Application.persistentDataPath + "/enemyData.data";
+        FileStream stream = new FileStream(path, FileMode.Create);
+        formatter.Serialize(stream, enemyData);
+        stream.Close();
+    }
+
+    public static EnemyData LoadEnemyData()
+    {
+        // Load enemy data using binary deserialization
+        string path = Application.persistentDataPath + "/enemyData.data";
+        if (File.Exists(path))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(path, FileMode.Open);
+            EnemyData data = formatter.Deserialize(stream) as EnemyData;
+            stream.Close();
+            return data;
+        }
+        return null;
+    }
 }
