@@ -1,4 +1,4 @@
-  using UnityEngine;
+    using UnityEngine;
   using UnityEngine.SceneManagement;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
@@ -93,8 +93,6 @@ namespace StarterAssets
         public GameObject deathScreen;
         public bool deathbool = false;
 
-        //Dialog
-        //Dialog dialog;
 
 
         // cinemachine
@@ -200,8 +198,6 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
-
-            //dialog = FindObjectOfType<Dialog>();
         }
 
         private void Update()
@@ -266,7 +262,7 @@ namespace StarterAssets
         {
             LogSystem logSystem = FindObjectOfType<LogSystem>();
             // if there is an input and camera position is not fixed
-            if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition && pauseMenuScript.paused == false && logSystem.log == false/* && dialog.dialogActive == false*/)
+            if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition && pauseMenuScript.paused == false && logSystem.log == false)
             {
                 //Don't multiply mouse input by Time.deltaTime;
                 float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
