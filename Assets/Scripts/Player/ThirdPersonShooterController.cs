@@ -127,7 +127,6 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         //Sound
         AudioSource audioSource;
-        Dialog dialog;
 
 
         private void Awake()
@@ -148,7 +147,6 @@ public class ThirdPersonShooterController : MonoBehaviour
             pauseMenuScript = FindObjectOfType<PauseMenuScript>();
             logSystem = FindObjectOfType<LogSystem>();
             audioSource = GetComponent<AudioSource>();
-            dialog = FindObjectOfType<Dialog>();
         }
 
         private void Update()
@@ -268,7 +266,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                         }
             }
 
-        if (starterAssetsInputs.scroll != Vector2.zero && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && dialog.dialogActive == false)
+        if (starterAssetsInputs.scroll != Vector2.zero && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
             {
 
             //equippedWeapon = equippedWeapon++;
@@ -311,7 +309,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
 
-        if (starterAssetsInputs.switchWeapon && Time.time - lastSwitchTime >= switchCoolDown && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && dialog.dialogActive == false)
+        if (starterAssetsInputs.switchWeapon && Time.time - lastSwitchTime >= switchCoolDown && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
         {
             if (equippedWeapon != 0)
             {
@@ -327,17 +325,17 @@ public class ThirdPersonShooterController : MonoBehaviour
             Debug.Log(equippedWeapon);
         }
 
-        if (starterAssetsInputs.blaster && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && dialog.dialogActive == false)
+        if (starterAssetsInputs.blaster && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
         {
             EquipBlaster();
         }
 
-        if (starterAssetsInputs.blackHoleGun && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && dialog.dialogActive == false)
+        if (starterAssetsInputs.blackHoleGun && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
         {
             EquipBlackHoleGun();
         }
 
-        if (starterAssetsInputs.swapBHG && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && dialog.dialogActive == false)
+        if (starterAssetsInputs.swapBHG && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
         {
             if (equippedWeapon == 1)
             {
@@ -351,22 +349,22 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
 
-        if (starterAssetsInputs.shotgun && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && dialog.dialogActive == false)
+        if (starterAssetsInputs.shotgun && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
         {
             EquipShotgun();
         }
 
-        if (starterAssetsInputs.knife && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && dialog.dialogActive == false)
+        if (starterAssetsInputs.knife && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
         {
             EquipKnife();
         }
 
-        if (starterAssetsInputs.reload && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && dialog.dialogActive == false)
+        if (starterAssetsInputs.reload && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
         {
             Reload();
         }
 
-        if (starterAssetsInputs.shoot && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && dialog.dialogActive == false)
+        if (starterAssetsInputs.shoot && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
         {
             Vector3 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
 
@@ -488,7 +486,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             isCharging = false;
         }
     
-    if (starterAssetsInputs.scan && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && dialog.dialogActive == false)
+    if (starterAssetsInputs.scan && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
             {
                 DisablePlayerMesh();
                 starterAssetsInputs.scan = true;
@@ -578,31 +576,6 @@ public class ThirdPersonShooterController : MonoBehaviour
                     starterAssetsInputs.log = false;
                 }
             }
-
-            if (starterAssetsInputs.interact)
-                {
-                    Debug.LogError("interact");
-                        if (starterAssetsInputs.interact == true)
-                        {
-                            starterAssetsInputs.interact = false;
-
-                        }
-
-                    float interactRange = 2f;
-                    Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange);
-                    foreach (Collider collider in colliderArray)
-                        if (collider.CompareTag("Dialog"))
-                        {
-                            Dialog dialog = collider.GetComponent<Dialog>();
-                            //NPC_Script.Interact();
-
-                            //animator.SetBool("isTalking", true);
-                            //set number
-                            dialog.TriggerDialogue();
-                            
-                            
-                        }
-                }
         }
         
 
@@ -1063,5 +1036,4 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         normalSensitivity = newChangeSens;
     }
-    
 }
