@@ -70,25 +70,25 @@ public class crabEnemy : MonoBehaviour
         if (iSeeYou == true && withInAttackRange == false)
         {
             transform.LookAt(player);
-            chasePlayer();
+            ChasePlayer();
         }
 
         if (iSeeYou == true && withInAttackRange == true)
         {
-            attackPlayer();
+            AttackPlayer();
             transform.LookAt(player);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
         }
     }
     
-    private void chasePlayer() //chase player once found
+    private void ChasePlayer() //chase player once found
     {
         agent.SetDestination(player.position);
         transform.LookAt(player);
         jump= false;
     }
 
-    private void attackPlayer()
+    private void AttackPlayer()
     {
         if (!jump)
         {
