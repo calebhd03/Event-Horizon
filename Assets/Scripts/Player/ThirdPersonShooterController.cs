@@ -14,10 +14,11 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
         [SerializeField] private Transform pfBulletProjectile;
         [SerializeField] private Transform pfBlackHoleProjectile;
-        [SerializeField] private Transform pfShotgunProjectile;
+        [SerializeField] private Transform pfPlasmaProjectile;
+        //[SerializeField] private Transform pfShotgunProjectile;
         [SerializeField] private Transform pfWallProjectile;
         [SerializeField] private Transform spawnBulletPosition;
-        [SerializeField] private Transform spawnShotgunBulletPosition;
+        //[SerializeField] private Transform spawnShotgunBulletPosition;
         [SerializeField] public Transform spawnBlackHoleBulletPosition;
         [SerializeField] private Transform spawnBulletPositionOg;
         [SerializeField] private Transform spawnBulletPositionCrouch;
@@ -26,13 +27,13 @@ public class ThirdPersonShooterController : MonoBehaviour
         //private Animator animator;
         
         [SerializeField] private int equippedWeapon;
-        [SerializeField] private float shotgunCooldown = 1.0f;
-        [SerializeField] private float shotgunSpreadAngle = 3f; // Spread angle for shotgun pellets
-        private float lastShotgunTime;
+        //[SerializeField] private float shotgunCooldown = 1.0f;
+        //[SerializeField] private float shotgunSpreadAngle = 3f; // Spread angle for shotgun pellets
+        //private float lastShotgunTime;
 
         public GameObject blasterHolster;
         public GameObject BHGHolster;
-        public GameObject shotgunHolster;
+        //public GameObject shotgunHolster;
         public GameObject crouchedWeaponObject;
         public GameObject originalWeaponObject;
         public GameObject BhgIcon;
@@ -41,7 +42,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         [Header("Weapon Game Objects")]
         public GameObject standardWeaponObject;
         public GameObject blackHoleWeaponObject;
-        public GameObject shotgunWeaponObject;
+        //public GameObject shotgunWeaponObject;
 
         private float lastSwitchTime;
         private float switchCoolDown = 0.5f;
@@ -62,13 +63,16 @@ public class ThirdPersonShooterController : MonoBehaviour
         public bool knifeSlash = false;
         public Image cooldownMeter;
 
+        [SerializeField] private float plasmaSpreadAngle;
+        [SerializeField] private float plasmaShotOffset;
+
         
         public bool reloading;
         private int ammoDifference;
 
         public float standardReloadTime;
         public float blackHoleReloadTime;
-        public float shotgunReloadTime;
+        //public float shotgunReloadTime;
 
         public TextMeshProUGUI loadedAmmoCounter;
         public TextMeshProUGUI totalAmmoCounter;
@@ -82,9 +86,9 @@ public class ThirdPersonShooterController : MonoBehaviour
         public GameObject blasterSlot1;
         public GameObject blasterSlot2;
         
-        public GameObject shotgunEquipped;
-        public GameObject shotgunSlot1;
-        public GameObject shotgunSlot2;
+        //public GameObject shotgunEquipped;
+        //public GameObject shotgunSlot1;
+        //public GameObject shotgunSlot2;
 
         public GameObject ammountCountIcon;
         
@@ -96,10 +100,11 @@ public class ThirdPersonShooterController : MonoBehaviour
         public bool Scanenabled = false;
 
         [Header("Gun Audio")]
-        [SerializeField] private AudioClip blasterSound ;
+        [SerializeField] private AudioClip blasterSound;
+        [SerializeField] private AudioClip plasmaBlasterSound;
         [SerializeField] private AudioClip blasterReloadSound;
-        [SerializeField] private AudioClip shotgunSound;
-        [SerializeField] private AudioClip shotgunReloadSound;
+        //[SerializeField] private AudioClip shotgunSound;
+        //[SerializeField] private AudioClip shotgunReloadSound;
         [SerializeField] private AudioClip blackHoleSound;
         [SerializeField] private AudioClip wallBulletSound;
         [SerializeField] private AudioClip blackHoleReloadSound;
@@ -107,8 +112,8 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private AudioClip weaponSwitchSound;
 
         [Header("Gun Effects")]
-        [SerializeField] private ParticleSystem blassterFlash;
-        [SerializeField] private ParticleSystem shotgunFlash;
+        [SerializeField] private ParticleSystem blasterFlash;
+       //[SerializeField] private ParticleSystem shotgunFlash;
         public ParticleSystem charging, firing, cooldown;
         public Transform chargingSpawnLocation, firingSpawnLocation, cooldownSpawnLocation;
 
@@ -158,7 +163,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             ScanZoom scnzCam = ScannerZoomCamera.GetComponent<ScanZoom>();
             ThirdPersonController TPC = GetComponent<ThirdPersonController>();
             NexusGun nxgun = GetComponentInChildren<NexusGun>();
-            Shotgun sgun = GetComponentInChildren<Shotgun>();
+            //Shotgun sgun = GetComponentInChildren<Shotgun>();
             Blaster bgun = GetComponentInChildren<Blaster>();
             Vector3 mouseWorldPosition = Vector3.zero;
 
@@ -249,62 +254,60 @@ public class ThirdPersonShooterController : MonoBehaviour
                             shotgunWeaponObject.transform.forward = weaponDirection3.normalized;
                             break;*/
                     //}
-                        }
-                            else
-                        {
-                            aimVirtualCamera.gameObject.SetActive(false);
-                            thirdPersonController.SetSensitivity(normalSensitivity);
-                            thirdPersonController.SetRotateOnMove(true);
-                        // animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
-                            // Set the character's rotation back to its original rotation when not aiming
-                            transform.rotation = Quaternion.Lerp(transform.rotation, originalRotation, Time.deltaTime * 5f);
+                }
+                    else
+                {
+                    aimVirtualCamera.gameObject.SetActive(false);
+                    thirdPersonController.SetSensitivity(normalSensitivity);
+                    thirdPersonController.SetRotateOnMove(true);
+                // animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
+                    // Set the character's rotation back to its original rotation when not aiming
+                    transform.rotation = Quaternion.Lerp(transform.rotation, originalRotation, Time.deltaTime * 5f);
 
-                            // Disable all weapon objects when not aiming
-                            //standardWeaponObject.SetActive(false);
-                            //blackHoleWeaponObject.SetActive(false);
-                            //shotgunWeaponObject.SetActive(false);
-                        }
+                    // Disable all weapon objects when not aiming
+                    //standardWeaponObject.SetActive(false);
+                    //blackHoleWeaponObject.SetActive(false);
+                    //shotgunWeaponObject.SetActive(false);
+                }
             }
 
         if (starterAssetsInputs.scroll != Vector2.zero && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
-            {
-
+        {
             //equippedWeapon = equippedWeapon++;
                 
-            /*   equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon - 1 : equippedWeapon + 1;
-            if (equippedWeapon > allWeapons.Length - 1)
+            equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon - 1 : equippedWeapon + 1;
+            if (equippedWeapon > 1)
             {
                 equippedWeapon = 0;
             }
             else if (equippedWeapon < 0)
             {
-                equippedWeapon = allWeapons.Length - 1;
-            }*/
+                equippedWeapon = 1;
+            }
 
             // new weapon selecting
-            equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon = 0 : equippedWeapon = 2;
+            //equippedWeapon = starterAssetsInputs.scroll.y > 0 ? equippedWeapon = 0 : equippedWeapon = 1;
             shotCooldown = currentCooldown;
             UpdateAmmoCount();
             RefreshWeaponIcons();
             Debug.Log(equippedWeapon);
-                
 
-        switch (equippedWeapon)
-        {
-            case 0:
-                    EquipBlaster();
-                break;
-            case 1:
-                    EquipBlackHoleGun();
-                break;
-            case 2:
-                    EquipShotgun();
-                break;
-                case 3:
-                    EquipKnife();
-                    break; 
-            default:
-                break;
+            switch (equippedWeapon)
+            {
+                case 0:
+                        EquipBlaster();
+                    break;
+                case 1:
+                        EquipBlackHoleGun();
+                    break;
+                case 2:
+                        //EquipShotgun();
+                    break;
+                    case 3:
+                        EquipKnife();
+                        break; 
+                default:
+                    break;
 
             }
         }
@@ -317,7 +320,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
             else
             {
-                EquipShotgun();
+                //EquipShotgun();
             }
             lastSwitchTime = Time.time;
             shotCooldown = currentCooldown;
@@ -349,10 +352,10 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
 
-        if (starterAssetsInputs.shotgun && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
+        /*if (starterAssetsInputs.shotgun && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
         {
             EquipShotgun();
-        }
+        }*/
 
         if (starterAssetsInputs.knife && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
         {
@@ -375,12 +378,40 @@ public class ThirdPersonShooterController : MonoBehaviour
 
                 if (equippedWeapon == 0 && playerData.standardAmmoLoaded > 0)//Standard Projectile Shoot
                 {
-                    Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                     playerData.standardAmmoLoaded -= 1;
                     currentCooldown = standardCooldown;
                     thirdPersonController.SwitchCameraTarget();
-                    audioSource.PlayOneShot(blasterSound);
-                    blassterFlash.Play();
+                    blasterFlash.Play();
+
+                    if(!playerData.SaveDamageUpgrade)
+                    {
+                        Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+                        audioSource.PlayOneShot(blasterSound);
+                    }
+                    else
+                    {
+                        Vector3 plasmaSpreadR = Quaternion.Euler(0, plasmaSpreadAngle, 0) * aimDir;
+                        Vector3 plasmaSpreadL = Quaternion.Euler(0, -plasmaSpreadAngle, 0) * aimDir;
+                        Instantiate(pfPlasmaProjectile, spawnBulletPosition.position + new Vector3 (plasmaShotOffset, 0, 0), Quaternion.LookRotation(plasmaSpreadR, Vector3.up));
+                        Instantiate(pfPlasmaProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+                        Instantiate(pfPlasmaProjectile, spawnBulletPosition.position - new Vector3 (plasmaShotOffset, 0, 0), Quaternion.LookRotation(plasmaSpreadL, Vector3.up));
+                        audioSource.PlayOneShot(plasmaBlasterSound);
+                        for (int i = 0; i < 3; i++) // Fire 3 bullets in a row
+                        {
+                            // Calculate a random spread angle within the specified shotgunSpreadAngle
+                            //float horizontalSpread = Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle);
+                            //float verticalSpread = Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle);
+
+                            // Calculate the direction to the target
+                           //Vector3 directionToTarget = (mouseWorldPosition - spawnShotgunBulletPosition.position).normalized;
+
+                            // Create a spreadDirection by rotating the direction to the target by the spread angles
+                            //Vector3 spreadDirection = Quaternion.Euler(verticalSpread, horizontalSpread, 0) * directionToTarget;
+
+                            // Instantiate the shotgun pellet with the randomized direction
+                            //Instantiate(pfShotgunProjectile, spawnShotgunBulletPosition.position, Quaternion.LookRotation(spreadDirection, Vector3.up));
+                        }
+                    }
                 }
                 if (equippedWeapon == 1 )
                 {   
@@ -389,12 +420,11 @@ public class ThirdPersonShooterController : MonoBehaviour
                         
                         if (playerData.nexusAmmoLoaded > 0 || playerData.nexusAmmoLoaded <= 0)
                         {
-                        
-                         BhgIcon.SetActive(false);
-                        Instantiate(pfWallProjectile, spawnBlackHoleBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
-                        currentCooldown = blackHoleCooldown;
-                        thirdPersonController.SwitchCameraTarget();
-                        audioSource.PlayOneShot(wallBulletSound);
+                            BhgIcon.SetActive(false);
+                            Instantiate(pfWallProjectile, spawnBlackHoleBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+                            currentCooldown = blackHoleCooldown;
+                            thirdPersonController.SwitchCameraTarget();
+                            audioSource.PlayOneShot(wallBulletSound);
                         }
                     }
                     else if (playerData.nexusAmmoLoaded > 0 )
@@ -422,9 +452,8 @@ public class ThirdPersonShooterController : MonoBehaviour
 
                     }
 
-
                 }
-                if (equippedWeapon == 2 && playerData.shotgunAmmoLoaded > 0)
+                /*if (equippedWeapon == 2 && playerData.shotgunAmmoLoaded > 0)
                 {        
                     playerData.shotgunAmmoLoaded -= 1;
                     currentCooldown = shotgunCooldown;
@@ -446,7 +475,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                         // Instantiate the shotgun pellet with the randomized direction
                         Instantiate(pfShotgunProjectile, spawnShotgunBulletPosition.position, Quaternion.LookRotation(spreadDirection, Vector3.up));
                     }
-                }
+                }*/
 
                 else if(equippedWeapon == 3)
                 {
@@ -487,103 +516,103 @@ public class ThirdPersonShooterController : MonoBehaviour
         }
     
     if (starterAssetsInputs.scan && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
+        {
+            DisablePlayerMesh();
+            starterAssetsInputs.scan = true;
+            // remove if and else if statement and leave following line for log to open not in scanner. 
+            scnScr.SwitchCamPriority();
+            /*if (logSystem.log == false)
             {
-                DisablePlayerMesh();
-                starterAssetsInputs.scan = true;
-                // remove if and else if statement and leave following line for log to open not in scanner. 
                 scnScr.SwitchCamPriority();
-                /*if (logSystem.log == false)
-                {
-                    scnScr.SwitchCamPriority();
-                }
-                
-                else if (logSystem == true)
-                {
-                    scnScr.ScanCamPriority();
-                    logSystem.CloseLog();
-                }*/
-                
-                if (starterAssetsInputs.scan == true)
-                {
-                    starterAssetsInputs.scan = false;
-
-                }
-
-                if (scnScr.Scan == false)
-                {
-                    EnablePlayerMesh();
-                }
             }
+            
+            else if (logSystem == true)
+            {
+                scnScr.ScanCamPriority();
+                logSystem.CloseLog();
+            }*/
+            
+            if (starterAssetsInputs.scan == true)
+            {
+                starterAssetsInputs.scan = false;
 
-            if (starterAssetsInputs.scanobj && scnScr.Scan == true)
-            {
-                scnCam.ScanObj();
-            }
-            else 
-            {
-                scnCam.StopScanObj();
             }
 
             if (scnScr.Scan == false)
             {
-                starterAssetsInputs.scanaim = false;
-            }
-            if(starterAssetsInputs.scanaim && scnScr.Scan == true)
-            {
-                starterAssetsInputs.scanaim = true;
-                //Debug.Log("scanzoom pressed");
-                scnzCam.ScanZoomPriority();
-
-                if (starterAssetsInputs.scanaim == true)
-                {
-                    starterAssetsInputs.scanaim = false;
-                }
-            }
-
-            if (playerData.standardAmmoLoaded == 0 || playerData.shotgunAmmoLoaded == 0 || (playerData.nexusAmmoLoaded == 0 && BHGTool == false))
-            {
-                Reload();
-            }
-            
-            // remove scnScr.scan == true from if statement to remove requirement of being in scan mode.
-            if (starterAssetsInputs.log && pauseMenuScript.paused == false && thirdPersonController.deathbool == false)// && scnScr.Scan == true)
-            {
-                if (logSystem.log == false)
-                {
-                    logSystem.SetLog();
-                    DisablePlayerMesh();
-                   // Debug.LogWarning("this");
-                                    // for scanner not used
-                    scnScr.ScanCamPriority();
-                }
-                else
-                {
-                    logSystem.CloseLog();
-                    EnablePlayerMesh();
-                   // Debug.LogWarning("this2");
-                                    // for scanner not used
-                    scnScr.SwitchCamPriority();
-                }
-                starterAssetsInputs.log = true;
-                // for scanner == true
-                //scnScr.ScanCamPriority();
-
-                
-                
-                
-                if (starterAssetsInputs.log == true)
-                {
-                    starterAssetsInputs.log = false;
-                }
+                EnablePlayerMesh();
             }
         }
+
+        if (starterAssetsInputs.scanobj && scnScr.Scan == true)
+        {
+            scnCam.ScanObj();
+        }
+        else 
+        {
+            scnCam.StopScanObj();
+        }
+
+        if (scnScr.Scan == false)
+        {
+            starterAssetsInputs.scanaim = false;
+        }
+        if(starterAssetsInputs.scanaim && scnScr.Scan == true)
+        {
+            starterAssetsInputs.scanaim = true;
+            //Debug.Log("scanzoom pressed");
+            scnzCam.ScanZoomPriority();
+
+            if (starterAssetsInputs.scanaim == true)
+            {
+                starterAssetsInputs.scanaim = false;
+            }
+        }
+
+        if (playerData.standardAmmoLoaded == 0 || /*playerData.shotgunAmmoLoaded == 0 ||*/ (playerData.nexusAmmoLoaded == 0 && BHGTool == false))
+        {
+            Reload();
+        }
         
+        // remove scnScr.scan == true from if statement to remove requirement of being in scan mode.
+        if (starterAssetsInputs.log && pauseMenuScript.paused == false && thirdPersonController.deathbool == false)// && scnScr.Scan == true)
+        {
+            if (logSystem.log == false)
+            {
+                logSystem.SetLog();
+                DisablePlayerMesh();
+                // Debug.LogWarning("this");
+                                // for scanner not used
+                scnScr.ScanCamPriority();
+            }
+            else
+            {
+                logSystem.CloseLog();
+                EnablePlayerMesh();
+                // Debug.LogWarning("this2");
+                                // for scanner not used
+                scnScr.SwitchCamPriority();
+            }
+            starterAssetsInputs.log = true;
+            // for scanner == true
+            //scnScr.ScanCamPriority();
+
+            
+            
+            
+            if (starterAssetsInputs.log == true)
+            {
+                starterAssetsInputs.log = false;
+            }
+        }
+    }
+     
 
     public void EquipBlaster()
     {
         animator.SetTrigger("BlasterSwitch");
         animator.ResetTrigger("BHSwitch");
-        animator.ResetTrigger("ShotgunSwitch");
+        //animator.ResetTrigger("ShotgunSwitch");
 
         //sets blaster weapon position to in hand
         standardWeaponObject.transform.parent = originalWeaponObject.transform;
@@ -596,9 +625,9 @@ public class ThirdPersonShooterController : MonoBehaviour
         blackHoleWeaponObject.transform.localEulerAngles = new Vector3(90, 0, -45);
 
         //resets shotgun weapon positions
-        shotgunWeaponObject.transform.parent = shotgunHolster.transform;
+        /*shotgunWeaponObject.transform.parent = shotgunHolster.transform;
         shotgunWeaponObject.transform.position = shotgunHolster.transform.position;
-        shotgunWeaponObject.transform.localEulerAngles = new Vector3(0, 90, 0);
+        shotgunWeaponObject.transform.localEulerAngles = new Vector3(0, 90, 0);*/
 
 
         if (starterAssetsInputs.aim)
@@ -636,9 +665,9 @@ public class ThirdPersonShooterController : MonoBehaviour
         blackHoleWeaponObject.transform.localEulerAngles = new Vector3(90, 0, -45);
 
         //sets shotgun position to in hand
-        shotgunWeaponObject.transform.parent = originalWeaponObject.transform;
+        /*shotgunWeaponObject.transform.parent = originalWeaponObject.transform;
         shotgunWeaponObject.transform.position = originalWeaponObject.transform.position;
-        shotgunWeaponObject.transform.localEulerAngles = new Vector3(-90, 0, 90);
+        shotgunWeaponObject.transform.localEulerAngles = new Vector3(-90, 0, 90);*/
 
         if (starterAssetsInputs.aim)
         {
@@ -661,7 +690,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         animator.SetTrigger("BHSwitch");
         animator.ResetTrigger("BlasterSwitch");
-        animator.ResetTrigger("ShotgunSwitch");
+        //animator.ResetTrigger("ShotgunSwitch");
 
         //resets blaster weapon positions
         standardWeaponObject.transform.parent = blasterHolster.transform;
@@ -674,9 +703,9 @@ public class ThirdPersonShooterController : MonoBehaviour
         blackHoleWeaponObject.transform.localEulerAngles = new Vector3(-90, 0, 90);
 
         //resets shotgun weapon positions
-        shotgunWeaponObject.transform.parent = shotgunHolster.transform;
+        /*shotgunWeaponObject.transform.parent = shotgunHolster.transform;
         shotgunWeaponObject.transform.position = shotgunHolster.transform.position;
-        shotgunWeaponObject.transform.localEulerAngles = new Vector3(0, 90, 0);
+        shotgunWeaponObject.transform.localEulerAngles = new Vector3(0, 90, 0);*/
 
         if (starterAssetsInputs.aim)
         {
@@ -701,7 +730,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         //animator.SetTrigger("KnifeSwitch");
         animator.ResetTrigger("BHSwitch");
         animator.ResetTrigger("BlasterSwitch");
-        animator.ResetTrigger("ShotgunSwitch");
+        //animator.ResetTrigger("ShotgunSwitch");
 
         //resets blaster weapon positions
         standardWeaponObject.transform.parent = blasterHolster.transform;
@@ -709,9 +738,9 @@ public class ThirdPersonShooterController : MonoBehaviour
         standardWeaponObject.transform.localEulerAngles = new Vector3(0, 0, 0);
 
         //resets shotgun weapon positions
-        shotgunWeaponObject.transform.parent = shotgunHolster.transform;
+        /*shotgunWeaponObject.transform.parent = shotgunHolster.transform;
         shotgunWeaponObject.transform.position = shotgunHolster.transform.position;
-        shotgunWeaponObject.transform.localEulerAngles = new Vector3(0, 90, 0);
+        shotgunWeaponObject.transform.localEulerAngles = new Vector3(0, 90, 0);*/
 
         //resets BHG weapon positions
         blackHoleWeaponObject.transform.parent = BHGHolster.transform;
@@ -730,9 +759,9 @@ public class ThirdPersonShooterController : MonoBehaviour
                 blasterSlot1.SetActive(false);
                 blasterSlot2.SetActive(false);
 
-                shotgunEquipped.SetActive(false);
+                /*shotgunEquipped.SetActive(false);
                 shotgunSlot1.SetActive(false);
-                shotgunSlot2.SetActive(true);
+                shotgunSlot2.SetActive(true);*/
 
                 bhgEquipped.SetActive(false);
                 bhgSlot1.SetActive(true);
@@ -745,9 +774,9 @@ public class ThirdPersonShooterController : MonoBehaviour
                 blasterSlot1.SetActive(true);
                 blasterSlot2.SetActive(false);
 
-                shotgunEquipped.SetActive(false);
+                /*shotgunEquipped.SetActive(false);
                 shotgunSlot1.SetActive(false);
-                shotgunSlot2.SetActive(true);
+                shotgunSlot2.SetActive(true);*/
 
                 bhgEquipped.SetActive(true);
                 bhgSlot1.SetActive(false);
@@ -760,9 +789,9 @@ public class ThirdPersonShooterController : MonoBehaviour
                 blasterSlot1.SetActive(false);
                 blasterSlot2.SetActive(true);
 
-                shotgunEquipped.SetActive(true);
+                /*shotgunEquipped.SetActive(true);
                 shotgunSlot1.SetActive(false);
-                shotgunSlot2.SetActive(false);
+                shotgunSlot2.SetActive(false);*/
 
                 bhgEquipped.SetActive(false);
                 bhgSlot1.SetActive(true);
@@ -776,9 +805,9 @@ public class ThirdPersonShooterController : MonoBehaviour
                 blasterSlot1.SetActive(false);
                 blasterSlot2.SetActive(false);
 
-                shotgunEquipped.SetActive(false);
+                /*shotgunEquipped.SetActive(false);
                 shotgunSlot1.SetActive(false);
-                shotgunSlot2.SetActive(false);
+                shotgunSlot2.SetActive(false);*/
 
                 bhgEquipped.SetActive(false);
                 bhgSlot1.SetActive(false);
@@ -803,7 +832,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
             else if (ammoType == 2)
             {
-                playerData.shotgunAmmo += ammoAmount;
+                //playerData.shotgunAmmo += ammoAmount;
                 UpdateAmmoCount();
             }
         }
@@ -821,7 +850,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                     playerData.nexusAmmoLoaded = ammoToAdd;
                     break;
                 case 2:
-                    playerData.shotgunAmmoLoaded = ammoToAdd;
+                    //playerData.shotgunAmmoLoaded = ammoToAdd;
                     break;
             }
 
@@ -843,8 +872,8 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
             else if (equippedWeapon == 2)
             {
-                totalAmmoCounter.text = playerData.shotgunAmmo.ToString();
-                loadedAmmoCounter.text = playerData.shotgunAmmoLoaded.ToString();
+                //totalAmmoCounter.text = playerData.shotgunAmmo.ToString();
+                //loadedAmmoCounter.text = playerData.shotgunAmmoLoaded.ToString();
             }
         }
         
@@ -969,7 +998,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 playerData.nexusAmmoLoaded = playerData.nexusAmmoMax;
             }
         }
-        else if(equippedWeapon == 2 && playerData.shotgunAmmo > 0 && playerData.shotgunAmmoLoaded < playerData.shotgunAmmoMax)
+        /*else if(equippedWeapon == 2 && playerData.shotgunAmmo > 0 && playerData.shotgunAmmoLoaded < playerData.shotgunAmmoMax)
         {
             StartCoroutine(ReloadTimer(shotgunReloadTime));
             audioSource.PlayOneShot(shotgunReloadSound);
@@ -984,7 +1013,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             {
                 playerData.shotgunAmmoLoaded = playerData.shotgunAmmoMax;
             }
-        }
+        }*/
         UpdateAmmoCount();
         }
     }
@@ -1014,22 +1043,22 @@ public class ThirdPersonShooterController : MonoBehaviour
     public void EnablePlayerMesh()
     {
         NexusGun nxgun = GetComponentInChildren<NexusGun>();
-        Shotgun sgun = GetComponentInChildren<Shotgun>();
+        //Shotgun sgun = GetComponentInChildren<Shotgun>();
         Blaster bgun = GetComponentInChildren<Blaster>();
         playermesh.enabled = true;
         nxgun.EnableMesh();
         bgun.EnableMesh();
-        sgun.EnableMesh();
+        //sgun.EnableMesh();
     }
     public void DisablePlayerMesh()
     {
         NexusGun nxgun = GetComponentInChildren<NexusGun>();
-        Shotgun sgun = GetComponentInChildren<Shotgun>();
+        //Shotgun sgun = GetComponentInChildren<Shotgun>();
         Blaster bgun = GetComponentInChildren<Blaster>();
         playermesh.enabled = false;
         nxgun.DisableMesh();
         bgun.DisableMesh();
-        sgun.DisableMesh();
+        //sgun.DisableMesh();
     }
 
     public void changeSens(float newChangeSens)
