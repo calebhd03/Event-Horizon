@@ -33,6 +33,15 @@ public class Dialog : MonoBehaviour
 
     void Update()
     {
+        if (starterAssetsInputs.interact)
+        {
+            if(starterAssetsInputs.interact == true)
+                {
+                    starterAssetsInputs.interact = false;
+                }
+            TriggerDialogue();
+        }
+        
         if(pauseMenuScript.paused == true)
         {
             if (audioSource.isPlaying)

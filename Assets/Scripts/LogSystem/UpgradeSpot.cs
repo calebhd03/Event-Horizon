@@ -42,6 +42,9 @@ public class UpgradeSpot : MonoBehaviour
                         case 3:
                             logSystem.skillsUnlocked3 = true;
                         break;
+                        case 4:
+                            logSystem.skillsUnlocked4 = true;
+                        break;
                     }
                     
                     Upgrade = false;
