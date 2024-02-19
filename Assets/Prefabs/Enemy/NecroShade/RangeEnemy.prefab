@@ -71,7 +71,9 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
+  stopStackDamage: 0
 --- !u!1 &3787874207407574268
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,7 +181,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6111425174447714644}
   - component: {fileID: 6111425174447714645}
-  - component: {fileID: 2519514252711871096}
   - component: {fileID: 6900893498334391029}
   m_Layer: 9
   m_Name: RangeEnemy
@@ -220,28 +221,6 @@ MonoBehaviour:
   currentHealth: 100
   healthBar: {fileID: 0}
   isHealthBarActive: 1
---- !u!195 &2519514252711871096
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6111425174447714650}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.3
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 1
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!114 &6900893498334391029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -545,6 +524,8 @@ MonoBehaviour:
   pickupDropChance: 0.3
   slowEffect: {fileID: 7493982426277892450}
   damageOverTimeEffect: {fileID: 7493982426277892450}
+  knockBackForce: 10
+  knockBackTimer: 0
 --- !u!114 &6111425175308292231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,6 +555,7 @@ MonoBehaviour:
   Scanned: 0
   criticalPointReveal: {fileID: 3787874207407574268}
   number: 0
+  weakPointReveal: []
 --- !u!95 &1199361587979115083
 Animator:
   serializedVersion: 5
@@ -784,8 +766,10 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
+  stopStackDamage: 0
 --- !u!65 &6481565505749815110
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1641,8 +1625,10 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
+  stopStackDamage: 0
 --- !u!1 &5056543534443786597 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3545991746167468074, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1685,8 +1671,10 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
+  stopStackDamage: 0
 --- !u!1 &6103054923910184670 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2570428556912623507, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1729,8 +1717,10 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
+  stopStackDamage: 0
 --- !u!1 &6670897579769476256 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6085949449992227347, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1773,8 +1763,10 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
+  stopStackDamage: 0
 --- !u!1 &6847586429682072362 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2890770733526071911, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1817,8 +1809,10 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
+  stopStackDamage: 0
 --- !u!1 &7153829758656466935 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1467634142891003580, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1862,7 +1856,9 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
+  stopStackDamage: 0
 --- !u!1 &7929014858251315041 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7417408547777173970, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1905,8 +1901,10 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
+  stopStackDamage: 0
 --- !u!1 &8307105992717274113 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -311122046114860366, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -1949,8 +1947,10 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
+  stopStackDamage: 0
 --- !u!1001 &6638330176912520049
 PrefabInstance:
   m_ObjectHideFlags: 0
