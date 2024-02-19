@@ -28,12 +28,12 @@ public class LogSystem : MonoBehaviour
     private ThirdPersonController thirdPersonController;
     public bool log;
     //Skills
-    public bool skillsUnlocked = false, skillsUnlocked2 = false, skillsUnlocked3 = false;
+    public bool skillsUnlocked = false, skillsUnlocked2 = false, skillsUnlocked3 = false, skillsUnlocked4 = false;
     public Button healthUpgradeButton, speedUpgradeButton, damageUpgradeButton, ammoCapactiyButton, SlowEnemyButton, DamageOverTimeButton;
-    public Button meleeButton, knockBackButton;
+    public Button meleeButton, knockBackButton, plasmaEnergyButton;
     public bool healthSkillUpgraded = false, damageSkillUpgraded = false, speedSkillUpgraded = false;
     public bool ammoSkillUpgraded = false, SlowEnemyUpgraded = false, DamageOverTimeSkillUpgraded = false;
-    public bool meleeSkillUpgraded = false, knockBackUpgraded;
+    public bool meleeSkillUpgraded = false, knockBackUpgraded = false, plasmaEnergyUpgraded = false;
     public Sprite upgradedSprite;
     AudioSource audioSource;
     public AudioClip SwitchTabSound;
@@ -246,6 +246,19 @@ public class LogSystem : MonoBehaviour
                 knockBackButton.interactable = true;
             }
         }
+        else if (skillsUnlocked4 == true)
+        {
+            if (plasmaEnergyUpgraded == true)
+            {
+                plasmaEnergyButton.interactable = false;
+
+                skillsUnlocked4 = false;
+            }
+            else
+            {
+                plasmaEnergyButton.interactable = true;
+            }
+        }
         else 
         {
         healthUpgradeButton.interactable = false;
@@ -256,6 +269,7 @@ public class LogSystem : MonoBehaviour
         DamageOverTimeButton.interactable = false;
         meleeButton.interactable = false;
         knockBackButton.interactable = false;
+        plasmaEnergyButton.interactable = false;
         }
     }
 
@@ -494,7 +508,14 @@ public class LogSystem : MonoBehaviour
     {
         knockBackUpgraded = true;
         knockBackButton.image.sprite = upgradedSprite;
-        skillTree.knockBackUpgrade();
+        skillTree.KnockBackUpgrade();
+    }
+
+    public void UpgradePlasmaEnergy()
+    {
+        plasmaEnergyUpgraded = true;
+        plasmaEnergyButton.image.sprite = upgradedSprite;
+        skillTree.PlasmaEnergyUpgrade();
     }
     
     public void DelayShoot()

@@ -31,7 +31,9 @@ public class PlayerData : ScriptableObject
         public bool SaveDamageUpgrade = false, SaveHealthUpgrade = false, SaveMeleeDamageUpgrade = false, SaveSpeedUpgrade = false;
     [Header ("Skill")]
         public bool SaveDamageOverTimeUpgrade = false, SaveAmmoCapacityUpgrade = false, SaveSlowEnemyUpgrade = false, SaveKnockBackUpgrade = false;
-    
+    [Header("Skill")]
+        public bool SavePlasmaEnergyUpgrade = false;
+
     public void ResetHealthAmmo()
     {
         currentHealth = maxHealth;
