@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class weakPoint : MonoBehaviour
 {
     public float weakPointDamage = 20f;
+    public float weakPointPlasmaDamage = 30f;
     public float knifeDamage = 10f;
     public AudioClip damageSound;
     private basicEnemy basicEnemyScript;
@@ -93,47 +94,9 @@ public class weakPoint : MonoBehaviour
     {
         if (other.CompareTag("Bullet"))
         {
-            SlowDownEnemy();
-            if (stopStackDamage == false)
-            {
-            StartCoroutine(DoDamageOverTime());
-            }
-            knockBackAttack();
-            if (healthMetrics != null)
-            {
-                GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-                if (player != null && damageSound != null)
-                {
-                    AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
-                    if (audioSource != null)
-                    {
-                        audioSource.PlayOneShot(damageSound);
-                    }
-                }
-
-                healthMetrics.ModifyHealth(-weakPointDamage);
-                Debug.Log("A  WeakPoint");
-                 // Set iSeeYou to true in the BasicEnemy script
-                if (basicEnemyScript != null)
-                {
-                    basicEnemyScript.SetISeeYou();
-                    Debug.Log("Weak iSeeYou to true in BasicEnemy");
-
-                    basicEnemyScript.PlayEnemyHitAnimation();
-                    Debug.Log("Called PlayEnemyHitAnimation basic");
-                }
-                if (bossEnemyScript !=null)
-                {
-                    bossEnemyScript.PlayEnemyHitAnimation();
-                    Debug.Log("Called PlayEnemyHitAnimation boss");
-
-                }
-            }
-            //Destroy(gameObject);
+            bulletDamage(weakPointDamage);
         }
-
-        if (other.CompareTag("Knife"))
+        else if (other.CompareTag("Knife"))
         {
             HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
 
@@ -180,7 +143,54 @@ public class weakPoint : MonoBehaviour
 
             //Destroy(gameObject);
         }
+        else if (other.CompareTag("Plasma Bullet"))
+        {
+            bulletDamage(weakPointPlasmaDamage);
+        }
     }
+
+    private void bulletDamage(float damage)
+    {
+        SlowDownEnemy();
+            if (stopStackDamage == false)
+            {
+            StartCoroutine(DoDamageOverTime());
+            }
+            knockBackAttack();
+            if (healthMetrics != null)
+            {
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+                if (player != null && damageSound != null)
+                {
+                    AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
+                    if (audioSource != null)
+                    {
+                        audioSource.PlayOneShot(damageSound);
+                    }
+                }
+
+                healthMetrics.ModifyHealth(-damage);
+                Debug.Log("A  WeakPoint");
+                 // Set iSeeYou to true in the BasicEnemy script
+                if (basicEnemyScript != null)
+                {
+                    basicEnemyScript.SetISeeYou();
+                    Debug.Log("Weak iSeeYou to true in BasicEnemy");
+
+                    basicEnemyScript.PlayEnemyHitAnimation();
+                    Debug.Log("Called PlayEnemyHitAnimation basic");
+                }
+                if (bossEnemyScript !=null)
+                {
+                    bossEnemyScript.PlayEnemyHitAnimation();
+                    Debug.Log("Called PlayEnemyHitAnimation boss");
+
+                }
+            }
+            //Destroy(gameObject);
+    }
+    
     public void SlowDownEnemy()
     {
         int randomNumber = Random.Range(0, 8);
