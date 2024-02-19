@@ -25,7 +25,7 @@ public class regularPoint : MonoBehaviour
     public float knifeDamageUpFactor = 5f;
 
     public GameObject[] armorPieces;
-    public bool stopStackDamage = false;
+    public bool stopStackDamage = false, stopSlowStack = false;
     regularPoint[] regularPoints;
 
     private void Start()
@@ -74,6 +74,8 @@ public class regularPoint : MonoBehaviour
         {
             knockBackUp = false;
         }
+
+        //stopStackDamage
         if (stopStackDamage == true)
         {
             foreach (regularPoint regulars in regularPoints)
@@ -86,6 +88,22 @@ public class regularPoint : MonoBehaviour
             foreach (regularPoint regulars in regularPoints)
             {
                 regulars.stopStackDamage = false;
+            }
+        }
+                if (stopStackDamage == true)
+        {
+            
+        //stopSlowStack
+        foreach (regularPoint regulars in regularPoints)
+            {
+                regulars.stopSlowStack = true;
+            }
+        }
+        else if (stopSlowStack == false)
+        {
+            foreach (regularPoint regulars in regularPoints)
+            {
+                regulars.stopSlowStack = false;
             }
         }
     }
@@ -148,60 +166,58 @@ public class regularPoint : MonoBehaviour
 
     private void bulletDamage(float damage)
     {
+        if(stopSlowStack == false)
+        {
         SlowDownEnemy();
-            if (stopStackDamage == false)
-            {
-            StartCoroutine(DoDamageOverTime());
-            }
-            knockBackAttack();
-            if (healthMetrics != null)
-            {
-                GameObject player = GameObject.FindGameObjectWithTag("Player");
+        }
+        if (stopStackDamage == false)
+        {
+        StartCoroutine(DoDamageOverTime());
+        }
+        knockBackAttack();
+        if (healthMetrics != null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
 
-                if (player != null && damageSound != null)
+            if (player != null && damageSound != null)
+            {
+                AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
+                if (audioSource != null)
                 {
-                    AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
-                    if (audioSource != null)
-                    {
-                        audioSource.PlayOneShot(damageSound);
-                    }
+                    audioSource.PlayOneShot(damageSound);
                 }
-                if (armorPieces.Length == 0)
+            }
+            if (armorPieces.Length == 0)
+            {
+                healthMetrics.ModifyHealth(-damage);
+                return;
+            }
+
+            foreach (GameObject armorPiece in armorPieces)
+            {
+                if (armorPiece != null)
+                {
+                    healthMetrics.ModifyHealth(-5);
+                    Debug.Log("Armor Damage");
+                }
+                else
                 {
                     healthMetrics.ModifyHealth(-damage);
-                    return;
                 }
-
-                foreach (GameObject armorPiece in armorPieces)
-                {
-                    if (armorPiece != null)
-                    {
-                        healthMetrics.ModifyHealth(-5);
-                        Debug.Log("Armor Damage");
-                    }
-                    else
-                    {
-                        healthMetrics.ModifyHealth(-damage);
-                    }
-                }
-
-                // Set iSeeYou to true in the BasicEnemy script
-                if (basicEnemyScript != null)
-                {
-                    basicEnemyScript.SetISeeYou();
-                    Debug.Log("reg iSeeYou to true in BasicEnemy");
-
-                                        // Call PlayEnemyHitAnimation in the BasicEnemy script
-                    basicEnemyScript.PlayEnemyHitAnimation();
-                    Debug.Log("Called PlayEnemyHitAnimation");
-                }
-                
-
-                Debug.Log("Not a WeakPoint");
             }
 
+            // Set iSeeYou to true in the BasicEnemy script
+            if (basicEnemyScript != null)
+            {
+                basicEnemyScript.SetISeeYou();
+                Debug.Log("reg iSeeYou to true in BasicEnemy");
 
-            //Destroy(gameObject);
+                                    // Call PlayEnemyHitAnimation in the BasicEnemy script
+                basicEnemyScript.PlayEnemyHitAnimation();
+                Debug.Log("Called PlayEnemyHitAnimation");
+            }
+            Debug.Log("Not a WeakPoint");
+        }
     }
 
     public void SlowDownEnemy()

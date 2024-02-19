@@ -21,7 +21,7 @@ public class weakPoint : MonoBehaviour
     //Melee Upgrade
     public bool meleeUp, knockBackUp;
     public float knifeDamageUpFactor = 5f;
-    public bool stopStackDamage = false;
+    public bool stopStackDamage = false, stopSlowStack = false;
     weakPoint[] weakPoints;
 
     private void Start()
@@ -74,6 +74,8 @@ public class weakPoint : MonoBehaviour
         {
             knockBackUp = false;
         }
+
+        //stopStackDamage
         if (stopStackDamage == true)
         {
             foreach (weakPoint weaklings in weakPoints)
@@ -86,6 +88,22 @@ public class weakPoint : MonoBehaviour
             foreach (weakPoint weaklings in weakPoints)
             {
                 weaklings.stopStackDamage = false;
+            }
+        }
+
+        //stopSlowStack
+        if (stopSlowStack == true)
+        {
+            foreach (weakPoint weaklings in weakPoints)
+            {
+                weaklings.stopSlowStack = true;
+            }
+        }
+        else if (stopStackDamage == false)
+        {
+            foreach (weakPoint weaklings in weakPoints)
+            {
+                weaklings.stopSlowStack = false;
             }
         }
     }
@@ -150,45 +168,47 @@ public class weakPoint : MonoBehaviour
     }
 
     private void bulletDamage(float damage)
-    {
+    {   
+        if(stopSlowStack == false)
+        {
         SlowDownEnemy();
-            if (stopStackDamage == false)
+        }
+        if (stopStackDamage == false)
+        {
+        StartCoroutine(DoDamageOverTime());
+        }
+        knockBackAttack();
+        if (healthMetrics != null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+            if (player != null && damageSound != null)
             {
-            StartCoroutine(DoDamageOverTime());
-            }
-            knockBackAttack();
-            if (healthMetrics != null)
-            {
-                GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-                if (player != null && damageSound != null)
+                AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
+                if (audioSource != null)
                 {
-                    AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
-                    if (audioSource != null)
-                    {
-                        audioSource.PlayOneShot(damageSound);
-                    }
-                }
-
-                healthMetrics.ModifyHealth(-damage);
-                Debug.Log("A  WeakPoint");
-                 // Set iSeeYou to true in the BasicEnemy script
-                if (basicEnemyScript != null)
-                {
-                    basicEnemyScript.SetISeeYou();
-                    Debug.Log("Weak iSeeYou to true in BasicEnemy");
-
-                    basicEnemyScript.PlayEnemyHitAnimation();
-                    Debug.Log("Called PlayEnemyHitAnimation basic");
-                }
-                if (bossEnemyScript !=null)
-                {
-                    bossEnemyScript.PlayEnemyHitAnimation();
-                    Debug.Log("Called PlayEnemyHitAnimation boss");
-
+                    audioSource.PlayOneShot(damageSound);
                 }
             }
-            //Destroy(gameObject);
+
+            healthMetrics.ModifyHealth(-damage);
+            Debug.Log("A  WeakPoint");
+                // Set iSeeYou to true in the BasicEnemy script
+            if (basicEnemyScript != null)
+            {
+                basicEnemyScript.SetISeeYou();
+                Debug.Log("Weak iSeeYou to true in BasicEnemy");
+
+                basicEnemyScript.PlayEnemyHitAnimation();
+                Debug.Log("Called PlayEnemyHitAnimation basic");
+            }
+            if (bossEnemyScript !=null)
+            {
+                bossEnemyScript.PlayEnemyHitAnimation();
+                Debug.Log("Called PlayEnemyHitAnimation boss");
+
+            }
+        }
     }
     
     public void SlowDownEnemy()
