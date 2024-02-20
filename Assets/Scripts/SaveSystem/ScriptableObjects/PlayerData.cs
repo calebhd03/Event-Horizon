@@ -28,11 +28,11 @@ public class PlayerData : ScriptableObject
     public int nexusAmmoLoaded;
     public int nexusAmmoMax;
     [Header ("Skill")]
-        public bool SavePlasmaUpgrade = false, SaveHealthUpgrade = false, SaveMeleeDamageUpgrade = false, SaveSpeedUpgrade = false;
+        public bool SavePlasmaUpgrade = false, SaveMeleeDamageUpgrade = false;
     [Header ("Skill")]
-        public bool SaveDamageOverTimeUpgrade = false, SaveAmmoCapacityUpgrade = false, SaveSlowEnemyUpgrade = false, SaveKnockBackUpgrade = false;
+        public bool SaveDamageOverTimeUpgrade = false, SaveSlowEnemyUpgrade = false, SaveKnockBackUpgrade = false;
     [Header("Skill")]
-        public bool SavePlasmaEnergyUpgrade = false;
+        public bool SaveLaserUpgrade = false;
 
     public void ResetHealthAmmo()
     {

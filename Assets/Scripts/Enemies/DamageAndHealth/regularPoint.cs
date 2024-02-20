@@ -172,6 +172,10 @@ public class regularPoint : MonoBehaviour
             }
             else{}
         }
+        else if (other.CompareTag("Laser"))
+        {
+            
+        }
     }
 
     private void bulletDamage(float damage)

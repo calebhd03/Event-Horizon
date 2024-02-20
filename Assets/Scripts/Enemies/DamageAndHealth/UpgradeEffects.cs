@@ -14,7 +14,7 @@ public class UpgradeEffects : MonoBehaviour
     public NavMeshAgent agent;
     public float slowDuration = 6f, slowFactor = 0.7f, priorSpeed, damageOverTime = 5f, damageOverTimeDuration = 4f;
     public float knockBackForce = 10f, knockBackTimer = 0f;
-    public bool meleeUp, knockBackUp, slowEnemy, damageOverTimeEnemy;
+    public bool meleeUp, knockBackUp, slowEnemyUp, damageOverTimeEnemyUp, laserUp;
     //public float knifeDamageUpFactor = 5f;
     public bool stopStackDamage = false, stopSlowStack = false;
     regularPoint[] regularPoints;
@@ -119,19 +119,19 @@ public class UpgradeEffects : MonoBehaviour
     {
         if (skillTree.slowEffectEnemy == true)
         {
-            slowEnemy = true;
+            slowEnemyUp = true;
         }
         else
         {
-            slowEnemy = false;
+            slowEnemyUp = false;
         }
         if (skillTree.damageOverTime == true)
         {
-            damageOverTimeEnemy = true;
+            damageOverTimeEnemyUp = true;
         }
         else
         {
-            damageOverTimeEnemy = false;
+            damageOverTimeEnemyUp = false;
         }
         if (skillTree.meleeDamage == true)
         {
@@ -149,13 +149,17 @@ public class UpgradeEffects : MonoBehaviour
         {
             knockBackUp = false;
         }
+        if (skillTree.laser == true)
+        {
+            laserUp = true;
+        }
     }
 
         public void SlowDownEnemy()
     {
         int randomNumber = Random.Range(0, 8);
         
-            if (slowEnemy == true && randomNumber >= 0)
+            if (slowEnemyUp == true && randomNumber >= 0)
             {
                 agent.speed = priorSpeed * slowFactor;
                 slowEffect.Play();      
@@ -182,7 +186,7 @@ public class UpgradeEffects : MonoBehaviour
     {
         int randomNumber = Random.Range(0, 8);
         
-            if (damageOverTimeEnemy == true && randomNumber >= 0)
+            if (damageOverTimeEnemyUp == true && randomNumber >= 0)
             {       
                 stopStackDamage = true;
                 damageOverTimeEffect.Play();              
@@ -210,6 +214,11 @@ public class UpgradeEffects : MonoBehaviour
         {
             knockBackTimer = .3f;
         }
+    }
+
+    public void LaserAttack()
+    {
+        
     }
 }
 

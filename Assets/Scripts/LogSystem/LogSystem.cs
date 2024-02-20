@@ -30,9 +30,9 @@ public class LogSystem : MonoBehaviour
     //Skills
     public bool skillsUnlocked = false, skillsUnlocked2 = false, skillsUnlocked3 = false, skillsUnlocked4 = false;
     public Button plasmaUpgradeButton, SlowEnemyButton, DamageOverTimeButton;
-    public Button meleeButton, knockBackButton;
-    public bool healthSkillUpgraded = false, plasmaSkillUpgraded = false, speedSkillUpgraded = false;
-    public bool ammoSkillUpgraded = false, SlowEnemyUpgraded = false, DamageOverTimeSkillUpgraded = false;
+    public Button meleeButton, knockBackButton, laserButton;
+    public bool plasmaSkillUpgraded = false;
+    public bool laserUpgraded = false, SlowEnemyUpgraded = false, DamageOverTimeSkillUpgraded = false;
     public bool meleeSkillUpgraded = false, knockBackUpgraded = false;
     public Sprite upgradedSprite;
     AudioSource audioSource;
@@ -249,12 +249,24 @@ public class LogSystem : MonoBehaviour
             if (plasmaSkillUpgraded == true)
             {
                 plasmaUpgradeButton.interactable = false;
+                laserButton.interactable = false;
                 skillsUnlocked4 = false;
                 upgradePage4.SetActive(false);
             }
             else
             {
                 plasmaUpgradeButton.interactable = true;
+            }
+            if (laserUpgraded == true)
+            {
+                laserButton.interactable = false;
+                plasmaUpgradeButton.interactable = false;
+                skillsUnlocked4 = false;
+                upgradePage4.SetActive(false);
+            }
+            else
+            {
+                laserButton.interactable = true;
             }
         }
         else 
@@ -267,6 +279,7 @@ public class LogSystem : MonoBehaviour
         DamageOverTimeButton.interactable = false;
         meleeButton.interactable = false;
         knockBackButton.interactable = false;
+        laserButton.interactable = false;
         }
     }
 
@@ -506,6 +519,12 @@ public class LogSystem : MonoBehaviour
         knockBackUpgraded = true;
         knockBackButton.image.sprite = upgradedSprite;
         skillTree.KnockBackUpgrade();
+    }
+    public void LaserUpgrade()
+    {
+        laserUpgraded = true;
+        laserButton.image.sprite = upgradedSprite;
+        skillTree.LaserUpgrade();
     }
     
     public void DelayShoot()
