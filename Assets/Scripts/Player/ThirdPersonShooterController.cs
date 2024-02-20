@@ -383,7 +383,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                     thirdPersonController.SwitchCameraTarget();
                     blasterFlash.Play();
 
-                    if(!playerData.SaveDamageUpgrade)
+                    if(!playerData.SavePlasmaUpgrade)
                     {
                         Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                         audioSource.PlayOneShot(blasterSound);

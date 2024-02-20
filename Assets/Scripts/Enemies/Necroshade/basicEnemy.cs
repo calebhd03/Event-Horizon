@@ -95,15 +95,7 @@ namespace StarterAssets
         public GameObject healthPickupPrefab;
         public float pickupDropChance = 0.3f;
 
-        private float hitAnimationDuration = 1.0f;
-
-        //Slow Particle effect
-        public ParticleSystem slowEffect, damageOverTimeEffect;
-
-        //upgrade
-        public float knockBackForce = 10f, knockBackTimer = 0f;
-
-        
+        private float hitAnimationDuration = 1.0f;       
 
         private void Awake()
         {
@@ -271,16 +263,6 @@ namespace StarterAssets
 
             //Debug field of view of enemy, shows raycast
             DrawFieldOfVision();
-
-            //knockback
-            if(knockBackTimer > 0)
-                {
-                    //HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
-                    Debug.LogError("counting knockback timer");
-                    Vector3 knockBackDirection = gameObject.transform.position - player.transform.position;
-                    transform.position += knockBackDirection.normalized * knockBackForce * Time.deltaTime;
-                    knockBackTimer -=Time.deltaTime;
-                }
         }
 
         //new movement between points but would have to manually add for each enemy
@@ -570,26 +552,6 @@ namespace StarterAssets
 
         // Set the EnemyHit parameter back to false
         animator.SetBool("EnemyHit", false);
-    }
-    public void PlaySlowEffect()
-    {
-        slowEffect.Play();
-    }
-    public void StopSlowEffect()
-    {
-        slowEffect.Stop();
-    }
-    public void PlayDamageOverTimeEffect()
-    {
-        damageOverTimeEffect.Play();
-    }
-    public void StopDamageOverTimeEffect()
-    {
-        damageOverTimeEffect.Stop();
-    }
-    public void KnockBackEffect()
-    {
-        knockBackTimer = .3f;
     }
 }
 }

@@ -29,17 +29,18 @@ public class LogSystem : MonoBehaviour
     public bool log;
     //Skills
     public bool skillsUnlocked = false, skillsUnlocked2 = false, skillsUnlocked3 = false, skillsUnlocked4 = false;
-    public Button healthUpgradeButton, speedUpgradeButton, damageUpgradeButton, ammoCapactiyButton, SlowEnemyButton, DamageOverTimeButton;
-    public Button meleeButton, knockBackButton, plasmaEnergyButton;
-    public bool healthSkillUpgraded = false, damageSkillUpgraded = false, speedSkillUpgraded = false;
+    public Button plasmaUpgradeButton, SlowEnemyButton, DamageOverTimeButton;
+    public Button meleeButton, knockBackButton;
+    public bool healthSkillUpgraded = false, plasmaSkillUpgraded = false, speedSkillUpgraded = false;
     public bool ammoSkillUpgraded = false, SlowEnemyUpgraded = false, DamageOverTimeSkillUpgraded = false;
-    public bool meleeSkillUpgraded = false, knockBackUpgraded = false, plasmaEnergyUpgraded = false;
+    public bool meleeSkillUpgraded = false, knockBackUpgraded = false;
     public Sprite upgradedSprite;
     AudioSource audioSource;
     public AudioClip SwitchTabSound;
     SkillTree skillTree;
     public Scanning scnScr;
-
+    //Upgrade option pages
+    public GameObject upgradePage1, upgradePage2, upgradePage3, upgradePage4;
     void Start()
     {
         log = false;
@@ -50,6 +51,10 @@ public class LogSystem : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         skillTree = FindObjectOfType<SkillTree>();
         scnScr = FindObjectOfType<Scanning>();
+        upgradePage1.SetActive(false);
+        upgradePage2.SetActive(false);
+        upgradePage3.SetActive(false);
+        upgradePage4.SetActive(false);
         
         foreach (Button button in enemy)
         {
@@ -150,96 +155,89 @@ public class LogSystem : MonoBehaviour
         
         if (skillsUnlocked == true)
         {
-            if (healthSkillUpgraded == true)
+            /*if (healthSkillUpgraded == true)
             {
                 healthUpgradeButton.interactable = false;
-                damageUpgradeButton.interactable = false;
                 skillsUnlocked = false;
+                upgradePage1.SetActive(false);
             }
             else
             {
                 healthUpgradeButton.interactable = true;
-            }
+            }*/
             
-            if (damageSkillUpgraded == true)
-            {
-                damageUpgradeButton.interactable = false;
-                healthUpgradeButton.interactable = false;
-                skillsUnlocked = false;
-            }
-            else
-            {
-                damageUpgradeButton.interactable = true;
-            }
+            // functionality of Tool for Nexus
         }
         else if (skillsUnlocked2 == true)
         {
-            if (speedSkillUpgraded == true)
-            {
-                meleeButton.interactable = false;
-                speedUpgradeButton.interactable = false;
-                ammoCapactiyButton.interactable = false;
-                skillsUnlocked2 = false;
-            }
-            else
-            {
-                speedUpgradeButton.interactable = true;
-            }
-            
-            if (ammoSkillUpgraded == true)
-            {
-                meleeButton.interactable = false;
-                ammoCapactiyButton.interactable = false;
-                speedUpgradeButton.interactable = false;
-                skillsUnlocked2 = false;
-            }
-            else
-            {
-                ammoCapactiyButton.interactable = true;
-            }
-            if (meleeSkillUpgraded == true)
-            {
-                meleeButton.interactable = false;
-                ammoCapactiyButton.interactable = false;
-                speedUpgradeButton.interactable = false;
-                skillsUnlocked2 = false;
-            }
-            else
-            {
-                meleeButton.interactable = true;
-            }
-        }
-        else if (skillsUnlocked3 == true)
-        {
             if (SlowEnemyUpgraded == true)
             {
-                knockBackButton.interactable = false;
                 SlowEnemyButton.interactable = false;
                 DamageOverTimeButton.interactable = false;
-                skillsUnlocked3 = false;
+                skillsUnlocked2 = false;
+                upgradePage2.SetActive(false);
             }
             else
             {
                 SlowEnemyButton.interactable = true;
             }
-            
             if (DamageOverTimeSkillUpgraded == true)
             {
-                knockBackButton.interactable = false;
+
                 DamageOverTimeButton.interactable = false;
                 SlowEnemyButton.interactable = false;
-                skillsUnlocked3 = false;
+                skillsUnlocked2 = false;
+                upgradePage2.SetActive(false);
             }
             else
             {
                 DamageOverTimeButton.interactable = true;
             }
+            /*if (speedSkillUpgraded == true)
+            {
+                meleeButton.interactable = false;
+                speedUpgradeButton.interactable = false;
+                ammoCapactiyButton.interactable = false;
+                skillsUnlocked2 = false;
+                upgradePage2.SetActive(false);
+            }
+            else
+            {
+                speedUpgradeButton.interactable = true;
+            }*/
+            
+            /*if (ammoSkillUpgraded == true)
+            {
+                meleeButton.interactable = false;
+                ammoCapactiyButton.interactable = false;
+                speedUpgradeButton.interactable = false;
+                skillsUnlocked2 = false;
+                upgradePage2.SetActive(false);
+            }
+            else
+            {
+                ammoCapactiyButton.interactable = true;
+            }*/
+            /*if (meleeSkillUpgraded == true)
+            {
+                meleeButton.interactable = false;
+                ammoCapactiyButton.interactable = false;
+                speedUpgradeButton.interactable = false;
+                skillsUnlocked2 = false;
+                upgradePage2.SetActive(false);
+            }
+            else
+            {
+                meleeButton.interactable = true;
+            }*/
+        }
+        else if (skillsUnlocked3 == true)
+        { 
             if (knockBackUpgraded == true)
             {
                 knockBackButton.interactable = false;
-                DamageOverTimeButton.interactable = false;
-                SlowEnemyButton.interactable = false;
                 skillsUnlocked3 = false;
+                upgradePage3.SetActive(false);
             }
             else
             {
@@ -248,28 +246,27 @@ public class LogSystem : MonoBehaviour
         }
         else if (skillsUnlocked4 == true)
         {
-            if (plasmaEnergyUpgraded == true)
+            if (plasmaSkillUpgraded == true)
             {
-                plasmaEnergyButton.interactable = false;
-
+                plasmaUpgradeButton.interactable = false;
                 skillsUnlocked4 = false;
+                upgradePage4.SetActive(false);
             }
             else
             {
-                plasmaEnergyButton.interactable = true;
+                plasmaUpgradeButton.interactable = true;
             }
         }
         else 
         {
-        healthUpgradeButton.interactable = false;
-        damageUpgradeButton.interactable = false;
-        speedUpgradeButton.interactable = false;
-        ammoCapactiyButton.interactable = false;
+        //healthUpgradeButton.interactable = false;
+        plasmaUpgradeButton.interactable = false;
+        //speedUpgradeButton.interactable = false;
+        //ammoCapactiyButton.interactable = false;
         SlowEnemyButton.interactable = false;
         DamageOverTimeButton.interactable = false;
         meleeButton.interactable = false;
         knockBackButton.interactable = false;
-        plasmaEnergyButton.interactable = false;
         }
     }
 
@@ -450,39 +447,39 @@ public class LogSystem : MonoBehaviour
         UpdateText(buttonIndex);
     }
 
-    public void UpgradeSpeed()
+    /*public void UpgradeSpeed()
     {
         //Debug.LogWarning("IAmSpeed");
         speedSkillUpgraded = true;
         speedUpgradeButton.image.sprite = upgradedSprite;
         skillTree.SpeedUpgraded();
-    }
+    }*/
 
-    public void UpgradeHealth()
+    /*public void UpgradeHealth()
     {
         //Debug.LogWarning("1Up");
         healthSkillUpgraded = true;
         healthUpgradeButton.image.sprite = upgradedSprite;
         skillTree.HealthUpgraded();
-    }
+    }*/
 
-    public void UpgradeDamage()
+    public void UpgradeToPlasma()
     {
         //Debug.LogWarning("SayHelloToMyLittleFriend");
-        damageSkillUpgraded = true;
-        damageUpgradeButton.image.sprite = upgradedSprite;
-        skillTree.DamageUpgraded();
+        plasmaSkillUpgraded = true;
+        plasmaUpgradeButton.image.sprite = upgradedSprite;
+        //skillTree.PlasmaUpgraded();
     }
 
-    public void UpgradeAmmoCapacity()
+    /*public void UpgradeAmmoCapacity()
     {
         //Debug.LogWarning("Ammo capacity increase");
         ammoSkillUpgraded = true;
         ammoCapactiyButton.image.sprite = upgradedSprite;
         //Put code here for ammo capacity function or call to thirdpersonshootercontroller
-    }
+    }*/
 
-    public void UpgradeDamageOverTime()
+    public void UpgradeToDamageOverTime()
     {
         //Debug.LogWarning("BURN! - Kelso");
         DamageOverTimeSkillUpgraded = true;
@@ -509,13 +506,6 @@ public class LogSystem : MonoBehaviour
         knockBackUpgraded = true;
         knockBackButton.image.sprite = upgradedSprite;
         skillTree.KnockBackUpgrade();
-    }
-
-    public void UpgradePlasmaEnergy()
-    {
-        plasmaEnergyUpgraded = true;
-        plasmaEnergyButton.image.sprite = upgradedSprite;
-        skillTree.PlasmaEnergyUpgrade();
     }
     
     public void DelayShoot()

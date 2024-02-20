@@ -5161,6 +5161,7 @@ GameObject:
   - component: {fileID: 5196923581864970213}
   - component: {fileID: 325917861572637165}
   - component: {fileID: 3536798358948460662}
+  - component: {fileID: 3897122994771457281}
   m_Layer: 9
   m_Name: BasicEnemyBody
   m_TagString: Enemy
@@ -5298,10 +5299,6 @@ MonoBehaviour:
   bHPickupPrefab: {fileID: 1464895933930130252, guid: 8f0d8942908b01c41b83f3c8c7be7cef, type: 3}
   healthPickupPrefab: {fileID: 1464895933930130252, guid: f867f91f0bffc4f4db651b1be23a1a15, type: 3}
   pickupDropChance: 0.3
-  slowEffect: {fileID: 7331244988965280216}
-  damageOverTimeEffect: {fileID: 7331244988965280216}
-  knockBackForce: 10
-  knockBackTimer: 0
 --- !u!114 &986633095995325602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5471,6 +5468,35 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &3897122994771457281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986633095995325607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94a141c56a692984fb7fb0e5d831dfc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  agent: {fileID: 0}
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 5
+  damageOverTimeDuration: 4
+  knockBackForce: 10
+  knockBackTimer: 0
+  meleeUp: 0
+  knockBackUp: 0
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  stopStackDamage: 0
+  stopSlowStack: 0
+  slowEffect: {fileID: 7331244988965280216}
+  damageOverTimeEffect: {fileID: 7331244988965280216}
 --- !u!1 &986633096001377560
 GameObject:
   m_ObjectHideFlags: 0
@@ -5606,9 +5632,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  plasmaDamage: 15
   regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
-  agent: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -5620,7 +5646,6 @@ MonoBehaviour:
   knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
-  stopStackDamage: 0
 --- !u!1 &986633096713724794
 GameObject:
   m_ObjectHideFlags: 0
@@ -5862,9 +5887,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weakPointDamage: 20
+  weakPointPlasmaDamage: 30
   knifeDamage: 10
   damageSound: {fileID: 8300000, guid: 780f0a773e3715a4493f66029cd5a971, type: 3}
-  agent: {fileID: 0}
   damageUpgrade: 0
   slowEnemy: 0
   damageOverTimeEnemy: 0
@@ -5876,7 +5901,6 @@ MonoBehaviour:
   meleeUp: 0
   knockBackUp: 0
   knifeDamageUpFactor: 5
-  stopStackDamage: 0
 --- !u!1 &6111330932884547049
 GameObject:
   m_ObjectHideFlags: 0
@@ -6570,9 +6594,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  plasmaDamage: 15
   regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
-  agent: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -6584,7 +6608,6 @@ MonoBehaviour:
   knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
-  stopStackDamage: 0
 --- !u!1 &826775214723385376 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1467634142891003580, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -6616,9 +6639,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weakPointDamage: 20
+  weakPointPlasmaDamage: 30
   knifeDamage: 10
   damageSound: {fileID: 8300000, guid: 780f0a773e3715a4493f66029cd5a971, type: 3}
-  agent: {fileID: 0}
   damageUpgrade: 0
   slowEnemy: 0
   damageOverTimeEnemy: 0
@@ -6630,7 +6653,6 @@ MonoBehaviour:
   meleeUp: 0
   knockBackUp: 0
   knifeDamageUpFactor: 5
-  stopStackDamage: 0
 --- !u!1 &1978783435855465430 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -311122046114860366, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -6662,9 +6684,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  plasmaDamage: 15
   regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
-  agent: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -6676,7 +6698,6 @@ MonoBehaviour:
   knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
-  stopStackDamage: 0
 --- !u!1 &3326069199645363224 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5688102920615802236, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -6708,9 +6729,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  plasmaDamage: 15
   regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
-  agent: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -6722,7 +6743,6 @@ MonoBehaviour:
   knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
-  stopStackDamage: 0
 --- !u!1 &3795694386341557111 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6085949449992227347, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
@@ -6754,9 +6774,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  plasmaDamage: 15
   regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
-  agent: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -6768,7 +6788,6 @@ MonoBehaviour:
   knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
-  stopStackDamage: 0
 --- !u!114 &8959913235031862671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6814,9 +6833,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  plasmaDamage: 15
   regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
-  agent: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -6828,7 +6847,6 @@ MonoBehaviour:
   knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
-  stopStackDamage: 0
 --- !u!4 &6975304434966871019 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6160864238912143, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}

@@ -13,7 +13,8 @@ public class weakPoint : MonoBehaviour
     private basicEnemy basicEnemyScript;
     private bossEnemy bossEnemyScript;
     private HealthMetrics healthMetrics;
-    public NavMeshAgent agent;
+    //public NavMeshAgent agent;
+    UpgradeEffects upgradeEffects;
     public bool damageUpgrade = false;
     SkillTree skillTree;
     public bool slowEnemy, damageOverTimeEnemy;
@@ -21,7 +22,7 @@ public class weakPoint : MonoBehaviour
     //Melee Upgrade
     public bool meleeUp, knockBackUp;
     public float knifeDamageUpFactor = 5f;
-    public bool stopStackDamage = false, stopSlowStack = false;
+    //public bool stopStackDamage = false, stopSlowStack = false;
     weakPoint[] weakPoints;
 
     private void Start()
@@ -29,13 +30,14 @@ public class weakPoint : MonoBehaviour
         // Get the BasicEnemy script attached to the same GameObject
         basicEnemyScript = GetComponentInParent<basicEnemy>();
         bossEnemyScript = GetComponentInParent<bossEnemy>();
-        agent = GetComponentInParent<NavMeshAgent>();
-        priorSpeed = agent.speed;
+        //agent = GetComponentInParent<NavMeshAgent>();
+        //priorSpeed = agent.speed;
         skillTree = FindObjectOfType<SkillTree>();
         healthMetrics = GetComponentInParent<HealthMetrics>();
-        weakPoints = basicEnemyScript.GetComponentsInChildren<weakPoint>();
+        //weakPoints = basicEnemyScript.GetComponentsInChildren<weakPoint>();
+        upgradeEffects = GetComponentInParent<UpgradeEffects>();
     }
-    void Update()
+    /*void Update()
     {
         if (damageUpgrade == true)
         {
@@ -106,7 +108,7 @@ public class weakPoint : MonoBehaviour
                 weaklings.stopSlowStack = false;
             }
         }
-    }
+    }*/
 
     private void OnTriggerEnter(Collider other)
     {
@@ -169,15 +171,18 @@ public class weakPoint : MonoBehaviour
 
     private void bulletDamage(float damage)
     {   
-        if(stopSlowStack == false)
+        if(upgradeEffects.stopSlowStack == false)
         {
-        SlowDownEnemy();
+        upgradeEffects.SlowDownEnemy();
+        upgradeEffects.stopSlowStack = true;
         }
-        if (stopStackDamage == false)
+        else{}
+        if (upgradeEffects.stopStackDamage == false)
         {
-        StartCoroutine(DoDamageOverTime());
+        upgradeEffects.DamageOverTime();
         }
-        knockBackAttack();
+        else{}
+        upgradeEffects.knockBackAttack();
         if (healthMetrics != null)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -211,7 +216,7 @@ public class weakPoint : MonoBehaviour
         }
     }
     
-    public void SlowDownEnemy()
+    /*public void SlowDownEnemy()
     {
         int randomNumber = Random.Range(0, 8);
         
@@ -301,5 +306,5 @@ public class weakPoint : MonoBehaviour
                     //bossEnemyScript.KnockBackEffect();
                 }
         }
-    }
+    }*/
 }

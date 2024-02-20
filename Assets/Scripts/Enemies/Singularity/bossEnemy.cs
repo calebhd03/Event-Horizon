@@ -69,9 +69,6 @@ public class bossEnemy : MonoBehaviour
     public float pickupDropChance = 0.3f;
     public GameObject Portal;
 
-    //Slow Particle effect
-    public ParticleSystem slowEffect, damageOverTimeEffect;
-
 
     // Start is called before the first frame update
     void Start()
@@ -394,21 +391,5 @@ public class bossEnemy : MonoBehaviour
         {
             //Trigger the "EnemyHit" animation
             animator.SetTrigger("EnemyHit");
-        }
-        public void PlaySlowEffect()
-        {
-            slowEffect.Play();
-        }
-        public void StopSlowEffect()
-        {
-            slowEffect.Stop();
-        }
-        public void PlayDamageOverTimeEffect()
-        {
-            damageOverTimeEffect.Play();
-        }
-        public void StopDamageOverTimeEffect()
-        {
-            damageOverTimeEffect.Stop();
         }
 }

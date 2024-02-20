@@ -12,7 +12,8 @@ public class SkillTree : MonoBehaviour
     public regularPoint[] regularPointdamage;
     public weakPoint[] weakPointdamage;
     public float healthUpgradeAmount, speedUpgradedAmount, damageUpgradeAmount, upgradeHealthDifference;
-    public bool slowEffectEnemy = false, damageOverTime = false, meleeDamage = false, knockBack = false, plasmaEnergy = false;
+    public bool slowEffectEnemy = false, damageOverTime = false, meleeDamage = false, knockBack = false;
+    UpgradeEffects[] upgradeEffects;
     
     void Start()
     {
@@ -21,10 +22,17 @@ public class SkillTree : MonoBehaviour
         regularPointdamage = FindObjectsOfType<regularPoint>();
         weakPointdamage = FindObjectsOfType<weakPoint>();
         logSystem = FindObjectOfType<LogSystem>();
+        upgradeEffects = FindObjectsOfType<UpgradeEffects>();
 
-        StartCoroutine(SetUpgradesOnLoad());
+        SetUpgradesOnLoad();
+        foreach(UpgradeEffects upgrades in upgradeEffects)
+        {
+            upgrades.SetUpgrades();
+        }
+
+        
     }
-    public void HealthUpgraded()
+    /*public void HealthUpgraded()
     {
         float previousMaxHealth = playerHealthMetric.playerData.maxHealth;
         playerHealthMetric.playerData.maxHealth = playerHealthMetric.playerData.maxHealth * healthUpgradeAmount;
@@ -37,9 +45,9 @@ public class SkillTree : MonoBehaviour
         thirdPersonController.MoveSpeed = thirdPersonController.MoveSpeed * speedUpgradedAmount;
         thirdPersonController.SprintSpeed = thirdPersonController.SprintSpeed * speedUpgradedAmount;
         playerHealthMetric.playerData.SaveSpeedUpgrade = true;
-    }
+    }*/
 
-    public void DamageUpgraded()
+    /*public void PlasmaUpgraded()
     {
         foreach (regularPoint regularPoint in regularPointdamage)
         {
@@ -52,90 +60,92 @@ public class SkillTree : MonoBehaviour
             weakPoint.weakPointDamage = weakPoint.weakPointDamage * damageUpgradeAmount;
             
         }
-        playerHealthMetric.playerData.SaveDamageUpgrade = true;
-    }
-
-    public void AmmoCapacityUpgrade()
-    {
-        //this may need to be on different script
-    }
+        playerHealthMetric.playerData.SavePlasmaUpgrade = true;
+    }*/
 
     public void SlowEnemyUpgrade()
     {
         slowEffectEnemy = true;
         playerHealthMetric.playerData.SaveSlowEnemyUpgrade = true;
+        foreach(UpgradeEffects upgrades in upgradeEffects)
+        {
+            upgrades.SetUpgrades();
+        }
     }
 
     public void DamageOverTimeUpgrade()
     {
         damageOverTime = true;
         playerHealthMetric.playerData.SaveDamageOverTimeUpgrade = true;
+        foreach(UpgradeEffects upgrades in upgradeEffects)
+        {
+            upgrades.SetUpgrades();
+        }
     }
 
     public void MeleeDamageUpgrade()
     {
         meleeDamage = true;
         playerHealthMetric.playerData.SaveMeleeDamageUpgrade = true;
+        foreach(UpgradeEffects upgrades in upgradeEffects)
+        {
+            upgrades.SetUpgrades();
+        }
     }
 
     public void KnockBackUpgrade()
     {
         knockBack = true;
         playerHealthMetric.playerData.SaveKnockBackUpgrade = true;
+        foreach(UpgradeEffects upgrades in upgradeEffects)
+        {
+            upgrades.SetUpgrades();
+        }
     }
-
-    public void PlasmaEnergyUpgrade()
+    private void SetUpgradesOnLoad()
     {
-        plasmaEnergy = true;
-        playerHealthMetric.playerData.SavePlasmaEnergyUpgrade = true;
-    }
-
-    private IEnumerator SetUpgradesOnLoad()
-    {
-        if (playerHealthMetric.playerData.SaveHealthUpgrade == true)
+        /*if (playerHealthMetric.playerData.SaveHealthUpgrade == true)
         {
             logSystem.healthSkillUpgraded = true;
             HealthUpgraded();
-        }
-        if (playerHealthMetric.playerData.SaveDamageUpgrade == true)
+        }*/
+        if (playerHealthMetric.playerData.SavePlasmaUpgrade == true)
         {
-            logSystem.damageSkillUpgraded = true;
-            DamageUpgraded();
+            logSystem.plasmaSkillUpgraded = true;
+            //PlasmaUpgraded();
+
         }
         if(playerHealthMetric.playerData.SaveDamageOverTimeUpgrade == true)
         {
             logSystem.DamageOverTimeSkillUpgraded = true;
             damageOverTime = true;
+            DamageOverTimeUpgrade();
         }
         if(playerHealthMetric.playerData.SaveMeleeDamageUpgrade == true)
         {
             logSystem.meleeSkillUpgraded = true;
             meleeDamage = true;
+            MeleeDamageUpgrade();
         }
-        if(playerHealthMetric.playerData.SaveSpeedUpgrade == true)
+        /*if(playerHealthMetric.playerData.SaveSpeedUpgrade == true)
         {
             logSystem.speedSkillUpgraded = true;
             SpeedUpgraded();
-        }
+        }*/
         if(playerHealthMetric.playerData.SaveSlowEnemyUpgrade == true)
         {
             logSystem.SlowEnemyUpgraded = true;
             slowEffectEnemy = true;
+            SlowEnemyUpgrade();
         }
-        if(playerHealthMetric.playerData.SaveAmmoCapacityUpgrade == true)
+        /*if(playerHealthMetric.playerData.SaveAmmoCapacityUpgrade == true)
         {
             logSystem.ammoSkillUpgraded = true;
-        }
+        }*/
         if(playerHealthMetric.playerData.SaveKnockBackUpgrade == true)
         {
             logSystem.knockBackUpgraded = true;
             KnockBackUpgrade();
         }
-        if(playerHealthMetric.playerData.SavePlasmaEnergyUpgrade == true)
-        {
-            logSystem.plasmaEnergyUpgraded = true;
-            PlasmaEnergyUpgrade();
-        }
-        yield return null;
     }
 }

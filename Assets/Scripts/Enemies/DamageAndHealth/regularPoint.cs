@@ -16,8 +16,9 @@ public class regularPoint : MonoBehaviour
     private basicEnemy basicEnemyScript;
     private bossEnemy bossEnemyScript;
     private HealthMetrics healthMetrics;
-    public NavMeshAgent agent;
+    //public NavMeshAgent agent;
     private SkillTree skillTree;
+    UpgradeEffects upgradeEffects;
     public bool slowEnemy, damageOverTimeEnemy;
     public float slowDuration = 6f, slowFactor = 0.7f, priorSpeed, damageOverTime = 5f, damageOverTimeDuration = 4f;
     //Melee Upgrade
@@ -25,7 +26,7 @@ public class regularPoint : MonoBehaviour
     public float knifeDamageUpFactor = 5f;
 
     public GameObject[] armorPieces;
-    public bool stopStackDamage = false, stopSlowStack = false;
+    //public bool stopStackDamage = false, stopSlowStack = false;
     regularPoint[] regularPoints;
 
     private void Start()
@@ -33,14 +34,15 @@ public class regularPoint : MonoBehaviour
         // Get the BasicEnemy script attached to the same GameObject
         basicEnemyScript = GetComponentInParent<basicEnemy>();
         bossEnemyScript = GetComponentInParent<bossEnemy>();
-        agent = GetComponentInParent<NavMeshAgent>();
-        priorSpeed = agent.speed;
+        //agent = GetComponentInParent<NavMeshAgent>();
+        //priorSpeed = agent.speed;
         skillTree = FindObjectOfType<SkillTree>();
         healthMetrics = GetComponentInParent<HealthMetrics>();
-        regularPoints = basicEnemyScript.GetComponentsInChildren<regularPoint>();
+        //regularPoints = basicEnemyScript.GetComponentsInChildren<regularPoint>();
+        upgradeEffects = GetComponentInParent<UpgradeEffects>();
     }
 
-    void Update()
+    /*void Update()
     {
         if (skillTree.slowEffectEnemy == true)
         {
@@ -106,7 +108,7 @@ public class regularPoint : MonoBehaviour
                 regulars.stopSlowStack = false;
             }
         }
-    }
+    }*/
 
     private void OnTriggerEnter(Collider other)
     {
@@ -166,15 +168,18 @@ public class regularPoint : MonoBehaviour
 
     private void bulletDamage(float damage)
     {
-        if(stopSlowStack == false)
+        if(upgradeEffects.stopSlowStack == false)
         {
-        SlowDownEnemy();
+        upgradeEffects.SlowDownEnemy();
+        upgradeEffects.stopSlowStack = true;
         }
-        if (stopStackDamage == false)
+        else{}
+        if (upgradeEffects.stopStackDamage == false)
         {
-        StartCoroutine(DoDamageOverTime());
+        upgradeEffects.DamageOverTime();
         }
-        knockBackAttack();
+        else{}
+        upgradeEffects.knockBackAttack();
         if (healthMetrics != null)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -220,7 +225,7 @@ public class regularPoint : MonoBehaviour
         }
     }
 
-    public void SlowDownEnemy()
+    /*public void SlowDownEnemy()
     {
         int randomNumber = Random.Range(0, 8);
         
@@ -309,5 +314,5 @@ public class regularPoint : MonoBehaviour
                     //bossEnemyScript.KnockBackEffect();
                 }
         }
-    }
+    }*/
 }

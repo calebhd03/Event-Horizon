@@ -14,7 +14,7 @@ public class UpgradeSpot : MonoBehaviour
     public TextMeshProUGUI text;
     public bool Upgrade = false;
    
-    public int level;
+    public int upgradeOption;
     void Start()
     {
         logSystem = FindObjectOfType<LogSystem>();
@@ -31,19 +31,23 @@ public class UpgradeSpot : MonoBehaviour
             {
                 if(other.CompareTag("Player"))
                 {
-                    switch(level)
+                    switch(upgradeOption)
                     {
                         case 1:
                             logSystem.skillsUnlocked = true;
+                            logSystem.upgradePage1.SetActive(true);
                         break;
                         case 2:
                             logSystem.skillsUnlocked2 = true;
+                            logSystem.upgradePage2.SetActive(true);
                         break;
                         case 3:
                             logSystem.skillsUnlocked3 = true;
+                            logSystem.upgradePage3.SetActive(true);
                         break;
                         case 4:
                             logSystem.skillsUnlocked4 = true;
+                            logSystem.upgradePage4.SetActive(true);
                         break;
                     }
                     
