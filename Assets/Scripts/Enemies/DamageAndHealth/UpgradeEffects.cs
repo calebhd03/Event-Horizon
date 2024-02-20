@@ -37,15 +37,15 @@ public class UpgradeEffects : MonoBehaviour
 
     void Update()
     {
-    //knockback
-    if(knockBackTimer > 0)
-    {
-        //HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
-        Debug.LogError("counting knockback timer");
-        Vector3 knockBackDirection = gameObject.transform.position - player.transform.position;
-        transform.position += knockBackDirection.normalized * knockBackForce * Time.deltaTime;
-        knockBackTimer -=Time.deltaTime;
-    }
+        //knockback
+        if(knockBackTimer > 0)
+        {
+            //HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+            Debug.LogError("counting knockback timer");
+            Vector3 knockBackDirection = gameObject.transform.position - player.transform.position;
+            transform.position += knockBackDirection.normalized * knockBackForce * Time.deltaTime;
+            knockBackTimer -=Time.deltaTime;
+        }
     }
 
     /*void GetDamagePoints()

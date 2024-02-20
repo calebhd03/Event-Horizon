@@ -167,16 +167,19 @@ public class weakPoint : MonoBehaviour
         {
             bulletDamage(weakPointPlasmaDamage);
         }
+        else if (other.CompareTag("BHBullet"))
+        {
+            if(upgradeEffects.stopSlowStack == false)
+            {
+            upgradeEffects.SlowDownEnemy();
+            upgradeEffects.stopSlowStack = true;
+            }
+            else{}
+        }
     }
 
     private void bulletDamage(float damage)
     {   
-        if(upgradeEffects.stopSlowStack == false)
-        {
-        upgradeEffects.SlowDownEnemy();
-        upgradeEffects.stopSlowStack = true;
-        }
-        else{}
         if (upgradeEffects.stopStackDamage == false)
         {
         upgradeEffects.DamageOverTime();
