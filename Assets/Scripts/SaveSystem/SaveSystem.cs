@@ -92,14 +92,16 @@ public static void SavePlayer(PlayerSaveData saveData)
         }
         return null;
     }
-    public static void SaveEnemyData(EnemyData enemyData)
+    public static void SaveEnemyData(EnemyData enemyData, int sceneIndex)
     {
-        // Save enemy data using binary serialization
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/enemyData.data";
         FileStream stream = new FileStream(path, FileMode.Create);
         formatter.Serialize(stream, enemyData);
         stream.Close();
+
+        // Call GetData method with the scene index
+        enemyData.GetData(sceneIndex);
     }
 
     public static EnemyData LoadEnemyData()
