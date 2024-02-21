@@ -37,7 +37,7 @@ public class UpgradeSpot : MonoBehaviour
                 {
                     starterAssetsInputs.interact = false;
                 }
-            
+            EnableUpgrade();
         }
     }
     /*    private void OnTriggerEnter(Collider other)
@@ -74,4 +74,37 @@ public class UpgradeSpot : MonoBehaviour
                 }
             }
     }*/
+
+    void EnableUpgrade()
+    {
+        objectiveText.ShowUpgradeText();
+        Upgrade = true;
+            if (Upgrade == true)
+            {
+                    switch(upgradeOption)
+                    {
+                        case 1:
+                            logSystem.skillsUnlocked = true;
+                            logSystem.upgradePage1.SetActive(true);
+                        break;
+                        case 2:
+                            logSystem.skillsUnlocked2 = true;
+                            logSystem.upgradePage2.SetActive(true);
+                        break;
+                        case 3:
+                            logSystem.skillsUnlocked3 = true;
+                            logSystem.upgradePage3.SetActive(true);
+                        break;
+                        case 4:
+                            logSystem.skillsUnlocked4 = true;
+                            logSystem.upgradePage4.SetActive(true);
+                        break;
+                    }
+                    Upgrade = false;
+                    Destroy(gameObject);
+                    Time.timeScale = 0;
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
+            }
+    }        
 }

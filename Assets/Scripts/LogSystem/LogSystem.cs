@@ -166,7 +166,7 @@ public class LogSystem : MonoBehaviour
                 healthUpgradeButton.interactable = true;
             }*/
             
-            if (SlowEnemyUpgraded == true)
+            if (BHGToolUpgraded == true)
             {
                 bHGToolButton.interactable = false;
                 skillsUnlocked = false;
