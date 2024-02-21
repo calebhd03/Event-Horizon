@@ -397,21 +397,6 @@ public class ThirdPersonShooterController : MonoBehaviour
                         Instantiate(pfPlasmaProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
                         Instantiate(pfPlasmaProjectile, spawnBulletPosition.position - new Vector3 (plasmaShotOffset, 0, 0), Quaternion.LookRotation(plasmaSpreadL, Vector3.up));
                         audioSource.PlayOneShot(plasmaBlasterSound);
-                        for (int i = 0; i < 3; i++) // Fire 3 bullets in a row
-                        {
-                            // Calculate a random spread angle within the specified shotgunSpreadAngle
-                            //float horizontalSpread = Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle);
-                            //float verticalSpread = Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle);
-
-                            // Calculate the direction to the target
-                           //Vector3 directionToTarget = (mouseWorldPosition - spawnShotgunBulletPosition.position).normalized;
-
-                            // Create a spreadDirection by rotating the direction to the target by the spread angles
-                            //Vector3 spreadDirection = Quaternion.Euler(verticalSpread, horizontalSpread, 0) * directionToTarget;
-
-                            // Instantiate the shotgun pellet with the randomized direction
-                            //Instantiate(pfShotgunProjectile, spawnShotgunBulletPosition.position, Quaternion.LookRotation(spreadDirection, Vector3.up));
-                        }
                     }
                 }
                 if (equippedWeapon == 1 )
