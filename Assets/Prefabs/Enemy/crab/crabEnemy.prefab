@@ -399,6 +399,7 @@ GameObject:
   - component: {fileID: 8050137914616221530}
   - component: {fileID: 4758624329019503078}
   - component: {fileID: 3866707403706753263}
+  - component: {fileID: 8345719201628089548}
   m_Layer: 9
   m_Name: crabEnemy
   m_TagString: Enemy
@@ -603,8 +604,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00602cefa79d4c44d946af2e04e4cbe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 0
+  maxHealth: 1
+  currentHealth: 1
   healthBar: {fileID: 0}
   isHealthBarActive: 1
 --- !u!82 &3866707403706753263
@@ -703,6 +704,36 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8345719201628089548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2858620025199205393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94a141c56a692984fb7fb0e5d831dfc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  agent: {fileID: 0}
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 5
+  damageOverTimeDuration: 4
+  knockBackForce: 10
+  knockBackTimer: 0
+  meleeUp: 0
+  knockBackUp: 0
+  slowEnemyUp: 0
+  damageOverTimeEnemyUp: 0
+  laserUp: 0
+  stopStackDamage: 0
+  stopSlowStack: 0
+  slowEffect: {fileID: 0}
+  damageOverTimeEffect: {fileID: 0}
 --- !u!1 &2858620025322188910
 GameObject:
   m_ObjectHideFlags: 0
@@ -749,9 +780,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  plasmaDamage: 15
   regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
-  agent: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -760,6 +791,7 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
 --- !u!65 &6754401971363126421
