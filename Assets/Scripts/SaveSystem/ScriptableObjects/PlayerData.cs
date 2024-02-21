@@ -28,7 +28,7 @@ public class PlayerData : ScriptableObject
     public int nexusAmmoLoaded;
     public int nexusAmmoMax;
     [Header ("Skill")]
-        public bool SavePlasmaUpgrade = false, SaveMeleeDamageUpgrade = false;
+        public bool SavePlasmaUpgrade = false, SaveMeleeDamageUpgrade = false, SaveBHGToolUpgrade = false;
     [Header ("Skill")]
         public bool SaveDamageOverTimeUpgrade = false, SaveSlowEnemyUpgrade = false, SaveKnockBackUpgrade = false;
     [Header("Skill")]

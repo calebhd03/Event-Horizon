@@ -133,6 +133,8 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         //Sound
         AudioSource audioSource;
+        //skilltree
+        SkillTree skillTree;
 
 
         private void Awake()
@@ -153,6 +155,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             pauseMenuScript = FindObjectOfType<PauseMenuScript>();
             logSystem = FindObjectOfType<LogSystem>();
             audioSource = GetComponent<AudioSource>();
+            skillTree = GetComponent<SkillTree>();
         }
 
         private void Update()
@@ -339,7 +342,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             EquipBlackHoleGun();
         }
 
-        if (starterAssetsInputs.swapBHG && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
+        if (starterAssetsInputs.swapBHG && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && skillTree.bHGTool == true)
         {
             if (equippedWeapon == 1)
             {

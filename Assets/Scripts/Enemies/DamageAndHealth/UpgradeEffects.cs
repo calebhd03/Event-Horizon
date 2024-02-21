@@ -7,8 +7,6 @@ using UnityEngine.AI;
 public class UpgradeEffects : MonoBehaviour
 {
     public Transform player;
-    private basicEnemy basicEnemyScript;
-    private bossEnemy bossEnemyScript;
     private HealthMetrics healthMetrics;
     private SkillTree skillTree;
     public NavMeshAgent agent;

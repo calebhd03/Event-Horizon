@@ -4,25 +4,43 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using StarterAssets;
 
 public class UpgradeSpot : MonoBehaviour
 {
     [Tooltip("Place this on box collider where we want the upgrades to occur")]
 
     LogSystem logSystem;
+    StarterAssetsInputs starterAssetsInputs;
+    ThirdPersonShooterController thirdPersonShooterController;
     public ObjectiveText objectiveText;
     public TextMeshProUGUI text;
     public bool Upgrade = false;
+    public GameObject player;
    
     public int upgradeOption;
     void Start()
     {
         logSystem = FindObjectOfType<LogSystem>();
-
+        player = GameObject.FindWithTag("Player");
+        starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
+        thirdPersonShooterController = player.GetComponent<ThirdPersonShooterController>();
         text = gameObject.AddComponent<TextMeshProUGUI>();
         text.text = "New Skill Tree Options";
     }
-        private void OnTriggerEnter(Collider other)
+
+    void Update()
+    {
+        if (starterAssetsInputs.interact)
+        {
+            if(starterAssetsInputs.interact == true)
+                {
+                    starterAssetsInputs.interact = false;
+                }
+            
+        }
+    }
+    /*    private void OnTriggerEnter(Collider other)
     {
         objectiveText.ShowUpgradeText();
         //objectiveText.displayedText.text = text.text;
@@ -55,5 +73,5 @@ public class UpgradeSpot : MonoBehaviour
                     Destroy(gameObject);
                 }
             }
-    }
+    }*/
 }

@@ -30,10 +30,10 @@ public class LogSystem : MonoBehaviour
     //Skills
     public bool skillsUnlocked = false, skillsUnlocked2 = false, skillsUnlocked3 = false, skillsUnlocked4 = false;
     public Button plasmaUpgradeButton, SlowEnemyButton, DamageOverTimeButton;
-    public Button meleeButton, knockBackButton, laserButton;
+    public Button meleeButton, knockBackButton, laserButton, bHGToolButton;
     public bool plasmaSkillUpgraded = false;
     public bool laserUpgraded = false, SlowEnemyUpgraded = false, DamageOverTimeSkillUpgraded = false;
-    public bool meleeSkillUpgraded = false, knockBackUpgraded = false;
+    public bool meleeSkillUpgraded = false, knockBackUpgraded = false, BHGToolUpgraded = false;
     public Sprite upgradedSprite;
     AudioSource audioSource;
     public AudioClip SwitchTabSound;
@@ -166,7 +166,16 @@ public class LogSystem : MonoBehaviour
                 healthUpgradeButton.interactable = true;
             }*/
             
-            // functionality of Tool for Nexus
+            if (SlowEnemyUpgraded == true)
+            {
+                bHGToolButton.interactable = false;
+                skillsUnlocked = false;
+                upgradePage1.SetActive(false);
+            }
+            else
+            {
+                bHGToolButton.interactable = true;
+            }
         }
         else if (skillsUnlocked2 == true)
         {
@@ -280,6 +289,7 @@ public class LogSystem : MonoBehaviour
         meleeButton.interactable = false;
         knockBackButton.interactable = false;
         laserButton.interactable = false;
+        bHGToolButton.interactable = false;
         }
     }
 
@@ -525,6 +535,13 @@ public class LogSystem : MonoBehaviour
         laserUpgraded = true;
         laserButton.image.sprite = upgradedSprite;
         skillTree.LaserUpgrade();
+    }
+
+    public void BHGToolUpgrade()
+    {
+        BHGToolUpgraded = true;
+        bHGToolButton.image.sprite = upgradedSprite;
+        skillTree.BHGToolUpgrade();
     }
     
     public void DelayShoot()

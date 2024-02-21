@@ -24,6 +24,7 @@ public class Dialog : MonoBehaviour
     {
         pauseMenuScript = FindObjectOfType<PauseMenuScript>();
         objectiveText = FindObjectOfType<ObjectiveText>();
+        player = GameObject.FindWithTag("Player");
         starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
         thirdPersonShooterController = player.GetComponent<ThirdPersonShooterController>();
         audioSource = GetComponent<AudioSource>();

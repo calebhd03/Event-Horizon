@@ -12,7 +12,7 @@ public class SkillTree : MonoBehaviour
     public regularPoint[] regularPointdamage;
     public weakPoint[] weakPointdamage;
     public float healthUpgradeAmount, speedUpgradedAmount, damageUpgradeAmount, upgradeHealthDifference;
-    public bool slowEffectEnemy = false, damageOverTime = false, meleeDamage = false, knockBack = false;
+    public bool slowEffectEnemy = false, damageOverTime = false, meleeDamage = false, knockBack = false, bHGTool = false;
     public bool laser = false;
     UpgradeEffects[] upgradeEffects;
     
@@ -48,21 +48,15 @@ public class SkillTree : MonoBehaviour
         playerHealthMetric.playerData.SaveSpeedUpgrade = true;
     }*/
 
-    /*public void PlasmaUpgraded()
+    public void BHGToolUpgrade()
     {
-        foreach (regularPoint regularPoint in regularPointdamage)
+        bHGTool = true;
+        playerHealthMetric.playerData.SaveBHGToolUpgrade = true;
+        foreach(UpgradeEffects upgrades in upgradeEffects)
         {
-            regularPoint.regularDamage = regularPoint.regularDamage * damageUpgradeAmount;
-            
+            upgrades.SetUpgrades();
         }
-
-        foreach (weakPoint weakPoint in weakPointdamage)
-        {
-            weakPoint.weakPointDamage = weakPoint.weakPointDamage * damageUpgradeAmount;
-            
-        }
-        playerHealthMetric.playerData.SavePlasmaUpgrade = true;
-    }*/
+    }
 
     public void SlowEnemyUpgrade()
     {
@@ -122,7 +116,6 @@ public class SkillTree : MonoBehaviour
         if (playerHealthMetric.playerData.SavePlasmaUpgrade == true)
         {
             logSystem.plasmaSkillUpgraded = true;
-            //PlasmaUpgraded();
 
         }
         if(playerHealthMetric.playerData.SaveDamageOverTimeUpgrade == true)
@@ -161,6 +154,11 @@ public class SkillTree : MonoBehaviour
         {
             logSystem.laserUpgraded = true;
             LaserUpgrade();
+        }
+        if(playerHealthMetric.playerData.SaveBHGToolUpgrade == true)
+        {
+            logSystem.BHGToolUpgraded = true;
+            BHGToolUpgrade();
         }
     }
 }
