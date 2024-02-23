@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class BHG : MonoBehaviour
+public class BHGCharge : MonoBehaviour
 {   
     [HideInInspector] public ThirdPersonShooterController tpsc;
 

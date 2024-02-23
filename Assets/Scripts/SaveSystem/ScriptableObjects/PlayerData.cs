@@ -33,6 +33,8 @@ public class PlayerData : ScriptableObject
         public bool SaveDamageOverTimeUpgrade = false, SaveSlowEnemyUpgrade = false, SaveKnockBackUpgrade = false;
     [Header("Skill")]
         public bool SaveLaserUpgrade = false;
+    [Header("Weapon")]
+        public bool hasBlaster = false, hasNexus = false;
 
     public void ResetHealthAmmo()
     {
@@ -43,6 +45,8 @@ public class PlayerData : ScriptableObject
         shotgunAmmoLoaded = shotgunAmmoMax;
         nexusAmmo = nexusAmmoDefault;
         nexusAmmoLoaded = nexusAmmoMax;
+        hasBlaster = false; 
+        hasNexus = false;
     }
 
 }

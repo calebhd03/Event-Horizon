@@ -6,11 +6,21 @@ using UnityEngine;
 public class NexusGun : MonoBehaviour
 {
     public MeshRenderer weaponMesh;
-    public StarterAssetsInputs starterAssetsInputs;
-    public ThirdPersonShooterController TPSC;
+    //public StarterAssetsInputs starterAssetsInputs;
+    //public ThirdPersonShooterController TPSC;
+    PlayerHealthMetric playerHealthMetric;
     void Start()
     {
-        weaponMesh = GetComponentInChildren<MeshRenderer>();
+        playerHealthMetric = GetComponentInParent<PlayerHealthMetric>();
+        weaponMesh = GetComponentInChildren<MeshRenderer>();            
+            if(playerHealthMetric.playerData.hasNexus == false)
+            {
+                DisableMesh();
+            }
+            else
+            {
+                EnableMesh();
+            }
     }
 
     public void EnableMesh()

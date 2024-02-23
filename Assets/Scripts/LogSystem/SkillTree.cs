@@ -26,10 +26,7 @@ public class SkillTree : MonoBehaviour
         upgradeEffects = FindObjectsOfType<UpgradeEffects>();
 
         SetUpgradesOnLoad();
-        foreach(UpgradeEffects upgrades in upgradeEffects)
-        {
-            upgrades.SetUpgrades();
-        }
+
 
         
     }
@@ -121,13 +118,11 @@ public class SkillTree : MonoBehaviour
         if(playerHealthMetric.playerData.SaveDamageOverTimeUpgrade == true)
         {
             logSystem.DamageOverTimeSkillUpgraded = true;
-            damageOverTime = true;
             DamageOverTimeUpgrade();
         }
         if(playerHealthMetric.playerData.SaveMeleeDamageUpgrade == true)
         {
             logSystem.meleeSkillUpgraded = true;
-            meleeDamage = true;
             MeleeDamageUpgrade();
         }
         /*if(playerHealthMetric.playerData.SaveSpeedUpgrade == true)
@@ -138,7 +133,6 @@ public class SkillTree : MonoBehaviour
         if(playerHealthMetric.playerData.SaveSlowEnemyUpgrade == true)
         {
             logSystem.SlowEnemyUpgraded = true;
-            slowEffectEnemy = true;
             SlowEnemyUpgrade();
         }
         /*if(playerHealthMetric.playerData.SaveAmmoCapacityUpgrade == true)
