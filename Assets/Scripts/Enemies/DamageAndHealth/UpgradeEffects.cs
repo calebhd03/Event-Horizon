@@ -19,7 +19,7 @@ public class UpgradeEffects : MonoBehaviour
     weakPoint[] weakPoints;
     public ParticleSystem slowEffect, damageOverTimeEffect;
     
-    void Start()
+    void Awake()
     {
         player = GameObject.Find("Player").transform;        
         agent = GetComponent<NavMeshAgent>();
