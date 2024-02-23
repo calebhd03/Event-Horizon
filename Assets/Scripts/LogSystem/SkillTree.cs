@@ -48,6 +48,7 @@ public class SkillTree : MonoBehaviour
     public void BHGToolUpgrade()
     {
         bHGTool = true;
+        logSystem.BHGToolUpgraded = true;
         playerHealthMetric.playerData.SaveBHGToolUpgrade = true;
         foreach(UpgradeEffects upgrades in upgradeEffects)
         {

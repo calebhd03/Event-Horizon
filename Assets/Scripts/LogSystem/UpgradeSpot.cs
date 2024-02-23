@@ -8,8 +8,6 @@ using StarterAssets;
 
 public class UpgradeSpot : MonoBehaviour
 {
-    [Tooltip("Place this on box collider where we want the upgrades to occur")]
-
     LogSystem logSystem;
     StarterAssetsInputs starterAssetsInputs;
     ThirdPersonShooterController thirdPersonShooterController;

@@ -18399,6 +18399,22 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1277882960117562123, guid: f866f564909ad034299d28e06c9b272f, type: 3}
+      propertyPath: skipTutorial
+      value: 
+      objectReference: {fileID: 1797678631}
+    - target: {fileID: 1277882960117562123, guid: f866f564909ad034299d28e06c9b272f, type: 3}
+      propertyPath: teleportPlayer.x
+      value: 450
+      objectReference: {fileID: 0}
+    - target: {fileID: 1277882960117562123, guid: f866f564909ad034299d28e06c9b272f, type: 3}
+      propertyPath: teleportPlayer.y
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1277882960117562123, guid: f866f564909ad034299d28e06c9b272f, type: 3}
+      propertyPath: teleportPlayer.z
+      value: 55
+      objectReference: {fileID: 0}
     - target: {fileID: 1314212988350933575, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
@@ -19775,6 +19791,34 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7785744777994350570, guid: f866f564909ad034299d28e06c9b272f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785744777994350570, guid: f866f564909ad034299d28e06c9b272f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785744777994350570, guid: f866f564909ad034299d28e06c9b272f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785744777994350570, guid: f866f564909ad034299d28e06c9b272f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785744777994350570, guid: f866f564909ad034299d28e06c9b272f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SkipTutorial
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785744777994350570, guid: f866f564909ad034299d28e06c9b272f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TutorialScript, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785744777994350570, guid: f866f564909ad034299d28e06c9b272f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7791934042429082343, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
@@ -19911,7 +19955,8 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6679471687104901767, guid: f866f564909ad034299d28e06c9b272f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f866f564909ad034299d28e06c9b272f, type: 3}
 --- !u!43 &681562149
 Mesh:
@@ -20915,26 +20960,6 @@ Transform:
   m_Father: {fileID: 108171384}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: -70.548, z: 0}
---- !u!1 &725828377 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8713323214806403716, guid: f866f564909ad034299d28e06c9b272f, type: 3}
-  m_PrefabInstance: {fileID: 676831102}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &725828393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 725828377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d525d2810813877448f54d98ab528936, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tutorialComplete: 0
-  hasNexus: 0
-  hasBlaster: 0
 --- !u!1 &731196539
 GameObject:
   m_ObjectHideFlags: 0
@@ -57574,6 +57599,11 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1797678631 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4919447574072508805, guid: f866f564909ad034299d28e06c9b272f, type: 3}
+  m_PrefabInstance: {fileID: 676831102}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1797870069
 PrefabInstance:
   m_ObjectHideFlags: 0

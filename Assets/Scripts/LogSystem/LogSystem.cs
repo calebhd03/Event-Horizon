@@ -38,19 +38,23 @@ public class LogSystem : MonoBehaviour
     AudioSource audioSource;
     public AudioClip SwitchTabSound;
     SkillTree skillTree;
+    TutorialScript tutorialScript;
+    public GameObject player;
     public Scanning scnScr;
     //Upgrade option pages
     public GameObject upgradePage1, upgradePage2, upgradePage3, upgradePage4;
     void Start()
     {
+        player = GameObject.FindWithTag("Player");
         log = false;
-        starterAssetsInputs = FindObjectOfType<StarterAssetsInputs>();
-        thirdPersonController = FindObjectOfType<ThirdPersonController>();
+        starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
+        thirdPersonController = player.GetComponent<ThirdPersonController>();
+        tutorialScript = player.GetComponent<TutorialScript>();
         LogPage.SetActive(false);
         displayInfo.SetActive(false);
         audioSource = GetComponent<AudioSource>();
-        skillTree = FindObjectOfType<SkillTree>();
-        scnScr = FindObjectOfType<Scanning>();
+        skillTree = player.GetComponent<SkillTree>();
+        scnScr = player.GetComponent<Scanning>();
         upgradePage1.SetActive(false);
         upgradePage2.SetActive(false);
         upgradePage3.SetActive(false);
@@ -540,6 +544,7 @@ public class LogSystem : MonoBehaviour
     public void BHGToolUpgrade()
     {
         BHGToolUpgraded = true;
+        tutorialScript.hasNexusTool = true;
         bHGToolButton.image.sprite = upgradedSprite;
         skillTree.BHGToolUpgrade();
     }
