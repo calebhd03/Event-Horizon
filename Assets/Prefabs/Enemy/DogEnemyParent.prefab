@@ -385,6 +385,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  healthMetrics: {fileID: 0}
+  skillTree: {fileID: 0}
   agent: {fileID: 0}
   slowDuration: 6
   slowFactor: 0.7
@@ -895,44 +897,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
---- !u!1 &564421713780882827 stripped
+--- !u!1 &559418878506534581 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 5788726578362076023, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5783745795472289865, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
   m_PrefabInstance: {fileID: 6305191940066342652}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &8049965742807897922
+--- !u!65 &5267970191296133604
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 564421713780882827}
+  m_GameObject: {fileID: 559418878506534581}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.057231598, y: 0.03794899, z: 0.018816283}
-  m_Center: {x: 0.029214576, y: 0.0224341, z: 0.0022661155}
---- !u!65 &288132910403652334
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 564421713780882827}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.051686462, y: 0.037115715, z: 0.035138775}
-  m_Center: {x: -0.024875006, y: -0.0006873405, z: -0.00089024066}
---- !u!114 &3564977382735043216
+  m_Size: {x: 0.033543166, y: 0.06495834, z: 0.03547354}
+  m_Center: {x: 0.0018528465, y: 0.020319225, z: -0.008976573}
+--- !u!114 &5931882948683628463
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 564421713780882827}
+  m_GameObject: {fileID: 559418878506534581}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 50a02517c549d5247b48dce7ece66ce5, type: 3}
@@ -941,7 +930,7 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
-  damageSound: {fileID: 8300000, guid: e8605b39bc65a6b42a264aef6ea6cf4a, type: 3}
+  damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -1043,18 +1032,31 @@ MonoBehaviour:
   meleeUp: 0
   knockBackUp: 0
   knifeDamageUpFactor: 5
---- !u!1 &4071306768866326413 stripped
+--- !u!1 &2605847588755053103 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 7998574659444719985, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
+  m_CorrespondingSourceObject: {fileID: 8334296191290502355, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
   m_PrefabInstance: {fileID: 6305191940066342652}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &904078237233203555
+--- !u!65 &8802690637188743706
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2605847588755053103}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.03709249, y: 0.058052734, z: 0.03170756}
+  m_Center: {x: 0.008665377, y: -0.010473265, z: 0.0056110914}
+--- !u!114 &4351005232336481059
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4071306768866326413}
+  m_GameObject: {fileID: 2605847588755053103}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 50a02517c549d5247b48dce7ece66ce5, type: 3}
@@ -1063,7 +1065,7 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
-  damageSound: {fileID: 8300000, guid: e8605b39bc65a6b42a264aef6ea6cf4a, type: 3}
+  damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -1075,44 +1077,211 @@ MonoBehaviour:
   knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
---- !u!65 &5819110110467983417
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4071306768866326413}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.09964912, y: 0.019520082, z: 0.026663618}
-  m_Center: {x: 0.025579272, y: -0.00003457915, z: -0.002764036}
---- !u!1 &4663257808318507707 stripped
+--- !u!1 &3489164957400823433 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 1673002516707236935, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7488513813089779829, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
   m_PrefabInstance: {fileID: 6305191940066342652}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &8720564579991497982
+--- !u!65 &356447613388164461
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4663257808318507707}
+  m_GameObject: {fileID: 3489164957400823433}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.1277945, y: 0.026969085, z: 0.024762781}
-  m_Center: {x: -0.01389735, y: 0.0005302914, z: 0.0029971707}
---- !u!114 &3572592108607481948
+  m_Size: {x: 0.029729262, y: 0.0517658, z: 0.022950241}
+  m_Center: {x: -0.002814671, y: 0.011616157, z: -0.0027466856}
+--- !u!114 &7246667978824984044
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4663257808318507707}
+  m_GameObject: {fileID: 3489164957400823433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50a02517c549d5247b48dce7ece66ce5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regularDamage: 10
+  plasmaDamage: 15
+  regularKnifeDamage: 5
+  damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 5
+  damageOverTimeDuration: 4
+  meleeUp: 0
+  knockBackUp: 0
+  knifeDamageUpFactor: 5
+  armorPieces: []
+--- !u!1 &4436282075894384295 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7642711521995354203, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
+  m_PrefabInstance: {fileID: 6305191940066342652}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &4883789413993490336
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4436282075894384295}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.040100116, y: 0.062441967, z: 0.039544392}
+  m_Center: {x: 0.0025479773, y: -0.020635614, z: -0.0007772369}
+--- !u!114 &6682859394487632194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4436282075894384295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50a02517c549d5247b48dce7ece66ce5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regularDamage: 10
+  plasmaDamage: 15
+  regularKnifeDamage: 5
+  damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 5
+  damageOverTimeDuration: 4
+  meleeUp: 0
+  knockBackUp: 0
+  knifeDamageUpFactor: 5
+  armorPieces: []
+--- !u!1 &5123334812620437606 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1196048163906866842, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
+  m_PrefabInstance: {fileID: 6305191940066342652}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &171163695528189990
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5123334812620437606}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.026698515, y: 0.052252993, z: 0.025490856}
+  m_Center: {x: -0.0017002658, y: 0.017514575, z: 0.004129735}
+--- !u!114 &2691227525659320481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5123334812620437606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50a02517c549d5247b48dce7ece66ce5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regularDamage: 10
+  plasmaDamage: 15
+  regularKnifeDamage: 5
+  damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 5
+  damageOverTimeDuration: 4
+  meleeUp: 0
+  knockBackUp: 0
+  knifeDamageUpFactor: 5
+  armorPieces: []
+--- !u!1 &5328103190675200358 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2193731540475539354, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
+  m_PrefabInstance: {fileID: 6305191940066342652}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &6116367309422748140
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5328103190675200358}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.037179165, y: 0.061050605, z: 0.035736125}
+  m_Center: {x: 0.0009701049, y: 0.018250806, z: 0.00002160325}
+--- !u!114 &7461350727410828633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5328103190675200358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50a02517c549d5247b48dce7ece66ce5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regularDamage: 10
+  plasmaDamage: 15
+  regularKnifeDamage: 5
+  damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 5
+  damageOverTimeDuration: 4
+  meleeUp: 0
+  knockBackUp: 0
+  knifeDamageUpFactor: 5
+  armorPieces: []
+--- !u!1 &6221916197202947308 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 132897391447153168, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
+  m_PrefabInstance: {fileID: 6305191940066342652}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &8093947022919218822
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6221916197202947308}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.032095756, y: 0.06022399, z: 0.038077194}
+  m_Center: {x: -0.002236502, y: -0.023390029, z: 0.009927211}
+--- !u!114 &1653823717394565848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6221916197202947308}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 50a02517c549d5247b48dce7ece66ce5, type: 3}
@@ -1149,9 +1318,9 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.064618856, y: 0.082996994, z: 0.08262401}
-  m_Center: {x: -0.00088497787, y: 0.12103626, z: 0.103916794}
---- !u!114 &4240240801246845645
+  m_Size: {x: 0.064618856, y: 0.082996994, z: 0.09691491}
+  m_Center: {x: -0.00088497787, y: 0.12103626, z: 0.111062296}
+--- !u!114 &5685668517973689072
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1160,28 +1329,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 6714002434218654803}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fe6f5c6f5c03e74ba1becca0f057ffa, type: 3}
+  m_Script: {fileID: 11500000, guid: f1102e4ba42d92e4c95bbac50374b653, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meleeDamage: 20
+  biteDamage: 20
+  damageInterval: 1
   damageSound: {fileID: 8300000, guid: c907e43ee6d99274da0f20d7c4207476, type: 3}
 --- !u!4 &6802629884641240516 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 713611081023492920, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
   m_PrefabInstance: {fileID: 6305191940066342652}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &9098356292608767672 stripped
+--- !u!1 &8582140297999645078 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 3009337478255329348, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2349024714671394666, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
   m_PrefabInstance: {fileID: 6305191940066342652}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3210838684745074882
+--- !u!65 &5679666118105617603
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8582140297999645078}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.029462533, y: 0.064171895, z: 0.028799865}
+  m_Center: {x: 0.0022103463, y: -0.009838828, z: -0.00515748}
+--- !u!114 &7312679015825020117
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9098356292608767672}
+  m_GameObject: {fileID: 8582140297999645078}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 50a02517c549d5247b48dce7ece66ce5, type: 3}
@@ -1190,7 +1373,7 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
-  damageSound: {fileID: 8300000, guid: 780f0a773e3715a4493f66029cd5a971, type: 3}
+  damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -1202,29 +1385,3 @@ MonoBehaviour:
   knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
---- !u!65 &819531976013272971
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9098356292608767672}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.056439243, y: 0.015765771, z: 0.025748193}
-  m_Center: {x: -0.036543515, y: -0.028581573, z: -0.0029387232}
---- !u!65 &6590093494972887464
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9098356292608767672}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.07232538, y: 0.02420517, z: 0.034136064}
-  m_Center: {x: 0.020863023, y: -0.004108483, z: 0.0037489308}
