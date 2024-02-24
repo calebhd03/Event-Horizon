@@ -7,8 +7,8 @@ using UnityEngine.AI;
 public class UpgradeEffects : MonoBehaviour
 {
     public Transform player;
-    private HealthMetrics healthMetrics;
-    private SkillTree skillTree;
+    public HealthMetrics healthMetrics;
+    public SkillTree skillTree;
     public NavMeshAgent agent;
     public float slowDuration = 6f, slowFactor = 0.7f, priorSpeed, damageOverTime = 5f, damageOverTimeDuration = 4f;
     public float knockBackForce = 10f, knockBackTimer = 0f;
@@ -19,18 +19,18 @@ public class UpgradeEffects : MonoBehaviour
     weakPoint[] weakPoints;
     public ParticleSystem slowEffect, damageOverTimeEffect;
     
-    void Start()
+    void Awake()
     {
         player = GameObject.Find("Player").transform;        
         agent = GetComponent<NavMeshAgent>();
         regularPoints = GetComponentsInChildren<regularPoint>();
         weakPoints = GetComponentsInChildren<weakPoint>();
         priorSpeed = agent.speed;
-        skillTree = FindObjectOfType<SkillTree>();
+        skillTree = player.GetComponent<SkillTree>();
         healthMetrics = GetComponentInParent<HealthMetrics>();
         
         //GetDamagePoints();
-        SetUpgrades();
+        //SetUpgrades();
     }
 
     void Update()

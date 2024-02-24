@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 135756642000475821}
   - component: {fileID: 7512216137511064084}
   - component: {fileID: 4416926081852918493}
+  - component: {fileID: 8817904075245773296}
   m_Layer: 8
   m_Name: PlayerArmature
   m_TagString: Player
@@ -207,7 +208,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 67c8b33e424ccdc4486edf538ab91c5a, type: 3}
   - {fileID: 8300000, guid: 274649b0e221539409070ebf6c18918b, type: 3}
   - {fileID: 8300000, guid: a3194b8bbc96ef84fab1f98f4b7dae3e, type: 3}
-  FootstepAudioVolume: 0.3
   JumpHeight: 1.2
   Gravity: -15
   JumpTimeout: 0.3
@@ -232,6 +232,7 @@ MonoBehaviour:
   RotationSpeed: 5
   progressScript: {fileID: 0}
   sceneTransition: {fileID: 0}
+  riftSound: {fileID: 0}
   teleportLocation1: {fileID: 0}
   teleportLocation2: {fileID: 0}
   teleportLocation3: {fileID: 0}
@@ -301,6 +302,8 @@ MonoBehaviour:
   outerTP: 0
   innerTP: 0
   centerTP: 0
+  delayShoot: 0
+  interact: 0
 --- !u!114 &7512216137511064084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,6 +423,24 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &6060737181392567134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926081852918481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d525d2810813877448f54d98ab528936, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skipTutorial: {fileID: 0}
+  tutorialComplete: 0
+  hasNexus: 0
+  hasBlaster: 0
+  hasNexusTool: 0
+  teleportPlayer: {x: 450, y: 8, z: 55}
 --- !u!1 &4528651510355510735
 GameObject:
   m_ObjectHideFlags: 0

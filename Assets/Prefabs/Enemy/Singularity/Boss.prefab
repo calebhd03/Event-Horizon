@@ -59,9 +59,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weakPointDamage: 20
+  weakPointPlasmaDamage: 30
   knifeDamage: 10
   damageSound: {fileID: 8300000, guid: 780f0a773e3715a4493f66029cd5a971, type: 3}
-  agent: {fileID: 0}
   damageUpgrade: 0
   slowEnemy: 0
   damageOverTimeEnemy: 0
@@ -70,7 +70,9 @@ MonoBehaviour:
   priorSpeed: 0
   damageOverTime: 3
   damageOverTimeDuration: 6
-  elapsedTime: 10
+  meleeUp: 0
+  knockBackUp: 0
+  knifeDamageUpFactor: 5
 --- !u!1 &460996748575234140
 GameObject:
   m_ObjectHideFlags: 0
@@ -702,9 +704,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  plasmaDamage: 15
   regularKnifeDamage: 5
   damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
-  agent: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -712,7 +714,10 @@ MonoBehaviour:
   priorSpeed: 0
   damageOverTime: 3
   damageOverTimeDuration: 6
-  elapsedTime: 10
+  meleeUp: 0
+  knockBackUp: 0
+  knifeDamageUpFactor: 5
+  armorPieces: []
 --- !u!1 &4973244206653304215
 GameObject:
   m_ObjectHideFlags: 0
@@ -814,6 +819,7 @@ GameObject:
   - component: {fileID: 3170739756306172419}
   - component: {fileID: 6034472767329828165}
   - component: {fileID: 1596564476}
+  - component: {fileID: 2638827133996500542}
   m_Layer: 9
   m_Name: BossBody
   m_TagString: Enemy
@@ -956,6 +962,7 @@ MonoBehaviour:
   Scanned: 0
   criticalPointReveal: {fileID: 2685724367689611176}
   number: 0
+  weakPointReveal: []
 --- !u!82 &3170739756306172419
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1070,7 +1077,7 @@ MonoBehaviour:
   playerZone:
     serializedVersion: 2
     m_Bits: 8
-  seeDistance: 23
+  seeDistance: 39.06
   stopDistanceRange: 2.5
   meteorPortalPrefab: {fileID: 6820707611387592768, guid: 11da55da96c400b439a033baa03f052e, type: 3}
   meteorPrefab: {fileID: 5856671059405442928, guid: dbed1913086309e44a8c5692be265ca2, type: 3}
@@ -1090,15 +1097,15 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   meteorSpawnSound: {fileID: 8300000, guid: 204dac5665027be4e979bd008d7d4705, type: 3}
   deathAudio: {fileID: 8300000, guid: 1178852854510bc48a2e0aabb1408593, type: 3}
-  deathAudioVolume: 4
   blasterPickupPrefab: {fileID: 373804354548533021, guid: 069adfaa15184ad4eb9307433864e0ea, type: 3}
   shotGunPickupPrefab: {fileID: 4902031354076264320, guid: 6026ae5d2ef2f454280bc257781f4eb6, type: 3}
   bHPickupPrefab: {fileID: 1464895933930130252, guid: 8f0d8942908b01c41b83f3c8c7be7cef, type: 3}
   healthPickupPrefab: {fileID: 1464895933930130252, guid: f867f91f0bffc4f4db651b1be23a1a15, type: 3}
   pickupDropChance: 0
   Portal: {fileID: 0}
-  slowEffect: {fileID: 414328326070644236}
-  damageOverTimeEffect: {fileID: 414328326070644236}
+  deathParticle: {fileID: 936528228916197531, guid: f7006155a37ea6641b91d8307eaccc54, type: 3}
+  deathParticleOffset: {x: 0, y: 2, z: 0}
+  timeTillDestroyOnDeath: 8
 --- !u!195 &1596564476
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1121,6 +1128,38 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2638827133996500542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4973244207133764569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94a141c56a692984fb7fb0e5d831dfc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  healthMetrics: {fileID: 0}
+  skillTree: {fileID: 0}
+  agent: {fileID: 0}
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 5
+  damageOverTimeDuration: 4
+  knockBackForce: 10
+  knockBackTimer: 0
+  meleeUp: 0
+  knockBackUp: 0
+  slowEnemyUp: 0
+  damageOverTimeEnemyUp: 0
+  laserUp: 0
+  stopStackDamage: 0
+  stopSlowStack: 0
+  slowEffect: {fileID: 0}
+  damageOverTimeEffect: {fileID: 0}
 --- !u!1 &4973244207495498770
 GameObject:
   m_ObjectHideFlags: 0
@@ -1318,6 +1357,7 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: f3c8e3f0cc287624eb9a3ff5ba8b4c78, type: 2}
   healthMetrics: {fileID: 4973244207957182977}
   listIndex: 0
+  scene: 0
 --- !u!1 &6736512306054190801
 GameObject:
   m_ObjectHideFlags: 0
@@ -1795,11 +1835,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
---- !u!198 &414328326070644236 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 4314430095859130899, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
-  m_PrefabInstance: {fileID: 4494612472193518623}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6799879238826513568 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}

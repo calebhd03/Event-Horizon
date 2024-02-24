@@ -136,6 +136,11 @@ public class ThirdPersonShooterController : MonoBehaviour
         //skilltree
         SkillTree skillTree;
 
+        //weapon mesh
+        public NexusGun nxgun;
+        //Shotgun sgun;
+        public Blaster bgun;
+
 
         private void Awake()
         {
@@ -150,12 +155,16 @@ public class ThirdPersonShooterController : MonoBehaviour
             isCrouching = false;
             SwitchWeaponObject(originalWeaponObject);
             RefreshWeaponIcons();
-            EquipBlaster();
+            //EquipBlaster();
             SettingsScript settings = FindObjectOfType<SettingsScript>();
             pauseMenuScript = FindObjectOfType<PauseMenuScript>();
             logSystem = FindObjectOfType<LogSystem>();
             audioSource = GetComponent<AudioSource>();
             skillTree = GetComponent<SkillTree>();
+            nxgun = GetComponentInChildren<NexusGun>();
+            //Shotgun sgun = GetComponentInChildren<Shotgun>();
+            bgun = GetComponentInChildren<Blaster>();
+
         }
 
         private void Update()
@@ -166,9 +175,6 @@ public class ThirdPersonShooterController : MonoBehaviour
             ScanCam scnCam = Scannercamera.GetComponent<ScanCam>();
             ScanZoom scnzCam = ScannerZoomCamera.GetComponent<ScanZoom>();
             ThirdPersonController TPC = GetComponent<ThirdPersonController>();
-            NexusGun nxgun = GetComponentInChildren<NexusGun>();
-            //Shotgun sgun = GetComponentInChildren<Shotgun>();
-            Blaster bgun = GetComponentInChildren<Blaster>();
             Vector3 mouseWorldPosition = Vector3.zero;
 
             Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
@@ -275,7 +281,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 }
             }
 
-        if (starterAssetsInputs.scroll != Vector2.zero && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
+        if (starterAssetsInputs.scroll != Vector2.zero && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && playerData.hasNexus == true && playerData.hasBlaster == true)
         {
             //equippedWeapon = equippedWeapon++;
                 
@@ -299,10 +305,16 @@ public class ThirdPersonShooterController : MonoBehaviour
             switch (equippedWeapon)
             {
                 case 0:
-                        EquipBlaster();
+                        if(playerData.hasBlaster == true)
+                        {
+                            EquipBlaster();
+                            }
                     break;
                 case 1:
-                        EquipBlackHoleGun();
+                        if(playerData.hasNexus == true)
+                        {
+                            EquipBlackHoleGun();
+                        }
                     break;
                 case 2:
                         //EquipShotgun();
@@ -316,7 +328,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
 
-        if (starterAssetsInputs.switchWeapon && Time.time - lastSwitchTime >= switchCoolDown && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
+        if (starterAssetsInputs.switchWeapon && Time.time - lastSwitchTime >= switchCoolDown && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && playerData.hasNexus == true && playerData.hasBlaster == true)
         {
             if (equippedWeapon != 0)
             {
@@ -332,17 +344,17 @@ public class ThirdPersonShooterController : MonoBehaviour
             Debug.Log(equippedWeapon);
         }
 
-        if (starterAssetsInputs.blaster && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
+        if (starterAssetsInputs.blaster && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && playerData.hasBlaster == true)
         {
             EquipBlaster();
         }
 
-        if (starterAssetsInputs.blackHoleGun && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
+        if (starterAssetsInputs.blackHoleGun && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && playerData.hasNexus == true)
         {
             EquipBlackHoleGun();
         }
 
-        if (starterAssetsInputs.swapBHG && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && skillTree.bHGTool == true)
+        if (starterAssetsInputs.swapBHG && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && skillTree.bHGTool == true && playerData.hasNexus == true)
         {
             if (equippedWeapon == 1)
             {
@@ -380,7 +392,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 //play shoot animation
                 animator.SetTrigger("Shoot");
 
-                if (equippedWeapon == 0 && playerData.standardAmmoLoaded > 0)//Standard Projectile Shoot
+                if (equippedWeapon == 0 && playerData.standardAmmoLoaded > 0 && playerData.hasBlaster == true)//Standard Projectile Shoot
                 {
                     playerData.standardAmmoLoaded -= 1;
                     currentCooldown = standardCooldown;
@@ -402,7 +414,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                         audioSource.PlayOneShot(plasmaBlasterSound);
                     }
                 }
-                if (equippedWeapon == 1 )
+                if (equippedWeapon == 1 && playerData.hasNexus == true)
                 {   
                     if (BHGTool == true)
                     {
@@ -946,7 +958,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     IEnumerator PlayForDuration(ParticleSystem particleSystem, Transform spawnLocation, float duration)
     {
         ParticleSystem newParticleSystem = Instantiate(particleSystem, spawnLocation.position, spawnLocation.rotation);
-        if(newParticleSystem.GetComponent<BHG>() != null) newParticleSystem.GetComponent<BHG>().tpsc = this;
+        if(newParticleSystem.GetComponent<BHGCharge>() != null) newParticleSystem.GetComponent<BHGCharge>().tpsc = this;
         newParticleSystem.Play();
 
         yield return new WaitForSeconds(duration);
@@ -1037,9 +1049,6 @@ public class ThirdPersonShooterController : MonoBehaviour
     }
     public void EnablePlayerMesh()
     {
-        NexusGun nxgun = GetComponentInChildren<NexusGun>();
-        //Shotgun sgun = GetComponentInChildren<Shotgun>();
-        Blaster bgun = GetComponentInChildren<Blaster>();
         playermesh.enabled = true;
         nxgun.EnableMesh();
         bgun.EnableMesh();
@@ -1047,9 +1056,6 @@ public class ThirdPersonShooterController : MonoBehaviour
     }
     public void DisablePlayerMesh()
     {
-        NexusGun nxgun = GetComponentInChildren<NexusGun>();
-        //Shotgun sgun = GetComponentInChildren<Shotgun>();
-        Blaster bgun = GetComponentInChildren<Blaster>();
         playermesh.enabled = false;
         nxgun.DisableMesh();
         bgun.DisableMesh();
@@ -1059,5 +1065,13 @@ public class ThirdPersonShooterController : MonoBehaviour
     public void changeSens(float newChangeSens)
     {
         normalSensitivity = newChangeSens;
+    }
+    public void EnableNXGunMesh()
+    {
+        nxgun.EnableMesh();
+    }
+    public void EnableBGunMesh()
+    {
+        bgun.EnableMesh();
     }
 }

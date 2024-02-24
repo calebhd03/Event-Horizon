@@ -19,6 +19,8 @@ public class Dialog : MonoBehaviour
     PauseMenuScript pauseMenuScript;
     public GameObject player;
     public bool dialogActive = false, wasPlaying = false;
+    public Collider[] colliderArray;
+    float interactRange = 2f;
 
     void Awake()
     {
@@ -29,19 +31,24 @@ public class Dialog : MonoBehaviour
         thirdPersonShooterController = player.GetComponent<ThirdPersonShooterController>();
         audioSource = GetComponent<AudioSource>();
         dialogBox = objectiveText.gameObject;
-        
     }
 
     void Update()
     {
-        if (starterAssetsInputs.interact)
-        {
-            if(starterAssetsInputs.interact == true)
+        colliderArray = Physics.OverlapSphere(transform.position, interactRange);
+        foreach (Collider collider in colliderArray)
+                if (collider.tag == "Player")
                 {
-                    starterAssetsInputs.interact = false;
+                    if (starterAssetsInputs.interact)
+                    {
+                        TriggerDialogue();
+
+                        if(starterAssetsInputs.interact == true)
+                            {
+                                starterAssetsInputs.interact = false;
+                            }
+                    }
                 }
-            TriggerDialogue();
-        }
         
         if(pauseMenuScript.paused == true)
         {
@@ -60,22 +67,24 @@ public class Dialog : MonoBehaviour
 
     public void TriggerDialogue()
     {
-        dialogActive = true;
-        pauseMenuScript.dialogActive = true;
-        Time.timeScale = 0;
-        objectiveText.ShowDialogText();
-        audioSource.clip = dialogClips[number];
-        audioSource.Play();
-        objectiveText.displayedText.text = dialogText[number].text;
-        number += 1;
-        if (number >= dialogClips.Length)
-        {
-            number = 0;
-            dialogActive = false;
-            Time.timeScale = 1;
-            pauseMenuScript.dialogActive = false;
-            StartCoroutine(TurnOffText());
-        }
+
+                    dialogActive = true;
+                    pauseMenuScript.dialogActive = true;
+                    Time.timeScale = 0;
+                    objectiveText.ShowDialogText();
+                    audioSource.clip = dialogClips[number];
+                    audioSource.Play();
+                    objectiveText.displayedText.text = dialogText[number].text;
+                    number += 1;
+                    if (number >= dialogClips.Length)
+                    {
+                        number = 0;
+                        dialogActive = false;
+                        Time.timeScale = 1;
+                        pauseMenuScript.dialogActive = false;
+                        StartCoroutine(TurnOffText());
+                    }
+                
     }
 
     IEnumerator TurnOffText()

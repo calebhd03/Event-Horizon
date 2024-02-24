@@ -8,8 +8,6 @@ using StarterAssets;
 
 public class UpgradeSpot : MonoBehaviour
 {
-    [Tooltip("Place this on box collider where we want the upgrades to occur")]
-
     LogSystem logSystem;
     StarterAssetsInputs starterAssetsInputs;
     ThirdPersonShooterController thirdPersonShooterController;
@@ -17,7 +15,8 @@ public class UpgradeSpot : MonoBehaviour
     public TextMeshProUGUI text;
     public bool Upgrade = false;
     public GameObject player;
-   
+    Collider[] colliderArray;
+    float interactRange = 2f;
     public int upgradeOption;
     void Start()
     {
@@ -30,16 +29,20 @@ public class UpgradeSpot : MonoBehaviour
     }
 
     void Update()
-    {
-        if (starterAssetsInputs.interact)
-        {
-            if(starterAssetsInputs.interact == true)
+    {   
+        colliderArray = Physics.OverlapSphere(transform.position, interactRange);
+        foreach (Collider collider in colliderArray)
+                if (collider.tag == "Player")
                 {
-                    starterAssetsInputs.interact = false;
+                    if (starterAssetsInputs.interact)
+                    {
+                        EnableUpgrade();
+                        if(starterAssetsInputs.interact == true)
+                            {
+                                starterAssetsInputs.interact = false;
+                            }
+                    }
                 }
-            EnableUpgrade();
-        }
-    }
     /*    private void OnTriggerEnter(Collider other)
     {
         objectiveText.ShowUpgradeText();
@@ -74,7 +77,7 @@ public class UpgradeSpot : MonoBehaviour
                 }
             }
     }*/
-
+    }
     void EnableUpgrade()
     {
         objectiveText.ShowUpgradeText();

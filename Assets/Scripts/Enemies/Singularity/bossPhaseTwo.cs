@@ -76,7 +76,7 @@ public class bossPhaseTwo : MonoBehaviour
         timer += Time.deltaTime;
 
         // Output the timer value to the console for debugging
-        Debug.Log("Timer: " + timer.ToString("F2")); // "F2" formats the timer value to 2 decimal places
+        //Debug.Log("Timer: " + timer.ToString("F2")); // "F2" formats the timer value to 2 decimal places
 
         iSeeYou = Physics.CheckSphere(transform.position, seeDistance, playerZone);
         updateHealth();

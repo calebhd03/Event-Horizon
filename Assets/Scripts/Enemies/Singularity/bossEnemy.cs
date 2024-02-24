@@ -68,7 +68,11 @@ public class bossEnemy : MonoBehaviour
     public GameObject healthPickupPrefab;
     public float pickupDropChance = 0.3f;
     public GameObject Portal;
+    public GameObject deathParticle;
+    public Vector3 deathParticleOffset;
+    public float timeTillDestroyOnDeath;
 
+    bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -90,6 +94,10 @@ public class bossEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // BE CAREFUL: putting code below this will not be run when boss is dead
+        if (isDead) return;
+
+
         iSeeYou = Physics.CheckSphere(transform.position, seeDistance, playerZone);
         stopDistance = Physics.CheckSphere(transform.position, stopDistanceRange, playerZone);
 
@@ -370,6 +378,10 @@ public class bossEnemy : MonoBehaviour
 
         private void DropStuff()
         {
+            if (isDead) return;
+
+            isDead = true;
+
             if(Random.value < pickupDropChance)
             {
                 Instantiate(shotGunPickupPrefab, transform.position, Quaternion.identity);
@@ -384,8 +396,9 @@ public class bossEnemy : MonoBehaviour
            
             
             Portal.SetActive(true);
+            Instantiate(deathParticle, transform.position + deathParticleOffset, Quaternion.identity);
             Debug.Log("Boss Death end");
-             Destroy(transform.parent.gameObject);
+            Destroy(transform.parent.gameObject, timeTillDestroyOnDeath);
         }
          public void PlayEnemyHitAnimation()
         {
