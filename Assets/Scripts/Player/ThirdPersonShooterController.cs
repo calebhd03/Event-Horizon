@@ -64,7 +64,9 @@ public class ThirdPersonShooterController : MonoBehaviour
         public bool knifeSlash = false;
         public Image cooldownMeter;
 
+        [Range(0.0f, 90.0f)]
         [SerializeField] private float plasmaSpreadAngle;
+        [Range(0.0f, 1.0f)]
         [SerializeField] private float plasmaShotOffset;
 
         
@@ -408,9 +410,9 @@ public class ThirdPersonShooterController : MonoBehaviour
                     {
                         Vector3 plasmaSpreadR = Quaternion.Euler(0, plasmaSpreadAngle, 0) * aimDir;
                         Vector3 plasmaSpreadL = Quaternion.Euler(0, -plasmaSpreadAngle, 0) * aimDir;
-                        Instantiate(pfPlasmaProjectile, spawnBulletPosition.position + new Vector3 (plasmaShotOffset, 0, 0), Quaternion.LookRotation(plasmaSpreadR, Vector3.up));
+                        Instantiate(pfPlasmaProjectile, spawnBulletPosition.position + new Vector3 (plasmaShotOffset, 0, 0), Quaternion.LookRotation(plasmaSpreadL, Vector3.up));
                         Instantiate(pfPlasmaProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
-                        Instantiate(pfPlasmaProjectile, spawnBulletPosition.position - new Vector3 (plasmaShotOffset, 0, 0), Quaternion.LookRotation(plasmaSpreadL, Vector3.up));
+                        Instantiate(pfPlasmaProjectile, spawnBulletPosition.position - new Vector3 (plasmaShotOffset, 0, 0), Quaternion.LookRotation(plasmaSpreadR, Vector3.up));
                         audioSource.PlayOneShot(plasmaBlasterSound);
                     }
                 }
