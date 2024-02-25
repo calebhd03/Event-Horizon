@@ -39,15 +39,15 @@ public class Dialog : MonoBehaviour
         foreach (Collider collider in colliderArray)
                 if (collider.tag == "Player")
                 {
-                    if (starterAssetsInputs.interact)
-                    {
-                        TriggerDialogue();
+                   // if (starterAssetsInputs.interact)
+                   // {
+                     //   TriggerDialogue();
 
-                        if(starterAssetsInputs.interact == true)
-                            {
-                                starterAssetsInputs.interact = false;
-                            }
-                    }
+                        //if(starterAssetsInputs.interact == true)
+                         //   {
+                           //     starterAssetsInputs.interact = false;
+                          //  }
+                   // }
                 }
         
         if(pauseMenuScript.paused == true)

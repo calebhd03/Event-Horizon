@@ -148,6 +148,8 @@ namespace StarterAssets
 
         public PauseMenuScript pauseMenuScript;
 
+        private AmmoHole currentAmmoHole;
+
         private const float _threshold = 0.01f;
 
         private bool _hasAnimator;
@@ -211,6 +213,8 @@ namespace StarterAssets
             SaveTestInputs();
             Crouch();
             Teleport();
+            Interact();
+            
         }
 
         private void LateUpdate()
@@ -648,6 +652,23 @@ namespace StarterAssets
                     Debug.LogError("Rift script is missing on " + other.name);
                 }
             }
+
+            if (other.CompareTag("AmmoHole"))
+            {
+                Debug.Log("AmmoHoleCollision");
+
+                // Store reference to the current AmmoHole
+                currentAmmoHole = other.GetComponent<AmmoHole>();
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("AmmoHole"))
+            {
+                // Reset the reference to the AmmoHole when the player exits its trigger zone
+                currentAmmoHole = null;
+            }
         }
            private void Teleport()
         {
@@ -687,6 +708,27 @@ namespace StarterAssets
                 _controller.enabled = true;
             }
         }
+
         
+        private void Interact()
+        {
+            if(_input.interact == true)
+            {
+            Debug.Log("Interact input detected");
+
+            if (currentAmmoHole != null)
+            {
+                Debug.Log("Interacting with the current ammo hole");
+                // Call the ToggleHole method of the current AmmoHole
+                currentAmmoHole.ToggleHole();
+            }
+
+            // Reset the interact input
+            _input.interact = false;
+            }
+        }
     }
+    
+
+
 }
