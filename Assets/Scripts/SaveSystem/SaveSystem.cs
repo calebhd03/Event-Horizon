@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections.Generic;
 
 public static class SaveSystem 
 {
@@ -92,30 +93,72 @@ public static void SavePlayer(PlayerSaveData saveData)
         }
         return null;
     }
-    public static void SaveEnemyData(EnemyData enemyData, int sceneIndex)
+
+  public static void SaveEnemyData(EnemyData enemyData)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/enemyData.data";
         FileStream stream = new FileStream(path, FileMode.Create);
-        formatter.Serialize(stream, enemyData);
-        stream.Close();
 
-        // Call GetData method with the scene index
-        enemyData.GetData(sceneIndex);
+        List<EnemyVariables> allEnemies = enemyData.GetAllEnemyData(); // Retrieve all enemy data
+        formatter.Serialize(stream, allEnemies); // Serialize and save enemy data
+
+        stream.Close();
     }
 
     public static EnemyData LoadEnemyData()
     {
-        // Load enemy data using binary deserialization
         string path = Application.persistentDataPath + "/enemyData.data";
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
-            EnemyData data = formatter.Deserialize(stream) as EnemyData;
+            List<EnemyVariables> savedEnemies = formatter.Deserialize(stream) as List<EnemyVariables>;
             stream.Close();
-            return data;
+
+            // Check if there are any saved enemies
+            if (savedEnemies != null && savedEnemies.Count > 0)
+            {
+                EnemyData enemyData = ScriptableObject.CreateInstance<EnemyData>();
+
+                foreach (var savedEnemy in savedEnemies)
+                {
+                    // Check if the saved enemy has died since the last save
+                    if (savedEnemy.ifHasDied)
+                    {
+               
+                        if (!WasEnemyAliveInLastSave(savedEnemy))
+                        {
+                            GameObject enemyPrefab = EnemyManager.instance.GetEnemyPrefab(savedEnemy.enemyType);
+                            if (enemyPrefab != null)
+                            {
+                                GameObject newEnemy = GameObject.Instantiate(enemyPrefab, savedEnemy.enemyObject.transform.position, Quaternion.identity);
+                           
+                            }
+                        }
+                    }
+                }
+
+                return enemyData;
+            }
+            else
+            {
+                Debug.LogWarning("No saved enemy data found!");
+                return null;
+            }
         }
-        return null;
+        else
+        {
+            Debug.LogWarning("No enemy data file found!");
+            return null;
+        }
+    }
+
+    private static bool WasEnemyAliveInLastSave(EnemyVariables enemy)
+    {
+ 
+        return false;
     }
 }
+
+
