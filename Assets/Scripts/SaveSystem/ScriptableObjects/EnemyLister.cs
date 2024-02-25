@@ -14,7 +14,14 @@ public class EnemyLister : MonoBehaviour
     {
         healthMetrics = GetComponent<HealthMetrics>();
         scene = SceneManager.GetActiveScene().buildIndex;
-        enemyData.Add(scene, gameObject, healthMetrics.currentHealth);
+        enemyData.Add(scene, gameObject, healthMetrics);
+    }
+
+    void UpdateData()
+    {
+        healthMetrics = GetComponent<HealthMetrics>();
+        scene = SceneManager.GetActiveScene().buildIndex;
+        enemyData.Add(scene, gameObject, healthMetrics);
     }
     
     void OnDestroy()
