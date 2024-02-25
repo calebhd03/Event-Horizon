@@ -9,6 +9,7 @@ public class EnemyVariables
     public float currentHealth;
     public int enemyType;
     public bool ifHasDied;
+    public Vector3 lastSavedPosition; // Add this property
 
     public EnemyVariables(GameObject enemyObject, HealthMetrics healthMetrics, int enemyType)
     {
@@ -17,6 +18,7 @@ public class EnemyVariables
         this.currentHealth = healthMetrics.currentHealth;
         this.enemyType = enemyType;
         this.ifHasDied = false;
+        this.lastSavedPosition = enemyObject.transform.position; // Initialize with the current position
     }
 
     public void UpdateHealth()
