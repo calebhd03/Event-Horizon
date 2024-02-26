@@ -43,9 +43,13 @@ public class LogSystem : MonoBehaviour
     public Scanning scnScr;
     //Upgrade option pages
     public GameObject upgradePage1, upgradePage2, upgradePage3, upgradePage4;
+
+    PauseMenuScript pauseMenuScript;
+
     void Start()
     {
         player = GameObject.FindWithTag("Player");
+        pauseMenuScript = FindObjectOfType<PauseMenuScript>();
         log = false;
         starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
         thirdPersonController = player.GetComponent<ThirdPersonController>();
@@ -307,13 +311,16 @@ public class LogSystem : MonoBehaviour
     public void CloseLog()
     {   
         log = false;
-        scnScr.HudObject.SetActive(true);
+        if(scnScr != null) scnScr.HudObject.SetActive(true);
         //Debug.LogWarning("closelog");
         LogPage.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1;
         Invoke("DelayShoot", 0.1f);
+
+        pauseMenuScript.UnPause();
+        GetComponent<ToolTip>().HideToolTip();
     }
 
     public void EnemiesTab()
@@ -553,4 +560,5 @@ public class LogSystem : MonoBehaviour
     {
         starterAssetsInputs.delayShoot = false;
     }
+
 }

@@ -18,9 +18,12 @@ public class UpgradeSpot : MonoBehaviour
     Collider[] colliderArray;
     float interactRange = 2f;
     public int upgradeOption;
+
+    PauseMenuScript pauseMenuScript;
     void Start()
     {
         logSystem = FindObjectOfType<LogSystem>();
+        pauseMenuScript = FindObjectOfType<PauseMenuScript>();
         player = GameObject.FindWithTag("Player");
         starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
         thirdPersonShooterController = player.GetComponent<ThirdPersonShooterController>();
@@ -29,20 +32,26 @@ public class UpgradeSpot : MonoBehaviour
     }
 
     void Update()
-    {   
+    {
+        Debug.Log("Cursor.visible " + Cursor.visible);
+        Debug.Log("Cursor.lockState " + Cursor.lockState);
+
         colliderArray = Physics.OverlapSphere(transform.position, interactRange);
         foreach (Collider collider in colliderArray)
-                if (collider.tag == "Player")
+            if (collider.tag == "Player")
+            {
+                Debug.Log("Player in upgrade " + upgradeOption);
+
+                Debug.Log("interact input " + starterAssetsInputs.interact);
+                if (starterAssetsInputs.interact)
                 {
-                    if (starterAssetsInputs.interact)
-                    {
-                        EnableUpgrade();
-                        if(starterAssetsInputs.interact == true)
-                            {
-                                starterAssetsInputs.interact = false;
-                            }
-                    }
+                    EnableUpgrade();
+                    if(starterAssetsInputs.interact == true)
+                        {
+                            //starterAssetsInputs.interact = false;
+                        }
                 }
+            }
     /*    private void OnTriggerEnter(Collider other)
     {
         objectiveText.ShowUpgradeText();
@@ -80,34 +89,39 @@ public class UpgradeSpot : MonoBehaviour
     }
     void EnableUpgrade()
     {
+        Debug.Log("Upgrade enabled " + upgradeOption);
+
+        pauseMenuScript.PauseGame();
+
         objectiveText.ShowUpgradeText();
         Upgrade = true;
-            if (Upgrade == true)
-            {
-                    switch(upgradeOption)
-                    {
-                        case 1:
-                            logSystem.skillsUnlocked = true;
-                            logSystem.upgradePage1.SetActive(true);
-                        break;
-                        case 2:
-                            logSystem.skillsUnlocked2 = true;
-                            logSystem.upgradePage2.SetActive(true);
-                        break;
-                        case 3:
-                            logSystem.skillsUnlocked3 = true;
-                            logSystem.upgradePage3.SetActive(true);
-                        break;
-                        case 4:
-                            logSystem.skillsUnlocked4 = true;
-                            logSystem.upgradePage4.SetActive(true);
-                        break;
-                    }
-                    Upgrade = false;
-                    Destroy(gameObject);
-                    Time.timeScale = 0;
-                    Cursor.visible = true;
-                    Cursor.lockState = CursorLockMode.None;
-            }
+        if (Upgrade == true)
+        {
+                switch(upgradeOption)
+                {
+                    case 1:
+                        logSystem.skillsUnlocked = true;
+                        logSystem.upgradePage1.SetActive(true);
+                    break;
+                    case 2:
+                        logSystem.skillsUnlocked2 = true;
+                        logSystem.upgradePage2.SetActive(true);
+                    break;
+                    case 3:
+                        logSystem.skillsUnlocked3 = true;
+                        logSystem.upgradePage3.SetActive(true);
+                    break;
+                    case 4:
+                        logSystem.skillsUnlocked4 = true;
+                        logSystem.upgradePage4.SetActive(true);
+                    break;
+                }
+                Upgrade = false;
+                Destroy(gameObject);
+                Time.timeScale = 0;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+
+        }
     }        
 }
