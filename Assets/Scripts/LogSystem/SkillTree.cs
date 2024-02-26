@@ -18,8 +18,8 @@ public class SkillTree : MonoBehaviour
     
     void Start()
     {
-        playerHealthMetric = FindObjectOfType<PlayerHealthMetric>();
-        thirdPersonController = FindObjectOfType<ThirdPersonController>();
+        playerHealthMetric = GetComponent<PlayerHealthMetric>();
+        thirdPersonController = GetComponent<ThirdPersonController>();
         regularPointdamage = FindObjectsOfType<regularPoint>();
         weakPointdamage = FindObjectsOfType<weakPoint>();
         logSystem = FindObjectOfType<LogSystem>();

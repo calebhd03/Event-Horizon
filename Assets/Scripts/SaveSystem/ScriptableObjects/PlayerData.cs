@@ -35,6 +35,8 @@ public class PlayerData : ScriptableObject
         public bool SaveLaserUpgrade = false;
     [Header("Weapon")]
         public bool hasBlaster = false, hasNexus = false;
+    [Header("Tutorial")]
+        public bool tutorialComplete = false;
 
     public void ResetHealthAmmo()
     {
@@ -47,6 +49,7 @@ public class PlayerData : ScriptableObject
         nexusAmmoLoaded = nexusAmmoMax;
         hasBlaster = false; 
         hasNexus = false;
+        tutorialComplete = false;
     }
 
 }

@@ -10,7 +10,7 @@ public class UpgradeSpot : MonoBehaviour
 {
     LogSystem logSystem;
     StarterAssetsInputs starterAssetsInputs;
-    ThirdPersonShooterController thirdPersonShooterController;
+    //ThirdPersonShooterController thirdPersonShooterController;
     public ObjectiveText objectiveText;
     public TextMeshProUGUI text;
     public bool Upgrade = false;
@@ -26,7 +26,7 @@ public class UpgradeSpot : MonoBehaviour
         pauseMenuScript = FindObjectOfType<PauseMenuScript>();
         player = GameObject.FindWithTag("Player");
         starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
-        thirdPersonShooterController = player.GetComponent<ThirdPersonShooterController>();
+        //thirdPersonShooterController = player.GetComponent<ThirdPersonShooterController>();
         text = gameObject.AddComponent<TextMeshProUGUI>();
         text.text = "New Skill Tree Options";
     }
@@ -42,6 +42,7 @@ public class UpgradeSpot : MonoBehaviour
                 Debug.Log("interact input " + starterAssetsInputs.interact);
                 if (starterAssetsInputs.interact)
                 {
+                    Debug.LogError("Interacted");
                     EnableUpgrade();
                     if(starterAssetsInputs.interact == true)
                         {
@@ -91,7 +92,9 @@ public class UpgradeSpot : MonoBehaviour
         pauseMenuScript.PauseGame();
 
         objectiveText.ShowUpgradeText();
+        Debug.LogError("text");
         Upgrade = true;
+        Debug.LogError("upgrade");
         if (Upgrade == true)
         {
                 switch(upgradeOption)
@@ -113,6 +116,7 @@ public class UpgradeSpot : MonoBehaviour
                         logSystem.upgradePage4.SetActive(true);
                     break;
                 }
+                Debug.LogError("switch");
                 Upgrade = false;
                 Destroy(gameObject);
                 Time.timeScale = 0;
