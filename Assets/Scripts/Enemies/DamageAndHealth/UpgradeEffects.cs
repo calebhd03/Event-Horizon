@@ -147,7 +147,7 @@ public class UpgradeEffects : MonoBehaviour
         {
             knockBackUp = false;
         }
-        if (skillTree.laser == true)
+        if (skillTree.OGBHG == true)
         {
             laserUp = true;
         }

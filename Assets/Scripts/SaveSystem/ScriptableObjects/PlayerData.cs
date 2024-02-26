@@ -32,7 +32,7 @@ public class PlayerData : ScriptableObject
     [Header ("Skill")]
         public bool SaveDamageOverTimeUpgrade = false, SaveSlowEnemyUpgrade = false, SaveKnockBackUpgrade = false;
     [Header("Skill")]
-        public bool SaveLaserUpgrade = false;
+        public bool SaveOGBHGUpgrade = false, SaveBHGPullEffect = false;
     [Header("Weapon")]
         public bool hasBlaster = false, hasNexus = false;
     [Header("Tutorial")]
@@ -50,6 +50,14 @@ public class PlayerData : ScriptableObject
         hasBlaster = false; 
         hasNexus = false;
         tutorialComplete = false;
+        SavePlasmaUpgrade = false;
+        SaveMeleeDamageUpgrade = false;
+        SaveBHGToolUpgrade = false;
+        SaveDamageOverTimeUpgrade = false; 
+        SaveSlowEnemyUpgrade = false;
+        SaveKnockBackUpgrade = false;
+        SaveOGBHGUpgrade = false;
+        SaveBHGPullEffect = false;
     }
 
 }
