@@ -33,9 +33,6 @@ public class UpgradeSpot : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("Cursor.visible " + Cursor.visible);
-        Debug.Log("Cursor.lockState " + Cursor.lockState);
-
         colliderArray = Physics.OverlapSphere(transform.position, interactRange);
         foreach (Collider collider in colliderArray)
             if (collider.tag == "Player")
