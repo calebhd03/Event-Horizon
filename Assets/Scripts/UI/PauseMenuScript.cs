@@ -102,18 +102,18 @@ public class PauseMenuScript : MonoBehaviour
     }
     public void OpenSettings()
         {
-            settingsScreen.SetActive(true);
             PauseScreen.SetActive(false);
+            settingsScreen.SetActive(true);
         }
     public void OpenInventory()
         {
-            inventoryScreen.SetActive(true);
             PauseScreen.SetActive(false);
+            inventoryScreen.SetActive(true);
         }
     public void OpenUpgrades()
         {
-            upgradeScreen.SetActive(true);
             PauseScreen.SetActive(false);
+            upgradeScreen.SetActive(true);
         }
 
     //add log system
@@ -125,7 +125,7 @@ public class PauseMenuScript : MonoBehaviour
         PauseScreen.SetActive(false);
         if (logSystem.log == false)
         {
-        starterAssetsInputs.LogInput(true);
+            starterAssetsInputs.LogInput(true);
         }
     }
 
