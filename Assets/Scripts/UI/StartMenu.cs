@@ -14,6 +14,7 @@ public class StartMenu : MonoBehaviour
     public GameObject startButton;
     public GameObject VSSceneButton;
     public GameObject InnerSceneButton;
+    public PlayerData playerData;
 
     void Start()
     {
@@ -66,12 +67,15 @@ public class StartMenu : MonoBehaviour
     }
     public void LoadInnerScene()
     {
+        playerData.tutorialComplete = true;
         Cursor.visible = false;
         SceneManager.LoadScene("Inner");
     }
     public void LoadCenterScene()
     {
+        playerData.tutorialComplete = true;
         Cursor.visible = false;
         SceneManager.LoadScene("The Center");
+        
     }
 }
