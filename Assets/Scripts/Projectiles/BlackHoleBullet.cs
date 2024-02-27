@@ -9,7 +9,7 @@ public class BlackHoleBullet : MonoBehaviour
     public float eventHorizonRadius;
     public float effectTime;
     public float speed = 50f;
-    private Vector3 lastPosition;
+    public Vector3 lastPosition;
 
     private void Awake()
     {
@@ -60,7 +60,7 @@ public class BlackHoleBullet : MonoBehaviour
         {
             if(hitCollider.tag == "Enemy")
             {
-                StartCoroutine(DestroyTarget(hitCollider));
+               // StartCoroutine(DestroyTarget(hitCollider));
             }
         }
     }
@@ -83,10 +83,11 @@ public class BlackHoleBullet : MonoBehaviour
             currentTime += Time.deltaTime;
             yield return null;
         }
+        //yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }
 
-    IEnumerator DestroyTarget(Collider target)
+    /*IEnumerator DestroyTarget(Collider target)
     {
         if(target.tag == "Enemy")
         {
@@ -105,7 +106,7 @@ public class BlackHoleBullet : MonoBehaviour
                 Destroy(target.gameObject);
             }
         }
-    }
+    }*/
 
     private void OnDrawGizmos()
     {

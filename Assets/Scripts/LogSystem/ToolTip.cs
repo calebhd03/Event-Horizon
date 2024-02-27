@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ToolTip : MonoBehaviour
 {
     public TextMeshProUGUI toolTipText;
-    public RectTransform backgroundRectTransform;
+    //public RectTransform backgroundRectTransform;
     public GameObject toolTip;
 
     void Start()

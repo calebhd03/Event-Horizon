@@ -604,6 +604,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3072665588477408614}
+  - {fileID: 7177209260243484422}
   m_Father: {fileID: 2962340922106741226}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1271,7 +1272,7 @@ Transform:
   m_Children:
   - {fileID: 5582486870057742393}
   m_Father: {fileID: 2962340922106741226}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3446343527723480962
 GameObject:
@@ -1707,14 +1708,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4817857814875226809}
-  m_LocalRotation: {x: 0.32661277, y: 0.000014540117, z: 0.000006195086, w: 0.9451583}
-  m_LocalPosition: {x: 0.00000021194995, y: 0.20763251, z: -0.04524083}
+  m_LocalRotation: {x: 0.000015332964, y: -0.85358906, z: -0.5209469, w: 0.000009937215}
+  m_LocalPosition: {x: -0.080794975, y: -0.14500546, z: 0.1280457}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4063367050074169528}
-  m_Father: {fileID: 2962340922106741226}
-  m_RootOrder: 2
+  m_Father: {fileID: 3583593445182782555}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4873840665767560484
 GameObject:
@@ -2002,6 +2003,7 @@ MonoBehaviour:
   Scanned: 0
   criticalPointReveal: {fileID: 1200944308644211898}
   number: 1
+  weakPointReveal: []
 --- !u!82 &4515077192967158807
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2011,7 +2013,7 @@ AudioSource:
   m_GameObject: {fileID: 5502654824631323240}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 5748461615803123587, guid: cc46b327e10c02d46b24182aae5e9e5f, type: 2}
   m_audioClip: {fileID: 8300000, guid: b705d340fbca54543824acce1348b76a, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -2112,6 +2114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   agent: {fileID: 0}
+  animator: {fileID: 0}
   playerZone:
     serializedVersion: 2
     m_Bits: 8
@@ -2128,18 +2131,22 @@ MonoBehaviour:
   meteorSpeed: 10
   slashWindUp: 12
   aoeRingPrefab: {fileID: 0}
+  aoeCloseRingPrefab: {fileID: 0}
+  aoeCloseWarningPrefab: {fileID: 0}
   aoeSpawn: {fileID: 0}
   aoeWindUp: 2
   healthBar: {fileID: 0}
   meteorSpawnSound: {fileID: 0}
   deathAudio: {fileID: 0}
-  deathAudioVolume: 0
   blasterPickupPrefab: {fileID: 0}
   shotGunPickupPrefab: {fileID: 0}
   bHPickupPrefab: {fileID: 0}
   healthPickupPrefab: {fileID: 0}
   pickupDropChance: 0.3
   Portal: {fileID: 0}
+  deathParticle: {fileID: 0}
+  deathParticleOffset: {x: 0, y: 0, z: 0}
+  timeTillDestroyOnDeath: 0
 --- !u!1 &5897994901591770099
 GameObject:
   m_ObjectHideFlags: 0
@@ -2233,7 +2240,7 @@ Transform:
   m_Children:
   - {fileID: 4069525525116659565}
   m_Father: {fileID: 2962340922106741226}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6474164968695884963
 GameObject:
@@ -2457,7 +2464,6 @@ Transform:
   m_Children:
   - {fileID: 933026856827155060}
   - {fileID: 3583593445182782555}
-  - {fileID: 7177209260243484422}
   - {fileID: 1626124056572319051}
   - {fileID: 6912440240374304095}
   m_Father: {fileID: 721483045629017992}

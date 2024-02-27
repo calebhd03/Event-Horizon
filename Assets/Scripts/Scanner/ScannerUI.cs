@@ -34,6 +34,7 @@ public class ScannerUI : MonoBehaviour
     public GameObject scannerCurrentObject;
     public int quest = 0;
     public int currentQuest = 0;
+    [SerializeField] Compass compass;
 
 
     void Awake()
@@ -58,6 +59,7 @@ public class ScannerUI : MonoBehaviour
         newSlider2.SetActive(false);
         enelapsed = 0;
         newSliderProgress2.value = enelapsed;
+        compass = FindObjectOfType<Compass>();
 
     }
     
@@ -92,12 +94,10 @@ public class ScannerUI : MonoBehaviour
                     currentQuest = quest;
                     SwitchQuest();
                 }            
-                if(hit.collider.tag == "Objective" && currentQuest == quest)
+                else if(hit.collider.tag == "Objective" && currentQuest == quest)
                 {
                     SwitchQuest();
                 }
-                Destroy(ScanCam.scannerCurrentObject);
-                DisableSlider();
                 if (ScanCam.scannerCurrentObject.tag == "Memory")
                 {
                 LogMemories();
@@ -108,6 +108,8 @@ public class ScannerUI : MonoBehaviour
                     objectiveText();
                     Invoke("HideText", 3);
                 }
+                Destroy(ScanCam.scannerCurrentObject);
+                DisableSlider();
             }
         }
     }
@@ -259,7 +261,7 @@ public class ScannerUI : MonoBehaviour
     }
     void SwitchQuest()
     {
-        Compass compass = FindObjectOfType<Compass>();
+        
         switch(quest)
         {
             case 0:

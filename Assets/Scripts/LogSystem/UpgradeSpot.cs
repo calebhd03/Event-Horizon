@@ -4,25 +4,54 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using StarterAssets;
 
 public class UpgradeSpot : MonoBehaviour
 {
-    [Tooltip("Place this on box collider where we want the upgrades to occur")]
-
     LogSystem logSystem;
+    StarterAssetsInputs starterAssetsInputs;
+    ScannerUI scannerUI;
     public ObjectiveText objectiveText;
     public TextMeshProUGUI text;
     public bool Upgrade = false;
-   
-    public int level;
+    public GameObject player;
+    Collider[] colliderArray;
+    float interactRange = 2f;
+    public int upgradeOption;
+
+    PauseMenuScript pauseMenuScript;
     void Start()
     {
         logSystem = FindObjectOfType<LogSystem>();
-
+        pauseMenuScript = FindObjectOfType<PauseMenuScript>();
+        player = GameObject.FindWithTag("Player");
+        starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
+        scannerUI = FindObjectOfType<ScannerUI>();
+        objectiveText = scannerUI.GetComponentInChildren<ObjectiveText>();
         text = gameObject.AddComponent<TextMeshProUGUI>();
         text.text = "New Skill Tree Options";
     }
-        private void OnTriggerEnter(Collider other)
+
+    void Update()
+    {
+        colliderArray = Physics.OverlapSphere(transform.position, interactRange);
+        foreach (Collider collider in colliderArray)
+            if (collider.tag == "Player")
+            {
+                Debug.Log("Player in upgrade " + upgradeOption);
+
+                Debug.Log("interact input " + starterAssetsInputs.interact);
+                if (starterAssetsInputs.interact)
+                {
+                    Debug.LogError("Interacted");
+                    EnableUpgrade();
+                    if(starterAssetsInputs.interact == true)
+                        {
+                            //starterAssetsInputs.interact = false;
+                        }
+                }
+            }
+    /*    private void OnTriggerEnter(Collider other)
     {
         objectiveText.ShowUpgradeText();
         //objectiveText.displayedText.text = text.text;
@@ -31,16 +60,23 @@ public class UpgradeSpot : MonoBehaviour
             {
                 if(other.CompareTag("Player"))
                 {
-                    switch(level)
+                    switch(upgradeOption)
                     {
                         case 1:
                             logSystem.skillsUnlocked = true;
+                            logSystem.upgradePage1.SetActive(true);
                         break;
                         case 2:
                             logSystem.skillsUnlocked2 = true;
+                            logSystem.upgradePage2.SetActive(true);
                         break;
                         case 3:
                             logSystem.skillsUnlocked3 = true;
+                            logSystem.upgradePage3.SetActive(true);
+                        break;
+                        case 4:
+                            logSystem.skillsUnlocked4 = true;
+                            logSystem.upgradePage4.SetActive(true);
                         break;
                     }
                     
@@ -48,5 +84,46 @@ public class UpgradeSpot : MonoBehaviour
                     Destroy(gameObject);
                 }
             }
+    }*/
     }
+    void EnableUpgrade()
+    {
+        Debug.Log("Upgrade enabled " + upgradeOption);
+
+        pauseMenuScript.PauseGame();
+
+        objectiveText.ShowUpgradeText();
+        Debug.LogError("text");
+        Upgrade = true;
+        Debug.LogError("upgrade");
+        if (Upgrade == true)
+        {
+                switch(upgradeOption)
+                {
+                    case 1:
+                        logSystem.skillsUnlocked = true;
+                        logSystem.upgradePage1.SetActive(true);
+                    break;
+                    case 2:
+                        logSystem.skillsUnlocked2 = true;
+                        logSystem.upgradePage2.SetActive(true);
+                    break;
+                    case 3:
+                        logSystem.skillsUnlocked3 = true;
+                        logSystem.upgradePage3.SetActive(true);
+                    break;
+                    case 4:
+                        logSystem.skillsUnlocked4 = true;
+                        logSystem.upgradePage4.SetActive(true);
+                    break;
+                }
+                Debug.LogError("switch");
+                Upgrade = false;
+                Destroy(gameObject);
+                Time.timeScale = 0;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+
+        }
+    }        
 }

@@ -1,4 +1,4 @@
-  using UnityEngine;
+    using UnityEngine;
   using UnityEngine.SceneManagement;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
@@ -34,7 +34,6 @@ namespace StarterAssets
 
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;
-        [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
 
         [Space(10)]
         [Tooltip("The height the player can jump")]
@@ -140,12 +139,16 @@ namespace StarterAssets
         private GameObject _mainCamera;
         private bool _rotateOnMove = true;
 
+        public AudioClip riftSound;
+
         [Header ("Dev Controls")]
         public Transform teleportLocation1;
         public Transform teleportLocation2;
         public Transform teleportLocation3;
 
         public PauseMenuScript pauseMenuScript;
+
+        private AmmoHole currentAmmoHole;
 
         private const float _threshold = 0.01f;
 
@@ -210,6 +213,8 @@ namespace StarterAssets
             SaveTestInputs();
             Crouch();
             Teleport();
+            Interact();
+            
         }
 
         private void LateUpdate()
@@ -497,7 +502,7 @@ namespace StarterAssets
                 if (FootstepAudioClips.Length > 0)
                 {
                     var index = Random.Range(0, FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                    audioSource.PlayOneShot(FootstepAudioClips[index]);
                 }
             }
         }
@@ -506,7 +511,7 @@ namespace StarterAssets
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                audioSource.PlayOneShot(LandingAudioClip);
             }
         }
 
@@ -614,6 +619,57 @@ namespace StarterAssets
                 Debug.Log("Pause input!");
             }
         }
+            private void OnTriggerEnter(Collider other)
+        {
+            // Check if the collider is tagged as "RiftPoint"
+            if (other.CompareTag("RiftPoint"))
+            {
+                Debug.Log("RiftPointCollision");
+
+                // Get the RiftTransform from the collided object's Rift script
+                Rift rift = other.GetComponent<Rift>();
+                if (rift != null)
+                {
+                    Transform riftTransform = rift.RiftTransform;
+                    if (riftTransform != null)
+                    {
+                        // Play the teleport sound effect
+                        if (riftSound != null)
+                        {
+                            audioSource.PlayOneShot(riftSound);
+                        }
+
+                        // Teleport the player to the specified location
+                        TeleportToLocation(riftTransform);
+                    }
+                    else
+                    {
+                        Debug.LogError("RiftTransform is not assigned in the Rift script on " + other.name);
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Rift script is missing on " + other.name);
+                }
+            }
+
+            if (other.CompareTag("AmmoHole"))
+            {
+                Debug.Log("AmmoHoleCollision");
+
+                // Store reference to the current AmmoHole
+                currentAmmoHole = other.GetComponent<AmmoHole>();
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("AmmoHole"))
+            {
+                // Reset the reference to the AmmoHole when the player exits its trigger zone
+                currentAmmoHole = null;
+            }
+        }
            private void Teleport()
         {
             if (_input.teleport1)
@@ -630,7 +686,7 @@ namespace StarterAssets
             }
         }
 
-        private void TeleportToLocation(Transform targetTransform)
+        public void TeleportToLocation(Transform targetTransform)
         {
             if (targetTransform != null)
             {
@@ -652,6 +708,27 @@ namespace StarterAssets
                 _controller.enabled = true;
             }
         }
+
         
+        private void Interact()
+        {
+            if(_input.interact == true)
+            {
+            Debug.Log("Interact input detected");
+
+            if (currentAmmoHole != null)
+            {
+                Debug.Log("Interacting with the current ammo hole");
+                // Call the ToggleHole method of the current AmmoHole
+                currentAmmoHole.ToggleHole();
+            }
+
+            // Reset the interact input
+            _input.interact = false;
+            }
+        }
     }
+    
+
+
 }

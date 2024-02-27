@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class AudioScript : MonoBehaviour
 {
@@ -20,6 +21,10 @@ public class AudioScript : MonoBehaviour
         if(PlayerPrefs.HasKey("SFXVol"))
         {
             Mixer.SetFloat("SFXVol",PlayerPrefs.GetFloat("SFXVol"));
+        }
+        if(PlayerPrefs.HasKey("AmbienceVol"))
+        {
+            Mixer.SetFloat("AmbienceVol",PlayerPrefs.GetFloat("AmbienceVol"));
         }
     }
 

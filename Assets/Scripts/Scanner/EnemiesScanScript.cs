@@ -17,8 +17,10 @@ public class EnemiesScanScript : MonoBehaviour
     //Weak points
     public GameObject criticalPointReveal;
     public int number;
+    public weakPoint[] weakPointReveal;
 
     private AudioSource alertSound;
+
 
     void Start()
     {
@@ -27,6 +29,12 @@ public class EnemiesScanScript : MonoBehaviour
         criticalPointReveal.SetActive(false);
 
         alertSound = GetComponent<AudioSource>();
+        weakPointReveal = FindObjectsOfType<weakPoint>();
+        
+        foreach (weakPoint weakPoint in weakPointReveal)
+        {
+            weakPoint.enabled = false;     
+        }
     }
     void Update()
     {
@@ -34,6 +42,14 @@ public class EnemiesScanScript : MonoBehaviour
         if (logSystem.enemy[number].interactable == true)
         {
             Scanned = true;
+        }
+        if(Scanned == true)
+        {
+            weakPoint[] weakPointToShow = GetComponentsInChildren<weakPoint>();
+            foreach (weakPoint weakPoint in weakPointToShow)
+                {
+                    weakPoint.enabled = true;
+                }
         }
     }
 
@@ -78,10 +94,10 @@ public class EnemiesScanScript : MonoBehaviour
     
     public void WeakPoints()
     {
-            criticalPointReveal.SetActive(true);
+            //criticalPointReveal.SetActive(true);
             //criticalPointReveal.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
             Scanned = true;
-
+            //StartCoroutine(ShowWeakPoints());
             alertSound.Play();          
     }
 
@@ -91,4 +107,15 @@ public class EnemiesScanScript : MonoBehaviour
         logSystem.UpdateEnemyLog();
     }
 
+    /*IEnumerator ShowWeakPoints()
+    {
+        if (Scanned == true)
+            {
+                foreach (weakPoint weakPoint in weakPointReveal)
+                    {
+                        weakPoint.enabled = false;     
+                    }
+            }
+        yield return null;
+    }*/
 }

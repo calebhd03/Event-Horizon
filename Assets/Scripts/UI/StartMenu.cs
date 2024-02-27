@@ -14,6 +14,7 @@ public class StartMenu : MonoBehaviour
     public GameObject startButton;
     public GameObject VSSceneButton;
     public GameObject InnerSceneButton;
+    public PlayerData playerData;
 
     void Start()
     {
@@ -59,15 +60,22 @@ public class StartMenu : MonoBehaviour
     {
         EventSystem.current.SetSelectedGameObject(gameObject);
     }
-
+     public void LoadTheOuterVer2Scene()
+    {
+        Cursor.visible = false;
+        SceneManager.LoadScene("TheOuterVer2");
+    }
     public void LoadInnerScene()
     {
+        playerData.tutorialComplete = true;
         Cursor.visible = false;
         SceneManager.LoadScene("Inner");
     }
     public void LoadCenterScene()
     {
+        playerData.tutorialComplete = true;
         Cursor.visible = false;
         SceneManager.LoadScene("The Center");
+        
     }
 }

@@ -12,7 +12,7 @@ public class PauseMenuScript : MonoBehaviour
     public GameObject settingsScreen;
     public GameObject inventoryScreen;
     public GameObject upgradeScreen;
-    public GameObject logPage;
+    //public GameObject logPage;
     public GameObject HUD;
     
     public bool paused = false;
@@ -21,13 +21,14 @@ public class PauseMenuScript : MonoBehaviour
     LogSystem logSystem;
 
     public GameObject Player;
+    public bool dialogActive = false;
 
 
 
     private void Start()
     {
         logSystem = FindObjectOfType<LogSystem>();
-         starterAssetsInputs = Player.GetComponent<StarterAssetsInputs>();
+        starterAssetsInputs = Player.GetComponent<StarterAssetsInputs>();
     }
     public void SetSave()
     {
@@ -35,6 +36,7 @@ public class PauseMenuScript : MonoBehaviour
         //starterAssetsInputs.PauseInput(false);
         starterAssetsInputs.SaveInput(true);
         paused = false;
+        Invoke("DelayShoot", 0.1f);
     }
     public void SetLoad()
     {
@@ -42,35 +44,46 @@ public class PauseMenuScript : MonoBehaviour
         //starterAssetsInputs.PauseInput(false);
         starterAssetsInputs.LoadInput(true);
         paused = false;
+        Invoke("DelayShoot", 0.1f);
     }
 
     public void SetPause()
     {
         if(paused == false)
         {
-            paused = true;
             OpenPause();
         }
         else
         {
-            paused = false;
-            settingsScreen.SetActive(false);
-            inventoryScreen.SetActive(false);
-            upgradeScreen.SetActive(false);
-            ClosePause();
+            UnPause();
         }
     }
     //The three functions here open their respective menus and close out the main
     public void OpenPause()
-        {
-            paused = true;
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            Time.timeScale = 0;
-            HUD.SetActive(false);
-            PauseScreen.SetActive(true);
-            
-        }
+    {
+        PauseScreen.SetActive(true);
+        PauseGame();
+    }
+
+    public void PauseGame()
+    {
+        paused = true;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 0;
+        HUD.SetActive(false);
+        starterAssetsInputs.delayShoot = true;
+    }
+
+    public void UnPause()
+    {
+        paused = false;
+        settingsScreen.SetActive(false);
+        inventoryScreen.SetActive(false);
+        upgradeScreen.SetActive(false);
+        ClosePause();
+        Invoke("DelayShoot", 0.1f);
+    }
     public void ClosePause()
     {
        // Debug.Log("Before: " + starterAssetsInputs.pause);
@@ -84,7 +97,10 @@ public class PauseMenuScript : MonoBehaviour
         PauseScreen.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        if (dialogActive == false)
+        {
         Time.timeScale = 1;
+        }
 
         starterAssetsInputs.PauseInput(false);
         PauseFalse();
@@ -164,5 +180,11 @@ public class PauseMenuScript : MonoBehaviour
     public void PauseFalse()
     {
         starterAssetsInputs.PauseInput(false);
+        Invoke("DelayShoot", 0.1f);
+    }
+
+    public void DelayShoot()
+    {
+        starterAssetsInputs.delayShoot = false;
     }
 }

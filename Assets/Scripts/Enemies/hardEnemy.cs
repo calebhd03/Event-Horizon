@@ -83,8 +83,8 @@ namespace StarterAssets
         public float moveDistance;
 
         [Header("Audio")]
+        AudioSource audioSource;
         public AudioClip deathAudio;
-        [Range(0, 10)] public float deathAudioVolume;
 
         [Header("Drops")]
         public GameObject blasterPickupPrefab;
@@ -101,6 +101,7 @@ namespace StarterAssets
             animator = GetComponent<Animator>();
 
             healthBar = GetComponentInChildren<EnemyHealthBar>();
+            audioSource = GetComponent<AudioSource>();
         }
 
         // Start is called before the first frame update
@@ -454,7 +455,7 @@ namespace StarterAssets
 
         private void Die()
         {
-            AudioSource.PlayClipAtPoint(deathAudio, transform.position, deathAudioVolume);
+            audioSource.PlayOneShot(deathAudio);
             DropStuff();
         }
 

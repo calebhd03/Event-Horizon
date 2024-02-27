@@ -1838,39 +1838,33 @@ MonoBehaviour:
     m_Bits: 164481
   pfBulletProjectile: {fileID: 5006697782490077287, guid: e50c791edfa539142bdc416685916e64, type: 3}
   pfBlackHoleProjectile: {fileID: 1313668074735135766, guid: 87db5c4aa8191b6408a7acf8299c5972, type: 3}
-  pfShotgunProjectile: {fileID: 5006697782490077287, guid: 620aaea8de89f00469371dd1a96e16a9, type: 3}
+  pfPlasmaProjectile: {fileID: 5006697782490077287, guid: ce84060234cbdcf4eae6140daace70de, type: 3}
+  pfLaserProjectile: {fileID: 0}
   pfWallProjectile: {fileID: 0}
   spawnBulletPosition: {fileID: 5199886243392437166}
-  spawnShotgunBulletPosition: {fileID: 0}
   spawnBlackHoleBulletPosition: {fileID: 3557700987579802435}
   spawnBulletPositionOg: {fileID: 0}
   spawnBulletPositionCrouch: {fileID: 0}
   debugTransform: {fileID: 2130104047}
   equippedWeapon: 0
-  shotgunCooldown: 1
-  shotgunSpreadAngle: 3
   blasterHolster: {fileID: 264071779567361132}
   BHGHolster: {fileID: 400640573156064684}
-  shotgunHolster: {fileID: 8268636933014529187}
   crouchedWeaponObject: {fileID: 2707250427268698540}
   originalWeaponObject: {fileID: 2707250427268698540}
   BhgIcon: {fileID: 0}
   standardWeaponObject: {fileID: 7583943228127449891}
   blackHoleWeaponObject: {fileID: 0}
-  shotgunWeaponObject: {fileID: 0}
   allWeapons: 000000000100000002000000
   standardCooldown: 0
   blackHoleCooldown: 1
   knifeCoolDown: 1
   knifeSlash: 0
   cooldownMeter: {fileID: 0}
+  plasmaSpreadAngle: 2
+  plasmaShotOffset: 0.05
   reloading: 0
-  standardAmmoMax: 6
   standardReloadTime: 2
-  nexusAmmoMax: 1
   blackHoleReloadTime: 2
-  shotgunAmmoMax: 4
-  shotgunReloadTime: 2
   loadedAmmoCounter: {fileID: 0}
   totalAmmoCounter: {fileID: 0}
   bhgEquipped: {fileID: 0}
@@ -1879,25 +1873,20 @@ MonoBehaviour:
   blasterEquipped: {fileID: 0}
   blasterSlot1: {fileID: 0}
   blasterSlot2: {fileID: 0}
-  shotgunEquipped: {fileID: 0}
-  shotgunSlot1: {fileID: 0}
-  shotgunSlot2: {fileID: 0}
   ammountCountIcon: {fileID: 0}
   Scanningobject: {fileID: 631398663}
   Scannercamera: {fileID: 1458057777}
   ScannerZoomCamera: {fileID: 1034853398}
   Scanenabled: 0
   blasterSound: {fileID: 8300000, guid: 08c65f78fdacb2241919211996f8fd23, type: 3}
+  plasmaBlasterSound: {fileID: 8300000, guid: 08c65f78fdacb2241919211996f8fd23, type: 3}
   blasterReloadSound: {fileID: 8300000, guid: bd638956182179e4fa4acce9555a87e2, type: 3}
-  shotgunSound: {fileID: 8300000, guid: 71cb2568d9f9a194cad21906ed0a3019, type: 3}
-  shotgunReloadSound: {fileID: 8300000, guid: dcc97e1ba1100f44c8532587359ae132, type: 3}
   blackHoleSound: {fileID: 8300000, guid: f2b4c440f6ba278438a98994ab20436c, type: 3}
   wallBulletSound: {fileID: 0}
   blackHoleReloadSound: {fileID: 8300000, guid: b070762d549c5754a9603ca87d6d0a76, type: 3}
   blackHoleChargeSound: {fileID: 8300000, guid: 0919e6c3cf5f5b9408cb47ebf50cc2ff, type: 3}
   weaponSwitchSound: {fileID: 8300000, guid: d2c916d58a6b38b44942edd6a0341a27, type: 3}
-  blassterFlash: {fileID: 7408974352110299307, guid: 63c4c101dd9ef0749a2ccc6d1f2b59dc, type: 3}
-  shotgunFlash: {fileID: 9057156902556914062, guid: c14369e24bb8e744084d5f3d46f98bcc, type: 3}
+  blasterFlash: {fileID: 7408974352110299307, guid: 63c4c101dd9ef0749a2ccc6d1f2b59dc, type: 3}
   charging: {fileID: 9033888871901032830, guid: 024d2906dc86f4d44bd4bb65ca32c4f9, type: 3}
   firing: {fileID: 7408974352110299307, guid: 63c4c101dd9ef0749a2ccc6d1f2b59dc, type: 3}
   cooldown: {fileID: 1407934279961235722, guid: 1a1bc72fd6e26054889e940031ccb101, type: 3}
@@ -1918,6 +1907,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flashlightObject: {fileID: 7579162950850100055}
+--- !u!114 &4923517436216174246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6924059153134644495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc672c6d59d735e43afe60302ff46f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8793459100975051264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1936,18 +1937,11 @@ MonoBehaviour:
   speedUpgradedAmount: 1.5
   damageUpgradeAmount: 1.5
   upgradeHealthDifference: 0
---- !u!114 &4923517436216174246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6924059153134644495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc672c6d59d735e43afe60302ff46f5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  slowEffectEnemy: 0
+  damageOverTime: 0
+  meleeDamage: 0
+  knockBack: 0
+  laser: 0
 --- !u!1 &7583943228127449891 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 337092540671265372, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
@@ -1966,11 +1960,6 @@ Transform:
 --- !u!4 &8246521290125776870 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2297826082998816409, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
-  m_PrefabInstance: {fileID: 7895377280206182783}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8268636933014529187 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2256895729222073820, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
   m_PrefabInstance: {fileID: 7895377280206182783}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7895377281827990346

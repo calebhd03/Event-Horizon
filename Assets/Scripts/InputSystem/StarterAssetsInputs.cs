@@ -57,11 +57,15 @@ namespace StarterAssets
         public bool innerTP;
         public bool centerTP;
 
+		public bool delayShoot;
+		public bool interact;
+
 
         private void Start()
         {
 			//Debug.LogWarning("START CURSOR LOCK");
             SetCursorState(cursorLocked);
+			delayShoot = false;
         }
 
 #if ENABLE_INPUT_SYSTEM
@@ -101,10 +105,10 @@ namespace StarterAssets
 
 		public void OnShoot(InputValue value)
 		{
-			//if( aim == true)
-			//{
+			if(delayShoot == false)
+			{
 			ShootInput(value.isPressed);
-			//}
+			}
 		}
 		public void OnScan(InputValue value)
 		{
@@ -215,6 +219,10 @@ namespace StarterAssets
 		public void OnSwapBHG(InputValue value)
 		{
 			SwapBHGInput(value.isPressed);
+		}
+		public void OnInteract(InputValue value)
+		{
+			InteractInput(value.isPressed);
 		}
 		
 #endif
@@ -386,6 +394,10 @@ namespace StarterAssets
 			{
 				swapBHG = !swapBHG;
 			}
+		}
+		public void InteractInput(bool newInteractState) //Dev Controls
+		{
+			interact = newInteractState;
 		}
 	}
 }

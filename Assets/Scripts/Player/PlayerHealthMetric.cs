@@ -61,11 +61,11 @@ public class PlayerHealthMetric : MonoBehaviour
 
         if (playerData.currentHealth < previousHealth)
         {
-            audioSource.PlayOneShot(healthIncreaseSound);
+            audioSource.PlayOneShot(healthDecreaseSound);
         }
         else if(playerData.currentHealth > previousHealth)
         {
-            audioSource.PlayOneShot(healthDecreaseSound);
+            audioSource.PlayOneShot(healthIncreaseSound);
         }
     }
 
