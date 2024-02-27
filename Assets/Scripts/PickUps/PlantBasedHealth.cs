@@ -1,37 +1,67 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StarterAssets;
 
 public class PlantBasedHealth : MonoBehaviour
 {
     public float pickUpHealthAmount = 10f;
-    public float radius = 5f;
+    //public float radius = 5f;
     public bool used = false;
     ParticleSystem cloud;
     Renderer mesh;
+    Collider[] colliderArray;
+    float interactRange = 2f;
+    StarterAssetsInputs starterAssetsInputs;
+    GameObject player;
+    PlayerHealthMetric playerHealth;
 
 
     void Start()
     {
-        cloud = GetComponent<ParticleSystem>();
+        player = GameObject.FindWithTag("Player");
+        starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
+        cloud = GetComponentInChildren<ParticleSystem>();
+        cloud.Stop();
         mesh = GetComponent<Renderer>();
+        playerHealth = player.GetComponent<PlayerHealthMetric>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    void Update()
+    {
+        colliderArray = Physics.OverlapSphere(transform.position, interactRange);
+        foreach (Collider collider in colliderArray)
+                if (collider.tag == "Player")
+                {
+                    if (starterAssetsInputs.interact)
+                    {
+                        HealPlayer();
+
+                        if(starterAssetsInputs.interact == true)
+                            {
+                                starterAssetsInputs.interact = false;
+                            }
+                    }
+                }
+    }
+
+    void HealPlayer()
     {
         if (used == false)
         {
-            if(other.CompareTag("Player"))
-            {
-                PlayerHealthMetric playerHealth = other.GetComponent<PlayerHealthMetric>();
                 if (playerHealth != null && playerHealth.playerData.currentHealth < playerHealth.playerData.maxHealth)
                 {
                     used = true;
                     playerHealth.ModifyHealth(pickUpHealthAmount);
                     mesh.enabled = false;
                     cloud.Play();
+                    StartCoroutine(StopCloud());
                 }
-            }
         }
+    }
+    IEnumerator StopCloud()
+    {
+        yield return new WaitForSeconds(3);
+        cloud.Stop();
     }    
 }

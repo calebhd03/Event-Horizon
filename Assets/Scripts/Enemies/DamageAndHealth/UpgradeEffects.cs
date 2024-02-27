@@ -13,7 +13,7 @@ public class UpgradeEffects : MonoBehaviour
     public float slowDuration = 6f, slowFactor = 0.7f, priorSpeed, damageOverTime = 5f, damageOverTimeDuration = 4f;
     public float knockBackForce = 10f, knockBackTimer = 0f;
     public bool meleeUp = false, knockBackUp = false, slowEnemyUp = false, damageOverTimeEnemyUp = false;
-    public bool laserUp = false, OGKillUp = false, PullUp = false;
+    public bool plasmaUp = false, OGKillUp = false, PullUp = false;
     //public float knifeDamageUpFactor = 5f;
     public bool stopStackDamage = false, stopSlowStack = false;
     regularPoint[] regularPoints;
@@ -134,9 +134,9 @@ public class UpgradeEffects : MonoBehaviour
         {
             knockBackUp = true;
         }
-        if (skillTree.OGBHG == true)
+        if (skillTree.plasma == true)
         {
-            laserUp = true;
+            plasmaUp = true;
         }
         if (skillTree.BHGPull == true)
         {
@@ -246,11 +246,6 @@ public class UpgradeEffects : MonoBehaviour
         {
             knockBackTimer = .3f;
         }
-    }
-
-    public void LaserAttack()
-    {
-        
     }
 }
 
