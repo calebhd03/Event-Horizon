@@ -60,6 +60,10 @@ namespace StarterAssets
 		public bool delayShoot;
 		public bool interact;
 
+		[Header("Menu Navigation")]
+		public bool R_Bumper;
+		public bool L_Bumper;
+
 
         private void Start()
         {
@@ -223,6 +227,14 @@ namespace StarterAssets
 		public void OnInteract(InputValue value)
 		{
 			InteractInput(value.isPressed);
+		}
+		public void OnL_Bumper(InputValue value)
+		{
+			L_BumperInput(value.isPressed);
+		}
+		public void OnR_Bumper(InputValue value)
+		{
+			R_BumperInput(value.isPressed);
 		}
 		
 #endif
@@ -398,6 +410,14 @@ namespace StarterAssets
 		public void InteractInput(bool newInteractState) //Dev Controls
 		{
 			interact = newInteractState;
+		}
+		public void L_BumperInput(bool newL_BumperState)
+		{
+			L_Bumper = newL_BumperState;
+		}
+		public void R_BumperInput(bool newR_BumperState)
+		{
+			R_Bumper = newR_BumperState;
 		}
 	}
 }

@@ -7,6 +7,8 @@ using UnityEngine.Audio;
 using StarterAssets;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.InputSystem;
+
 public class SettingsScript : MonoBehaviour
 {
     public AudioMixer mainMixer;
@@ -32,9 +34,13 @@ public class SettingsScript : MonoBehaviour
     public GameObject graphicsDisplay, audioDisplay, brightnessDisplay, controlsDisplay, senesitivtyDisplay;
 
     public GameObject gameBackgroundSettings;
+
+
+    private StarterAssetsInputs _input;
     
     void Start()
     {
+        _input = FindObjectOfType<StarterAssetsInputs>();
         audioLine.SetActive(true);
         graphicsLine.SetActive(false);
         gameplayLine.SetActive(false);
@@ -96,6 +102,50 @@ public class SettingsScript : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
 
         ApplySensitivity();
+    }
+
+    void Update()
+    {
+        if(_input.R_Bumper)
+        {
+            _input.R_Bumper = false;
+            if(audioLine.activeSelf == true)
+            {
+                DisplaySelection();
+            }
+            else if(graphicsLine.activeSelf == true)
+            {
+                GameplaySelection();
+            }
+            else if(gameplayLine.activeSelf == true)
+            {
+                ControlsSelection();
+            }
+            else if(controlsLine.activeSelf == true)
+            {
+                AudioSelection();
+            }
+        }
+        if(_input.L_Bumper)
+        {
+            _input.L_Bumper = false;
+            if(audioLine.activeSelf == true)
+            {
+                ControlsSelection();
+            }
+            else if(graphicsLine.activeSelf == true)
+            {
+                AudioSelection();
+            }
+            else if(gameplayLine.activeSelf == true)
+            {
+                DisplaySelection();
+            }
+            else if(controlsLine.activeSelf == true)
+            {
+                GameplaySelection();
+            }
+        }
     }
     
 
@@ -206,11 +256,11 @@ public class SettingsScript : MonoBehaviour
         gameplayLine.SetActive(false);
         controlsLine.SetActive(false);
 
-        audioDisplay.SetActive(true);
         graphicsDisplay.SetActive(false);
         brightnessDisplay.SetActive(false);
         senesitivtyDisplay.SetActive(false);
         controlsDisplay.SetActive(false);
+        audioDisplay.SetActive(true);
     }
 
     public void DisplaySelection()
@@ -221,10 +271,10 @@ public class SettingsScript : MonoBehaviour
         controlsLine.SetActive(false);
 
         audioDisplay.SetActive(false);
-        graphicsDisplay.SetActive(true);
-        brightnessDisplay.SetActive(true);
         senesitivtyDisplay.SetActive(false);
         controlsDisplay.SetActive(false);
+        graphicsDisplay.SetActive(true);
+        brightnessDisplay.SetActive(true);
     }
 
     public void GameplaySelection()
@@ -237,8 +287,8 @@ public class SettingsScript : MonoBehaviour
         audioDisplay.SetActive(false);
         graphicsDisplay.SetActive(false);
         brightnessDisplay.SetActive(false);
-        senesitivtyDisplay.SetActive(true);
         controlsDisplay.SetActive(false);
+        senesitivtyDisplay.SetActive(true);
     }
 
     public void ControlsSelection()
