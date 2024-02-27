@@ -12,7 +12,7 @@ public class SkillTree : MonoBehaviour
     public regularPoint[] regularPointdamage;
     public weakPoint[] weakPointdamage;
     public float healthUpgradeAmount, speedUpgradedAmount, damageUpgradeAmount, upgradeHealthDifference;
-    public bool slowEffectEnemy = false, damageOverTime = false, meleeDamage = false, knockBack = false, bHGTool = false;
+    public bool slowEffectEnemy = false, damageOverTime = false, meleeDamage = false, knockBack = false, bHGTool = false, plasma = false;
     public bool OGBHG = false, BHGPull = false;
     UpgradeEffects[] upgradeEffects;
     
@@ -99,11 +99,21 @@ public class SkillTree : MonoBehaviour
             upgrades.SetUpgrades();
         }
     }
+    public void PlasmaUpgrade()
+    {
+        plasma = true;
+        playerHealthMetric.playerData.SavePlasmaUpgrade = true;
+        foreach(UpgradeEffects upgrades in upgradeEffects)
+        {
+            upgrades.SetUpgrades();
+        }
+    }
     private void SetUpgradesOnLoad()
     {
         if (playerHealthMetric.playerData.SavePlasmaUpgrade == true)
         {
             logSystem.plasmaSkillUpgraded = true;
+            PlasmaUpgrade();
 
         }
         if(playerHealthMetric.playerData.SaveDamageOverTimeUpgrade == true)

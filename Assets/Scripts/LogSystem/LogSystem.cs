@@ -479,7 +479,7 @@ public class LogSystem : MonoBehaviour
         //Debug.LogWarning("SayHelloToMyLittleFriend");
         plasmaSkillUpgraded = true;
         plasmaUpgradeButton.image.sprite = upgradedSprite;
-        //skillTree.PlasmaUpgraded();
+        skillTree.PlasmaUpgrade();
     }
 
     /*public void UpgradeAmmoCapacity()
