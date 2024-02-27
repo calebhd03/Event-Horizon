@@ -38,7 +38,7 @@ public class UpgradeSpot : MonoBehaviour
         foreach (Collider collider in colliderArray)
             if (collider.tag == "Player")
             {
-                Debug.Log("Player in upgrade " + upgradeOption);
+                //Debug.Log("Player in upgrade " + upgradeOption);
 
                 Debug.Log("interact input " + starterAssetsInputs.interact);
                 if (starterAssetsInputs.interact)
