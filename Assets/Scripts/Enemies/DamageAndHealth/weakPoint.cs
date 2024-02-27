@@ -22,93 +22,16 @@ public class weakPoint : MonoBehaviour
     //Melee Upgrade
     public bool meleeUp, knockBackUp;
     public float knifeDamageUpFactor = 5f;
-    //public bool stopStackDamage = false, stopSlowStack = false;
     weakPoint[] weakPoints;
 
     private void Start()
     {
-        // Get the BasicEnemy script attached to the same GameObject
         basicEnemyScript = GetComponentInParent<basicEnemy>();
         bossEnemyScript = GetComponentInParent<bossEnemy>();
-        //agent = GetComponentInParent<NavMeshAgent>();
-        //priorSpeed = agent.speed;
         skillTree = FindObjectOfType<SkillTree>();
         healthMetrics = GetComponentInParent<HealthMetrics>();
-        //weakPoints = basicEnemyScript.GetComponentsInChildren<weakPoint>();
         upgradeEffects = GetComponentInParent<UpgradeEffects>();
     }
-    /*void Update()
-    {
-        if (damageUpgrade == true)
-        {
-            weakPointDamage = weakPointDamage * skillTree.damageUpgradeAmount;
-        }
-
-        if (skillTree.slowEffectEnemy == true)
-        {
-            slowEnemy = true;
-        }
-        else
-        {
-            slowEnemy = false;
-        }
-        if (skillTree.damageOverTime == true)
-        {
-            damageOverTimeEnemy = true;
-        }
-        else
-        {
-            damageOverTimeEnemy = false;
-        }
-        if (skillTree.meleeDamage == true)
-        {
-            meleeUp = true;
-        }
-        else
-        {
-            meleeUp = false;
-        }
-        if (skillTree.knockBack == true)
-        {
-            knockBackUp = true;
-        }
-        else
-        {
-            knockBackUp = false;
-        }
-
-        //stopStackDamage
-        if (stopStackDamage == true)
-        {
-            foreach (weakPoint weaklings in weakPoints)
-            {
-                weaklings.stopStackDamage = true;
-            }
-        }
-        else if (stopStackDamage == false)
-        {
-            foreach (weakPoint weaklings in weakPoints)
-            {
-                weaklings.stopStackDamage = false;
-            }
-        }
-
-        //stopSlowStack
-        if (stopSlowStack == true)
-        {
-            foreach (weakPoint weaklings in weakPoints)
-            {
-                weaklings.stopSlowStack = true;
-            }
-        }
-        else if (stopStackDamage == false)
-        {
-            foreach (weakPoint weaklings in weakPoints)
-            {
-                weaklings.stopSlowStack = false;
-            }
-        }
-    }*/
 
     private void OnTriggerEnter(Collider other)
     {
@@ -169,26 +92,25 @@ public class weakPoint : MonoBehaviour
         }
         else if (other.CompareTag("BHBullet"))
         {
-            if(upgradeEffects.stopSlowStack == false)
+            
+            if (upgradeEffects.stopStackDamage == false)
             {
-            upgradeEffects.SlowDownEnemy();
-            upgradeEffects.stopSlowStack = true;
+            upgradeEffects.DamageOverTime();
             }
             else{}
-        }
-        else if (other.CompareTag("Laser"))
-        {
-            
+            upgradeEffects.PullEffect();
+            upgradeEffects.OGKill();
         }
     }
 
     private void bulletDamage(float damage)
     {   
-        if (upgradeEffects.stopStackDamage == false)
-        {
-        upgradeEffects.DamageOverTime();
-        }
-        else{}
+        if(upgradeEffects.stopSlowStack == false)
+            {
+            upgradeEffects.SlowDownEnemy();
+            upgradeEffects.stopSlowStack = true;
+            }
+            else{}
         upgradeEffects.knockBackAttack();
         if (healthMetrics != null)
         {
@@ -222,96 +144,4 @@ public class weakPoint : MonoBehaviour
             }
         }
     }
-    
-    /*public void SlowDownEnemy()
-    {
-        int randomNumber = Random.Range(0, 8);
-        
-            if (slowEnemy == true && randomNumber >= 0)
-            {
-                agent.speed = priorSpeed * slowFactor;
-                    if (basicEnemyScript != null)
-                    {
-                        basicEnemyScript.PlaySlowEffect();
-                    }
-                    if (bossEnemyScript != null)
-                    {
-                        bossEnemyScript.PlaySlowEffect();
-                    }
-                Debug.LogWarning("slow down");
-                Invoke("RestoreSpeed", slowDuration);
-            }
-    }
-    void RestoreSpeed()
-    {
-        agent.speed = priorSpeed;
-        if (basicEnemyScript != null)
-        {
-            basicEnemyScript.StopSlowEffect();
-        }
-        if (bossEnemyScript != null)
-        {
-            bossEnemyScript.StopSlowEffect();
-        }
-        Debug.LogWarning("restore speed");
-    }
-    private IEnumerator DoDamageOverTime()
-    {
-        int randomNumber = Random.Range(0, 8);
-    
-                if (damageOverTimeEnemy == true && randomNumber >= 0)
-            {
-                stopStackDamage = true;
-                if (basicEnemyScript != null)
-                    {
-                        basicEnemyScript.PlayDamageOverTimeEffect();
-                    }
-                    if (bossEnemyScript != null)
-                    {
-                        bossEnemyScript.PlayDamageOverTimeEffect();
-                    }
-                Debug.LogError("Burning Sensation");
-                Invoke("StopDamageOverTime", damageOverTimeDuration);
-                float elapsedTime = 0f;
-                if(elapsedTime == 0)
-                {
-                        while (elapsedTime < damageOverTimeDuration)
-                    {
-                    healthMetrics.ModifyHealth(-damageOverTime * Time.deltaTime);
-                    elapsedTime += Time.deltaTime;
-                    
-                    yield return null; 
-                    }
-                }
-            }
-    }
-    void StopDamageOverTime()
-    {
-        Debug.LogWarning("stopping particle");
-        if (basicEnemyScript != null)
-        {
-            basicEnemyScript.StopDamageOverTimeEffect();
-        }
-        if (bossEnemyScript != null)
-        {
-            bossEnemyScript.StopDamageOverTimeEffect();
-        }
-        stopStackDamage = false;
-    }
-    
-    void knockBackAttack()
-    {
-        int randomNumber = Random.Range(0, 5);
-        if(knockBackUp == true && randomNumber >= 0)
-        {
-            if (basicEnemyScript != null)
-                {
-                    basicEnemyScript.KnockBackEffect();
-                }
-            if (bossEnemyScript != null)
-                {
-                    //bossEnemyScript.KnockBackEffect();
-                }
-        }
-    }*/
 }

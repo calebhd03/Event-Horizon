@@ -33,10 +33,11 @@ public class dogEnemy : MonoBehaviour
     public float attackCloseDistance = 2.5f;
     public float attackAnimationDuration = 2.0f;
     public float moveBackDistance = 3.0f;
-    private float attackCooldown = 10.0f;
+    private float attackCooldown = 15.0f;
     private float nextAttackTime = 0.0f;
     public float moveDistance = 3f;
-    private float animationEndDelay = 5.0f; // must be longer did animation duration float above in the header attack
+    private float animationEndDelay = 6.0f; // must be longer did animation duration float above in the header attack
+    private float lastMoveTime;
 
     [Header("Drops")]
     public GameObject blasterPickupPrefab;
@@ -121,6 +122,7 @@ public class dogEnemy : MonoBehaviour
 
         if (iSeeYou == true && withInAttackRange == true)
         {
+            //animator.SetBool("Attack", true);
             attackPlayer();
             transform.LookAt(player);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
@@ -142,6 +144,13 @@ public class dogEnemy : MonoBehaviour
 
     private void chasePlayer() //chase player once found
     {
+        nextAttackTime = 0f;
+        animator.SetBool("Run", true);
+        animator.SetBool("Attack", false);
+        animator.SetBool("Walk", false);
+        animator.SetBool("LJump", false);
+        animator.SetBool("RJump", false);
+        animator.SetBool("Idle", false);
         agent.SetDestination(player.position);
         transform.LookAt(player);
         transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
@@ -151,8 +160,13 @@ public class dogEnemy : MonoBehaviour
     {
         if (!isAttacking && Time.time >= nextAttackTime)
         {
-            Debug.Log("Dog Attack");
-            //animator.SetTrigger("Attack");
+            Debug.Log("Attack Dog");
+            animator.SetBool("Attack", true);
+            animator.SetBool("Run", false);
+            animator.SetBool("Walk", false);
+            animator.SetBool("Run", false);
+            animator.SetBool("LJump", false);
+            animator.SetBool("RJump", false);
             isAttacking = true;
 
             // Set the next allowed attack time based on the cooldown
@@ -164,12 +178,18 @@ public class dogEnemy : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
             Invoke(nameof(MoveBackAfterAttack), attackAnimationDuration);
             InvokeRepeating("AttackMoving", animationEndDelay, 1f);
-            Invoke(nameof(CancelAttackMoving), attackCooldown - 1f);
+            Invoke(nameof(CancelAttackMoving), attackCooldown - .1f);
         }
     }
 
     private void MoveBackAfterAttack()
     {
+        animator.SetBool("Idle", true);
+        animator.SetBool("LJump", false);
+        animator.SetBool("RJump", false);
+        animator.SetBool("Attack", false);
+        animator.SetBool("Walk", false);
+        animator.SetBool("Run", false);
         Debug.Log("Moving back");
         isAttacking = false;
 
@@ -180,20 +200,49 @@ public class dogEnemy : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
     }
 
+
     private void AttackMoving()
     {
-        Debug.Log("Moving left and right");
-        Vector3 rightDestination = agent.transform.position + transform.right * moveDistance;
-        Vector3 leftDestination = agent.transform.position - transform.right * moveDistance;
 
-        if (Random.value > 0.5f)
+        ResetTriggers();
+        if (Time.time - lastMoveTime >= 1f)
         {
-            agent.SetDestination(leftDestination);
+            Debug.Log("Moving left and right");
+            Vector3 rightDestination = agent.transform.position + transform.right * moveDistance;
+            Vector3 leftDestination = agent.transform.position - transform.right * moveDistance;
+
+            if (Random.value > 0.5f)
+            {
+                
+                animator.SetBool("LJump", true);
+                animator.SetBool("RJump", false);
+                animator.SetBool("Idle", false);
+                animator.SetBool("walk", false);
+                animator.SetBool("Attack", false);
+                animator.SetBool("Run", false);
+                //agent.SetDestination(leftDestination);
+            }
+            else
+            {
+                animator.SetBool("RJump", true);
+                animator.SetBool("LJump", false);
+                animator.SetBool("Idle", false);
+                animator.SetBool("walk", false);
+                animator.SetBool("Attack", false);
+                animator.SetBool("Run", false);
+                //agent.SetDestination(rightDestination);
+            }
+
+            // Update the time of the last move
+            lastMoveTime = Time.time;
         }
-        else
-        {
-            agent.SetDestination(rightDestination);
-        }
+        ResetTriggers();
+    }
+
+    private void ResetTriggers()
+    {
+        animator.SetBool("RJumper", false);
+        animator.SetBool("LJumper", false);
     }
 
     private void CancelAttackMoving()
@@ -215,6 +264,7 @@ public class dogEnemy : MonoBehaviour
 
     public void Die()
     {
+        agent.isStopped = true;
         StartCoroutine(WaitAndDropStuff(3f));
     }
 

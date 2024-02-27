@@ -30,10 +30,11 @@ public class LogSystem : MonoBehaviour
     //Skills
     public bool skillsUnlocked = false, skillsUnlocked2 = false, skillsUnlocked3 = false, skillsUnlocked4 = false;
     public Button plasmaUpgradeButton, SlowEnemyButton, DamageOverTimeButton;
-    public Button meleeButton, knockBackButton, laserButton, bHGToolButton;
+    public Button meleeButton, knockBackButton, OGBHGButton, bHGToolButton, BHGPullButton;
     public bool plasmaSkillUpgraded = false;
-    public bool laserUpgraded = false, SlowEnemyUpgraded = false, DamageOverTimeSkillUpgraded = false;
+    public bool OGBHG = false, SlowEnemyUpgraded = false, DamageOverTimeSkillUpgraded = false;
     public bool meleeSkillUpgraded = false, knockBackUpgraded = false, BHGToolUpgraded = false;
+    public bool BHGPullUpgraded = false;
     public Sprite upgradedSprite;
     AudioSource audioSource;
     public AudioClip SwitchTabSound;
@@ -43,9 +44,13 @@ public class LogSystem : MonoBehaviour
     public Scanning scnScr;
     //Upgrade option pages
     public GameObject upgradePage1, upgradePage2, upgradePage3, upgradePage4;
+
+    PauseMenuScript pauseMenuScript;
+
     void Start()
     {
         player = GameObject.FindWithTag("Player");
+        pauseMenuScript = FindObjectOfType<PauseMenuScript>();
         log = false;
         starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
         thirdPersonController = player.GetComponent<ThirdPersonController>();
@@ -206,49 +211,13 @@ public class LogSystem : MonoBehaviour
             {
                 DamageOverTimeButton.interactable = true;
             }
-            /*if (speedSkillUpgraded == true)
-            {
-                meleeButton.interactable = false;
-                speedUpgradeButton.interactable = false;
-                ammoCapactiyButton.interactable = false;
-                skillsUnlocked2 = false;
-                upgradePage2.SetActive(false);
-            }
-            else
-            {
-                speedUpgradeButton.interactable = true;
-            }*/
-            
-            /*if (ammoSkillUpgraded == true)
-            {
-                meleeButton.interactable = false;
-                ammoCapactiyButton.interactable = false;
-                speedUpgradeButton.interactable = false;
-                skillsUnlocked2 = false;
-                upgradePage2.SetActive(false);
-            }
-            else
-            {
-                ammoCapactiyButton.interactable = true;
-            }*/
-            /*if (meleeSkillUpgraded == true)
-            {
-                meleeButton.interactable = false;
-                ammoCapactiyButton.interactable = false;
-                speedUpgradeButton.interactable = false;
-                skillsUnlocked2 = false;
-                upgradePage2.SetActive(false);
-            }
-            else
-            {
-                meleeButton.interactable = true;
-            }*/
         }
         else if (skillsUnlocked3 == true)
         { 
             if (knockBackUpgraded == true)
             {
                 knockBackButton.interactable = false;
+                BHGPullButton.interactable = false;
                 skillsUnlocked3 = false;
                 upgradePage3.SetActive(false);
             }
@@ -256,13 +225,24 @@ public class LogSystem : MonoBehaviour
             {
                 knockBackButton.interactable = true;
             }
+            if (BHGPullUpgraded == true)
+            {
+                BHGPullButton.interactable = false;
+                knockBackButton.interactable = false;
+                skillsUnlocked3 = false;
+                upgradePage3.SetActive(false);
+            }
+            else
+            {
+                BHGPullButton.interactable = true;
+            }
         }
         else if (skillsUnlocked4 == true)
         {
             if (plasmaSkillUpgraded == true)
             {
                 plasmaUpgradeButton.interactable = false;
-                laserButton.interactable = false;
+                OGBHGButton.interactable = false;
                 skillsUnlocked4 = false;
                 upgradePage4.SetActive(false);
             }
@@ -270,16 +250,16 @@ public class LogSystem : MonoBehaviour
             {
                 plasmaUpgradeButton.interactable = true;
             }
-            if (laserUpgraded == true)
+            if (OGBHG == true)
             {
-                laserButton.interactable = false;
+                OGBHGButton.interactable = false;
                 plasmaUpgradeButton.interactable = false;
                 skillsUnlocked4 = false;
                 upgradePage4.SetActive(false);
             }
             else
             {
-                laserButton.interactable = true;
+                OGBHGButton.interactable = true;
             }
         }
         else 
@@ -292,8 +272,9 @@ public class LogSystem : MonoBehaviour
         DamageOverTimeButton.interactable = false;
         meleeButton.interactable = false;
         knockBackButton.interactable = false;
-        laserButton.interactable = false;
+        OGBHGButton.interactable = false;
         bHGToolButton.interactable = false;
+        BHGPullButton.interactable = false;
         }
     }
 
@@ -307,13 +288,16 @@ public class LogSystem : MonoBehaviour
     public void CloseLog()
     {   
         log = false;
-        scnScr.HudObject.SetActive(true);
+        if(scnScr != null) scnScr.HudObject.SetActive(true);
         //Debug.LogWarning("closelog");
         LogPage.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1;
         Invoke("DelayShoot", 0.1f);
+
+        pauseMenuScript.UnPause();
+        GetComponent<ToolTip>().HideToolTip();
     }
 
     public void EnemiesTab()
@@ -534,11 +518,11 @@ public class LogSystem : MonoBehaviour
         knockBackButton.image.sprite = upgradedSprite;
         skillTree.KnockBackUpgrade();
     }
-    public void LaserUpgrade()
+    public void OGBHGUpgrade()
     {
-        laserUpgraded = true;
-        laserButton.image.sprite = upgradedSprite;
-        skillTree.LaserUpgrade();
+        OGBHG = true;
+        OGBHGButton.image.sprite = upgradedSprite;
+        skillTree.OGBHGUpgrade();
     }
 
     public void BHGToolUpgrade()
@@ -548,9 +532,16 @@ public class LogSystem : MonoBehaviour
         bHGToolButton.image.sprite = upgradedSprite;
         skillTree.BHGToolUpgrade();
     }
+    public void BHGPullUpgrade()
+    {
+        BHGPullUpgraded = true;
+        BHGPullButton.image.sprite = upgradedSprite;
+        skillTree.BHGPullUpgrade();
+    }
     
     public void DelayShoot()
     {
         starterAssetsInputs.delayShoot = false;
     }
+
 }

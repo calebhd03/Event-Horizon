@@ -14,24 +14,38 @@ public class TutorialScript : MonoBehaviour
     public GameObject skipTutorial;
     public bool tutorialComplete = false, hasNexus = false, hasBlaster = false, hasNexusTool = false;
     public Vector3 teleportPlayer;
+    Scene currentScene;
 
     void Start()
     {
-        Scene currentScene = SceneManager.GetActiveScene();
+        currentScene = SceneManager.GetActiveScene();
         thirdPersonShooterController = GetComponent<ThirdPersonShooterController>();
         playerHealthMetric = GetComponent<PlayerHealthMetric>();
+        skipTutorial.SetActive(false);
+        starterAssetsInputs = GetComponent<StarterAssetsInputs>();
+        thirdPersonShooterController = GetComponent<ThirdPersonShooterController>();
+        skillTree = GetComponent<SkillTree>();
+        if (playerHealthMetric.playerData.tutorialComplete == true)
+        {
+            tutorialComplete = true;
+        }
         if (currentScene.name == "TheOuterVer2" && tutorialComplete == false)
         {
             skipTutorial.SetActive(true);
         }
-        else
+        else if(tutorialComplete == true)
         {
-            skipTutorial.SetActive(false);
             SkipTutorial();
         }
-        starterAssetsInputs = GetComponent<StarterAssetsInputs>();
-        thirdPersonShooterController = GetComponent<ThirdPersonShooterController>();
-        skillTree = GetComponent<SkillTree>();
+    }
+
+    void Update()
+    {
+        if (hasNexus == true && hasBlaster == true && hasNexusTool == true)
+        {
+            tutorialComplete = true;
+            playerHealthMetric.playerData.tutorialComplete = true;
+        }
     }
 
     public void SkipTutorial()
@@ -47,7 +61,10 @@ public class TutorialScript : MonoBehaviour
         playerHealthMetric.playerData.hasBlaster = true;
         playerHealthMetric.playerData.hasNexus = true;
         skipTutorial.SetActive(false);
+        if (currentScene.name == "TheOuterVer2")
+        {
         StartCoroutine(TeleportPlayer());
+        }
     }
     IEnumerator TeleportPlayer()
     {

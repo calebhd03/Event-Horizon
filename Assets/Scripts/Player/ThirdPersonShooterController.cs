@@ -15,7 +15,9 @@ public class ThirdPersonShooterController : MonoBehaviour
         [SerializeField] private Transform pfBulletProjectile;
         [SerializeField] private Transform pfBlackHoleProjectile;
         [SerializeField] private Transform pfPlasmaProjectile;
-        [SerializeField] private Transform pfLaserProjectile;
+        [SerializeField] private Transform pfOGBHGProjectile;
+        [SerializeField] private Transform pfPullBHGProjectile;
+
         //[SerializeField] private Transform pfShotgunProjectile;
         [SerializeField] private Transform pfWallProjectile;
         [SerializeField] private Transform spawnBulletPosition;
@@ -437,14 +439,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                         // Black Hole Projectile Shoot
                         if (isCharged)
                         {
-                            if(!playerData.SaveLaserUpgrade)
-                            {
                             Instantiate(pfBlackHoleProjectile, spawnBlackHoleBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
-                            }
-                            else
-                            {
-                            Instantiate(pfLaserProjectile, spawnBlackHoleBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
-                            }
                             playerData.nexusAmmoLoaded -= 1;
                             currentCooldown = blackHoleCooldown;
                             thirdPersonController.SwitchCameraTarget();

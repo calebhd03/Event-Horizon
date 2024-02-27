@@ -5456,7 +5456,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 6
+  m_Speed: 4
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -5481,6 +5481,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  healthMetrics: {fileID: 0}
+  skillTree: {fileID: 0}
   agent: {fileID: 0}
   slowDuration: 6
   slowFactor: 0.7
@@ -5491,8 +5493,9 @@ MonoBehaviour:
   knockBackTimer: 0
   meleeUp: 0
   knockBackUp: 0
-  slowEnemy: 0
-  damageOverTimeEnemy: 0
+  slowEnemyUp: 0
+  damageOverTimeEnemyUp: 0
+  laserUp: 0
   stopStackDamage: 0
   stopSlowStack: 0
   slowEffect: {fileID: 7331244988965280216}

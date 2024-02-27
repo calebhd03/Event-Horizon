@@ -117,6 +117,8 @@ public class flyingEnemy : MonoBehaviour
     {
         if (attackAgainCoolDown == false && Time.time >= nextFire)
         {
+            //agent.SetDestination(transform.position);
+
             //fire Rate
             nextFire = Time.time + 1 / fireRate;
 

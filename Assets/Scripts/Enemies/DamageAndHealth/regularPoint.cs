@@ -165,27 +165,24 @@ public class regularPoint : MonoBehaviour
         }
         else if (other.CompareTag("BHBullet"))
         {
-            if(upgradeEffects.stopSlowStack == false)
+            if (upgradeEffects.stopStackDamage == false)
             {
-            upgradeEffects.SlowDownEnemy();
-            upgradeEffects.stopSlowStack = true;
+            upgradeEffects.DamageOverTime();
             }
             else{}
-        }
-        else if (other.CompareTag("Laser"))
-        {
-            
+            upgradeEffects.PullEffect();
+            upgradeEffects.OGKill();
         }
     }
 
     private void bulletDamage(float damage)
     {
+        if(upgradeEffects.stopSlowStack == false)
+            {
+            upgradeEffects.SlowDownEnemy();
+            upgradeEffects.stopSlowStack = true;
+            }
 
-        if (upgradeEffects.stopStackDamage == false)
-        {
-        upgradeEffects.DamageOverTime();
-        }
-        else{}
         upgradeEffects.knockBackAttack();
         if (healthMetrics != null)
         {

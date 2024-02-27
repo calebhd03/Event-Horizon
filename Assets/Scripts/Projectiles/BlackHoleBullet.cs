@@ -9,7 +9,7 @@ public class BlackHoleBullet : MonoBehaviour
     public float eventHorizonRadius;
     public float effectTime;
     public float speed = 50f;
-    private Vector3 lastPosition;
+    public Vector3 lastPosition;
 
     private void Awake()
     {
@@ -83,6 +83,7 @@ public class BlackHoleBullet : MonoBehaviour
             currentTime += Time.deltaTime;
             yield return null;
         }
+        //yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }
 
