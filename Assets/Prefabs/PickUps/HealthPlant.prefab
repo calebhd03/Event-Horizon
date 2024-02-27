@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 600561098944335811}
   - component: {fileID: 748048327532017814}
   - component: {fileID: 91777882752196754}
-  m_Layer: 0
+  - component: {fileID: 302761006395154569}
+  m_Layer: 18
   m_Name: HealthPlant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +95,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4903601349792399792}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -113,6 +114,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickUpHealthAmount: 10
   used: 0
+--- !u!114 &302761006395154569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4903601349792399792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61be1d86565e227489d6f9ea421d6c9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6561857607372908525
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -123,6 +136,10 @@ PrefabInstance:
     - target: {fileID: 1558592073677786856, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
       propertyPath: m_Name
       value: Slow Particle Effect
+      objectReference: {fileID: 0}
+    - target: {fileID: 1558592073677786856, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+      propertyPath: m_Layer
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 6935002574104582335, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
       propertyPath: m_RootOrder
