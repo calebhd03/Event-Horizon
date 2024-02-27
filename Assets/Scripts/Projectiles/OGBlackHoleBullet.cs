@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlackHoleBullet : MonoBehaviour
+public class OGBlackHoleBullet : MonoBehaviour
 {
+
     private Rigidbody bulletRigidbody;
     private Renderer bulletRenderer;
     public float eventHorizonRadius;
     public float effectTime;
     public float speed = 50f;
-    public Vector3 lastPosition;
+    private Vector3 lastPosition;
 
     private void Awake()
     {
@@ -60,7 +61,7 @@ public class BlackHoleBullet : MonoBehaviour
         {
             if(hitCollider.tag == "Enemy")
             {
-               // StartCoroutine(DestroyTarget(hitCollider));
+                StartCoroutine(DestroyTarget(hitCollider));
             }
         }
     }
@@ -83,11 +84,10 @@ public class BlackHoleBullet : MonoBehaviour
             currentTime += Time.deltaTime;
             yield return null;
         }
-        //yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }
 
-    /*IEnumerator DestroyTarget(Collider target)
+    IEnumerator DestroyTarget(Collider target)
     {
         if(target.tag == "Enemy")
         {
@@ -106,7 +106,7 @@ public class BlackHoleBullet : MonoBehaviour
                 Destroy(target.gameObject);
             }
         }
-    }*/
+    }
 
     private void OnDrawGizmos()
     {
@@ -114,3 +114,4 @@ public class BlackHoleBullet : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, eventHorizonRadius);
     }
 }
+

@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlackHoleBullet : MonoBehaviour
+public class BHBNoPull : MonoBehaviour
 {
     private Rigidbody bulletRigidbody;
     private Renderer bulletRenderer;
     public float eventHorizonRadius;
     public float effectTime;
     public float speed = 50f;
-    public Vector3 lastPosition;
+    private Vector3 lastPosition;
 
     private void Awake()
     {
@@ -23,7 +23,7 @@ public class BlackHoleBullet : MonoBehaviour
         lastPosition = transform.position;
     }
 
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
         int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","EnemyColider"));
         if (Physics.Linecast(transform.position, lastPosition, out RaycastHit hitInfo, layerMask))
@@ -33,7 +33,7 @@ public class BlackHoleBullet : MonoBehaviour
             Debug.Log("Raycast triggered");
         }
         lastPosition = transform.position;
-    }
+    }*/
 
     private void OnTriggerEnter(Collider other)
     {
@@ -83,7 +83,6 @@ public class BlackHoleBullet : MonoBehaviour
             currentTime += Time.deltaTime;
             yield return null;
         }
-        //yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }
 
