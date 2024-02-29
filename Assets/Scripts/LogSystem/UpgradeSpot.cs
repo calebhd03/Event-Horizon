@@ -10,7 +10,7 @@ public class UpgradeSpot : MonoBehaviour
 {
     LogSystem logSystem;
     StarterAssetsInputs starterAssetsInputs;
-    //ThirdPersonShooterController thirdPersonShooterController;
+    ScannerUI scannerUI;
     public ObjectiveText objectiveText;
     public TextMeshProUGUI text;
     public bool Upgrade = false;
@@ -26,7 +26,8 @@ public class UpgradeSpot : MonoBehaviour
         pauseMenuScript = FindObjectOfType<PauseMenuScript>();
         player = GameObject.FindWithTag("Player");
         starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
-        //thirdPersonShooterController = player.GetComponent<ThirdPersonShooterController>();
+        scannerUI = FindObjectOfType<ScannerUI>();
+        objectiveText = scannerUI.GetComponentInChildren<ObjectiveText>();
         text = gameObject.AddComponent<TextMeshProUGUI>();
         text.text = "New Skill Tree Options";
     }
@@ -37,7 +38,7 @@ public class UpgradeSpot : MonoBehaviour
         foreach (Collider collider in colliderArray)
             if (collider.tag == "Player")
             {
-                Debug.Log("Player in upgrade " + upgradeOption);
+                //Debug.Log("Player in upgrade " + upgradeOption);
 
                 Debug.Log("interact input " + starterAssetsInputs.interact);
                 if (starterAssetsInputs.interact)
