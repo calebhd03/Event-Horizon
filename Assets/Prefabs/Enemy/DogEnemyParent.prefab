@@ -399,7 +399,9 @@ MonoBehaviour:
   knockBackUp: 0
   slowEnemyUp: 0
   damageOverTimeEnemyUp: 0
-  laserUp: 0
+  plasmaUp: 0
+  OGKillUp: 0
+  PullUp: 0
   stopStackDamage: 0
   stopSlowStack: 0
   slowEffect: {fileID: 0}
@@ -913,8 +915,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.033543166, y: 0.06495834, z: 0.03547354}
-  m_Center: {x: 0.0018528465, y: 0.020319225, z: -0.008976573}
+  m_Size: {x: 0.033543166, y: 0.06495834, z: 0.036684107}
+  m_Center: {x: 0.0018528465, y: 0.020319218, z: -0.008371287}
 --- !u!114 &5931882948683628463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -958,8 +960,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.18920882, y: 0.08296727, z: 0.10885175}
-  m_Center: {x: 0.046907384, y: -0.017271077, z: 0.0028692463}
+  m_Size: {x: 0.17893751, y: 0.07085101, z: 0.10885175}
+  m_Center: {x: 0.04177171, y: -0.01121278, z: 0.0028692475}
 --- !u!114 &8697946749620105577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1003,8 +1005,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.063921295, y: 0.07132379, z: 0.09954824}
-  m_Center: {x: 0.002018503, y: 0.12477908, z: 0.108917296}
+  m_Size: {x: 0.063921295, y: 0.0763338, z: 0.10151008}
+  m_Center: {x: 0.002018503, y: 0.12406884, z: 0.10989822}
 --- !u!114 &8378699451274259763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1048,8 +1050,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.03709249, y: 0.058052734, z: 0.03170756}
-  m_Center: {x: 0.008665377, y: -0.010473265, z: 0.0056110914}
+  m_Size: {x: 0.03855642, y: 0.0613672, z: 0.03354139}
+  m_Center: {x: 0.007933404, y: -0.01213049, z: 0.0052235466}
 --- !u!114 &4351005232336481059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1093,8 +1095,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.029729262, y: 0.0517658, z: 0.022950241}
-  m_Center: {x: -0.002814671, y: 0.011616157, z: -0.0027466856}
+  m_Size: {x: 0.031882513, y: 0.05971306, z: 0.025405712}
+  m_Center: {x: -0.0038913125, y: 0.015589781, z: -0.003974456}
 --- !u!114 &7246667978824984044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1138,8 +1140,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.040100116, y: 0.062441967, z: 0.039544392}
-  m_Center: {x: 0.0025479773, y: -0.020635614, z: -0.0007772369}
+  m_Size: {x: 0.040100116, y: 0.06612023, z: 0.040388532}
+  m_Center: {x: 0.0025479773, y: -0.018796511, z: -0.0003551669}
 --- !u!114 &6682859394487632194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1183,8 +1185,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.026698515, y: 0.052252993, z: 0.025490856}
-  m_Center: {x: -0.0017002658, y: 0.017514575, z: 0.004129735}
+  m_Size: {x: 0.026698515, y: 0.052252993, z: 0.027275309}
+  m_Center: {x: -0.0017002659, y: 0.017514575, z: 0.0050219623}
 --- !u!114 &2691227525659320481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1228,8 +1230,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.037179165, y: 0.061050605, z: 0.035736125}
-  m_Center: {x: 0.0009701049, y: 0.018250806, z: 0.00002160325}
+  m_Size: {x: 0.037179165, y: 0.06281019, z: 0.036321938}
+  m_Center: {x: 0.00097010477, y: 0.017371021, z: -0.00027129776}
 --- !u!114 &7461350727410828633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1273,8 +1275,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.032095756, y: 0.06022399, z: 0.038077194}
-  m_Center: {x: -0.002236502, y: -0.023390029, z: 0.009927211}
+  m_Size: {x: 0.032095756, y: 0.063393734, z: 0.038774744}
+  m_Center: {x: -0.0022365027, y: -0.0249749, z: 0.009578437}
 --- !u!114 &1653823717394565848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1356,8 +1358,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.029462533, y: 0.064171895, z: 0.028799865}
-  m_Center: {x: 0.0022103463, y: -0.009838828, z: -0.00515748}
+  m_Size: {x: 0.029462533, y: 0.064171895, z: 0.02974155}
+  m_Center: {x: 0.0022103463, y: -0.009838828, z: -0.0056283227}
 --- !u!114 &7312679015825020117
 MonoBehaviour:
   m_ObjectHideFlags: 0

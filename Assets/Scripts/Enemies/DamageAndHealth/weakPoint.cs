@@ -12,6 +12,8 @@ public class weakPoint : MonoBehaviour
     public AudioClip damageSound;
     private basicEnemy basicEnemyScript;
     private bossEnemy bossEnemyScript;
+    private flyingEnemy flyingEnemyScript;
+    private dogEnemy dogEnemyScript;
     private HealthMetrics healthMetrics;
     //public NavMeshAgent agent;
     UpgradeEffects upgradeEffects;
@@ -23,20 +25,29 @@ public class weakPoint : MonoBehaviour
     public bool meleeUp, knockBackUp;
     public float knifeDamageUpFactor = 5f;
     weakPoint[] weakPoints;
+    private bool hit = false;
 
     private void Start()
     {
         basicEnemyScript = GetComponentInParent<basicEnemy>();
         bossEnemyScript = GetComponentInParent<bossEnemy>();
+        flyingEnemyScript = GetComponentInParent<flyingEnemy>();
+        dogEnemyScript = GetComponentInParent<dogEnemy>();
         skillTree = FindObjectOfType<SkillTree>();
         healthMetrics = GetComponentInParent<HealthMetrics>();
         upgradeEffects = GetComponentInParent<UpgradeEffects>();
+    }
+
+    private void Update()
+    {
+        getISeeYou();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Bullet"))
         {
+            hit = true;
             bulletDamage(weakPointDamage);
         }
         else if (other.CompareTag("Knife"))
@@ -88,10 +99,12 @@ public class weakPoint : MonoBehaviour
         }
         else if (other.CompareTag("Plasma Bullet"))
         {
+            hit = true;
             bulletDamage(weakPointPlasmaDamage);
         }
         else if (other.CompareTag("BHBullet"))
         {
+            hit = true;
             
             if (upgradeEffects.stopStackDamage == false)
             {
@@ -141,6 +154,32 @@ public class weakPoint : MonoBehaviour
                 bossEnemyScript.PlayEnemyHitAnimation();
                 Debug.Log("Called PlayEnemyHitAnimation boss");
 
+            }
+        }
+    }
+
+    public void getISeeYou()
+    {
+        if (hit)
+        {
+            if (basicEnemyScript != null)
+            {
+                basicEnemyScript.SetISeeYou();
+                Debug.Log("reg iSeeYou to true in BasicEnemy");
+
+                // Call PlayEnemyHitAnimation in the BasicEnemy script
+                basicEnemyScript.PlayEnemyHitAnimation();
+                Debug.Log("Called PlayEnemyHitAnimation");
+            }
+
+            if (dogEnemyScript != null)
+            {
+                dogEnemyScript.SetISeeYou();
+            }
+
+            if (flyingEnemyScript != null)
+            {
+                flyingEnemyScript.SetISeeYou();
             }
         }
     }

@@ -15,6 +15,8 @@ public class regularPoint : MonoBehaviour
     // Reference to the BasicEnemy script
     private basicEnemy basicEnemyScript;
     private bossEnemy bossEnemyScript;
+    private flyingEnemy flyingEnemyScript;
+    private dogEnemy dogEnemyScript;
     private HealthMetrics healthMetrics;
     //public NavMeshAgent agent;
     private SkillTree skillTree;
@@ -29,10 +31,15 @@ public class regularPoint : MonoBehaviour
     //public bool stopStackDamage = false, stopSlowStack = false;
     regularPoint[] regularPoints;
 
+    private bool hit = false;
+
     private void Start()
     {
         // Get the BasicEnemy script attached to the same GameObject
         basicEnemyScript = GetComponentInParent<basicEnemy>();
+        flyingEnemyScript = GetComponentInParent<flyingEnemy>();
+        dogEnemyScript = GetComponentInParent<dogEnemy>();
+
         bossEnemyScript = GetComponentInParent<bossEnemy>();
         //agent = GetComponentInParent<NavMeshAgent>();
         //priorSpeed = agent.speed;
@@ -40,6 +47,11 @@ public class regularPoint : MonoBehaviour
         healthMetrics = GetComponentInParent<HealthMetrics>();
         //regularPoints = basicEnemyScript.GetComponentsInChildren<regularPoint>();
         upgradeEffects = GetComponentInParent<UpgradeEffects>();
+    }
+
+    private void Update()
+    {
+        getISeeYou();
     }
 
     /*void Update()
@@ -114,10 +126,12 @@ public class regularPoint : MonoBehaviour
     {
         if (other.CompareTag("Bullet"))
         {
+            hit = true;
             bulletDamage(regularDamage);
         }
         else if (other.CompareTag("Plasma Bullet"))
         {
+            hit = true;
             bulletDamage(plasmaDamage);
         }
         else if (other.CompareTag("Knife"))
@@ -147,7 +161,7 @@ public class regularPoint : MonoBehaviour
                 }
 
                 // Set iSeeYou to true in the BasicEnemy script
-                if (basicEnemyScript != null)
+                /*if (basicEnemyScript != null)
                 {
                     basicEnemyScript.SetISeeYou();
                     Debug.Log("reg iSeeYou to true in BasicEnemy");
@@ -155,7 +169,7 @@ public class regularPoint : MonoBehaviour
                     // Call PlayEnemyHitAnimation in the BasicEnemy script
                     basicEnemyScript.PlayEnemyHitAnimation();
                     Debug.Log("Called PlayEnemyHitAnimation");
-                }
+                }*/
 
 
                 Debug.Log("Not a WeakPoint");
@@ -165,6 +179,7 @@ public class regularPoint : MonoBehaviour
         }
         else if (other.CompareTag("BHBullet"))
         {
+            hit = true;
             if (upgradeEffects.stopStackDamage == false)
             {
             upgradeEffects.DamageOverTime();
@@ -216,7 +231,7 @@ public class regularPoint : MonoBehaviour
             }
 
             // Set iSeeYou to true in the BasicEnemy script
-            if (basicEnemyScript != null)
+            /*if (basicEnemyScript != null)
             {
                 basicEnemyScript.SetISeeYou();
                 Debug.Log("reg iSeeYou to true in BasicEnemy");
@@ -224,8 +239,34 @@ public class regularPoint : MonoBehaviour
                                     // Call PlayEnemyHitAnimation in the BasicEnemy script
                 basicEnemyScript.PlayEnemyHitAnimation();
                 Debug.Log("Called PlayEnemyHitAnimation");
-            }
+            }*/
             Debug.Log("Not a WeakPoint");
+        }
+    }
+
+    public void getISeeYou()
+    {
+        if (hit)
+        {
+            if (basicEnemyScript != null)
+            {
+                basicEnemyScript.SetISeeYou();
+                Debug.Log("reg iSeeYou to true in BasicEnemy");
+
+                // Call PlayEnemyHitAnimation in the BasicEnemy script
+                basicEnemyScript.PlayEnemyHitAnimation();
+                Debug.Log("Called PlayEnemyHitAnimation");
+            }
+
+            if (dogEnemyScript != null)
+            {
+                dogEnemyScript.SetISeeYou();
+            }
+
+            if (flyingEnemyScript != null)
+            {
+                flyingEnemyScript.SetISeeYou();
+            }
         }
     }
 
