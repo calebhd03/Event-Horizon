@@ -8,6 +8,7 @@ public class ExplodeAcid : MonoBehaviour
     public float damageInterval = 1f; // Time interval between damage applications
     private float timer = 0f;
     private bool playerInsideCloud = false;
+    bool hasDamagedEnemy = false;
     // Start is called before the first frame update
     void Update()
     {
@@ -42,6 +43,31 @@ public class ExplodeAcid : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInsideCloud = true;
+        }
+
+        if (other.gameObject.tag == "Enemy" && !hasDamagedEnemy)
+        {
+            Debug.Log("Enemy Detected by acid");
+            HealthMetrics healthMetrics = other.GetComponentInParent<HealthMetrics>();
+            if(healthMetrics != null)
+            {
+                healthMetrics.ModifyHealth(-20f);
+                hasDamagedEnemy = true;
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "Enemy" && !hasDamagedEnemy)
+        {
+            Debug.Log("Enemy Detected by acid");
+            HealthMetrics healthMetrics = other.GetComponentInParent<HealthMetrics>();
+            if (healthMetrics != null)
+            {
+                healthMetrics.ModifyHealth(-20f);
+                hasDamagedEnemy = true;
+            }
         }
     }
 }

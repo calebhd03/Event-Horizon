@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 4448844023484945061}
   m_Layer: 9
   m_Name: HealthBar
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 4448844024180624269}
   m_Layer: 9
   m_Name: hitBoxRegular
-  m_TagString: CriticalPoint
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -365,6 +365,7 @@ MonoBehaviour:
   seeDistance: 20
   player: {fileID: 0}
   healthBar: {fileID: 4448844024317700074}
+  healthMetrics: {fileID: 0}
   plantProjectilePrefab: {fileID: 932230430256592425, guid: 2ca6c58e4066122449c364dbfd684af1, type: 3}
   projectileSpawn: {fileID: 257504037814245440}
   windUp: 1
@@ -630,7 +631,7 @@ GameObject:
   - component: {fileID: 4448844024959818944}
   - component: {fileID: 4448844024959818945}
   - component: {fileID: -3245797260185207839}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PlantEnemyParent
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -699,7 +700,7 @@ GameObject:
   - component: {fileID: 4448844025090297287}
   m_Layer: 9
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -835,7 +836,7 @@ GameObject:
   - component: {fileID: 1880748090866133347}
   m_Layer: 9
   m_Name: Colider
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -878,9 +879,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 257504037814245440}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ProjectileSpawn
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -911,9 +912,9 @@ GameObject:
   - component: {fileID: 7249232828815779351}
   - component: {fileID: 3713291857693845813}
   - component: {fileID: 8830035977700805928}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Mouth
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
