@@ -493,7 +493,10 @@ namespace StarterAssets
         {
             iSeeYou = true;
             transform.LookAt(player);
-            chasePlayer();
+            if (iSeeYou && !withInAttackRange)
+            {
+                chasePlayer();
+            }
         }
             
         public void Die()

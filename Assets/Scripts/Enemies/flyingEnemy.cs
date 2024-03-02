@@ -227,7 +227,10 @@ public class flyingEnemy : MonoBehaviour
     {
         iSeeYou = true;
         transform.LookAt(player);
-        chasePlayer();
+        if (iSeeYou && !withInAttackRange)
+        {
+            chasePlayer();
+        }
     }
 
     private void OnDrawGizmos()
