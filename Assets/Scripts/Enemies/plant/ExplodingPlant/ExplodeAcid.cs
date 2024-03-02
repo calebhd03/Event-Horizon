@@ -57,6 +57,14 @@ public class ExplodeAcid : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInsideCloud = false;
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Enemy" && !hasDamagedEnemy)
