@@ -20,6 +20,7 @@ public class ExplodingPlant : MonoBehaviour
     public float explodeAnimationDuration;
     private bool acidSpawned = false;
     [SerializeField] private GameObject explosionParticlePrefab;
+    [SerializeField] private Transform acidSpawn;
     private bool hasExploded = false;
 
 
@@ -80,7 +81,7 @@ public class ExplodingPlant : MonoBehaviour
         meshRenderer.enabled = false;
         colliderPrefab.SetActive(false);
         yield return new WaitForSeconds(.1f);
-        //audioSource.PlayOneShot(ExplosionSound);
+        audioSource.PlayOneShot(ExplosionSound);
         ParticleSystem explosionParticleSystem = explosionParticlePrefab.GetComponentInChildren<ParticleSystem>();
         explosionParticleSystem.Play();
 
@@ -94,7 +95,7 @@ public class ExplodingPlant : MonoBehaviour
     private void SpawnAcid()
     {
         Debug.Log("Spawn acid");
-        GameObject newAcidCloud = Instantiate(acidPrefab, transform.position, Quaternion.identity);
+        GameObject newAcidCloud = Instantiate(acidPrefab, acidSpawn.position, Quaternion.identity);
         Destroy(newAcidCloud.gameObject, 10f);
         Destroy(this.gameObject, 10f);
     }
