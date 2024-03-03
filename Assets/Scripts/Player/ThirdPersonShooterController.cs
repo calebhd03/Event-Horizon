@@ -450,8 +450,11 @@ public class ThirdPersonShooterController : MonoBehaviour
                         }
                         else
                         {
-                            audioSource.PlayOneShot(blackHoleChargeSound);
-                            BHGcharging();
+                            if (!isCharging)
+                            {
+                                audioSource.PlayOneShot(blackHoleChargeSound);
+                                BHGcharging();
+                            }
                         }
 
                     }
