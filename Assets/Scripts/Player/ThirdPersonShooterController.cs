@@ -340,7 +340,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
             else
             {
-                //EquipShotgun();
+                EquipBlackHoleGun();
             }
             lastSwitchTime = Time.time;
             shotCooldown = currentCooldown;
@@ -576,7 +576,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
 
-        if (playerData.standardAmmoLoaded == 0 || /*playerData.shotgunAmmoLoaded == 0 ||*/ (playerData.nexusAmmoLoaded == 0 && BHGTool == false))
+        if ((playerData.standardAmmoLoaded == 0 && playerData.standardAmmo != 0) || /*playerData.shotgunAmmoLoaded == 0 ||*/ (playerData.nexusAmmoLoaded == 0 && BHGTool == false && playerData.nexusAmmo != 0))
         {
             Reload();
         }
