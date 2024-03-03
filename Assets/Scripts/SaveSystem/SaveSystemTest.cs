@@ -40,7 +40,6 @@ public class SaveSystemTest : MonoBehaviour
     {
         PlayerSaveData saveData = SaveSystem.LoadPlayer();
 
-
         if (saveData != null)
         {
             // Access player position data
@@ -61,9 +60,7 @@ public class SaveSystemTest : MonoBehaviour
 
             // Access health data
             playerData.currentHealth = saveData.healthData.currentGameHealth;
-
             playerHealthMetric.UpdateHealthBar();
-            
 
             // Check if the scene index has changed
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
@@ -83,7 +80,36 @@ public class SaveSystemTest : MonoBehaviour
                     thirdPersonShooterController.UpdateAmmoCount();
                 }
             }
+
+            // Load the enemy data
+            EnemyData loadedEnemyData = SaveSystem.LoadEnemyData();
+            if (loadedEnemyData != null)
+            {
+                // Iterate through enemy data to handle missing GameObjects
+                foreach (var sceneEnemiesPair in loadedEnemyData.Enemies)
+                {
+                    int sceneIndex = sceneEnemiesPair.Key;
+                    List<EnemyVariables> enemies = sceneEnemiesPair.Value;
+
+                    for (int i = 0; i < enemies.Count; i++)
+                    {
+                        EnemyVariables enemy = enemies[i];
+                        if (enemy.enemyObject == null || !enemy.enemyObject.activeInHierarchy)
+                        {
+                            // If the enemy GameObject is missing or inactive, remove it from the loaded data
+                            enemies.RemoveAt(i);
+                            i--; // Decrement i to account for removal
+                        }
+                        else
+                        {
+                            // Set the enemy position to its last saved position
+                            enemy.enemyObject.transform.position = enemy.lastSavedPosition;
+                        }
+                    }
+                }
+            }
         }
+
     }
 
     public void SaveGame()
@@ -111,6 +137,9 @@ public class SaveSystemTest : MonoBehaviour
 
         // Save the data
         SaveSystem.SavePlayer(saveData);
+
+        // Save the enemy data
+        SaveSystem.SaveEnemyData(GameObject.FindObjectOfType<EnemyData>());
     }
 
     public void TestValue()

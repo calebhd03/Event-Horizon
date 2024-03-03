@@ -7,14 +7,15 @@ public class EnemyLister : MonoBehaviour
 {
     public EnemyData enemyData;
     public HealthMetrics healthMetrics;
-    [SerializeField]private int listIndex;
+    public int enemyType; // Add a variable to hold the enemy type
+    [SerializeField] private int listIndex;
     public int scene;
 
     void OnEnable()
     {
         healthMetrics = GetComponent<HealthMetrics>();
         scene = SceneManager.GetActiveScene().buildIndex;
-        enemyData.Add(scene, gameObject, healthMetrics.currentHealth);
+        enemyData.Add(scene, gameObject, healthMetrics, enemyType); // Pass enemyType when adding to EnemyData
     }
     
     void OnDestroy()
