@@ -1411,6 +1411,10 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4663488500758425111, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4697853393096730698, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -1839,7 +1843,8 @@ MonoBehaviour:
   pfBulletProjectile: {fileID: 5006697782490077287, guid: e50c791edfa539142bdc416685916e64, type: 3}
   pfBlackHoleProjectile: {fileID: 1313668074735135766, guid: 87db5c4aa8191b6408a7acf8299c5972, type: 3}
   pfPlasmaProjectile: {fileID: 5006697782490077287, guid: ce84060234cbdcf4eae6140daace70de, type: 3}
-  pfLaserProjectile: {fileID: 0}
+  pfOGBHGProjectile: {fileID: 0}
+  pfPullBHGProjectile: {fileID: 0}
   pfWallProjectile: {fileID: 0}
   spawnBulletPosition: {fileID: 5199886243392437166}
   spawnBlackHoleBulletPosition: {fileID: 3557700987579802435}
@@ -1894,6 +1899,8 @@ MonoBehaviour:
   firingSpawnLocation: {fileID: 3557700987579802435}
   cooldownSpawnLocation: {fileID: 3557700987579802435}
   BHGTool: 0
+  nxgun: {fileID: 0}
+  bgun: {fileID: 0}
 --- !u!114 &3694751140685564788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1941,7 +1948,10 @@ MonoBehaviour:
   damageOverTime: 0
   meleeDamage: 0
   knockBack: 0
-  laser: 0
+  bHGTool: 0
+  plasma: 0
+  OGBHG: 0
+  BHGPull: 0
 --- !u!1 &7583943228127449891 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 337092540671265372, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
