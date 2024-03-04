@@ -9,7 +9,7 @@ public class NexusGun : MonoBehaviour
     //public StarterAssetsInputs starterAssetsInputs;
     //public ThirdPersonShooterController TPSC;
     PlayerHealthMetric playerHealthMetric;
-    void Start()
+    void Awake()
     {
         playerHealthMetric = GetComponentInParent<PlayerHealthMetric>();
         weaponMesh = GetComponentInChildren<MeshRenderer>();            

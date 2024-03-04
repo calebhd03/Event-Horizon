@@ -6,7 +6,8 @@ public class enemyBullet : MonoBehaviour
 {
     public float bulletDamage = 20f;
     public AudioClip damageSound;
-
+    private bool groundTouch = false;
+    public LayerMask ground;
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Player")
@@ -28,6 +29,12 @@ public class enemyBullet : MonoBehaviour
                 playerHealthMetric.ModifyHealth(-bulletDamage);
             }
             Destroy(gameObject);
+        }
+
+        if (!groundTouch && ground == (ground | (1 << other.gameObject.layer)))
+        {
+            Destroy(gameObject);
+            groundTouch = true;
         }
     }
 }

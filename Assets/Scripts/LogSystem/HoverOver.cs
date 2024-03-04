@@ -19,11 +19,11 @@ public class HoverOver : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnPointerEnter(PointerEventData eventData)
     {   
+        toolTip.ShowToolTip();
+        toolTip.toolTipText.text = thisButtonsText.text;
         if(logSystem.skillsUnlocked == true || logSystem.skillsUnlocked2 == true || logSystem.skillsUnlocked3 == true)
         {
             //Debug.LogWarning("hover");
-            toolTip.ShowToolTip();
-            toolTip.toolTipText.text = thisButtonsText.text;
         }
     }
     

@@ -11,16 +11,22 @@ public class ExplodingPlant : MonoBehaviour
     [SerializeField] private HealthMetrics healthMetrics;
     public LayerMask playerZone;
     public float triggerDistance;
+    [SerializeField] private MeshRenderer meshRenderer;
+    [SerializeField] private GameObject colliderPrefab;
 
     [Header("Exploding Variables")]
     public GameObject acidPrefab;
     private bool explode = false;
     public float explodeAnimationDuration;
     private bool acidSpawned = false;
+    [SerializeField] private GameObject explosionParticlePrefab;
+    [SerializeField] private Transform acidSpawn;
+    private bool hasExploded = false;
 
 
     [Header("Audio")]
     public AudioClip deathAudio;
+    public AudioClip ExplosionSound;
     AudioSource audioSource;
 
     [Header("Drops")]
@@ -36,6 +42,8 @@ public class ExplodingPlant : MonoBehaviour
         animator = GetComponent<Animator>();
         healthBar = GetComponentInChildren<EnemyHealthBar>();
         audioSource = GetComponent<AudioSource>();
+        meshRenderer = GetComponent<MeshRenderer>();
+
     }
     // Start is called before the first frame update
     void Start()
@@ -59,19 +67,25 @@ public class ExplodingPlant : MonoBehaviour
 
     private void TriggerPlant()
     {
-        explode = true;
-        if(explode)
+        if (!hasExploded) 
         {
+            explode = true;
+            hasExploded = true;
             StartCoroutine(ExplodeDelay());
         }
     }
 
     private IEnumerator ExplodeDelay()
     {
-        //explode animation and spread acid
         yield return new WaitForSeconds(explodeAnimationDuration);
-        
-        if(!acidSpawned)
+        meshRenderer.enabled = false;
+        colliderPrefab.SetActive(false);
+        yield return new WaitForSeconds(.1f);
+        audioSource.PlayOneShot(ExplosionSound);
+        ParticleSystem explosionParticleSystem = explosionParticlePrefab.GetComponentInChildren<ParticleSystem>();
+        explosionParticleSystem.Play();
+
+        if (!acidSpawned)
         {
             acidSpawned = true;
             SpawnAcid();
@@ -81,7 +95,7 @@ public class ExplodingPlant : MonoBehaviour
     private void SpawnAcid()
     {
         Debug.Log("Spawn acid");
-        GameObject newAcidCloud = Instantiate(acidPrefab, transform.position, Quaternion.identity);
+        GameObject newAcidCloud = Instantiate(acidPrefab, acidSpawn.position, Quaternion.identity);
         Destroy(newAcidCloud.gameObject, 10f);
         Destroy(this.gameObject, 10f);
     }

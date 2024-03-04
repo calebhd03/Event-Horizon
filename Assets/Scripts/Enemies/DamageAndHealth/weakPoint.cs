@@ -12,6 +12,8 @@ public class weakPoint : MonoBehaviour
     public AudioClip damageSound;
     private basicEnemy basicEnemyScript;
     private bossEnemy bossEnemyScript;
+    private flyingEnemy flyingEnemyScript;
+    private dogEnemy dogEnemyScript;
     private HealthMetrics healthMetrics;
     //public NavMeshAgent agent;
     UpgradeEffects upgradeEffects;
@@ -22,98 +24,30 @@ public class weakPoint : MonoBehaviour
     //Melee Upgrade
     public bool meleeUp, knockBackUp;
     public float knifeDamageUpFactor = 5f;
-    //public bool stopStackDamage = false, stopSlowStack = false;
     weakPoint[] weakPoints;
+    private bool hit = false;
 
     private void Start()
     {
-        // Get the BasicEnemy script attached to the same GameObject
         basicEnemyScript = GetComponentInParent<basicEnemy>();
         bossEnemyScript = GetComponentInParent<bossEnemy>();
-        //agent = GetComponentInParent<NavMeshAgent>();
-        //priorSpeed = agent.speed;
+        flyingEnemyScript = GetComponentInParent<flyingEnemy>();
+        dogEnemyScript = GetComponentInParent<dogEnemy>();
         skillTree = FindObjectOfType<SkillTree>();
         healthMetrics = GetComponentInParent<HealthMetrics>();
-        //weakPoints = basicEnemyScript.GetComponentsInChildren<weakPoint>();
         upgradeEffects = GetComponentInParent<UpgradeEffects>();
     }
-    /*void Update()
+
+    private void Update()
     {
-        if (damageUpgrade == true)
-        {
-            weakPointDamage = weakPointDamage * skillTree.damageUpgradeAmount;
-        }
-
-        if (skillTree.slowEffectEnemy == true)
-        {
-            slowEnemy = true;
-        }
-        else
-        {
-            slowEnemy = false;
-        }
-        if (skillTree.damageOverTime == true)
-        {
-            damageOverTimeEnemy = true;
-        }
-        else
-        {
-            damageOverTimeEnemy = false;
-        }
-        if (skillTree.meleeDamage == true)
-        {
-            meleeUp = true;
-        }
-        else
-        {
-            meleeUp = false;
-        }
-        if (skillTree.knockBack == true)
-        {
-            knockBackUp = true;
-        }
-        else
-        {
-            knockBackUp = false;
-        }
-
-        //stopStackDamage
-        if (stopStackDamage == true)
-        {
-            foreach (weakPoint weaklings in weakPoints)
-            {
-                weaklings.stopStackDamage = true;
-            }
-        }
-        else if (stopStackDamage == false)
-        {
-            foreach (weakPoint weaklings in weakPoints)
-            {
-                weaklings.stopStackDamage = false;
-            }
-        }
-
-        //stopSlowStack
-        if (stopSlowStack == true)
-        {
-            foreach (weakPoint weaklings in weakPoints)
-            {
-                weaklings.stopSlowStack = true;
-            }
-        }
-        else if (stopStackDamage == false)
-        {
-            foreach (weakPoint weaklings in weakPoints)
-            {
-                weaklings.stopSlowStack = false;
-            }
-        }
-    }*/
+        getISeeYou();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Bullet"))
         {
+            hit = true;
             bulletDamage(weakPointDamage);
         }
         else if (other.CompareTag("Knife"))
@@ -165,30 +99,31 @@ public class weakPoint : MonoBehaviour
         }
         else if (other.CompareTag("Plasma Bullet"))
         {
+            hit = true;
             bulletDamage(weakPointPlasmaDamage);
         }
         else if (other.CompareTag("BHBullet"))
         {
-            if(upgradeEffects.stopSlowStack == false)
+            hit = true;
+            
+            if (upgradeEffects.stopStackDamage == false)
             {
-            upgradeEffects.SlowDownEnemy();
-            upgradeEffects.stopSlowStack = true;
+            upgradeEffects.DamageOverTime();
             }
             else{}
-        }
-        else if (other.CompareTag("Laser"))
-        {
-            
+            upgradeEffects.PullEffect();
+            upgradeEffects.OGKill();
         }
     }
 
     private void bulletDamage(float damage)
     {   
-        if (upgradeEffects.stopStackDamage == false)
-        {
-        upgradeEffects.DamageOverTime();
-        }
-        else{}
+        if(upgradeEffects.stopSlowStack == false)
+            {
+            upgradeEffects.SlowDownEnemy();
+            upgradeEffects.stopSlowStack = true;
+            }
+            else{}
         upgradeEffects.knockBackAttack();
         if (healthMetrics != null)
         {
@@ -222,96 +157,30 @@ public class weakPoint : MonoBehaviour
             }
         }
     }
-    
-    /*public void SlowDownEnemy()
+
+    public void getISeeYou()
     {
-        int randomNumber = Random.Range(0, 8);
-        
-            if (slowEnemy == true && randomNumber >= 0)
-            {
-                agent.speed = priorSpeed * slowFactor;
-                    if (basicEnemyScript != null)
-                    {
-                        basicEnemyScript.PlaySlowEffect();
-                    }
-                    if (bossEnemyScript != null)
-                    {
-                        bossEnemyScript.PlaySlowEffect();
-                    }
-                Debug.LogWarning("slow down");
-                Invoke("RestoreSpeed", slowDuration);
-            }
-    }
-    void RestoreSpeed()
-    {
-        agent.speed = priorSpeed;
-        if (basicEnemyScript != null)
-        {
-            basicEnemyScript.StopSlowEffect();
-        }
-        if (bossEnemyScript != null)
-        {
-            bossEnemyScript.StopSlowEffect();
-        }
-        Debug.LogWarning("restore speed");
-    }
-    private IEnumerator DoDamageOverTime()
-    {
-        int randomNumber = Random.Range(0, 8);
-    
-                if (damageOverTimeEnemy == true && randomNumber >= 0)
-            {
-                stopStackDamage = true;
-                if (basicEnemyScript != null)
-                    {
-                        basicEnemyScript.PlayDamageOverTimeEffect();
-                    }
-                    if (bossEnemyScript != null)
-                    {
-                        bossEnemyScript.PlayDamageOverTimeEffect();
-                    }
-                Debug.LogError("Burning Sensation");
-                Invoke("StopDamageOverTime", damageOverTimeDuration);
-                float elapsedTime = 0f;
-                if(elapsedTime == 0)
-                {
-                        while (elapsedTime < damageOverTimeDuration)
-                    {
-                    healthMetrics.ModifyHealth(-damageOverTime * Time.deltaTime);
-                    elapsedTime += Time.deltaTime;
-                    
-                    yield return null; 
-                    }
-                }
-            }
-    }
-    void StopDamageOverTime()
-    {
-        Debug.LogWarning("stopping particle");
-        if (basicEnemyScript != null)
-        {
-            basicEnemyScript.StopDamageOverTimeEffect();
-        }
-        if (bossEnemyScript != null)
-        {
-            bossEnemyScript.StopDamageOverTimeEffect();
-        }
-        stopStackDamage = false;
-    }
-    
-    void knockBackAttack()
-    {
-        int randomNumber = Random.Range(0, 5);
-        if(knockBackUp == true && randomNumber >= 0)
+        if (hit)
         {
             if (basicEnemyScript != null)
-                {
-                    basicEnemyScript.KnockBackEffect();
-                }
-            if (bossEnemyScript != null)
-                {
-                    //bossEnemyScript.KnockBackEffect();
-                }
+            {
+                basicEnemyScript.SetISeeYou();
+                Debug.Log("reg iSeeYou to true in BasicEnemy");
+
+                // Call PlayEnemyHitAnimation in the BasicEnemy script
+                basicEnemyScript.PlayEnemyHitAnimation();
+                Debug.Log("Called PlayEnemyHitAnimation");
+            }
+
+            if (dogEnemyScript != null)
+            {
+                dogEnemyScript.SetISeeYou();
+            }
+
+            if (flyingEnemyScript != null)
+            {
+                flyingEnemyScript.SetISeeYou();
+            }
         }
-    }*/
+    }
 }

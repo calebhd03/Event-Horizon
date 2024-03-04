@@ -92,7 +92,7 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
-  damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
+  damageSound: {fileID: 8300000, guid: 780f0a773e3715a4493f66029cd5a971, type: 3}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -221,6 +221,7 @@ Transform:
   - {fileID: 1375103746063210819}
   - {fileID: 5346427354432565908}
   - {fileID: 5137966213472734969}
+  - {fileID: 5577596484697955500}
   m_Father: {fileID: 1375103746728593475}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -460,6 +461,7 @@ MonoBehaviour:
   playerZone:
     serializedVersion: 2
     m_Bits: 8
+  healthMetrics: {fileID: 0}
   seeDistance: 15
   movePoints: []
   attackRange: 13
@@ -489,6 +491,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  healthMetrics: {fileID: 0}
+  skillTree: {fileID: 0}
   agent: {fileID: 0}
   slowDuration: 6
   slowFactor: 0.7
@@ -501,7 +505,9 @@ MonoBehaviour:
   knockBackUp: 0
   slowEnemyUp: 0
   damageOverTimeEnemyUp: 0
-  laserUp: 0
+  plasmaUp: 0
+  OGKillUp: 0
+  PullUp: 0
   stopStackDamage: 0
   stopSlowStack: 0
   slowEffect: {fileID: 0}
@@ -836,7 +842,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1375103746728593473}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -664.01, y: 12.102637, z: 652.38544}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -876,6 +882,52 @@ MonoBehaviour:
   healthMetrics: {fileID: 1375103746728593474}
   listIndex: 0
   scene: 0
+--- !u!1 &3867548924660838751
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5577596484697955500}
+  - component: {fileID: 5026646048613657244}
+  m_Layer: 9
+  m_Name: Colider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5577596484697955500
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3867548924660838751}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1375103745290613620}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &5026646048613657244
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3867548924660838751}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0.16038513, y: -0.38859105, z: 0.17681122}
 --- !u!1 &6386212331391991737
 GameObject:
   m_ObjectHideFlags: 0
@@ -887,7 +939,6 @@ GameObject:
   - component: {fileID: 5346427354432565908}
   - component: {fileID: 2098786032739253686}
   - component: {fileID: 6062609755175573931}
-  - component: {fileID: 8290370577509762845}
   m_Layer: 0
   m_Name: Mouth
   m_TagString: Untagged
@@ -960,16 +1011,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8290370577509762845
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6386212331391991737}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}

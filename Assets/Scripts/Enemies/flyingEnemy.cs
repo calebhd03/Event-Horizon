@@ -11,6 +11,7 @@ public class flyingEnemy : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] EnemyHealthBar healthBar;
     public LayerMask playerZone;
+    [SerializeField] private HealthMetrics healthMetrics;
 
     //check to find player
     private bool iSeeYou;
@@ -60,7 +61,7 @@ public class flyingEnemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+        healthMetrics = GetComponentInParent<HealthMetrics>();
         healthMetrics.currentHealth = healthMetrics.maxHealth;
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
         currentMag = maxMag;
@@ -115,7 +116,7 @@ public class flyingEnemy : MonoBehaviour
 
     public void attackPlayer()
     {
-        if (attackAgainCoolDown == false && Time.time >= nextFire)
+        if (healthMetrics.currentHealth > 0 && attackAgainCoolDown == false && Time.time >= nextFire)
         {
             //agent.SetDestination(transform.position);
 
@@ -147,6 +148,13 @@ public class flyingEnemy : MonoBehaviour
             //destroy bullet properly for now
             Destroy(newBullet.gameObject, 5f);
         }
+
+        else if (healthMetrics.currentHealth <= 0)
+        {
+            attackAgainCoolDown = true;
+            currentMag = 0;
+            maxMag = 0;
+        }
     }
 
     private void ResetProjectiles()
@@ -173,7 +181,7 @@ public class flyingEnemy : MonoBehaviour
 
     public void updateHealth()
     {
-        HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+        healthMetrics = GetComponentInParent<HealthMetrics>();
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
 
         if (healthMetrics.currentHealth <= 0)
@@ -185,6 +193,7 @@ public class flyingEnemy : MonoBehaviour
 
     public void Die()
     {
+        agent.isStopped = true;
         StartCoroutine(WaitAndDropStuff(3f));
     }
 
@@ -218,7 +227,10 @@ public class flyingEnemy : MonoBehaviour
     {
         iSeeYou = true;
         transform.LookAt(player);
-        chasePlayer();
+        if (iSeeYou && !withInAttackRange)
+        {
+            chasePlayer();
+        }
     }
 
     private void OnDrawGizmos()

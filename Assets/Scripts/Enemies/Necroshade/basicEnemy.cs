@@ -15,6 +15,8 @@ namespace StarterAssets
         public Transform player;
         public NavMeshAgent agent;
         public Animator animator;
+        [SerializeField] private HealthMetrics healthMetrics;
+
 
         private Rigidbody rb;
 
@@ -111,7 +113,7 @@ namespace StarterAssets
         // Start is called before the first frame update
         void Start()
         {
-            HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+            healthMetrics = GetComponentInParent<HealthMetrics>();
             healthMetrics.currentHealth = healthMetrics.maxHealth;
             healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
             currentMag = maxMag;
@@ -333,7 +335,7 @@ namespace StarterAssets
             //agent.SetDestination(transform.position);
             //transform.LookAt(player);
 
-            if (attackAgainCoolDown == false && rangeAttack == true && Time.time >= nextFire)
+            if (healthMetrics.currentHealth > 0 && attackAgainCoolDown == false && rangeAttack == true && Time.time >= nextFire)
             {
                 //fire Rate
                 nextFire = Time.time + 1 / fireRate;
@@ -365,6 +367,15 @@ namespace StarterAssets
 
                 //destroy bullet properly for now
                 Destroy(newBullet.gameObject, 5f);
+            }
+
+            else if (rangeAttack && healthMetrics.currentHealth <= 0)
+            {
+                Debug.Log("NO BULLETS");
+                animator.SetBool("RangeAttack", false);
+                attackAgainCoolDown = true;
+                currentMag = 0;
+                maxMag = 0;
             }
 
             if (attackAgainCoolDown == false && meleeAttack == true)
@@ -444,10 +455,10 @@ namespace StarterAssets
 
         public void updateHealth()
         {
-            HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+            healthMetrics = GetComponentInParent<HealthMetrics>();
             healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
-           
-            if(healthMetrics.currentHealth <= 0)
+
+            if (healthMetrics.currentHealth <= 0)
             {
                 Die();
             }
@@ -482,7 +493,10 @@ namespace StarterAssets
         {
             iSeeYou = true;
             transform.LookAt(player);
-            chasePlayer();
+            if (iSeeYou && !withInAttackRange)
+            {
+                chasePlayer();
+            }
         }
             
         public void Die()

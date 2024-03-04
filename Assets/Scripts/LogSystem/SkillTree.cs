@@ -12,14 +12,14 @@ public class SkillTree : MonoBehaviour
     public regularPoint[] regularPointdamage;
     public weakPoint[] weakPointdamage;
     public float healthUpgradeAmount, speedUpgradedAmount, damageUpgradeAmount, upgradeHealthDifference;
-    public bool slowEffectEnemy = false, damageOverTime = false, meleeDamage = false, knockBack = false, bHGTool = false;
-    public bool laser = false;
+    public bool slowEffectEnemy = false, damageOverTime = false, meleeDamage = false, knockBack = false, bHGTool = false, plasma = false;
+    public bool OGBHG = false, BHGPull = false;
     UpgradeEffects[] upgradeEffects;
     
     void Start()
     {
-        playerHealthMetric = FindObjectOfType<PlayerHealthMetric>();
-        thirdPersonController = FindObjectOfType<ThirdPersonController>();
+        playerHealthMetric = GetComponent<PlayerHealthMetric>();
+        thirdPersonController = GetComponent<ThirdPersonController>();
         regularPointdamage = FindObjectsOfType<regularPoint>();
         weakPointdamage = FindObjectsOfType<weakPoint>();
         logSystem = FindObjectOfType<LogSystem>();
@@ -30,20 +30,6 @@ public class SkillTree : MonoBehaviour
 
         
     }
-    /*public void HealthUpgraded()
-    {
-        float previousMaxHealth = playerHealthMetric.playerData.maxHealth;
-        playerHealthMetric.playerData.maxHealth = playerHealthMetric.playerData.maxHealth * healthUpgradeAmount;
-        playerHealthMetric.ModifyHealth(playerHealthMetric.playerData.maxHealth - previousMaxHealth);
-        playerHealthMetric.playerData.SaveHealthUpgrade = true;
-    }
-    
-    public void SpeedUpgraded()
-    {
-        thirdPersonController.MoveSpeed = thirdPersonController.MoveSpeed * speedUpgradedAmount;
-        thirdPersonController.SprintSpeed = thirdPersonController.SprintSpeed * speedUpgradedAmount;
-        playerHealthMetric.playerData.SaveSpeedUpgrade = true;
-    }*/
 
     public void BHGToolUpgrade()
     {
@@ -95,10 +81,28 @@ public class SkillTree : MonoBehaviour
             upgrades.SetUpgrades();
         }
     }
-    public void LaserUpgrade()
+    public void OGBHGUpgrade()
     {
-        laser = true;
-        playerHealthMetric.playerData.SaveLaserUpgrade = true;
+        OGBHG = true;
+        playerHealthMetric.playerData.SaveOGBHGUpgrade = true;
+        foreach(UpgradeEffects upgrades in upgradeEffects)
+        {
+            upgrades.SetUpgrades();
+        }
+    }
+    public void BHGPullUpgrade()
+    {
+        BHGPull = true;
+        playerHealthMetric.playerData.SaveBHGPullEffect = true;
+        foreach(UpgradeEffects upgrades in upgradeEffects)
+        {
+            upgrades.SetUpgrades();
+        }
+    }
+    public void PlasmaUpgrade()
+    {
+        plasma = true;
+        playerHealthMetric.playerData.SavePlasmaUpgrade = true;
         foreach(UpgradeEffects upgrades in upgradeEffects)
         {
             upgrades.SetUpgrades();
@@ -106,14 +110,10 @@ public class SkillTree : MonoBehaviour
     }
     private void SetUpgradesOnLoad()
     {
-        /*if (playerHealthMetric.playerData.SaveHealthUpgrade == true)
-        {
-            logSystem.healthSkillUpgraded = true;
-            HealthUpgraded();
-        }*/
         if (playerHealthMetric.playerData.SavePlasmaUpgrade == true)
         {
             logSystem.plasmaSkillUpgraded = true;
+            PlasmaUpgrade();
 
         }
         if(playerHealthMetric.playerData.SaveDamageOverTimeUpgrade == true)
@@ -126,34 +126,30 @@ public class SkillTree : MonoBehaviour
             logSystem.meleeSkillUpgraded = true;
             MeleeDamageUpgrade();
         }
-        /*if(playerHealthMetric.playerData.SaveSpeedUpgrade == true)
-        {
-            logSystem.speedSkillUpgraded = true;
-            SpeedUpgraded();
-        }*/
         if(playerHealthMetric.playerData.SaveSlowEnemyUpgrade == true)
         {
             logSystem.SlowEnemyUpgraded = true;
             SlowEnemyUpgrade();
         }
-        /*if(playerHealthMetric.playerData.SaveAmmoCapacityUpgrade == true)
-        {
-            logSystem.ammoSkillUpgraded = true;
-        }*/
         if(playerHealthMetric.playerData.SaveKnockBackUpgrade == true)
         {
             logSystem.knockBackUpgraded = true;
             KnockBackUpgrade();
         }
-        if(playerHealthMetric.playerData.SaveLaserUpgrade == true)
+        if(playerHealthMetric.playerData.SaveOGBHGUpgrade == true)
         {
-            logSystem.laserUpgraded = true;
-            LaserUpgrade();
+            logSystem.OGBHG = true;
+            OGBHGUpgrade();
         }
         if(playerHealthMetric.playerData.SaveBHGToolUpgrade == true)
         {
             logSystem.BHGToolUpgraded = true;
             BHGToolUpgrade();
+        }
+        if(playerHealthMetric.playerData.SaveBHGPullEffect == true)
+        {
+            logSystem.BHGPullUpgraded = true;
+            BHGPullUpgrade();
         }
     }
 }

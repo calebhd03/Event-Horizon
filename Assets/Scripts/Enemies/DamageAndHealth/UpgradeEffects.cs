@@ -12,12 +12,14 @@ public class UpgradeEffects : MonoBehaviour
     public NavMeshAgent agent;
     public float slowDuration = 6f, slowFactor = 0.7f, priorSpeed, damageOverTime = 5f, damageOverTimeDuration = 4f;
     public float knockBackForce = 10f, knockBackTimer = 0f;
-    public bool meleeUp, knockBackUp, slowEnemyUp, damageOverTimeEnemyUp, laserUp;
+    public bool meleeUp = false, knockBackUp = false, slowEnemyUp = false, damageOverTimeEnemyUp = false;
+    public bool plasmaUp = false, OGKillUp = false, PullUp = false;
     //public float knifeDamageUpFactor = 5f;
     public bool stopStackDamage = false, stopSlowStack = false;
     regularPoint[] regularPoints;
     weakPoint[] weakPoints;
     public ParticleSystem slowEffect, damageOverTimeEffect;
+    BlackHoleBullet blackHoleBullet;
     
     void Awake()
     {
@@ -35,6 +37,7 @@ public class UpgradeEffects : MonoBehaviour
 
     void Update()
     {
+        blackHoleBullet = FindFirstObjectByType<BlackHoleBullet>();
         //knockback
         if(knockBackTimer > 0)
         {
@@ -119,37 +122,29 @@ public class UpgradeEffects : MonoBehaviour
         {
             slowEnemyUp = true;
         }
-        else
-        {
-            slowEnemyUp = false;
-        }
         if (skillTree.damageOverTime == true)
         {
             damageOverTimeEnemyUp = true;
-        }
-        else
-        {
-            damageOverTimeEnemyUp = false;
         }
         if (skillTree.meleeDamage == true)
         {
             meleeUp = true;
         }
-        else
-        {
-            meleeUp = false;
-        }
         if (skillTree.knockBack == true)
         {
             knockBackUp = true;
         }
-        else
+        if (skillTree.plasma == true)
         {
-            knockBackUp = false;
+            plasmaUp = true;
         }
-        if (skillTree.laser == true)
+        if (skillTree.BHGPull == true)
         {
-            laserUp = true;
+            PullUp = true;
+        }
+        if (skillTree.OGBHG == true)
+        {
+            OGKillUp = true;
         }
     }
 
@@ -178,7 +173,24 @@ public class UpgradeEffects : MonoBehaviour
 
     public void DamageOverTime()
     {
+        if(damageOverTimeEnemyUp == true)
+        {
         StartCoroutine(DoDamageOverTime());
+        }
+    }
+    public void PullEffect()
+    {
+        if(PullUp == true)
+        {
+        StartCoroutine(Pulling());
+        }
+    }
+    public void OGKill()
+    {
+        if (OGKillUp == true)
+        {
+        StartCoroutine(OGKilling());
+        }
     }
     private IEnumerator DoDamageOverTime()
     {
@@ -200,6 +212,28 @@ public class UpgradeEffects : MonoBehaviour
                 }
             }
     }
+    private IEnumerator Pulling()
+    {
+        float effectTime = .5f;
+        float currentTime = 0.0f;
+        Vector3 startPosition = gameObject.transform.position;
+            while(currentTime < (effectTime * .75))
+            {
+                gameObject.transform.position = Vector3.Lerp(startPosition, blackHoleBullet.lastPosition, currentTime / (effectTime * .75f));
+                currentTime += Time.deltaTime;
+                yield return null;
+            }
+    }
+    private IEnumerator OGKilling()
+    {
+            yield return new WaitForSeconds(3f);
+            if(gameObject.GetComponent<bossEnemy>() != null) { gameObject.GetComponent<bossEnemy>().Die(); }
+            else
+            {
+                Destroy(gameObject.transform.parent.gameObject);
+                Destroy(gameObject);
+            }
+    }
     void StopDamageOverTime()
     {
         damageOverTimeEffect.Stop();
@@ -212,11 +246,6 @@ public class UpgradeEffects : MonoBehaviour
         {
             knockBackTimer = .3f;
         }
-    }
-
-    public void LaserAttack()
-    {
-        
     }
 }
 

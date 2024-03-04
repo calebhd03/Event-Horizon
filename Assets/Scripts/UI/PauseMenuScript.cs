@@ -51,31 +51,39 @@ public class PauseMenuScript : MonoBehaviour
     {
         if(paused == false)
         {
-            paused = true;
             OpenPause();
         }
         else
         {
-            paused = false;
-            settingsScreen.SetActive(false);
-            inventoryScreen.SetActive(false);
-            upgradeScreen.SetActive(false);
-            ClosePause();
-            Invoke("DelayShoot", 0.1f);
+            UnPause();
         }
     }
     //The three functions here open their respective menus and close out the main
     public void OpenPause()
-        {
-            paused = true;
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            Time.timeScale = 0;
-            HUD.SetActive(false);
-            PauseScreen.SetActive(true);
-            starterAssetsInputs.delayShoot = true;
-            
-        }
+    {
+        PauseScreen.SetActive(true);
+        PauseGame();
+    }
+
+    public void PauseGame()
+    {
+        paused = true;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 0;
+        HUD.SetActive(false);
+        starterAssetsInputs.delayShoot = true;
+    }
+
+    public void UnPause()
+    {
+        paused = false;
+        settingsScreen.SetActive(false);
+        inventoryScreen.SetActive(false);
+        upgradeScreen.SetActive(false);
+        ClosePause();
+        Invoke("DelayShoot", 0.1f);
+    }
     public void ClosePause()
     {
        // Debug.Log("Before: " + starterAssetsInputs.pause);
@@ -102,18 +110,18 @@ public class PauseMenuScript : MonoBehaviour
     }
     public void OpenSettings()
         {
-            settingsScreen.SetActive(true);
             PauseScreen.SetActive(false);
+            settingsScreen.SetActive(true);
         }
     public void OpenInventory()
         {
-            inventoryScreen.SetActive(true);
             PauseScreen.SetActive(false);
+            inventoryScreen.SetActive(true);
         }
     public void OpenUpgrades()
         {
-            upgradeScreen.SetActive(true);
             PauseScreen.SetActive(false);
+            upgradeScreen.SetActive(true);
         }
 
     //add log system
@@ -125,7 +133,7 @@ public class PauseMenuScript : MonoBehaviour
         PauseScreen.SetActive(false);
         if (logSystem.log == false)
         {
-        starterAssetsInputs.LogInput(true);
+            starterAssetsInputs.LogInput(true);
         }
     }
 
