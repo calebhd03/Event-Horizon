@@ -15,11 +15,22 @@ public class EnemyLister : MonoBehaviour
     {
         healthMetrics = GetComponent<HealthMetrics>();
         scene = SceneManager.GetActiveScene().buildIndex;
-        enemyData.Add(scene, gameObject, healthMetrics, enemyType); // Pass enemyType when adding to EnemyData
+        Vector3 lastSavedPosition = transform.position; // Get the last saved position
+        enemyData.Add(scene, gameObject, healthMetrics, enemyType, lastSavedPosition); // Pass lastSavedPosition when adding to EnemyData
     }
     
     void OnDestroy()
     {
         enemyData.Remove(scene, gameObject);
+    }
+
+    // Example to display current health
+    void Update()
+    {
+        // Access current health from the EnemyVariables object in enemyData
+        foreach (var enemy in enemyData.Enemies[scene])
+        {
+           // Debug.Log("Current health: " + enemy.currentHealth);
+        }
     }
 }

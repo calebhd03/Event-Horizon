@@ -81,8 +81,8 @@ public class SaveSystemTest : MonoBehaviour
                 }
             }
 
-            // Load the enemy data
-            EnemyData loadedEnemyData = SaveSystem.LoadEnemyData();
+            // Load the enemy data with the current scene index
+            EnemyData loadedEnemyData = SaveSystem.LoadEnemyData(currentSceneIndex);
             if (loadedEnemyData != null)
             {
                 // Iterate through enemy data to handle missing GameObjects
@@ -109,7 +109,6 @@ public class SaveSystemTest : MonoBehaviour
                 }
             }
         }
-
     }
 
     public void SaveGame()
@@ -138,8 +137,17 @@ public class SaveSystemTest : MonoBehaviour
         // Save the data
         SaveSystem.SavePlayer(saveData);
 
-        // Save the enemy data
-        SaveSystem.SaveEnemyData(GameObject.FindObjectOfType<EnemyData>());
+        // Find EnemyData object in the scene
+        EnemyData enemyData = GameObject.FindObjectOfType<EnemyData>();
+        if (enemyData != null)
+        {
+            // Save the enemy data with the current scene index
+            SaveSystem.SaveEnemyData(enemyData, currentSceneIndex);
+        }
+        else
+        {
+            Debug.LogWarning("EnemyData object not found in the scene. Enemy data will not be saved.");
+        }
     }
 
     public void TestValue()

@@ -1,29 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Collections.Generic;
 
+[Serializable] // Add this attribute to mark the class as serializable
 public class EnemyVariables
 {
-    public GameObject enemyObject { get; set; }
+    // Your class implementation remains unchanged
+    public GameObject enemyObject;
     public HealthMetrics healthMetrics;
-    public float currentHealth;
     public int enemyType;
     public bool ifHasDied;
-    public Vector3 lastSavedPosition; // Add this property
-
-    public EnemyVariables(GameObject enemyObject, HealthMetrics healthMetrics, int enemyType)
+    public Vector3 lastSavedPosition; // Add lastSavedPosition property
+    public float currentHealth; // Add currentHealth property
+    // Adjust the constructor to accept 4 arguments
+    public EnemyVariables(GameObject enemyObject, HealthMetrics healthMetrics, int enemyType, Vector3 lastSavedPosition)
     {
         this.enemyObject = enemyObject;
         this.healthMetrics = healthMetrics;
-        this.currentHealth = healthMetrics.currentHealth;
         this.enemyType = enemyType;
         this.ifHasDied = false;
-        this.lastSavedPosition = enemyObject.transform.position; // Initialize with the current position
+        this.lastSavedPosition = lastSavedPosition;
     }
 
+    // Add a constructor that accepts 5 arguments
+    public EnemyVariables(GameObject enemyObject, HealthMetrics healthMetrics, int enemyType, Vector3 lastSavedPosition, float currentHealth)
+    {
+        this.enemyObject = enemyObject;
+        this.healthMetrics = healthMetrics;
+        this.enemyType = enemyType;
+        this.ifHasDied = false;
+        this.lastSavedPosition = lastSavedPosition;
+        this.currentHealth = currentHealth;
+    }
+
+    // Update the health method to set the current health
     public void UpdateHealth()
     {
-        currentHealth = healthMetrics.currentHealth;
+        if (healthMetrics != null)
+        {
+            currentHealth = healthMetrics.currentHealth;
+        }
+        else
+        {
+            Debug.LogWarning("HealthMetrics is null in EnemyVariables.");
+        }
     }
 }
 
@@ -32,15 +52,15 @@ public class EnemyData : ScriptableObject
 {
     public Dictionary<int, List<EnemyVariables>> Enemies = new Dictionary<int, List<EnemyVariables>>();
 
-    public void Add(int scene, GameObject enemyObject, HealthMetrics healthMetrics, int enemyType)
+    public void Add(int scene, GameObject enemyObject, HealthMetrics healthMetrics, int enemyType, Vector3 lastSavedPosition)
     {
         if (!Enemies.ContainsKey(scene))
         {
             Enemies[scene] = new List<EnemyVariables>();
         }
-        Enemies[scene].Add(new EnemyVariables(enemyObject, healthMetrics, enemyType));
+        Enemies[scene].Add(new EnemyVariables(enemyObject, healthMetrics, enemyType, lastSavedPosition, scene));
         var addedEnemy = Enemies[scene][Enemies[scene].Count - 1];
-        Debug.Log("Scene: " + scene + ", Enemy: " + addedEnemy.enemyObject + ", Position: " + addedEnemy.enemyObject.transform.position + ", Health: " + addedEnemy.currentHealth + ", EnemyType: " + addedEnemy.enemyType);
+        Debug.Log("Scene: " + scene + ", Enemy: " + addedEnemy.enemyObject + ", Position: " + addedEnemy.enemyObject.transform.position + ", Health: " + addedEnemy.currentHealth + ", EnemyType: " + addedEnemy.enemyType + ", IfHasDied: " + addedEnemy.ifHasDied);
     }
 
     public void Remove(int scene, GameObject destroyedObject)

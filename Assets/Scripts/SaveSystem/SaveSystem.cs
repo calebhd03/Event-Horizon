@@ -94,57 +94,51 @@ public static void SavePlayer(PlayerSaveData saveData)
         return null;
     }
 
-  public static void SaveEnemyData(EnemyData enemyData)
-    {
-        BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/enemyData.data";
-        FileStream stream = new FileStream(path, FileMode.Create);
 
+    public static void SaveEnemyData(EnemyData enemyData, int sceneIndex)
+    {
+    BinaryFormatter formatter = new BinaryFormatter();
+    string path = Application.persistentDataPath + "/enemyData.data";
+    
+    using (FileStream stream = new FileStream(path, FileMode.Create))
+    {
         List<EnemyVariables> allEnemies = enemyData.GetAllEnemyData(); // Retrieve all enemy data
         formatter.Serialize(stream, allEnemies); // Serialize and save enemy data
-
-        stream.Close();
     }
 
-    public static EnemyData LoadEnemyData()
+    // Save enemy locations
+    EnemyManager.instance.SaveEnemyLocations(sceneIndex);
+    }
+
+    public static EnemyData LoadEnemyData(int sceneIndex)
     {
         string path = Application.persistentDataPath + "/enemyData.data";
+        
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
-            List<EnemyVariables> savedEnemies = formatter.Deserialize(stream) as List<EnemyVariables>;
-            stream.Close();
-
-            // Check if there are any saved enemies
-            if (savedEnemies != null && savedEnemies.Count > 0)
+            
+            using (FileStream stream = new FileStream(path, FileMode.Open))
             {
-                EnemyData enemyData = ScriptableObject.CreateInstance<EnemyData>();
-
-                foreach (var savedEnemy in savedEnemies)
+                List<EnemyVariables> savedEnemies = formatter.Deserialize(stream) as List<EnemyVariables>;
+                
+                if (savedEnemies != null && savedEnemies.Count > 0)
                 {
-                    // Check if the saved enemy has died since the last save
-                    if (savedEnemy.ifHasDied)
-                    {
-               
-                        if (!WasEnemyAliveInLastSave(savedEnemy))
-                        {
-                            GameObject enemyPrefab = EnemyManager.instance.GetEnemyPrefab(savedEnemy.enemyType);
-                            if (enemyPrefab != null)
-                            {
-                                GameObject newEnemy = GameObject.Instantiate(enemyPrefab, savedEnemy.enemyObject.transform.position, Quaternion.identity);
-                           
-                            }
-                        }
-                    }
-                }
+                    EnemyData enemyData = ScriptableObject.CreateInstance<EnemyData>();
+                    EnemyManager.instance.LoadEnemyLocations(sceneIndex);
 
-                return enemyData;
-            }
-            else
-            {
-                Debug.LogWarning("No saved enemy data found!");
-                return null;
+                    foreach (var savedEnemy in savedEnemies)
+                    {
+                        // Your code to process saved enemies
+                    }
+
+                    return enemyData;
+                }
+                else
+                {
+                    Debug.LogWarning("No saved enemy data found!");
+                    return null;
+                }
             }
         }
         else
@@ -154,11 +148,15 @@ public static void SavePlayer(PlayerSaveData saveData)
         }
     }
 
+    
     private static bool WasEnemyAliveInLastSave(EnemyVariables enemy)
     {
- 
+        // You need to implement this method to check if the enemy was alive in the last save.
+        // You can compare the enemy's data with the data from the previous save to determine this.
         return false;
     }
 }
+
+
 
 
