@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class EnemyManager : MonoBehaviour
 {
     public static EnemyManager instance;
 
     // List of all enemy prefabs, indexed by their type
     public GameObject[] enemyPrefabs;
+    private List<EnemySaveData> enemyDataList;
 
     private void Awake()
     {
@@ -19,19 +21,6 @@ public class EnemyManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-        }
-    }
-
-    public GameObject GetEnemyPrefab(int enemyType)
-    {
-        if (enemyType >= 0 && enemyType < enemyPrefabs.Length)
-        {
-            return enemyPrefabs[enemyType];
-        }
-        else
-        {
-            Debug.LogError("Enemy type out of range: " + enemyType);
-            return null;
         }
     }
 
@@ -54,7 +43,7 @@ public class EnemyManager : MonoBehaviour
 
     public void LoadEnemyLocations(int sceneIndex)
     {
-         Debug.LogWarning("LoadEnemyLoc");
+        Debug.LogWarning("LoadEnemyLoc");
         // Check if enemy locations have been saved
         if (PlayerPrefs.HasKey("Scene" + sceneIndex + "EnemyLocations"))
         {
@@ -83,5 +72,11 @@ public class EnemyManager : MonoBehaviour
         {
             Debug.LogWarning("No saved enemy locations found for scene " + sceneIndex);
         }
+    }
+
+    public void SetEnemyData(List<EnemySaveData> enemyData)
+    {
+        Debug.LogWarning("Set enemy data called");
+        enemyDataList = enemyData;
     }
 }

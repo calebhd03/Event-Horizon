@@ -82,32 +82,8 @@ public class SaveSystemTest : MonoBehaviour
             }
 
             // Load the enemy data with the current scene index
-            EnemyData loadedEnemyData = SaveSystem.LoadEnemyData(currentSceneIndex);
-            if (loadedEnemyData != null)
-            {
-                // Iterate through enemy data to handle missing GameObjects
-                foreach (var sceneEnemiesPair in loadedEnemyData.Enemies)
-                {
-                    int sceneIndex = sceneEnemiesPair.Key;
-                    List<EnemyVariables> enemies = sceneEnemiesPair.Value;
-
-                    for (int i = 0; i < enemies.Count; i++)
-                    {
-                        EnemyVariables enemy = enemies[i];
-                        if (enemy.enemyObject == null || !enemy.enemyObject.activeInHierarchy)
-                        {
-                            // If the enemy GameObject is missing or inactive, remove it from the loaded data
-                            enemies.RemoveAt(i);
-                            i--; // Decrement i to account for removal
-                        }
-                        else
-                        {
-                            // Set the enemy position to its last saved position
-                            enemy.enemyObject.transform.position = enemy.lastSavedPosition;
-                        }
-                    }
-                }
-            }
+            int sceneIndexToLoad = SceneManager.GetActiveScene().buildIndex;
+            EnemyManager.instance.LoadEnemyLocations(sceneIndexToLoad);
         }
     }
 
@@ -138,16 +114,8 @@ public class SaveSystemTest : MonoBehaviour
         SaveSystem.SavePlayer(saveData);
 
         // Find EnemyData object in the scene
-        EnemyData enemyData = GameObject.FindObjectOfType<EnemyData>();
-        if (enemyData != null)
-        {
-            // Save the enemy data with the current scene index
-            SaveSystem.SaveEnemyData(enemyData, currentSceneIndex);
-        }
-        else
-        {
-            Debug.LogWarning("EnemyData object not found in the scene. Enemy data will not be saved.");
-        }
+        int sceneIndexToSave = SceneManager.GetActiveScene().buildIndex;
+        EnemyManager.instance.SaveEnemyLocations(sceneIndexToSave);
     }
 
     public void TestValue()

@@ -12,7 +12,9 @@ public class EnemyDataTest : MonoBehaviour
         enemyData = ScriptableObject.CreateInstance<EnemyData>();
 
         // Now you can access the functionality and data of enemyData as needed
-        // For example:
-        enemyData.Add(0, gameObject, null, 0, Vector3.zero);
+        // For example, you can call the SaveEnemyData method passing the scene index and list of enemy GameObjects
+        int sceneIndex = 0; // Change this to the appropriate scene index
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        enemyData.SaveEnemyData(sceneIndex, new List<GameObject>(enemies));
     }
 }

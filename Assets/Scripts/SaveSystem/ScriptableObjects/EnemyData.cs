@@ -2,117 +2,58 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-[Serializable] // Add this attribute to mark the class as serializable
-public class EnemyVariables
+[Serializable]
+public class EnemySaveData
 {
-    // Your class implementation remains unchanged
-    public GameObject enemyObject;
-    public HealthMetrics healthMetrics;
     public int enemyType;
-    public bool ifHasDied;
-    public Vector3 lastSavedPosition; // Add lastSavedPosition property
-    public float currentHealth; // Add currentHealth property
-    // Adjust the constructor to accept 4 arguments
-    public EnemyVariables(GameObject enemyObject, HealthMetrics healthMetrics, int enemyType, Vector3 lastSavedPosition)
-    {
-        this.enemyObject = enemyObject;
-        this.healthMetrics = healthMetrics;
-        this.enemyType = enemyType;
-        this.ifHasDied = false;
-        this.lastSavedPosition = lastSavedPosition;
-    }
+    public Vector3 position;
+    public float health;
 
-    // Add a constructor that accepts 5 arguments
-    public EnemyVariables(GameObject enemyObject, HealthMetrics healthMetrics, int enemyType, Vector3 lastSavedPosition, float currentHealth)
+    public EnemySaveData(int enemyType, Vector3 position, float health)
     {
-        this.enemyObject = enemyObject;
-        this.healthMetrics = healthMetrics;
         this.enemyType = enemyType;
-        this.ifHasDied = false;
-        this.lastSavedPosition = lastSavedPosition;
-        this.currentHealth = currentHealth;
-    }
-
-    // Update the health method to set the current health
-    public void UpdateHealth()
-    {
-        if (healthMetrics != null)
-        {
-            currentHealth = healthMetrics.currentHealth;
-        }
-        else
-        {
-            Debug.LogWarning("HealthMetrics is null in EnemyVariables.");
-        }
+        this.position = position;
+        this.health = health;
     }
 }
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/EnemyDataScriptableObject", order = 1)]
 public class EnemyData : ScriptableObject
 {
-    public Dictionary<int, List<EnemyVariables>> Enemies = new Dictionary<int, List<EnemyVariables>>();
+    public Dictionary<int, List<EnemySaveData>> enemiesData = new Dictionary<int, List<EnemySaveData>>();
 
-    public void Add(int scene, GameObject enemyObject, HealthMetrics healthMetrics, int enemyType, Vector3 lastSavedPosition)
+    public void SaveEnemyData(int sceneIndex, List<GameObject> enemies)
     {
-        if (!Enemies.ContainsKey(scene))
+        List<EnemySaveData> saveData = new List<EnemySaveData>();
+
+        foreach (GameObject enemy in enemies)
         {
-            Enemies[scene] = new List<EnemyVariables>();
+            // Retrieve necessary data from the enemy GameObject
+            // For demonstration, let's assume all enemies have the same type and health
+            int enemyType = 1; // Set a default enemy type
+            Vector3 position = enemy.transform.position;
+            float health = 100f; // Set a default health value
+
+            saveData.Add(new EnemySaveData(enemyType, position, health));
         }
-        Enemies[scene].Add(new EnemyVariables(enemyObject, healthMetrics, enemyType, lastSavedPosition, scene));
-        var addedEnemy = Enemies[scene][Enemies[scene].Count - 1];
-        Debug.Log("Scene: " + scene + ", Enemy: " + addedEnemy.enemyObject + ", Position: " + addedEnemy.enemyObject.transform.position + ", Health: " + addedEnemy.currentHealth + ", EnemyType: " + addedEnemy.enemyType + ", IfHasDied: " + addedEnemy.ifHasDied);
+
+        enemiesData[sceneIndex] = saveData;
     }
 
-    public void Remove(int scene, GameObject destroyedObject)
+    public void LoadEnemyData(int sceneIndex)
     {
-        if (Enemies.ContainsKey(scene))
+        if (enemiesData.ContainsKey(sceneIndex))
         {
-            foreach (var enemy in Enemies[scene])
+            foreach (EnemySaveData enemyData in enemiesData[sceneIndex])
             {
-                if (enemy.enemyObject == destroyedObject)
-                {
-                    enemy.ifHasDied = true;
-                    break;
-                }
-            }
-            Enemies[scene].RemoveAll(enemy => enemy.enemyObject == destroyedObject);
-        }
-    }
-
-    public void UpdateEnemyHealth(int scene)
-    {
-        if (Enemies.ContainsKey(scene))
-        {
-            foreach (var enemy in Enemies[scene])
-            {
-                enemy.UpdateHealth();
+                // Recreate enemy GameObject using saved data
+                // For demonstration, we won't create actual enemy objects here
+                Debug.Log("Enemy Type: " + enemyData.enemyType + ", Position: " + enemyData.position + ", Health: " + enemyData.health);
             }
         }
-    }
-
-    public void GetData(int scene)
-    {
-        UpdateEnemyHealth(scene);
-
-        if (Enemies.ContainsKey(scene))
+        else
         {
-            foreach (var enemy in Enemies[scene])
-            {
-                Debug.Log("Scene: " + scene + ", Enemy: " + enemy.enemyObject + ", Position: " + enemy.enemyObject.transform.position + ", Health: " + enemy.currentHealth + ", EnemyType: " + enemy.enemyType + ", IfHasDied: " + enemy.ifHasDied);
-            }
+            Debug.LogWarning("No saved enemy data found for scene " + sceneIndex);
         }
-    }
-
-    // Method to retrieve all enemy data
-    public List<EnemyVariables> GetAllEnemyData()
-    {
-        List<EnemyVariables> allEnemyData = new List<EnemyVariables>();
-
-        foreach (var sceneEnemies in Enemies.Values)
-        {
-            allEnemyData.AddRange(sceneEnemies);
-        }
-
-        return allEnemyData;
     }
 }
