@@ -18,6 +18,8 @@ public class ScanCam : MonoBehaviour
     public delegate void ScannerDisabled();
     public static event ScannerDisabled scannerDisabled;
     public delegate void StopScan();
+    public static event AllUnhighlight allUnhighlight;
+    public delegate void AllUnhighlight();
     public static event StopScan stopScan;
     public int currentClipIndex;
     int hitLayer;
@@ -90,11 +92,12 @@ public class ScanCam : MonoBehaviour
                             eneScr.highlight();
                             currentClipIndex = eneScr.number;
                             logSys.number = eneScr.number;
-                        }           
+                        }         
                 break;
 
                 default:
                     scannerCurrentObject = null;
+                    allUnhighlight();
                 break;
             }
             }

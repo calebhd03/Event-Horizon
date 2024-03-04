@@ -437,9 +437,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Scanned: 0
-  criticalPointReveal: {fileID: 0}
+  criticalPointReveal: {fileID: 1116100742499244677}
   number: 0
   weakPointReveal: []
+  skinnedMeshRenderer: {fileID: 1610699171839639316}
+  materials: []
+  player: {fileID: 0}
 --- !u!1 &1375103745523238436
 GameObject:
   m_ObjectHideFlags: 0
@@ -1475,6 +1478,14 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 4745334908842084840, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4745334908842084840, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 47e347403a1acb749bd56447f1ef3b9c, type: 2}
     - target: {fileID: 4879372402658362392, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -2148,6 +2159,11 @@ MonoBehaviour:
   meleeUp: 0
   knockBackUp: 0
   knifeDamageUpFactor: 5
+--- !u!137 &1610699171839639316 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4745334908842084840, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
+  m_PrefabInstance: {fileID: 6305191940066342652}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2605847588755053103 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8334296191290502355, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
