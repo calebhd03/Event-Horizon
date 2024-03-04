@@ -56,9 +56,14 @@ public class StartMenu : MonoBehaviour
         SceneManager.LoadScene("VerticalSlice");
     }
 
-    public void SetSelected(GameObject gameObject)
+    public void SetSelected(GameObject obj)
     {
-        EventSystem.current.SetSelectedGameObject(gameObject);
+        if(obj == null)
+        {
+            Debug.LogError("Set selected obj is null");
+            return;
+        }
+        EventSystem.current.SetSelectedGameObject(obj);
     }
      public void LoadTheOuterVer2Scene()
     {
