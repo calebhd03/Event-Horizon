@@ -1063,6 +1063,10 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         normalSensitivity = newChangeSens;
     }
+    public void changeAimSens(float newChangeSens)
+    {
+        aimSensitivity = newChangeSens;
+    }
     public void EnableNXGunMesh()
     {
         nxgun.EnableMesh();

@@ -1,5 +1,6 @@
-    using UnityEngine;
-  using UnityEngine.SceneManagement;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using Cinemachine;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 using System.Collections;
@@ -98,6 +99,8 @@ namespace StarterAssets
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
+        public CinemachineVirtualCamera _cinemachineFollowCamera;
+        public CinemachineVirtualCamera _cinemachineAimCamera;
 
         // player
         public float _speed;
@@ -136,7 +139,7 @@ namespace StarterAssets
         private PlayerHealthMetric healthMetrics;
         public Progress progressScript; 
         public SceneTransitionController sceneTransition;
-        private GameObject _mainCamera;
+        public GameObject _mainCamera;
         private bool _rotateOnMove = true;
 
         public AudioClip riftSound;
@@ -727,8 +730,11 @@ namespace StarterAssets
             _input.interact = false;
             }
         }
+
+        public void ChangeFOV(float FOV)
+        {
+            _cinemachineFollowCamera.m_Lens.FieldOfView = FOV;
+            _cinemachineAimCamera.m_Lens.FieldOfView = FOV;
+        }
     }
-    
-
-
 }

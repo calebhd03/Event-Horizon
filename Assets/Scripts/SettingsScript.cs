@@ -19,7 +19,11 @@ public class SettingsScript : MonoBehaviour
 
     public Slider Sens;
 
+    public Slider aimSensitivity;
+
     public Slider brightness;
+
+    public Slider FOV;
 
     public Volume volume;
 
@@ -58,9 +62,18 @@ public class SettingsScript : MonoBehaviour
         brightness.value = PlayerPrefs.GetFloat("PostExposureValue", 1);
         brightness.enabled = true;
 
+        FOV.enabled = false;
+        FOV.value = PlayerPrefs.GetFloat("FOV", 30);
+        FOV.enabled = true;
+
         Sens.enabled = false; 
         Sens.value = PlayerPrefs.GetFloat("Sensitivity", 1);
         Sens.enabled = true;
+
+        aimSensitivity.enabled = false; 
+        aimSensitivity.value = PlayerPrefs.GetFloat("AimSensitivity", 1);
+        aimSensitivity.enabled = true;
+        
 
         float volume = 0f;
         mainMixer.GetFloat("MasterVol", out volume);
@@ -102,6 +115,7 @@ public class SettingsScript : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
 
         ApplySensitivity();
+        ApplyAimSensitivity();
     }
 
     void Update()
@@ -223,6 +237,38 @@ public class SettingsScript : MonoBehaviour
         {
             Debug.LogWarning("ThirdPersonController component not found.");
         }
+    }
+
+    public void ApplyAimSensitivity()
+    {
+        PlayerPrefs.SetFloat("AimSensitivity", aimSensitivity.value);
+        PlayerPrefs.Save();
+
+       // Debug.Log("Changing sens to " + Sens.value);
+
+        ThirdPersonShooterController thirdPersonShooterController = FindObjectOfType<ThirdPersonShooterController>();
+        if (thirdPersonShooterController != null)
+        {
+            thirdPersonShooterController.changeAimSens(aimSensitivity.value);
+        }
+        else
+        {
+            Debug.LogWarning("ThirdPersonController component not found.");
+        }
+    }
+
+    public void ChangeFOV()
+    {
+        PlayerPrefs.SetFloat("FOV", FOV.value);
+        PlayerPrefs.Save();
+
+        ThirdPersonController thirdPersonController = FindObjectOfType<ThirdPersonController>();
+        /*if (thirdPersonController != null)
+        {
+            thirdPersonController.ChangeFOV(FOV.value);
+        }*/
+        thirdPersonController._cinemachineFollowCamera.m_Lens.FieldOfView = FOV.value;
+        thirdPersonController._cinemachineAimCamera.m_Lens.FieldOfView = FOV.value;
     }
 
     public void ChangeBrightness()
