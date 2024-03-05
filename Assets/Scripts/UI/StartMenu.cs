@@ -24,14 +24,32 @@ public class StartMenu : MonoBehaviour
     }
     void Update()
     {
-        if(Input.anyKey && menuOpen == false)
+        if (Input.anyKey && menuOpen == false)
         {
             start.SetActive(false);
             menu.SetActive(true);
             menuOpen = true;
-            SetSelected(startButton);
+            //SetSelected(startButton);
         }
-    }
+
+        string[] joystickNames = Input.GetJoystickNames();
+        bool isControllerConnected = false;
+
+        for (int i = 0; i < joystickNames.Length; i++)
+        {
+            if (!string.IsNullOrEmpty(joystickNames[i]))
+            {
+                isControllerConnected = true;
+                break;
+            }
+        }
+
+        while (isControllerConnected)
+        {
+            SetSelected(startButton); // Activate the button
+        }
+
+    }    
 
     public void LoadCodePrototype()
     {
