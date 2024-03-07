@@ -1,10 +1,11 @@
 using System;
+using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 ////TODO: have updateBindingUIEvent receive a control path string, too (in addition to the device layout name)
 
-namespace UnityEngine.InputSystem.Samples.RebindUI
-{
+
     /// <summary>
     /// This is an example for how to override the default display behavior of bindings. The component
     /// hooks into <see cref="RebindActionUI.updateBindingUIEvent"/> which is triggered when UI display
@@ -13,8 +14,8 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
     /// </summary>
     public class GamepadIconsExample : MonoBehaviour
     {
-        public GamepadIcons xbox;
-        public GamepadIcons ps4;
+        public SO_GamepadIcons xbox;
+        public SO_GamepadIcons ps4;
 
         protected void OnEnable()
         {
@@ -34,9 +35,9 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
             var icon = default(Sprite);
             if (InputSystem.IsFirstLayoutBasedOnSecond(deviceLayoutName, "DualShockGamepad"))
-                icon = ps4.GetSprite(controlPath);
+                icon = ps4.psIcons.GetSprite(controlPath);
             else if (InputSystem.IsFirstLayoutBasedOnSecond(deviceLayoutName, "Gamepad"))
-                icon = xbox.GetSprite(controlPath);
+                icon = xbox.xboxIcons.GetSprite(controlPath);
 
             var textComponent = component.bindingText;
 
@@ -56,7 +57,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 imageComponent.gameObject.SetActive(false);
             }
         }
-
+/*
         [Serializable]
         public struct GamepadIcons
         {
@@ -108,6 +109,5 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 }
                 return null;
             }
-        }
+        }*/
     }
-}

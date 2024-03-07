@@ -1,12 +1,14 @@
+using System;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
 
-namespace StarterAssets
-{
 	public class StarterAssetsInputs : MonoBehaviour
 	{
+
+		public static StarterAssetsInputs Instance { get; private set; }
+
 		[Header("Character Input Values")]
 		public Vector2 move;
 		public Vector2 look;
@@ -63,6 +65,33 @@ namespace StarterAssets
 		[Header("Menu Navigation")]
 		public bool R_Bumper;
 		public bool L_Bumper;
+		
+		[Header("Control Scheme")]
+        public string currentControlScheme = String.Empty;
+        public static Action<string> ChangedControlSchemeEvent;
+      //  [HideInInspector] 
+	public PlayerInput playerInput;
+
+        private void Awake()
+        {
+            playerInput = GetComponent<PlayerInput>();
+
+            if (Instance == null)
+                Instance = this;
+			else
+				Destroy(gameObject);
+
+		}
+
+        private void Update()
+        {
+            // Player changes control scheme
+            if (playerInput.currentControlScheme != currentControlScheme)
+            {
+                currentControlScheme = playerInput.currentControlScheme;
+                ChangedControlSchemeEvent?.Invoke(currentControlScheme);
+            }
+        }
 
 
         private void Start()
@@ -420,4 +449,4 @@ namespace StarterAssets
 			R_Bumper = newR_BumperState;
 		}
 	}
-}
+

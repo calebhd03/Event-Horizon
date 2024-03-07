@@ -1,16 +1,16 @@
 #if UNITY_EDITOR
 using System.Linq;
 using UnityEditor;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 ////TODO: support multi-object editing
 
-namespace UnityEngine.InputSystem.Samples.RebindUI
-{
-    /// <summary>
-    /// A custom inspector for <see cref="RebindActionUI"/> which provides a more convenient way for
-    /// picking the binding which to rebind.
-    /// </summary>
-    [CustomEditor(typeof(RebindActionUI))]
+/// <summary>
+/// A custom inspector for <see cref="RebindActionUI"/> which provides a more convenient way for
+/// picking the binding which to rebind.
+/// </summary>
+[CustomEditor(typeof(RebindActionUI))]
     public class RebindActionUIEditor : UnityEditor.Editor
     {
         protected void OnEnable()
@@ -173,5 +173,5 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             public static GUIStyle boldLabel = new GUIStyle("MiniBoldLabel");
         }
     }
-}
+
 #endif
