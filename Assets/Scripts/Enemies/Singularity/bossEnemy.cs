@@ -89,6 +89,7 @@ public class bossEnemy : MonoBehaviour
             armAnim = childTransform.GetComponent<Animator>();
         }
         audioSource1 = GetComponent<AudioSource>();
+        StartCoroutine(BossMusic());
     }
 
     // Update is called once per frame
@@ -100,6 +101,8 @@ public class bossEnemy : MonoBehaviour
 
         iSeeYou = Physics.CheckSphere(transform.position, seeDistance, playerZone);
         stopDistance = Physics.CheckSphere(transform.position, stopDistanceRange, playerZone);
+
+        
 
         updateHealth();
         resetTriggers();
@@ -404,5 +407,13 @@ public class bossEnemy : MonoBehaviour
         {
             //Trigger the "EnemyHit" animation
             animator.SetTrigger("EnemyHit");
+        }
+
+        IEnumerator BossMusic()
+        {
+            yield return new WaitUntil(() => iSeeYou);
+            Background_Music.instance.BossMusic();
+            yield return null;
+            
         }
 }

@@ -7,6 +7,7 @@ public class VSLoad : MonoBehaviour
 {
     private void OnEnable()
     {
-        SceneManager.LoadScene("VerticalSlice", LoadSceneMode.Single);
+        Background_Music.instance.OuterMusic();
+        SceneManager.LoadScene("TheOuterVer2", LoadSceneMode.Single);
     }
 }

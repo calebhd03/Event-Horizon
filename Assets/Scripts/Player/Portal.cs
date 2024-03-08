@@ -60,7 +60,7 @@ public class Portal : MonoBehaviour
 
             // Trigger the fade-out effect and scene transition
             sceneTransition.StartCoroutine("FadeIn", nextSceneName);
-
+            
             MainCamera = true;
             Destroy(other.gameObject);
             PortalCamPriority();

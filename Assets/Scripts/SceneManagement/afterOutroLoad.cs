@@ -7,6 +7,7 @@ public class afterOutroLoad : MonoBehaviour
 {
     private void OnEnable()
     {
+        Background_Music.instance.MenuMusic();
         SceneManager.LoadScene("Start Menu", LoadSceneMode.Single);
     }
 }

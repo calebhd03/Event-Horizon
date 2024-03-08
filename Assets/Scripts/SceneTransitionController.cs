@@ -57,7 +57,22 @@ public class SceneTransitionController : MonoBehaviour
 
         fadeImage.color = endColor;
         isFading = false;
-
+        if(sceneName == "Inner")
+        {
+            Background_Music.instance.InnerMusic();
+        }
+        else if(sceneName == "The Center")
+        {
+            Background_Music.instance.CenterMusic();
+        }
+        else if (sceneName == "Start Menu")
+        {
+            Background_Music.instance.MenuMusic();
+        }
+        else if (sceneName == "OutroCutScene")
+        {
+            Background_Music.instance.audioSource.Stop();
+        }
         // Load the next scene after fading in
         SceneManager.LoadScene(sceneName);
     }

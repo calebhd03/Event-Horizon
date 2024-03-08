@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public class StartMenu : MonoBehaviour
 {
@@ -46,6 +47,7 @@ public class StartMenu : MonoBehaviour
     }
     public void StartGame()
     {
+        Background_Music.instance.audioSource.Stop();
         Cursor.visible = false;
         SceneManager.LoadScene("IntroCutScene");
     }
@@ -67,17 +69,20 @@ public class StartMenu : MonoBehaviour
     }
      public void LoadTheOuterVer2Scene()
     {
+        Background_Music.instance.OuterMusic();
         Cursor.visible = false;
         SceneManager.LoadScene("TheOuterVer2");
     }
     public void LoadInnerScene()
     {
+        Background_Music.instance.InnerMusic();
         playerData.tutorialComplete = true;
         Cursor.visible = false;
         SceneManager.LoadScene("Inner");
     }
     public void LoadCenterScene()
     {
+        Background_Music.instance.CenterMusic();
         playerData.tutorialComplete = true;
         Cursor.visible = false;
         SceneManager.LoadScene("The Center");
