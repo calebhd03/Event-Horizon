@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class EnemyManager : MonoBehaviour
 {
-    public static EnemyManager instance;
+  public static EnemyManager instance;
 
     // List of all enemy prefabs, indexed by their type
     public GameObject[] enemyPrefabs;
@@ -52,55 +52,96 @@ public class EnemyManager : MonoBehaviour
         string json = JsonUtility.ToJson(initialEnemyPositions.ToArray());
         PlayerPrefs.SetString("Scene" + sceneIndex + "EnemyPositions", json);
         PlayerPrefs.SetInt("Scene" + sceneIndex + "HasBeenPlayed", 1);
+        Debug.LogWarning("Enemy positions initialized and saved.");
     }
 
     public void SaveEnemyLocations(int sceneIndex)
     {
-        // Retrieve the initial positions JSON from PlayerPrefs
-        string json = PlayerPrefs.GetString("Scene" + sceneIndex + "EnemyPositions");
-        Vector3[] initialPositions = JsonUtility.FromJson<Vector3[]>(json);
+        Debug.LogWarning("Save Enemy Locations");
 
         // Find all objects with the "EnemyLister" script
         EnemyLister[] enemies = FindObjectsOfType<EnemyLister>();
 
-        // Make sure the number of initial positions matches the number of valid enemies
-        if (initialPositions.Length == enemies.Length)
+        Debug.LogWarning("Number of enemies to save: " + enemies.Length);
+
+        // Save each enemy's position individually
+        for (int i = 0; i < enemies.Length; i++)
         {
-            // Save enemy positions as JSON
-            string positionsJson = JsonUtility.ToJson(initialPositions);
-            PlayerPrefs.SetString("Scene" + sceneIndex + "EnemyPositions", positionsJson);
-            PlayerPrefs.SetInt("Scene" + sceneIndex + "HasBeenPlayed", 1);
+            string positionKey = "Scene" + sceneIndex + "EnemyPosition" + i;
+            PlayerPrefs.SetString(positionKey, enemies[i].transform.position.x + "," + enemies[i].transform.position.y + "," + enemies[i].transform.position.z);
         }
-        else
-        {
-            Debug.LogWarning("Number of initial enemy positions does not match the number of valid enemies in the scene.");
-        }
+
+        // Save the number of enemies for reference
+        PlayerPrefs.SetInt("Scene" + sceneIndex + "NumEnemies", enemies.Length);
+
+        // Flag to indicate that the data has been saved
+        PlayerPrefs.SetInt("Scene" + sceneIndex + "HasBeenPlayed", 1);
+
+        Debug.LogWarning("Enemy locations saved successfully.");
     }
 
     public void LoadEnemyLocations(int sceneIndex)
     {
-        // Check if enemy locations have been saved
-        if (PlayerPrefs.HasKey("Scene" + sceneIndex + "EnemyPositions"))
+        Debug.LogWarning("Load Enemy Locations");
+
+        // Check if the number of enemies has been saved
+        if (PlayerPrefs.HasKey("Scene" + sceneIndex + "NumEnemies"))
         {
-            // Retrieve saved enemy positions JSON
-            string json = PlayerPrefs.GetString("Scene" + sceneIndex + "EnemyPositions");
-            Vector3[] enemyPositions = JsonUtility.FromJson<Vector3[]>(json);
+            int numEnemies = PlayerPrefs.GetInt("Scene" + sceneIndex + "NumEnemies");
 
-            // Find all objects with the "EnemyLister" script
-            EnemyLister[] enemies = FindObjectsOfType<EnemyLister>();
-
-            // Make sure the number of saved positions matches the number of valid enemies
-            if (enemyPositions.Length == enemies.Length)
+            // Load each enemy's position individually
+            for (int i = 0; i < numEnemies; i++)
             {
-                for (int i = 0; i < enemies.Length; i++)
+                string positionKey = "Scene" + sceneIndex + "EnemyPosition" + i;
+                if (PlayerPrefs.HasKey(positionKey))
                 {
-                    // Set each valid enemy's position to its corresponding saved position
-                    enemies[i].transform.position = enemyPositions[i];
+                    string[] positionString = PlayerPrefs.GetString(positionKey).Split(',');
+                    if (positionString.Length == 3)
+                    {
+                        float x = float.Parse(positionString[0]);
+                        float y = float.Parse(positionString[1]);
+                        float z = float.Parse(positionString[2]);
+                        Vector3 position = new Vector3(x, y, z);
+
+                        Debug.LogWarning("Loading enemy position: " + position);
+
+                        // Find the parent objects with the "Enemy" tag
+                        GameObject[] enemyObjects = GameObject.FindGameObjectsWithTag("Enemy");
+                        foreach (GameObject enemyObject in enemyObjects)
+                        {
+                            // Check if the object is a parent (not a child)
+                            if (enemyObject.transform.childCount == 0)
+                            {
+                                // Set the position only if it matches the saved position
+                                if (enemyObject.transform.position == position)
+                                {
+                                    enemyObject.transform.position = position;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Invalid position format for enemy position key: " + positionKey);
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("Position key not found: " + positionKey);
                 }
             }
-            else
+
+            Debug.LogWarning("Enemy locations loaded successfully.");
+
+            GameObject[] loadedEnemyObjects = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject enemyObject in loadedEnemyObjects)
             {
-                Debug.LogWarning("Number of saved enemy positions does not match the number of valid enemies in the scene.");
+                // Check if the object has no parent (i.e., it's a parent object)
+                if (enemyObject.transform.parent == null)
+                {
+                    Debug.LogWarning("Loaded enemy position: " + enemyObject.transform.position);
+                }
             }
         }
         else
