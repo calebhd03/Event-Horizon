@@ -82,6 +82,7 @@ public class EnemyManager : MonoBehaviour
 
     public void LoadEnemyLocations(int sceneIndex)
     {
+
         Debug.LogWarning("Load Enemy Locations");
 
         // Check if the number of enemies has been saved
@@ -109,14 +110,15 @@ public class EnemyManager : MonoBehaviour
                         GameObject[] enemyObjects = GameObject.FindGameObjectsWithTag("Enemy");
                         foreach (GameObject enemyObject in enemyObjects)
                         {
-                            // Check if the object is a parent (not a child)
-                            if (enemyObject.transform.childCount == 0)
+                            // Set the position of both parent and child GameObjects
+                            Transform[] allChildren = enemyObject.GetComponentsInChildren<Transform>();
+                            foreach (Transform child in allChildren)
                             {
-                                // Set the position only if it matches the saved position
-                                if (enemyObject.transform.position == position)
+                                UnityEngine.AI.NavMeshAgent navMeshAgent = child.GetComponent<UnityEngine.AI.NavMeshAgent>();
+                                if (navMeshAgent != null)
                                 {
-                                    enemyObject.transform.position = position;
-                                    break;
+                                    // Set the destination of the NavMeshAgent
+                                    navMeshAgent.Warp(position);
                                 }
                             }
                         }
@@ -133,16 +135,6 @@ public class EnemyManager : MonoBehaviour
             }
 
             Debug.LogWarning("Enemy locations loaded successfully.");
-
-            GameObject[] loadedEnemyObjects = GameObject.FindGameObjectsWithTag("Enemy");
-            foreach (GameObject enemyObject in loadedEnemyObjects)
-            {
-                // Check if the object has no parent (i.e., it's a parent object)
-                if (enemyObject.transform.parent == null)
-                {
-                    Debug.LogWarning("Loaded enemy position: " + enemyObject.transform.position);
-                }
-            }
         }
         else
         {
