@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 [CustomEditor(typeof(EnemyData))]
 public class EnemyDataEditor : Editor
 {
+    /*
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
@@ -18,5 +19,6 @@ public class EnemyDataEditor : Editor
                 script.GetData(scene);
             }
         
-    }   
+    }  
+    */ 
 }

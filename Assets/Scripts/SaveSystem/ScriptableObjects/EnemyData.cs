@@ -1,51 +1,59 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Collections.Generic;
 
-public class EnemyVariables
+[Serializable]
+public class EnemySaveData
 {
-    public GameObject enemyObject {get; set;}
-    public float enemyHealth {get; set;}
+    public int enemyType;
+    public Vector3 position;
+    public float health;
 
-    public EnemyVariables(GameObject enemyObject, float enemyHealth)
+    public EnemySaveData(int enemyType, Vector3 position, float health)
     {
-        this.enemyObject = enemyObject;
-        this.enemyHealth = enemyHealth;
+        this.enemyType = enemyType;
+        this.position = position;
+        this.health = health;
     }
 }
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/EnemyDataScriptableObject", order = 1)]
 public class EnemyData : ScriptableObject
 {
-    public Dictionary<int, List<EnemyVariables>> Enemies = new Dictionary<int, List<EnemyVariables>>();
+    public Dictionary<int, List<EnemySaveData>> enemiesData = new Dictionary<int, List<EnemySaveData>>();
 
-    public void Add(int scene, GameObject enemyObject, float enemyHealth)
+    public void SaveEnemyData(int sceneIndex, List<GameObject> enemies)
     {
-        if (!Enemies.ContainsKey(scene))
+        List<EnemySaveData> saveData = new List<EnemySaveData>();
+
+        foreach (GameObject enemy in enemies)
         {
-            Enemies[scene] = new List<EnemyVariables>();
+            // Retrieve necessary data from the enemy GameObject
+            // For demonstration, let's assume all enemies have the same type and health
+            int enemyType = 1; // Set a default enemy type
+            Vector3 position = enemy.transform.position;
+            float health = 100f; // Set a default health value
+
+            saveData.Add(new EnemySaveData(enemyType, position, health));
         }
-        Enemies[scene].Add(new EnemyVariables(enemyObject, enemyHealth));
-        var addedEnemy = Enemies[scene][Enemies[scene].Count - 1];
-        Debug.Log("Scene: " + scene + ", Enemy: " + addedEnemy.enemyObject + ", Position: " + addedEnemy.enemyObject.transform.position + ", Health: " + addedEnemy.enemyHealth);
+
+        enemiesData[sceneIndex] = saveData;
     }
 
-    public void Remove(int scene, GameObject destroyedObject)
+    public void LoadEnemyData(int sceneIndex)
     {
-        if (Enemies.ContainsKey(scene))
+        if (enemiesData.ContainsKey(sceneIndex))
         {
-            Enemies[scene].RemoveAll(enemy => enemy.enemyObject == destroyedObject);
-        }
-    }
-
-    public void GetData(int scene)
-    {
-        if (Enemies.ContainsKey(scene))
-        {
-            foreach (var enemy in Enemies[scene])
+            foreach (EnemySaveData enemyData in enemiesData[sceneIndex])
             {
-                Debug.Log("Scene: " + scene + ", Enemy: " + enemy.enemyObject + ", Position: " + enemy.enemyObject.transform.position + ", Health: " + enemy.enemyHealth);
+                // Recreate enemy GameObject using saved data
+                // For demonstration, we won't create actual enemy objects here
+                Debug.Log("Enemy Type: " + enemyData.enemyType + ", Position: " + enemyData.position + ", Health: " + enemyData.health);
             }
+        }
+        else
+        {
+            Debug.LogWarning("No saved enemy data found for scene " + sceneIndex);
         }
     }
 }

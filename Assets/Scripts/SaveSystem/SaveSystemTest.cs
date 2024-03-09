@@ -40,7 +40,6 @@ public class SaveSystemTest : MonoBehaviour
     {
         PlayerSaveData saveData = SaveSystem.LoadPlayer();
 
-
         if (saveData != null)
         {
             // Access player position data
@@ -61,9 +60,7 @@ public class SaveSystemTest : MonoBehaviour
 
             // Access health data
             playerData.currentHealth = saveData.healthData.currentGameHealth;
-
             playerHealthMetric.UpdateHealthBar();
-            
 
             // Check if the scene index has changed
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
@@ -83,6 +80,10 @@ public class SaveSystemTest : MonoBehaviour
                     thirdPersonShooterController.UpdateAmmoCount();
                 }
             }
+
+            // Load the enemy data with the current scene index
+            int sceneIndexToLoad = SceneManager.GetActiveScene().buildIndex;
+            EnemyManager.instance.LoadEnemyLocations(sceneIndexToLoad);
         }
     }
 
@@ -111,6 +112,10 @@ public class SaveSystemTest : MonoBehaviour
 
         // Save the data
         SaveSystem.SavePlayer(saveData);
+
+        // Find EnemyData object in the scene
+        int sceneIndexToSave = SceneManager.GetActiveScene().buildIndex;
+        EnemyManager.instance.SaveEnemyLocations(sceneIndexToSave);
     }
 
     public void TestValue()
