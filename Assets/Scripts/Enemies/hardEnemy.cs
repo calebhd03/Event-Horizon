@@ -458,6 +458,7 @@ namespace StarterAssets
         {
             audioSource.PlayOneShot(deathAudio);
             DropStuff();
+            iSeeYou = false;
         }
 
         private void DropStuff()

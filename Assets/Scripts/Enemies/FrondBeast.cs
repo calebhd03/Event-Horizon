@@ -384,6 +384,7 @@ public class FrondBeast : MonoBehaviour
     {
         //Debug.Log("Boss Death starting");
         StartCoroutine(WaitAndDropStuff(1f));
+        iSeeYou = false;
     }
 
     private IEnumerator WaitAndDropStuff(float waitTime)

@@ -515,7 +515,7 @@ namespace StarterAssets
                 idleStart = 0f;
                 idleTime = 0f;
                 animator.SetBool("PanningIdle", false);
-           
+                iSeeYou = false;
 
             // Trigger the death animation
             animator.SetBool("EnemyDeath", true);

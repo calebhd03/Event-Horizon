@@ -28,7 +28,7 @@ public class Background_Music : MonoBehaviour
         PlayLevelMusic(sceneName);
         //StartCoroutine(EnemyCombat());
         //StartCoroutine(BossCombat());
-    
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     public void MenuMusic()
@@ -147,5 +147,19 @@ public class Background_Music : MonoBehaviour
             string sceneName = SceneManager.GetActiveScene().name;
             PlayLevelMusic(sceneName);
         }
+    }
+    private void OnDestroy()
+    {
+        // Unregister the method from the sceneLoaded event to prevent memory leaks
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Reset the count of enemies seeing the player when a new scene is loaded
+        enemiesSeeingPlayer = 0;
+        
+        // Start playing music for the new scene
+        PlayLevelMusic(scene.name);
     }
 }

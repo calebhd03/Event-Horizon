@@ -267,6 +267,7 @@ public class dogEnemy : MonoBehaviour
     {
         agent.isStopped = true;
         StartCoroutine(WaitAndDropStuff(3f));
+        iSeeYou = false;
     }
 
     private IEnumerator WaitAndDropStuff(float waitTime)
