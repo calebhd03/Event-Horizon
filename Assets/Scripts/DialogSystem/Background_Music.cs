@@ -11,6 +11,7 @@ public class Background_Music : MonoBehaviour
     public AudioClip[] audioClips;
     public bool inCombat = false;
     public bool inBossCombat = false;
+    public int enemiesSeeingPlayer = 0;
     private void Awake()
     {
         string sceneName = SceneManager.GetActiveScene().name;
@@ -127,4 +128,24 @@ public class Background_Music : MonoBehaviour
         PlayLevelMusic(sceneName);
         StartCoroutine(BossCombat());
     }*/
+
+    public void IncrementSeeingPlayerCount()
+    {
+        enemiesSeeingPlayer++;
+        if (enemiesSeeingPlayer == 1) // First enemy to see the player
+        {
+            EnemyMusic();
+        }
+    }
+
+    // Decrement the count of enemies seeing the player
+    public void DecrementSeeingPlayerCount()
+    {
+        enemiesSeeingPlayer--;
+        if (enemiesSeeingPlayer == 0) // No enemies seeing the player
+        {
+            string sceneName = SceneManager.GetActiveScene().name;
+            PlayLevelMusic(sceneName);
+        }
+    }
 }

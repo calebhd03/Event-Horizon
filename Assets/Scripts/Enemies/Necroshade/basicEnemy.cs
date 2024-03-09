@@ -33,7 +33,7 @@ namespace StarterAssets
         private bool idle = false;
 
         //check to find player
-        private bool iSeeYou;
+        [SerializeField] private bool iSeeYou;
         private bool iHearYou;
 
         //attack
@@ -98,7 +98,9 @@ namespace StarterAssets
         public GameObject healthPickupPrefab;
         public float pickupDropChance = 0.3f;
 
-        private float hitAnimationDuration = 1.0f;      
+        private float hitAnimationDuration = 1.0f;
+
+        private static int enemiesSeeingPlayer = 0;      
 
         private void Awake()
         {
@@ -527,7 +529,7 @@ namespace StarterAssets
         {
             yield return new WaitForSeconds(waitTime);
             audioSource.PlayOneShot(deathAudio);
-            StartCoroutine(ResetMusic());
+            //StartCoroutine(LevelMusic());
             // Call DropStuff after waiting for 3 seconds
             DropStuff();
         }
@@ -573,21 +575,15 @@ namespace StarterAssets
     IEnumerator EnemyMusic()
     {
         yield return new WaitUntil(() => iSeeYou);
-        Background_Music.instance.EnemyMusic();
+        Background_Music.instance.IncrementSeeingPlayerCount();
         StartCoroutine(LevelMusic());
-        yield return null;
-    }
-    IEnumerator ResetMusic()
-    {
-        string sceneName = SceneManager.GetActiveScene().name;
-        Background_Music.instance.PlayLevelMusic(sceneName);
         yield return null;
     }
     IEnumerator LevelMusic()
     {   
         yield return new WaitUntil (() => !iSeeYou);
-        string sceneName = SceneManager.GetActiveScene().name;
-        Background_Music.instance.PlayLevelMusic(sceneName);
+        Background_Music.instance.DecrementSeeingPlayerCount();
+        StartCoroutine(EnemyMusic());
         yield return null;
     }
 }
