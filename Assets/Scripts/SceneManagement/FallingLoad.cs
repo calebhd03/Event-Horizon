@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class VSLoad : MonoBehaviour
+public class FallingLoad : MonoBehaviour
 {
     public GameObject loadingScreen;
     private void OnEnable()
     {
-        Background_Music.instance.OuterMusic();
-        StartCoroutine(LoadSceneAsync("TheOuterVer2"));
+        StartCoroutine(LoadSceneAsync("The Center"));
     }
 
     IEnumerator LoadSceneAsync(string sceneName)

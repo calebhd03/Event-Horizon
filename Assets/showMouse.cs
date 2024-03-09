@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class showMouse : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         Cursor.visible = true;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Cursor.lockState = CursorLockMode.Confined;
     }
 }
