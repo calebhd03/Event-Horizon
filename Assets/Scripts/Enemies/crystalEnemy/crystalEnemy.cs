@@ -63,6 +63,7 @@ public class crystalEnemy : MonoBehaviour
         healthMetrics.currentHealth = healthMetrics.maxHealth;
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
         audioSource = GetComponent<AudioSource>();
+        StartCoroutine(EnemyMusic());
     }
 
     // Update is called once per frame
@@ -283,5 +284,19 @@ public class crystalEnemy : MonoBehaviour
         Debug.DrawRay(startPoint, endPointRight, Color.green);
 
         Debug.DrawRay(startPoint + endPointLeft, endPointRight - endPointLeft, Color.green);
+    }
+    IEnumerator EnemyMusic()
+    {
+        yield return new WaitUntil(() => iSeeYou);
+        Background_Music.instance.IncrementSeeingPlayerCount();
+        StartCoroutine(LevelMusic());
+        yield return null;
+    }
+    IEnumerator LevelMusic()
+    {   
+        yield return new WaitUntil (() => !iSeeYou);
+        Background_Music.instance.DecrementSeeingPlayerCount();
+        StartCoroutine(EnemyMusic());
+        yield return null;
     }
 }

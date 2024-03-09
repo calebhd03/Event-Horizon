@@ -57,6 +57,7 @@ public class crabEnemy : MonoBehaviour
         healthMetrics.currentHealth = healthMetrics.maxHealth;
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
         audioSource = GetComponent<AudioSource>();
+        StartCoroutine(EnemyMusic());
     }
 
     // Update is called once per frame
@@ -229,5 +230,19 @@ public class crabEnemy : MonoBehaviour
                 }
             }
         }
+    }
+    IEnumerator EnemyMusic()
+    {
+        yield return new WaitUntil(() => iSeeYou);
+        Background_Music.instance.IncrementSeeingPlayerCount();
+        StartCoroutine(LevelMusic());
+        yield return null;
+    }
+    IEnumerator LevelMusic()
+    {   
+        yield return new WaitUntil (() => !iSeeYou);
+        Background_Music.instance.DecrementSeeingPlayerCount();
+        StartCoroutine(EnemyMusic());
+        yield return null;
     }
 }

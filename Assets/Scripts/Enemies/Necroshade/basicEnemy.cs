@@ -529,7 +529,6 @@ namespace StarterAssets
         {
             yield return new WaitForSeconds(waitTime);
             audioSource.PlayOneShot(deathAudio);
-            //StartCoroutine(LevelMusic());
             // Call DropStuff after waiting for 3 seconds
             DropStuff();
         }
