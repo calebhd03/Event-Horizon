@@ -33,25 +33,15 @@ public class EnemyManager : MonoBehaviour
 
     private void InitializeEnemyPositions(int sceneIndex)
     {
-        // Find all parent objects with the "Enemy" tag
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        List<GameObject> validEnemies = new List<GameObject>();
-
-        // Filter out child objects and store only parent objects
-        foreach (GameObject enemy in enemies)
-        {
-            if (enemy.transform.parent == null || !enemy.transform.parent.CompareTag("Enemy"))
-            {
-                validEnemies.Add(enemy);
-            }
-        }
+        // Find all objects with the "EnemyLister" script
+        EnemyLister[] enemies = FindObjectsOfType<EnemyLister>();
 
         // Clear previous data
         initialEnemyPositions.Clear();
         enemyDataList.Clear();
 
         // Save the initial positions into the list
-        foreach (GameObject enemy in validEnemies)
+        foreach (EnemyLister enemy in enemies)
         {
             initialEnemyPositions.Add(enemy.transform.position);
             float health = enemy.GetComponent<HealthMetrics>().currentHealth;
@@ -70,21 +60,11 @@ public class EnemyManager : MonoBehaviour
         string json = PlayerPrefs.GetString("Scene" + sceneIndex + "EnemyPositions");
         Vector3[] initialPositions = JsonUtility.FromJson<Vector3[]>(json);
 
-        // Find all parent objects with the "Enemy" tag
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        List<GameObject> validEnemies = new List<GameObject>();
-
-        // Filter out child objects and store only parent objects
-        foreach (GameObject enemy in enemies)
-        {
-            if (enemy.transform.parent == null || !enemy.transform.parent.CompareTag("Enemy"))
-            {
-                validEnemies.Add(enemy);
-            }
-        }
+        // Find all objects with the "EnemyLister" script
+        EnemyLister[] enemies = FindObjectsOfType<EnemyLister>();
 
         // Make sure the number of initial positions matches the number of valid enemies
-        if (initialPositions.Length == validEnemies.Count)
+        if (initialPositions.Length == enemies.Length)
         {
             // Save enemy positions as JSON
             string positionsJson = JsonUtility.ToJson(initialPositions);
@@ -106,26 +86,16 @@ public class EnemyManager : MonoBehaviour
             string json = PlayerPrefs.GetString("Scene" + sceneIndex + "EnemyPositions");
             Vector3[] enemyPositions = JsonUtility.FromJson<Vector3[]>(json);
 
-            // Find all parent objects with the "Enemy" tag
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            List<GameObject> validEnemies = new List<GameObject>();
-
-            // Filter out child objects and store only parent objects
-            foreach (GameObject enemy in enemies)
-            {
-                if (enemy.transform.parent == null || !enemy.transform.parent.CompareTag("Enemy"))
-                {
-                    validEnemies.Add(enemy);
-                }
-            }
+            // Find all objects with the "EnemyLister" script
+            EnemyLister[] enemies = FindObjectsOfType<EnemyLister>();
 
             // Make sure the number of saved positions matches the number of valid enemies
-            if (enemyPositions.Length == validEnemies.Count)
+            if (enemyPositions.Length == enemies.Length)
             {
-                for (int i = 0; i < validEnemies.Count; i++)
+                for (int i = 0; i < enemies.Length; i++)
                 {
                     // Set each valid enemy's position to its corresponding saved position
-                    validEnemies[i].transform.position = enemyPositions[i];
+                    enemies[i].transform.position = enemyPositions[i];
                 }
             }
             else
