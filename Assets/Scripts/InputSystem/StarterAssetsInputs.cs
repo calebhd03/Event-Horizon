@@ -1,6 +1,7 @@
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
+using System.Collections;
 #endif
 
 namespace StarterAssets
@@ -60,6 +61,8 @@ namespace StarterAssets
 		public bool delayShoot;
 		public bool interact;
 
+		private bool aimCoroutineRunning = false;
+
 		[Header("Menu Navigation")]
 		public bool R_Bumper;
 		public bool L_Bumper;
@@ -109,10 +112,44 @@ namespace StarterAssets
 
 		public void OnShoot(InputValue value)
 		{
-			if(delayShoot == false)
+			if (!delayShoot)
 			{
-			ShootInput(value.isPressed);
+				if (!aim)
+				{
+					
+					AimInput(true);
+					
+
+					if( aim )
+					{
+						ShootInput(value.isPressed);
+
+						StartCoroutine(ResetAimAfterDelay());
+					}
+
+					//StartCoroutine(ResetAimAfterDelay());
+				}
+				else
+				{
+					ShootInput(value.isPressed);
+				}
 			}
+		}
+
+		private IEnumerator ResetAimAfterDelay()
+		{
+			Debug.Log("Coroutine started");
+			// Wait for a short duration
+			yield return new WaitForSeconds(0.5f);
+
+			Debug.Log("ResetAimAfterDelay done");
+
+			// If aim is still not manually pressed, set it to false
+			if (aim)
+			{
+				AimInput(false);
+			}
+    
 		}
 		public void OnScan(InputValue value)
 		{
