@@ -13,9 +13,9 @@ public class SettingsScript : MonoBehaviour
 {
     public AudioMixer mainMixer;
 
-    public TMP_Text mastLabel, musicLabel, sfxLabel, ambienceLabel;
+    public TMP_Text mastLabel, musicLabel, sfxLabel;
 
-    public Slider mastSlider, musicSlider, sfxSlider, ambienceSlider;
+    public Slider mastSlider, musicSlider, sfxSlider;
 
     public Slider Sens;
 
@@ -37,6 +37,11 @@ public class SettingsScript : MonoBehaviour
 
 
     private StarterAssetsInputs _input;
+
+// subtitles
+    public Toggle subtitles;
+    public static bool SubEnabled = false;
+    public static int subtitleState = 0;
     
     void Start()
     {
@@ -72,13 +77,9 @@ public class SettingsScript : MonoBehaviour
         mainMixer.GetFloat("SFXVol", out volume);
         sfxSlider.value = volume;
 
-        mainMixer.GetFloat("AmbienceVol", out volume);
-        ambienceSlider.value = volume;
-
         mastLabel.text = Mathf.RoundToInt(mastSlider.value + 80).ToString();
         musicLabel.text = Mathf.RoundToInt(musicSlider.value + 80).ToString();
         sfxLabel.text = Mathf.RoundToInt(sfxSlider.value + 80).ToString();
-        ambienceLabel.text = Mathf.RoundToInt(ambienceSlider.value + 80).ToString();
 
         resolutions = Screen.resolutions;
         resolutionDropdown.ClearOptions();
@@ -102,6 +103,10 @@ public class SettingsScript : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
 
         ApplySensitivity();
+
+    // subtitles
+    subtitles.isOn = subtitleState == 1;
+    subtitles.onValueChanged.AddListener(ToggleValueChanged);
     }
 
     void Update()
@@ -182,15 +187,6 @@ public class SettingsScript : MonoBehaviour
 
     }
 
-    public void setAmbienceVol()
-    {
-        ambienceLabel.text = Mathf.RoundToInt(ambienceSlider.value + 80).ToString();
-
-        mainMixer.SetFloat("AmbienceVol", ambienceSlider.value);
-
-        PlayerPrefs.SetFloat("AmbienceVol", ambienceSlider.value);
-        PlayerPrefs.Save();
-    }
     public void setQuality(int qualityIndex)
     {
         QualitySettings.SetQualityLevel(qualityIndex);
@@ -303,5 +299,17 @@ public class SettingsScript : MonoBehaviour
         brightnessDisplay.SetActive(false);
         senesitivtyDisplay.SetActive(false);
         controlsDisplay.SetActive(true);
+    }
+    void ToggleValueChanged(bool isOn)
+    {
+        SubEnabled = isOn;
+        if (isOn)
+        {
+            subtitleState = 1;
+        }
+        else
+        {
+            subtitleState = 0;
+        }
     }
 }

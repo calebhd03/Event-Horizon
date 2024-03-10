@@ -100,13 +100,11 @@ public class EnemiesScanScript : MonoBehaviour
     public void highlight()
     {
         materials[1].SetFloat("_isHovered", 0);
-        Debug.LogError("Highlight");
     }
 
     public void Unhighlight()
     {
         materials[1].SetFloat("_isHovered", 1);
-        Debug.LogError("unHighlight");
     }
     
     public void WeakPoints()

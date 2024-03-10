@@ -18,7 +18,6 @@ public class Interact : MonoBehaviour
     {
             if (other.CompareTag("Player"))
                 {   
-                    Debug.LogError("InteractRange");
                     interactText.ShowDialogText();
                 }
     }
