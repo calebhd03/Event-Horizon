@@ -8,7 +8,7 @@ public class EnemyLister : MonoBehaviour
  public EnemyData enemyData;
     public HealthMetrics healthMetrics;
     public int enemyType; // Add a variable to hold the enemy type
-    [SerializeField] private int listIndex;
+    [SerializeField] public int listIndex;
     public int sceneIndex; // Change 'scene' to 'sceneIndex'
 
     void OnEnable()

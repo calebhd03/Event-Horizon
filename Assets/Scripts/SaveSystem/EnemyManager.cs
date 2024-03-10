@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -104,7 +103,7 @@ public class EnemyManager : MonoBehaviour
                         float z = float.Parse(positionString[2]);
                         Vector3 position = new Vector3(x, y, z);
 
-                        Debug.LogWarning("Loading enemy position: " + position);
+                        Debug.LogWarning("Retrieved enemy position: " + position); // Log the retrieved position
 
                         // Find the parent objects with the "Enemy" tag
                         GameObject[] enemyObjects = GameObject.FindGameObjectsWithTag("Enemy");
