@@ -803,7 +803,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 knifeSlot2.SetActive(false);
 
 
-                ammountCountIcon.SetActive(false);
+                ammountCountIcon.SetActive(true);
                 break;
         }
     }
@@ -863,7 +863,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             else if (equippedWeapon == 2)
             {
                 totalAmmoCounter.text = "∞";
-                loadedAmmoCounter.text = null;
+                loadedAmmoCounter.text = "∞";
             }
         }
         
