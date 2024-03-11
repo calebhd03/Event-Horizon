@@ -10,6 +10,14 @@ public class AmmoHole : MonoBehaviour
     private List<GameObject> instantiatedAmmo = new List<GameObject>(); // List to store instantiated ammo objects
     private bool isOpen = false; // Flag to track if the hole is open or closed
 
+    void Awake()
+    {
+        if(MenuScript.hardMode == true)
+        {
+            ToggleHole();
+        }
+    }
+
     public void ToggleHole()
     {
         isOpen = !isOpen;
@@ -23,7 +31,10 @@ public class AmmoHole : MonoBehaviour
             {
                 Vector3 spawnPosition = transform.position + Vector3.up * 0.5f; // Adjust the height as needed
                 GameObject ammoInstance = Instantiate(prefab, spawnPosition, transform.rotation);
+                if (MenuScript.hardMode == false)
+                {
                 instantiatedAmmo.Add(ammoInstance);
+                }
             }
         }
         else
