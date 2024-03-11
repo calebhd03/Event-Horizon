@@ -304,7 +304,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             shotCooldown = currentCooldown;
             UpdateAmmoCount();
             RefreshWeaponIcons();
-            Debug.Log(equippedWeapon);
+            //Debug.Log(equippedWeapon);
 
             switch (equippedWeapon)
             {
@@ -726,7 +726,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         shotCooldown = currentCooldown;
         RefreshWeaponIcons();
         UpdateAmmoCount();
-        Debug.Log(equippedWeapon);
+        //Debug.Log(equippedWeapon);
     }
     public void EquipKnife()
     {
@@ -1062,6 +1062,10 @@ public class ThirdPersonShooterController : MonoBehaviour
     public void changeSens(float newChangeSens)
     {
         normalSensitivity = newChangeSens;
+    }
+    public void changeAimSens(float newChangeSens)
+    {
+        aimSensitivity = newChangeSens;
     }
     public void EnableNXGunMesh()
     {

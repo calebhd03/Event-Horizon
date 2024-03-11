@@ -7,6 +7,8 @@ using UnityEngine.Audio;
 using StarterAssets;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.InputSystem;
+
 public class SettingsScript : MonoBehaviour
 {
     public AudioMixer mainMixer;
@@ -17,7 +19,11 @@ public class SettingsScript : MonoBehaviour
 
     public Slider Sens;
 
+    public Slider aimSensitivity;
+
     public Slider brightness;
+
+    public Slider FOV;
 
     public Volume volume;
 
@@ -32,9 +38,13 @@ public class SettingsScript : MonoBehaviour
     public GameObject graphicsDisplay, audioDisplay, brightnessDisplay, controlsDisplay, senesitivtyDisplay;
 
     public GameObject gameBackgroundSettings;
+
+
+    private StarterAssetsInputs _input;
     
     void Start()
     {
+        _input = FindObjectOfType<StarterAssetsInputs>();
         audioLine.SetActive(true);
         graphicsLine.SetActive(false);
         gameplayLine.SetActive(false);
@@ -52,9 +62,18 @@ public class SettingsScript : MonoBehaviour
         brightness.value = PlayerPrefs.GetFloat("PostExposureValue", 1);
         brightness.enabled = true;
 
+        FOV.enabled = false;
+        FOV.value = PlayerPrefs.GetFloat("FOV", 30);
+        FOV.enabled = true;
+
         Sens.enabled = false; 
         Sens.value = PlayerPrefs.GetFloat("Sensitivity", 1);
         Sens.enabled = true;
+
+        aimSensitivity.enabled = false; 
+        aimSensitivity.value = PlayerPrefs.GetFloat("AimSensitivity", 1);
+        aimSensitivity.enabled = true;
+        
 
         float volume = 0f;
         mainMixer.GetFloat("MasterVol", out volume);
@@ -96,6 +115,51 @@ public class SettingsScript : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
 
         ApplySensitivity();
+        ApplyAimSensitivity();
+    }
+
+    void Update()
+    {
+        if(_input.R_Bumper)
+        {
+            _input.R_Bumper = false;
+            if(audioLine.activeSelf == true)
+            {
+                DisplaySelection();
+            }
+            else if(graphicsLine.activeSelf == true)
+            {
+                GameplaySelection();
+            }
+            else if(gameplayLine.activeSelf == true)
+            {
+                ControlsSelection();
+            }
+            else if(controlsLine.activeSelf == true)
+            {
+                AudioSelection();
+            }
+        }
+        if(_input.L_Bumper)
+        {
+            _input.L_Bumper = false;
+            if(audioLine.activeSelf == true)
+            {
+                ControlsSelection();
+            }
+            else if(graphicsLine.activeSelf == true)
+            {
+                AudioSelection();
+            }
+            else if(gameplayLine.activeSelf == true)
+            {
+                DisplaySelection();
+            }
+            else if(controlsLine.activeSelf == true)
+            {
+                GameplaySelection();
+            }
+        }
     }
     
 
@@ -175,6 +239,38 @@ public class SettingsScript : MonoBehaviour
         }
     }
 
+    public void ApplyAimSensitivity()
+    {
+        PlayerPrefs.SetFloat("AimSensitivity", aimSensitivity.value);
+        PlayerPrefs.Save();
+
+       // Debug.Log("Changing sens to " + Sens.value);
+
+        ThirdPersonShooterController thirdPersonShooterController = FindObjectOfType<ThirdPersonShooterController>();
+        if (thirdPersonShooterController != null)
+        {
+            thirdPersonShooterController.changeAimSens(aimSensitivity.value);
+        }
+        else
+        {
+            Debug.LogWarning("ThirdPersonController component not found.");
+        }
+    }
+
+    public void ChangeFOV()
+    {
+        PlayerPrefs.SetFloat("FOV", FOV.value);
+        PlayerPrefs.Save();
+
+        ThirdPersonController thirdPersonController = FindObjectOfType<ThirdPersonController>();
+        /*if (thirdPersonController != null)
+        {
+            thirdPersonController.ChangeFOV(FOV.value);
+        }*/
+        thirdPersonController._cinemachineFollowCamera.m_Lens.FieldOfView = FOV.value;
+        thirdPersonController._cinemachineAimCamera.m_Lens.FieldOfView = FOV.value;
+    }
+
     public void ChangeBrightness()
     {
         PlayerPrefs.SetFloat("PostExposureValue", brightness.value);
@@ -206,11 +302,11 @@ public class SettingsScript : MonoBehaviour
         gameplayLine.SetActive(false);
         controlsLine.SetActive(false);
 
-        audioDisplay.SetActive(true);
         graphicsDisplay.SetActive(false);
         brightnessDisplay.SetActive(false);
         senesitivtyDisplay.SetActive(false);
         controlsDisplay.SetActive(false);
+        audioDisplay.SetActive(true);
     }
 
     public void DisplaySelection()
@@ -221,10 +317,10 @@ public class SettingsScript : MonoBehaviour
         controlsLine.SetActive(false);
 
         audioDisplay.SetActive(false);
-        graphicsDisplay.SetActive(true);
-        brightnessDisplay.SetActive(true);
         senesitivtyDisplay.SetActive(false);
         controlsDisplay.SetActive(false);
+        graphicsDisplay.SetActive(true);
+        brightnessDisplay.SetActive(true);
     }
 
     public void GameplaySelection()
@@ -237,8 +333,8 @@ public class SettingsScript : MonoBehaviour
         audioDisplay.SetActive(false);
         graphicsDisplay.SetActive(false);
         brightnessDisplay.SetActive(false);
-        senesitivtyDisplay.SetActive(true);
         controlsDisplay.SetActive(false);
+        senesitivtyDisplay.SetActive(true);
     }
 
     public void ControlsSelection()
