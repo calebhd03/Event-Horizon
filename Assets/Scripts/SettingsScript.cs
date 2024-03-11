@@ -42,8 +42,8 @@ public class SettingsScript : MonoBehaviour
     public Toggle subtitlesToggle, toggleSubSize1, toggleSubSize2, toggleSubSize3;
     public static bool SubEnabled = false;
     public static int subtitleState = 0;
-    public static bool subSize1 = false;
-    public static int subtitleSize1State = 0;
+    public static bool subSize1 = true;
+    public static int subtitleSize1State = 1;
     public static bool subSize2 = false;
     public static int subtitleSize2State = 0;
     public static bool subSize3 = false;
@@ -116,9 +116,10 @@ public class SettingsScript : MonoBehaviour
     toggleSubSize2.onValueChanged.AddListener(delegate { ToggleValueChanged(toggleSubSize2); });
     toggleSubSize3.onValueChanged.AddListener(delegate { ToggleValueChanged(toggleSubSize3); });
     subtitlesToggle.isOn = subtitleState == 1;
-    toggleSubSize1.isOn = subtitleState == 1;
-    toggleSubSize2.isOn = subtitleState == 1;
-    toggleSubSize3.isOn = subtitleState == 1;
+    toggleSubSize1.isOn = subtitleSize1State == 1;
+    toggleSubSize2.isOn = subtitleSize2State == 1;
+    toggleSubSize3.isOn = subtitleSize3State == 1;
+    toggleSubSize1.interactable = false;
     }
 
     void Update()
@@ -331,6 +332,9 @@ public class SettingsScript : MonoBehaviour
     {
         if (toggle.isOn)
         {
+            toggle.interactable = false;
+            toggleSubSize2.interactable = true;
+            toggleSubSize3.interactable = true;
             subSize1 = true;
             subtitleSize1State = 1;
 
@@ -352,6 +356,9 @@ public class SettingsScript : MonoBehaviour
     {
         if (toggle.isOn)
         {
+            toggle.interactable = false;
+            toggleSubSize1.interactable = true;
+            toggleSubSize3.interactable = true;
             subSize2 = true;
             subtitleSize2State = 1;
 
@@ -373,6 +380,9 @@ public class SettingsScript : MonoBehaviour
     {
         if (toggle.isOn)
         {
+            toggle.interactable = false;
+            toggleSubSize2.interactable = true;
+            toggleSubSize1.interactable = true;
             subSize3 = true;
             subtitleSize3State = 1;
 

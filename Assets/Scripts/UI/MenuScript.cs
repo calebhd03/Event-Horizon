@@ -26,6 +26,7 @@ public class MenuScript : MonoBehaviour
             hardToggle.onValueChanged.AddListener(delegate { ToggleValueChanged(hardToggle); });
             normalToggle.isOn = normalState == 1;
             hardToggle.isOn = hardState == 1;
+            normalToggle.interactable = false;
     }
     //The three functions here open their respective menus and close out the main
     public void OpenSettings()
@@ -94,6 +95,8 @@ public class MenuScript : MonoBehaviour
         {
             if (toggle.isOn)
             {
+                toggle.interactable = false;
+                hardToggle.interactable = true;
                 normalMode = true;
                 normalState = 1;
 
@@ -111,6 +114,8 @@ public class MenuScript : MonoBehaviour
         {
             if (toggle.isOn)
             {
+                toggle.interactable = false;
+                normalToggle.interactable = true;
                 hardMode = true;
                 hardState = 1;
 

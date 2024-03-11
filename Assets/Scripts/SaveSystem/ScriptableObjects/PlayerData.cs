@@ -26,6 +26,7 @@ public class PlayerData : ScriptableObject
     public int shotgunAmmoMax;
     [Space(10)]
     [SerializeField] private int nexusAmmoDefault;
+    public int normalNexusAmmo;
     public int nexusAmmo;
     public int nexusAmmoLoaded;
     public int nexusAmmoMax;
@@ -49,11 +50,13 @@ public class PlayerData : ScriptableObject
         
         if (scene.name == "TheOuterVer2" && MenuScript.hardMode == true)
         {
-            standardAmmoDefault = standardAmmoDefault/2;
+            standardAmmoDefault = normalAmmo/2;
+            nexusAmmoDefault = normalNexusAmmo/2;
         }
         else
         {
             standardAmmoDefault = normalAmmo;
+            nexusAmmoDefault = normalNexusAmmo;
         }
     }
 

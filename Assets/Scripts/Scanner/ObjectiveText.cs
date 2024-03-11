@@ -14,6 +14,7 @@ public class ObjectiveText : MonoBehaviour
     public TextMeshProUGUI[] textToDisplay;
     UpgradeSpot upgradeSpot;
     float baseSize;
+    RectTransform rectTransform;
 
     void Start()
     {
@@ -21,6 +22,7 @@ public class ObjectiveText : MonoBehaviour
         gameObject.SetActive(false);
         upgradeSpot = FindObjectOfType<UpgradeSpot>();
         baseSize = displayedText.fontSizeMin;
+        rectTransform = GetComponent<RectTransform>();
     }
     private void OnEnable()
     {
@@ -39,15 +41,15 @@ public class ObjectiveText : MonoBehaviour
         // Adjust size based on toggle state
         if (SettingsScript.subSize1 ==  true)
             {
-            displayedText.fontSize = 60;
+            rectTransform.localScale = new Vector3(1f, 1f, 1f);
             }
         else if (SettingsScript.subSize2 == true)
             {
-            displayedText.fontSize = 70;
+            rectTransform.localScale = new Vector3(1.25f, 1.25f, 1.25f);
             }
         else if (SettingsScript.subSize3 == true)
             {
-            displayedText.fontSize = 80;
+            rectTransform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
             }
         else
             displayedText.fontSize = baseSize;
@@ -71,15 +73,15 @@ public class ObjectiveText : MonoBehaviour
         gameObject.SetActive(true);
         if (SettingsScript.subSize1 ==  true)
             {
-            displayedText.fontSize = 60;
+            rectTransform.localScale = new Vector3(1f, 1f, 1f);
             }
         else if (SettingsScript.subSize2 == true)
             {
-            displayedText.fontSize = 70;
+            rectTransform.localScale = new Vector3(1.25f, 1.25f, 1.25f);
             }
         else if (SettingsScript.subSize3 == true)
             {
-            displayedText.fontSize = 80;
+            rectTransform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
             }
         else
             {
