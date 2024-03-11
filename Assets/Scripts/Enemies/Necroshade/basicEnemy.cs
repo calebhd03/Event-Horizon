@@ -100,7 +100,9 @@ namespace StarterAssets
 
         private float hitAnimationDuration = 1.0f;
 
-        private static int enemiesSeeingPlayer = 0;      
+        private static int enemiesSeeingPlayer = 0;
+
+        private bool isDead = false;//assuming it is alive
 
         private void Awake()
         {
@@ -464,6 +466,7 @@ namespace StarterAssets
 
             if (healthMetrics.currentHealth <= 0)
             {
+                isDead = true;
                 Die();
             }
         }
@@ -547,7 +550,7 @@ namespace StarterAssets
                 Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
             }
 
-               Destroy(transform.parent.gameObject);
+            Dead();
         }
 
         public void PlayEnemyHitAnimation()
@@ -564,26 +567,42 @@ namespace StarterAssets
         }
 
         private IEnumerator StopHitAnimation()
-    {
-        // Wait for the specified duration
-        yield return new WaitForSeconds(hitAnimationDuration);
+        {
+            // Wait for the specified duration
+            yield return new WaitForSeconds(hitAnimationDuration);
 
-        // Set the EnemyHit parameter back to false
-        animator.SetBool("EnemyHit", false);
+            // Set the EnemyHit parameter back to false
+            animator.SetBool("EnemyHit", false);
+        }
+        IEnumerator EnemyMusic()
+        {
+            yield return new WaitUntil(() => iSeeYou);
+            Background_Music.instance.IncrementSeeingPlayerCount();
+            StartCoroutine(LevelMusic());
+            yield return null;
+        }
+        IEnumerator LevelMusic()
+        {   
+            yield return new WaitUntil (() => !iSeeYou);
+            Background_Music.instance.DecrementSeeingPlayerCount();
+            StartCoroutine(EnemyMusic());
+            yield return null;
+        }
+
+        public void Dead()
+        {
+            if (isDead)
+            {
+                transform.parent.gameObject.SetActive(false);
+            }
+        }
+
+        public void Alive()
+        {
+            if (!isDead)
+            {
+                transform.parent.gameObject.SetActive(true);
+            }
+        }
     }
-    IEnumerator EnemyMusic()
-    {
-        yield return new WaitUntil(() => iSeeYou);
-        Background_Music.instance.IncrementSeeingPlayerCount();
-        StartCoroutine(LevelMusic());
-        yield return null;
-    }
-    IEnumerator LevelMusic()
-    {   
-        yield return new WaitUntil (() => !iSeeYou);
-        Background_Music.instance.DecrementSeeingPlayerCount();
-        StartCoroutine(EnemyMusic());
-        yield return null;
-    }
-}
 }

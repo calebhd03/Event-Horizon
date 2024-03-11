@@ -48,6 +48,8 @@ public class flyingEnemy : MonoBehaviour
     public AudioClip deathAudio;
     AudioSource audioSource;
 
+    private bool isDead = false;//assuming it is alive
+
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -187,6 +189,7 @@ public class flyingEnemy : MonoBehaviour
 
         if (healthMetrics.currentHealth <= 0)
         {
+            isDead = true;
             Die();
             Debug.Log("Zero Health");
         }
@@ -222,7 +225,7 @@ public class flyingEnemy : MonoBehaviour
             Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
         }
 
-        Destroy(transform.parent.gameObject);
+        Dead();
     }
 
     public void SetISeeYou()
@@ -256,5 +259,21 @@ public class flyingEnemy : MonoBehaviour
         Background_Music.instance.DecrementSeeingPlayerCount();
         StartCoroutine(EnemyMusic());
         yield return null;
+    }
+
+    public void Dead()
+    {
+        if (isDead)
+        {
+            transform.parent.gameObject.SetActive(false);
+        }
+    }
+
+    public void Alive()
+    {
+        if (!isDead)
+        {
+            transform.parent.gameObject.SetActive(true);
+        }
     }
 }

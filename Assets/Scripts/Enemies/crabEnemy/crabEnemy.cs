@@ -40,6 +40,8 @@ public class crabEnemy : MonoBehaviour
     AudioSource audioSource;
     public AudioClip deathAudio;
     public AudioClip stickAudio;
+
+    private bool isDead = false;//assuming it is alive
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -127,6 +129,7 @@ public class crabEnemy : MonoBehaviour
 
         if (healthMetrics.currentHealth <= 0)
         {
+            isDead = true;
             jump = true;
             Die();
             Debug.Log("Zero Health");
@@ -162,7 +165,7 @@ public class crabEnemy : MonoBehaviour
             Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
         }
 
-        Destroy(transform.gameObject);
+        Dead();
     }
 
     private void OnDrawGizmos()
@@ -220,7 +223,8 @@ public class crabEnemy : MonoBehaviour
                 if(knifeDeath)
                 {
                     Debug.Log("Crab is Destroyed with Knife");
-                    Destroy(gameObject);
+                    isDead = true;
+                    Dead();
                     audioSource.PlayOneShot(deathAudio);
                     if (thirdPersonController != null)
                     {
@@ -245,5 +249,22 @@ public class crabEnemy : MonoBehaviour
         Background_Music.instance.DecrementSeeingPlayerCount();
         StartCoroutine(EnemyMusic());
         yield return null;
+    }
+
+    public void Dead()
+    {
+        if (isDead)
+        {
+            gameObject.SetActive(false);
+            transform.parent = null;
+        }
+    }
+
+    public void Alive()
+    {
+        if (!isDead)
+        {
+            gameObject.SetActive(true);
+        }
     }
 }
