@@ -5,8 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class VSLoad : MonoBehaviour
 {
+    public GameObject loadingScreen;
     private void OnEnable()
     {
-        SceneManager.LoadScene("VerticalSlice", LoadSceneMode.Single);
+        Background_Music.instance.OuterMusic();
+        StartCoroutine(LoadSceneAsync("TheOuterVer2"));
+    }
+
+    IEnumerator LoadSceneAsync(string sceneName)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        while (!operation.isDone)
+        {
+            loadingScreen.SetActive(true);
+            yield return null;
+        }
     }
 }

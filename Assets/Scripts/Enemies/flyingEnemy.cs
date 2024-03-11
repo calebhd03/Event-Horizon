@@ -48,6 +48,8 @@ public class flyingEnemy : MonoBehaviour
     public AudioClip deathAudio;
     AudioSource audioSource;
 
+    private bool isDead = false;//assuming it is alive
+
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -56,6 +58,7 @@ public class flyingEnemy : MonoBehaviour
         animator = GetComponent<Animator>();
         healthBar = GetComponentInChildren<EnemyHealthBar>();
         audioSource = GetComponent<AudioSource>();
+        StartCoroutine(EnemyMusic());
     }
 
     // Start is called before the first frame update
@@ -186,6 +189,7 @@ public class flyingEnemy : MonoBehaviour
 
         if (healthMetrics.currentHealth <= 0)
         {
+            isDead = true;
             Die();
             Debug.Log("Zero Health");
         }
@@ -195,6 +199,7 @@ public class flyingEnemy : MonoBehaviour
     {
         agent.isStopped = true;
         StartCoroutine(WaitAndDropStuff(3f));
+        iSeeYou = false;
     }
 
     private IEnumerator WaitAndDropStuff(float waitTime)
@@ -220,7 +225,7 @@ public class flyingEnemy : MonoBehaviour
             Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
         }
 
-        Destroy(transform.parent.gameObject);
+        Dead();
     }
 
     public void SetISeeYou()
@@ -240,5 +245,35 @@ public class flyingEnemy : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, seeDistance);
+    }
+    IEnumerator EnemyMusic()
+    {
+        yield return new WaitUntil(() => iSeeYou);
+        Background_Music.instance.IncrementSeeingPlayerCount();
+        StartCoroutine(LevelMusic());
+        yield return null;
+    }
+    IEnumerator LevelMusic()
+    {   
+        yield return new WaitUntil (() => !iSeeYou);
+        Background_Music.instance.DecrementSeeingPlayerCount();
+        StartCoroutine(EnemyMusic());
+        yield return null;
+    }
+
+    public void Dead()
+    {
+        if (isDead)
+        {
+            transform.parent.gameObject.SetActive(false);
+        }
+    }
+
+    public void Alive()
+    {
+        if (!isDead)
+        {
+            transform.parent.gameObject.SetActive(true);
+        }
     }
 }

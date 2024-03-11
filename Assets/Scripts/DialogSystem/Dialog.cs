@@ -71,10 +71,13 @@ public class Dialog : MonoBehaviour
                     dialogActive = true;
                     pauseMenuScript.dialogActive = true;
                     Time.timeScale = 0;
+                    if (SettingsScript.SubEnabled == true)
+                    {
                     objectiveText.ShowDialogText();
+                    objectiveText.displayedText.text = dialogText[number].text;
+                    }
                     audioSource.clip = dialogClips[number];
                     audioSource.Play();
-                    objectiveText.displayedText.text = dialogText[number].text;
                     number += 1;
                     if (number >= dialogClips.Length)
                     {

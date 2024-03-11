@@ -328,6 +328,15 @@
                     "processors": "",
                     "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "KnifeAttack",
+                    "type": "Button",
+                    "id": "072dd98d-2c72-46c7-a17e-da897ef113f1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -752,7 +761,7 @@
                 {
                     "name": "",
                     "id": "c58eefec-f0d5-4151-848a-060a8b559919",
-                    "path": "<Keyboard>/3",
+                    "path": "<Keyboard>/2",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -763,10 +772,10 @@
                 {
                     "name": "",
                     "id": "2503473f-e495-43c3-b8b8-0415b01090da",
-                    "path": "<Gamepad>/dpad/down",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
+                    "groups": "Gamepad;Xbox Controller;PS4 Controller",
                     "action": "BlackHoleGun",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -795,8 +804,19 @@
                 },
                 {
                     "name": "",
+                    "id": "6c77f6df-d609-4044-8d24-9f6444e4f0a1",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad;Xbox Controller;PS4 Controller",
+                    "action": "Blaster",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "8fa41432-8b43-4a26-833d-8cb46dbd98f5",
-                    "path": "<Keyboard>/2",
+                    "path": "",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -994,7 +1014,7 @@
                 {
                     "name": "",
                     "id": "694442d4-47af-4f5e-b44f-9f3e0a5fde90",
-                    "path": "<Keyboard>/4",
+                    "path": "<Keyboard>/f",
                     "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -1054,6 +1074,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "L_Bumper",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f78353bc-cd3d-41bf-846f-c672205c5bbe",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "KnifeAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "00857da8-e344-4d4d-b796-a7f68dbd3443",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad;Xbox Controller;PS4 Controller",
+                    "action": "KnifeAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

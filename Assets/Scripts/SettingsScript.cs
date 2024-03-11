@@ -13,9 +13,9 @@ public class SettingsScript : MonoBehaviour
 {
     public AudioMixer mainMixer;
 
-    public TMP_Text mastLabel, musicLabel, sfxLabel, ambienceLabel;
+    public TMP_Text mastLabel, musicLabel, sfxLabel;
 
-    public Slider mastSlider, musicSlider, sfxSlider, ambienceSlider;
+    public Slider mastSlider, musicSlider, sfxSlider;
 
     public Slider Sens;
 
@@ -37,6 +37,17 @@ public class SettingsScript : MonoBehaviour
 
 
     private StarterAssetsInputs _input;
+
+// subtitles
+    public Toggle subtitlesToggle, toggleSubSize1, toggleSubSize2, toggleSubSize3;
+    public static bool SubEnabled = false;
+    public static int subtitleState = 0;
+    public static bool subSize1 = false;
+    public static int subtitleSize1State = 0;
+    public static bool subSize2 = false;
+    public static int subtitleSize2State = 0;
+    public static bool subSize3 = false;
+    public static int subtitleSize3State = 0;
     
     void Start()
     {
@@ -72,13 +83,9 @@ public class SettingsScript : MonoBehaviour
         mainMixer.GetFloat("SFXVol", out volume);
         sfxSlider.value = volume;
 
-        mainMixer.GetFloat("AmbienceVol", out volume);
-        ambienceSlider.value = volume;
-
         mastLabel.text = Mathf.RoundToInt(mastSlider.value + 80).ToString();
         musicLabel.text = Mathf.RoundToInt(musicSlider.value + 80).ToString();
         sfxLabel.text = Mathf.RoundToInt(sfxSlider.value + 80).ToString();
-        ambienceLabel.text = Mathf.RoundToInt(ambienceSlider.value + 80).ToString();
 
         resolutions = Screen.resolutions;
         resolutionDropdown.ClearOptions();
@@ -102,6 +109,16 @@ public class SettingsScript : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
 
         ApplySensitivity();
+
+    // subtitles
+    subtitlesToggle.onValueChanged.AddListener(delegate { ToggleValueChanged(subtitlesToggle); });
+    toggleSubSize1.onValueChanged.AddListener(delegate { ToggleValueChanged(toggleSubSize1); });
+    toggleSubSize2.onValueChanged.AddListener(delegate { ToggleValueChanged(toggleSubSize2); });
+    toggleSubSize3.onValueChanged.AddListener(delegate { ToggleValueChanged(toggleSubSize3); });
+    subtitlesToggle.isOn = subtitleState == 1;
+    toggleSubSize1.isOn = subtitleState == 1;
+    toggleSubSize2.isOn = subtitleState == 1;
+    toggleSubSize3.isOn = subtitleState == 1;
     }
 
     void Update()
@@ -182,15 +199,6 @@ public class SettingsScript : MonoBehaviour
 
     }
 
-    public void setAmbienceVol()
-    {
-        ambienceLabel.text = Mathf.RoundToInt(ambienceSlider.value + 80).ToString();
-
-        mainMixer.SetFloat("AmbienceVol", ambienceSlider.value);
-
-        PlayerPrefs.SetFloat("AmbienceVol", ambienceSlider.value);
-        PlayerPrefs.Save();
-    }
     public void setQuality(int qualityIndex)
     {
         QualitySettings.SetQualityLevel(qualityIndex);
@@ -304,4 +312,83 @@ public class SettingsScript : MonoBehaviour
         senesitivtyDisplay.SetActive(false);
         controlsDisplay.SetActive(true);
     }
+    void ToggleValueChanged(Toggle toggle)
+{
+    if (toggle == subtitlesToggle)
+    {
+        if (toggle.isOn)
+        {
+            SubEnabled = true;
+            subtitleState = 1;
+        }
+        else
+        {
+            SubEnabled = false;
+            subtitleState = 0;
+        }
+    }
+    else if (toggle == toggleSubSize1)
+    {
+        if (toggle.isOn)
+        {
+            subSize1 = true;
+            subtitleSize1State = 1;
+
+            // Set other sizes to false
+            subSize2 = false;
+            subtitleSize2State = 0;
+            subSize3 = false;
+            subtitleSize3State = 0;
+            toggleSubSize3.isOn = false;
+            toggleSubSize2.isOn = false;
+        }
+        else
+        {
+            subSize1 = false;
+            subtitleSize1State = 0;
+        }
+    }
+    else if (toggle == toggleSubSize2)
+    {
+        if (toggle.isOn)
+        {
+            subSize2 = true;
+            subtitleSize2State = 1;
+
+            // Set other sizes to false
+            subSize1 = false;
+            subtitleSize1State = 0;
+            subSize3 = false;
+            subtitleSize3State = 0;
+            toggleSubSize1.isOn = false;
+            toggleSubSize3.isOn = false;
+        }
+        else
+        {
+            subSize2 = false;
+            subtitleSize2State = 0;
+        }
+    }
+    else if (toggle == toggleSubSize3)
+    {
+        if (toggle.isOn)
+        {
+            subSize3 = true;
+            subtitleSize3State = 1;
+
+            // Set other sizes to false
+            subSize1 = false;
+            subtitleSize1State = 0;
+            subSize2 = false;
+            subtitleSize2State = 0;
+            toggleSubSize1.isOn = false;
+            toggleSubSize2.isOn = false;
+        }
+        else
+        {
+            subSize3 = false;
+            subtitleSize3State = 0;
+        }
+    }
+}
 }

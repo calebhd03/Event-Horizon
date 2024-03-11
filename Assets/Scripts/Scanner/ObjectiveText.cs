@@ -13,12 +13,14 @@ public class ObjectiveText : MonoBehaviour
     [Tooltip("The number of the objective will play the associated text from the array.")]  
     public TextMeshProUGUI[] textToDisplay;
     UpgradeSpot upgradeSpot;
+    float baseSize;
 
     void Start()
     {
         displayedText = GetComponentInChildren<TextMeshProUGUI>();
         gameObject.SetActive(false);
         upgradeSpot = FindObjectOfType<UpgradeSpot>();
+        baseSize = displayedText.fontSizeMin;
     }
     private void OnEnable()
     {
@@ -33,6 +35,22 @@ public class ObjectiveText : MonoBehaviour
         //Cursor.lockState = CursorLockMode.None;
         gameObject.SetActive(true);
         displayedText.text = textToDisplay[scanCam.currentClipIndex].text;
+
+        // Adjust size based on toggle state
+        if (SettingsScript.subSize1 ==  true)
+            {
+            displayedText.fontSize = 60;
+            }
+        else if (SettingsScript.subSize2 == true)
+            {
+            displayedText.fontSize = 70;
+            }
+        else if (SettingsScript.subSize3 == true)
+            {
+            displayedText.fontSize = 80;
+            }
+        else
+            displayedText.fontSize = baseSize;
     }
     public void HideText()
     {
@@ -51,6 +69,22 @@ public class ObjectiveText : MonoBehaviour
     public void ShowDialogText()
     {
         gameObject.SetActive(true);
+        if (SettingsScript.subSize1 ==  true)
+            {
+            displayedText.fontSize = 60;
+            }
+        else if (SettingsScript.subSize2 == true)
+            {
+            displayedText.fontSize = 70;
+            }
+        else if (SettingsScript.subSize3 == true)
+            {
+            displayedText.fontSize = 80;
+            }
+        else
+            {
+            displayedText.fontSize = baseSize;
+            }
     }
 
     public void HideDialogText()

@@ -91,6 +91,8 @@ public class FrondBeast : MonoBehaviour
     private bool a2p2Bool = false;
     private bool a3p2Bool = false;
 
+    private bool isDead = false;//assuming it is alive
+
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -107,6 +109,7 @@ public class FrondBeast : MonoBehaviour
         healthMetrics = GetComponentInParent<HealthMetrics>();
         healthMetrics.currentHealth = healthMetrics.maxHealth;
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
+        StartCoroutine(EnemyMusic());
     }
 
     // Update is called once per frame
@@ -375,6 +378,7 @@ public class FrondBeast : MonoBehaviour
 
         if (healthMetrics.currentHealth <= 0)
         {
+            isDead = true;
             Die();
         }
     }
@@ -383,6 +387,7 @@ public class FrondBeast : MonoBehaviour
     {
         //Debug.Log("Boss Death starting");
         StartCoroutine(WaitAndDropStuff(1f));
+        iSeeYou = false;
     }
 
     private IEnumerator WaitAndDropStuff(float waitTime)
@@ -411,7 +416,7 @@ public class FrondBeast : MonoBehaviour
 
         //Portal.SetActive(true);
         //Debug.Log("Boss Death end");
-        Destroy(transform.parent.gameObject);
+        Dead();
     }
 
     private void resetTriggerHit()
@@ -433,5 +438,34 @@ public class FrondBeast : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, seeDistance);
+    }
+    IEnumerator EnemyMusic()
+    {
+        yield return new WaitUntil(() => iSeeYou);
+        Background_Music.instance.IncrementSeeingPlayerCount();
+        StartCoroutine(LevelMusic());
+        yield return null;
+    }
+    IEnumerator LevelMusic()
+    {   
+        yield return new WaitUntil (() => !iSeeYou);
+        Background_Music.instance.DecrementSeeingPlayerCount();
+        StartCoroutine(EnemyMusic());
+        yield return null;
+    }
+    public void Dead()
+    {
+        if (isDead)
+        {
+            transform.parent.gameObject.SetActive(false);
+        }
+    }
+
+    public void Alive()
+    {
+        if (!isDead)
+        {
+            transform.parent.gameObject.SetActive(true);
+        }
     }
 }

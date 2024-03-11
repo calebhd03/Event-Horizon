@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 namespace StarterAssets
 {
@@ -32,7 +33,7 @@ namespace StarterAssets
         private bool idle = false;
 
         //check to find player
-        private bool iSeeYou;
+        [SerializeField] private bool iSeeYou;
         private bool iHearYou;
 
         //attack
@@ -97,7 +98,11 @@ namespace StarterAssets
         public GameObject healthPickupPrefab;
         public float pickupDropChance = 0.3f;
 
-        private float hitAnimationDuration = 1.0f;       
+        private float hitAnimationDuration = 1.0f;
+
+        private static int enemiesSeeingPlayer = 0;
+
+        private bool isDead = false;//assuming it is alive
 
         private void Awake()
         {
@@ -117,6 +122,7 @@ namespace StarterAssets
             healthMetrics.currentHealth = healthMetrics.maxHealth;
             healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
             currentMag = maxMag;
+            StartCoroutine(EnemyMusic());
         }
 
         // Update is called once per frame
@@ -460,6 +466,7 @@ namespace StarterAssets
 
             if (healthMetrics.currentHealth <= 0)
             {
+                isDead = true;
                 Die();
             }
         }
@@ -501,6 +508,7 @@ namespace StarterAssets
             
         public void Die()
         {
+            
             // Stop the NavMeshAgent to prevent further movement
             agent.isStopped = true;
 
@@ -510,12 +518,12 @@ namespace StarterAssets
                 idleStart = 0f;
                 idleTime = 0f;
                 animator.SetBool("PanningIdle", false);
-           
+                iSeeYou = false;
 
             // Trigger the death animation
             animator.SetBool("EnemyDeath", true);
             //Debug.Log("Enemy Death playing");
-
+            
             // Wait for 3 seconds before dropping stuff
             StartCoroutine(WaitAndDropStuff(3f));
         }
@@ -524,7 +532,6 @@ namespace StarterAssets
         {
             yield return new WaitForSeconds(waitTime);
             audioSource.PlayOneShot(deathAudio);
-
             // Call DropStuff after waiting for 3 seconds
             DropStuff();
         }
@@ -543,7 +550,7 @@ namespace StarterAssets
                 Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
             }
 
-               Destroy(transform.parent.gameObject);
+            Dead();
         }
 
         public void PlayEnemyHitAnimation()
@@ -560,12 +567,42 @@ namespace StarterAssets
         }
 
         private IEnumerator StopHitAnimation()
-    {
-        // Wait for the specified duration
-        yield return new WaitForSeconds(hitAnimationDuration);
+        {
+            // Wait for the specified duration
+            yield return new WaitForSeconds(hitAnimationDuration);
 
-        // Set the EnemyHit parameter back to false
-        animator.SetBool("EnemyHit", false);
+            // Set the EnemyHit parameter back to false
+            animator.SetBool("EnemyHit", false);
+        }
+        IEnumerator EnemyMusic()
+        {
+            yield return new WaitUntil(() => iSeeYou);
+            Background_Music.instance.IncrementSeeingPlayerCount();
+            StartCoroutine(LevelMusic());
+            yield return null;
+        }
+        IEnumerator LevelMusic()
+        {   
+            yield return new WaitUntil (() => !iSeeYou);
+            Background_Music.instance.DecrementSeeingPlayerCount();
+            StartCoroutine(EnemyMusic());
+            yield return null;
+        }
+
+        public void Dead()
+        {
+            if (isDead)
+            {
+                transform.parent.gameObject.SetActive(false);
+            }
+        }
+
+        public void Alive()
+        {
+            if (!isDead)
+            {
+                transform.parent.gameObject.SetActive(true);
+            }
+        }
     }
-}
 }

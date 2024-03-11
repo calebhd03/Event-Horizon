@@ -56,10 +56,13 @@ public class TriggerDialog : MonoBehaviour
         {
             dialogActive = true;
             pauseMenuScript.dialogActive = true;
-            objectiveText.ShowDialogText();
+            if (SettingsScript.SubEnabled == true)
+                {
+                objectiveText.ShowDialogText();
+                objectiveText.displayedText.text = dialogText[number].text;
+                }
             audioSource.clip = dialogClips[number];
             audioSource.Play();
-            objectiveText.displayedText.text = dialogText[number].text;
             number += 1;
                 if (number >= dialogClips.Length)
                 {

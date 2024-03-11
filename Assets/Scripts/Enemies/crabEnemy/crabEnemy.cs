@@ -40,6 +40,8 @@ public class crabEnemy : MonoBehaviour
     AudioSource audioSource;
     public AudioClip deathAudio;
     public AudioClip stickAudio;
+
+    private bool isDead = false;//assuming it is alive
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -57,6 +59,7 @@ public class crabEnemy : MonoBehaviour
         healthMetrics.currentHealth = healthMetrics.maxHealth;
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
         audioSource = GetComponent<AudioSource>();
+        StartCoroutine(EnemyMusic());
     }
 
     // Update is called once per frame
@@ -126,6 +129,7 @@ public class crabEnemy : MonoBehaviour
 
         if (healthMetrics.currentHealth <= 0)
         {
+            isDead = true;
             jump = true;
             Die();
             Debug.Log("Zero Health");
@@ -135,6 +139,7 @@ public class crabEnemy : MonoBehaviour
     public void Die()
     {
         StartCoroutine(WaitAndDropStuff(3f));
+        iSeeYou = false;
     }
 
     private IEnumerator WaitAndDropStuff(float waitTime)
@@ -160,7 +165,7 @@ public class crabEnemy : MonoBehaviour
             Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
         }
 
-        Destroy(transform.gameObject);
+        Dead();
     }
 
     private void OnDrawGizmos()
@@ -218,7 +223,8 @@ public class crabEnemy : MonoBehaviour
                 if(knifeDeath)
                 {
                     Debug.Log("Crab is Destroyed with Knife");
-                    Destroy(gameObject);
+                    isDead = true;
+                    Dead();
                     audioSource.PlayOneShot(deathAudio);
                     if (thirdPersonController != null)
                     {
@@ -228,6 +234,37 @@ public class crabEnemy : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+    IEnumerator EnemyMusic()
+    {
+        yield return new WaitUntil(() => iSeeYou);
+        Background_Music.instance.IncrementSeeingPlayerCount();
+        StartCoroutine(LevelMusic());
+        yield return null;
+    }
+    IEnumerator LevelMusic()
+    {   
+        yield return new WaitUntil (() => !iSeeYou);
+        Background_Music.instance.DecrementSeeingPlayerCount();
+        StartCoroutine(EnemyMusic());
+        yield return null;
+    }
+
+    public void Dead()
+    {
+        if (isDead)
+        {
+            gameObject.SetActive(false);
+            transform.parent = null;
+        }
+    }
+
+    public void Alive()
+    {
+        if (!isDead)
+        {
+            gameObject.SetActive(true);
         }
     }
 }

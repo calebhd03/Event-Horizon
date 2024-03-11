@@ -5329,6 +5329,8 @@ MonoBehaviour:
   criticalPointReveal: {fileID: 430081181259919508}
   number: 0
   weakPointReveal: []
+  skinnedMeshRenderer: {fileID: 1322540773969501210}
+  materials: []
 --- !u!95 &5196923581864970213
 Animator:
   serializedVersion: 5
@@ -6478,6 +6480,18 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: -972149719520483970, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -972149719520483970, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 47e347403a1acb749bd56447f1ef3b9c, type: 2}
+    - target: {fileID: -972149719520483970, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 47e347403a1acb749bd56447f1ef3b9c, type: 2}
     - target: {fileID: -311122046114860366, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -7044,6 +7058,11 @@ MonoBehaviour:
   meleeUp: 0
   knockBackUp: 0
   knifeDamageUpFactor: 5
+--- !u!137 &1322540773969501210 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -972149719520483970, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
+  m_PrefabInstance: {fileID: 6978504818902989156}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1978783435855465430 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -311122046114860366, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}

@@ -500,6 +500,7 @@ MonoBehaviour:
     m_Bits: 128
   movePoints: []
   idleTime: 10
+  iSeeYou: 0
   attackRange: 10
   attackAgainTimer: 2.8
   viewRadius: 15
@@ -553,6 +554,9 @@ MonoBehaviour:
   criticalPointReveal: {fileID: 3787874207407574268}
   number: 0
   weakPointReveal: []
+  skinnedMeshRenderer: {fileID: 0}
+  materials: []
+  player: {fileID: 0}
 --- !u!95 &1199361587979115083
 Animator:
   serializedVersion: 5
@@ -1521,6 +1525,14 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: -972149719520483970, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -972149719520483970, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 47e347403a1acb749bd56447f1ef3b9c, type: 2}
     - target: {fileID: -311122046114860366, guid: 0014104d34e203e4f99d1031c4d00a1c, type: 3}
       propertyPath: m_Layer
       value: 9
