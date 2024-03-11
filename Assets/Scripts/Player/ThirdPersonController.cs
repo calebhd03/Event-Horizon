@@ -330,9 +330,13 @@ namespace StarterAssets
                 if (inputDirection != Vector3.zero)
                 {
                     // Check if aiming or shooting, and adjust RotateOnMove accordingly
-                    if (_input.aim || _input.shoot)
+                    if (_input.aim )
                     {
                         _rotateOnMove = false;
+                    }
+                    else if ( _input.shoot )
+                    {
+                       _input.aim = true;   
                     }
                     else
                     {
