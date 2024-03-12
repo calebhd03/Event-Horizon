@@ -41,23 +41,52 @@ public class PlayerData : ScriptableObject
     [Header("Tutorial")]
         public bool tutorialComplete = false;
 
+    //hardModeToggle
+    public bool hardMode = false;
+
     public void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        
-        if (scene.name == "TheOuterVer2" && MenuScript.hardMode == true)
+        if ((scene.name == "TheOuterVer2") && (MenuScript.hardMode == true || hardMode == true))
         {
             standardAmmoDefault = normalAmmo/2;
             nexusAmmoDefault = normalNexusAmmo/2;
+            hardMode = true;
+            MenuScript.hardMode = true;
         }
-        else
+        else if ((scene.name == "Inner") && (MenuScript.hardMode == true || hardMode == true))
+        {
+            standardAmmoDefault = normalAmmo/2;
+            nexusAmmoDefault = normalNexusAmmo/2;
+            hardMode = true;
+            MenuScript.hardMode = true;
+        }
+        else if ((scene.name == "The Center") && (MenuScript.hardMode == true || hardMode == true))
+        {
+            standardAmmoDefault = normalAmmo/2;
+            nexusAmmoDefault = normalNexusAmmo/2;
+            hardMode = true;
+            MenuScript.hardMode = true;
+        }
+        else if ((scene.name == "TimTutorialScene") && (MenuScript.hardMode == true || hardMode == true))
+        {
+            standardAmmoDefault = normalAmmo/2;
+            nexusAmmoDefault = normalNexusAmmo/2;
+            hardMode = true;
+            MenuScript.hardMode = true;
+        }
+        else if(MenuScript.hardMode == false)
         {
             standardAmmoDefault = normalAmmo;
             nexusAmmoDefault = normalNexusAmmo;
+            hardMode = false;
         }
+        
+        
+        Debug.LogError("Your static bool value: " + MenuScript.hardMode);
     }
 
     public void ResetHealthAmmo()
@@ -80,6 +109,7 @@ public class PlayerData : ScriptableObject
         SaveKnockBackUpgrade = false;
         SaveOGBHGUpgrade = false;
         SaveBHGPullEffect = false;
+        hardMode = false;
     }
 
 }

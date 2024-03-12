@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AmmoHole : MonoBehaviour
 {
@@ -9,15 +10,23 @@ public class AmmoHole : MonoBehaviour
 
     private List<GameObject> instantiatedAmmo = new List<GameObject>(); // List to store instantiated ammo objects
     private bool isOpen = false; // Flag to track if the hole is open or closed
+    //hardmode
+    public GameObject player;
+    PlayerHealthMetric playerHealthMetric;
 
     void Awake()
     {
-        if(MenuScript.hardMode == true)
+        player = GameObject.FindWithTag("Player");
+        playerHealthMetric = player.GetComponent<PlayerHealthMetric>();
+    }
+
+    void Start()
+    {
+        if(MenuScript.hardMode == true || playerHealthMetric.playerData.hardMode == true)
         {
             ToggleHole();
         }
     }
-
     public void ToggleHole()
     {
         isOpen = !isOpen;
@@ -26,15 +35,15 @@ public class AmmoHole : MonoBehaviour
         // Instantiate or destroy ammo objects based on the hole state
         if (isOpen)
         {
-            // Instantiate ammo objects slightly higher than the hole position
-            foreach (GameObject prefab in ammoPrefabs)
+            if (MenuScript.hardMode == false || playerHealthMetric.playerData.hardMode == false)
             {
-                Vector3 spawnPosition = transform.position + Vector3.up * 0.5f; // Adjust the height as needed
-                GameObject ammoInstance = Instantiate(prefab, spawnPosition, transform.rotation);
-                if (MenuScript.hardMode == false)
-                {
-                instantiatedAmmo.Add(ammoInstance);
-                }
+            // Instantiate ammo objects slightly higher than the hole position
+                    foreach (GameObject prefab in ammoPrefabs)
+                    {
+                        Vector3 spawnPosition = transform.position + Vector3.up * 0.5f; // Adjust the height as needed
+                        GameObject ammoInstance = Instantiate(prefab, spawnPosition, transform.rotation);
+                        instantiatedAmmo.Add(ammoInstance);
+                    }
             }
         }
         else
