@@ -224,6 +224,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4177276953945216125}
+  - component: {fileID: 5150932045308642539}
   m_Layer: 5
   m_Name: Sliding Area
   m_TagString: Untagged
@@ -252,6 +253,14 @@ RectTransform:
   m_AnchoredPosition: {x: -0.00012207031, y: 0.000061035156}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5150932045308642539
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 872431672777101363}
+  m_CullTransparentMesh: 1
 --- !u!1 &1577654460874752155
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,7 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1687,10 +1696,10 @@ RectTransform:
   m_Father: {fileID: 4800302196656769574}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -0.00030517578, y: 0}
-  m_SizeDelta: {x: 0, y: 7261.3555}
+  m_SizeDelta: {x: 0, y: 6473.5654}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &5883363046522897695
 MonoBehaviour:
@@ -1713,7 +1722,7 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 830, y: 500}
-  m_Spacing: {x: 10, y: 10}
+  m_Spacing: {x: 20, y: 20}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!1 &4897326412289687754
