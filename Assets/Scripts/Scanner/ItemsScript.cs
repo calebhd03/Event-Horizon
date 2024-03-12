@@ -22,13 +22,15 @@ public class ItemsScript : MonoBehaviour
     {
         ScanCam.scannerEnabled += ScanColor;
         ScanCam.scannerDisabled += NormColor;
+        ScanCam.allUnhighlight += Unhighlight;
     }
 
-    void OnDisable()
+    /*void OnDisable()
     {
         ScanCam.scannerEnabled -= ScanColor;
         ScanCam.scannerDisabled -= NormColor;
-    }
+        ScanCam.allUnhighlight -= Unhighlight;
+    }*/
     public void ScriptActive()
     {
             if(itemText != null)
@@ -38,22 +40,23 @@ public class ItemsScript : MonoBehaviour
 
     void NormColor()
     {
-        GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
+        //materials[1].SetFloat("_isHighlighted", 0);
+        //materials[1].SetFloat("_isHovered", 1);
     }
 
     public void ScanColor()
     {
-        GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
+        //materials[1].SetFloat("_isHighlighted", 1);
     }
     
     public void highlight()
     {
-        GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
+        //materials[1].SetFloat("_isHovered", 0);
     }
 
     public void Unhighlight()
     {
-        ScanColor();
+        //materials[1].SetFloat("_isHovered", 1);
     }
 
     public void ItemLog()

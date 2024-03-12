@@ -27,13 +27,15 @@ public class ObjectivesScript : MonoBehaviour
     {
         ScanCam.scannerEnabled += ScanColor;
         ScanCam.scannerDisabled += NormColor;
+        ScanCam.allUnhighlight += Unhighlight;
     }
 
-    void OnDisable()
+    /*void OnDisable()
     {
         ScanCam.scannerEnabled -= ScanColor;
         ScanCam.scannerDisabled -= NormColor;
-    }
+        ScanCam.allUnhighlight -= Unhighlight;
+    }*/
 
     public void ScriptActive()
     {
@@ -42,14 +44,15 @@ public class ObjectivesScript : MonoBehaviour
 
     void NormColor()
     {
-        GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
+        //materials[1].SetFloat("_isHighlighted", 0);
+        //materials[1].SetFloat("_isHovered", 1);
     }
     public void ScanColor()
     {
         ScannerUI scannerUI = FindObjectOfType<ScannerUI>();
         if((gameObject.tag == "Objective" && scannerUI.currentQuest == number)||gameObject.tag == "Memory" )
         {
-        gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
+        //materials[1].SetFloat("_isHighlighted", 1);
         }
     }
     
@@ -58,13 +61,13 @@ public class ObjectivesScript : MonoBehaviour
         ScannerUI scannerUI = FindObjectOfType<ScannerUI>();
         if((gameObject.tag == "Objective" && scannerUI.currentQuest == number)||gameObject.tag == "Memory" )
         {
-        gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
+        //gmaterials[1].SetFloat("_isHovered", 0);
         }
     }
 
         public void Unhighlight()
     {
-        ScanColor();
+        //materials[1].SetFloat("_isHovered", 1);
     }
     public void MemoryLog()
     {
