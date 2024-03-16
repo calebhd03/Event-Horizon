@@ -22,6 +22,8 @@ public class ExplodingPlant : MonoBehaviour
     [SerializeField] private GameObject explosionParticlePrefab;
     [SerializeField] private Transform acidSpawn;
     private bool hasExploded = false;
+    private bool explosionSouundTriggered = false;
+    private bool sound;
 
 
     [Header("Audio")]
@@ -61,7 +63,7 @@ public class ExplodingPlant : MonoBehaviour
         updateHealth();
         iSeeYou = Physics.CheckSphere(transform.position, triggerDistance, playerZone);
 
-        if (iSeeYou)
+        if (iSeeYou && !explosionSouundTriggered)
         {
             TriggerPlant();
         }
@@ -71,6 +73,7 @@ public class ExplodingPlant : MonoBehaviour
     {
         if (!hasExploded) 
         {
+            explosionSouundTriggered = true;
             explode = true;
             hasExploded = true;
             StartCoroutine(ExplodeDelay());
@@ -83,7 +86,12 @@ public class ExplodingPlant : MonoBehaviour
         meshRenderer.enabled = false;
         colliderPrefab.SetActive(false);
         yield return new WaitForSeconds(.1f);
-        audioSource.PlayOneShot(ExplosionSound);
+        if(!sound)
+        {
+            sound = true;
+            audioSource.PlayOneShot(ExplosionSound);
+
+        }
         ParticleSystem explosionParticleSystem = explosionParticlePrefab.GetComponentInChildren<ParticleSystem>();
         explosionParticleSystem.Play();
 
