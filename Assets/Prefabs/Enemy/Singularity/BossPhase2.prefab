@@ -829,6 +829,9 @@ MonoBehaviour:
   criticalPointReveal: {fileID: 2685724367689611176}
   number: 0
   weakPointReveal: []
+  skinnedMeshRenderer: {fileID: 0}
+  materials: []
+  player: {fileID: 0}
 --- !u!82 &3170739756306172419
 AudioSource:
   m_ObjectHideFlags: 0
@@ -982,6 +985,10 @@ MonoBehaviour:
   Enemies:
   - {fileID: 2858620025199205393, guid: 833f05e868d659e4fbb4fde05a50fa9f, type: 3}
   - {fileID: 1375103746728593473, guid: 1ac1eff0c18f8da44951cebea42e244e, type: 3}
+  maxEnemySpawnDistance: 6
+  navMeshLayer:
+    serializedVersion: 2
+    m_Bits: 1
   aoeRingPrefab: {fileID: 1060804793775053595, guid: 18bec9bdce656f44c90e6524a9a0b3dd, type: 3}
   aoeWarningPrefab: {fileID: 1060804793775053595, guid: 690c51726574532449da73675268dbaf, type: 3}
   aoeSpawn: {fileID: 0}
@@ -1019,7 +1026,9 @@ MonoBehaviour:
   knockBackUp: 0
   slowEnemyUp: 0
   damageOverTimeEnemyUp: 0
-  laserUp: 0
+  plasmaUp: 0
+  OGKillUp: 0
+  PullUp: 0
   stopStackDamage: 0
   stopSlowStack: 0
   slowEffect: {fileID: 0}
