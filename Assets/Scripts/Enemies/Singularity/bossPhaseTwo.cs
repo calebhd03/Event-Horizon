@@ -34,7 +34,8 @@ public class bossPhaseTwo : MonoBehaviour
     [Header("Enemy Spawns")]
     public float summonWindUp;
     public GameObject[] Enemies;
-  
+    public float maxEnemySpawnDistance = 6f;
+    public LayerMask navMeshLayer;
 
     [Header("AOE Attack")]
     public GameObject aoeRingPrefab;
@@ -138,12 +139,30 @@ public class bossPhaseTwo : MonoBehaviour
     private IEnumerator summonEnemies()
     {
         yield return new WaitForSeconds(summonWindUp);
-        foreach (GameObject enemy in Enemies)
-        {
-            Vector3 spawnOffset = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
 
-            Vector3 spawnPosition = player.position + spawnOffset;
-            Instantiate(enemy, spawnPosition, Quaternion.identity); 
+        Vector3 spawnOffset = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
+        Vector3 spawnPosition = player.position + spawnOffset;
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(spawnPosition, out hit, maxEnemySpawnDistance, navMeshLayer))
+        {
+            spawnPosition = hit.position;
+
+            if (Vector3.Distance(spawnPosition, player.position) <= maxEnemySpawnDistance)
+            {
+                foreach (GameObject enemy in Enemies)
+                {
+                    Instantiate(enemy, spawnPosition, Quaternion.identity);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Spawn position is too far from the player.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Cannot find a valid spawn position on the NavMesh.");
         }
     }
 
