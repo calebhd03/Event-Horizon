@@ -115,7 +115,7 @@ public class SaveSystemTest : MonoBehaviour
 
         // Find EnemyData object in the scene
         int sceneIndexToSave = SceneManager.GetActiveScene().buildIndex;
-        EnemyManager.instance.SaveEnemyLocations(sceneIndexToSave);
+       // EnemyManager.instance.SaveEnemyLocations(sceneIndexToSave);
     }
 
     public void TestValue()

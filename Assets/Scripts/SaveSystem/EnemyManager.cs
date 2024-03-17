@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class EnemyManager : MonoBehaviour
 {
-  public static EnemyManager instance;
+    public static EnemyManager instance;
 
     // List of all enemy prefabs, indexed by their type
     public GameObject[] enemyPrefabs;
@@ -54,82 +54,28 @@ public class EnemyManager : MonoBehaviour
         Debug.LogWarning("Enemy positions initialized and saved.");
     }
 
-    public void SaveEnemyLocations(int sceneIndex)
-    {
-        Debug.LogWarning("Save Enemy Locations");
-
-        // Find all objects with the "EnemyLister" script
-        EnemyLister[] enemies = FindObjectsOfType<EnemyLister>();
-
-        Debug.LogWarning("Number of enemies to save: " + enemies.Length);
-
-        // Save each enemy's position individually
-        for (int i = 0; i < enemies.Length; i++)
-        {
-            string positionKey = "Scene" + sceneIndex + "EnemyPosition" + i;
-            PlayerPrefs.SetString(positionKey, enemies[i].transform.position.x + "," + enemies[i].transform.position.y + "," + enemies[i].transform.position.z);
-        }
-
-        // Save the number of enemies for reference
-        PlayerPrefs.SetInt("Scene" + sceneIndex + "NumEnemies", enemies.Length);
-
-        // Flag to indicate that the data has been saved
-        PlayerPrefs.SetInt("Scene" + sceneIndex + "HasBeenPlayed", 1);
-
-        Debug.LogWarning("Enemy locations saved successfully.");
-    }
-
     public void LoadEnemyLocations(int sceneIndex)
     {
-
         Debug.LogWarning("Load Enemy Locations");
 
         // Check if the number of enemies has been saved
-        if (PlayerPrefs.HasKey("Scene" + sceneIndex + "NumEnemies"))
+        if (PlayerPrefs.HasKey("Scene" + sceneIndex + "EnemyPositions"))
         {
-            int numEnemies = PlayerPrefs.GetInt("Scene" + sceneIndex + "NumEnemies");
+            string json = PlayerPrefs.GetString("Scene" + sceneIndex + "EnemyPositions");
+            Vector3[] savedPositions = JsonUtility.FromJson<Vector3[]>(json);
 
-            // Load each enemy's position individually
-            for (int i = 0; i < numEnemies; i++)
+            // Find all objects with the "EnemyLister" script
+            EnemyLister[] enemies = FindObjectsOfType<EnemyLister>();
+
+            // Iterate through enemies and set them to their saved positions
+            for (int i = 0; i < enemies.Length; i++)
             {
-                string positionKey = "Scene" + sceneIndex + "EnemyPosition" + i;
-                if (PlayerPrefs.HasKey(positionKey))
+                enemies[i].transform.position = savedPositions[i];
+                UnityEngine.AI.NavMeshAgent navMeshAgent = enemies[i].GetComponent<UnityEngine.AI.NavMeshAgent>();
+                if (navMeshAgent != null)
                 {
-                    string[] positionString = PlayerPrefs.GetString(positionKey).Split(',');
-                    if (positionString.Length == 3)
-                    {
-                        float x = float.Parse(positionString[0]);
-                        float y = float.Parse(positionString[1]);
-                        float z = float.Parse(positionString[2]);
-                        Vector3 position = new Vector3(x, y, z);
-
-                        Debug.LogWarning("Retrieved enemy position: " + position); // Log the retrieved position
-
-                        // Find the parent objects with the "Enemy" tag
-                        GameObject[] enemyObjects = GameObject.FindGameObjectsWithTag("Enemy");
-                        foreach (GameObject enemyObject in enemyObjects)
-                        {
-                            // Set the position of both parent and child GameObjects
-                            Transform[] allChildren = enemyObject.GetComponentsInChildren<Transform>();
-                            foreach (Transform child in allChildren)
-                            {
-                                UnityEngine.AI.NavMeshAgent navMeshAgent = child.GetComponent<UnityEngine.AI.NavMeshAgent>();
-                                if (navMeshAgent != null)
-                                {
-                                    // Set the destination of the NavMeshAgent
-                                    navMeshAgent.Warp(position);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Invalid position format for enemy position key: " + positionKey);
-                    }
-                }
-                else
-                {
-                    Debug.LogWarning("Position key not found: " + positionKey);
+                    // If the enemy has a NavMeshAgent, warp it to the saved position
+                    navMeshAgent.Warp(savedPositions[i]);
                 }
             }
 
@@ -139,11 +85,5 @@ public class EnemyManager : MonoBehaviour
         {
             Debug.LogWarning("No saved enemy positions found for scene " + sceneIndex);
         }
-    }
-
-    public void SetEnemyData(List<EnemySaveData> enemyData)
-    {
-        Debug.LogWarning("Set enemy data called");
-        enemyDataList = enemyData;
     }
 }
