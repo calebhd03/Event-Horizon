@@ -30,12 +30,12 @@ public class ObjectivesScript : MonoBehaviour
         ScanCam.allUnhighlight += Unhighlight;
     }
 
-    /*void OnDisable()
+    void OnDisable()
     {
         ScanCam.scannerEnabled -= ScanColor;
         ScanCam.scannerDisabled -= NormColor;
         ScanCam.allUnhighlight -= Unhighlight;
-    }*/
+    }
 
     public void ScriptActive()
     {
