@@ -24,6 +24,8 @@ public class EnemiesScanScript : MonoBehaviour
     public Material[] materials;
     ScanCam scanCam;
     public GameObject player;
+    LogSystem logSystem;
+    weakPoint[] weakPointToShow;
 
     void Awake()
     {
@@ -44,19 +46,20 @@ public class EnemiesScanScript : MonoBehaviour
         
         foreach (weakPoint weakPoint in weakPointReveal)
         {
-            weakPoint.enabled = false;     
+            weakPoint.enabled = false;
         }
+        logSystem = FindObjectOfType<LogSystem>();
+        weakPointToShow = GetComponentsInChildren<weakPoint>();
     }
     void Update()
     {
-        LogSystem logSystem = FindObjectOfType<LogSystem>();
         if (logSystem.enemy[number].interactable == true)
         {
             Scanned = true;
         }
         if(Scanned == true)
         {
-            weakPoint[] weakPointToShow = GetComponentsInChildren<weakPoint>();
+            
             foreach (weakPoint weakPoint in weakPointToShow)
                 {
                     weakPoint.enabled = true;
