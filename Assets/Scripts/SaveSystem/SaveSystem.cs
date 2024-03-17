@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public static class SaveSystem 
 {
-    public static void SavePlayerData(PlayerDataOld playerDataOld)
+  public static void SavePlayerData(PlayerDataOld playerDataOld)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/playerData.data";
@@ -106,7 +106,7 @@ public static void SavePlayer(PlayerSaveData saveData)
         }
 
         // Save enemy locations
-       // EnemyManager.instance.SaveEnemyLocations(sceneIndex);
+        EnemyManager.instance.SaveEnemyLocations(sceneIndex);
     }
 
     public static EnemyData LoadEnemyData(int sceneIndex)
@@ -133,8 +133,3 @@ public static void SavePlayer(PlayerSaveData saveData)
         }
     }
 }
-
-
-
-
-

@@ -38,6 +38,7 @@ public class SaveSystemTest : MonoBehaviour
 
     public void LoadGame()
     {
+        Debug.Log("Load Game Started");
         PlayerSaveData saveData = SaveSystem.LoadPlayer();
 
         if (saveData != null)
@@ -89,6 +90,7 @@ public class SaveSystemTest : MonoBehaviour
 
     public void SaveGame()
     {
+        Debug.Log("Save Game Started");
         // Save the current scene index
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         PlayerPrefs.SetInt("LastSavedSceneIndex", currentSceneIndex);
@@ -115,7 +117,7 @@ public class SaveSystemTest : MonoBehaviour
 
         // Find EnemyData object in the scene
         int sceneIndexToSave = SceneManager.GetActiveScene().buildIndex;
-       // EnemyManager.instance.SaveEnemyLocations(sceneIndexToSave);
+        EnemyManager.instance.SaveEnemyLocations(sceneIndexToSave);
     }
 
     public void TestValue()
