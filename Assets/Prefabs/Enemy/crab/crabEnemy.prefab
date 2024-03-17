@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3103904019750404725}
   m_Layer: 9
   m_Name: Colider
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 2858620024428574246}
   m_Layer: 9
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -769,8 +769,8 @@ MonoBehaviour:
   PullUp: 0
   stopStackDamage: 0
   stopSlowStack: 0
-  slowEffect: {fileID: 0}
-  damageOverTimeEffect: {fileID: 0}
+  slowEffect: {fileID: 4314430095859130899, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+  damageOverTimeEffect: {fileID: 4314430095859130899, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
 --- !u!114 &4773070660338242050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -785,8 +785,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Scanned: 0
   criticalPointReveal: {fileID: 0}
-  number: 0
+  number: 6
   weakPointReveal: []
+  skinnedMeshRenderer: {fileID: 0}
+  materials: []
+  player: {fileID: 0}
 --- !u!1 &2858620025322188910
 GameObject:
   m_ObjectHideFlags: 0
@@ -800,7 +803,7 @@ GameObject:
   - component: {fileID: 6754401971363126421}
   m_Layer: 9
   m_Name: hitBoxRegular
-  m_TagString: CriticalPoint
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

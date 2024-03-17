@@ -19,7 +19,6 @@ public class UpgradeEffects : MonoBehaviour
     regularPoint[] regularPoints;
     weakPoint[] weakPoints;
     public ParticleSystem slowEffect, damageOverTimeEffect;
-    BlackHoleBullet blackHoleBullet;
     
     void Awake()
     {
@@ -37,12 +36,10 @@ public class UpgradeEffects : MonoBehaviour
 
     void Update()
     {
-        blackHoleBullet = FindFirstObjectByType<BlackHoleBullet>();
         //knockback
         if(knockBackTimer > 0)
         {
             //HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
-            Debug.LogError("counting knockback timer");
             Vector3 knockBackDirection = gameObject.transform.position - player.transform.position;
             transform.position += knockBackDirection.normalized * knockBackForce * Time.deltaTime;
             knockBackTimer -=Time.deltaTime;
@@ -217,7 +214,9 @@ public class UpgradeEffects : MonoBehaviour
         float effectTime = .5f;
         float currentTime = 0.0f;
         Vector3 startPosition = gameObject.transform.position;
-            while(currentTime < (effectTime * .75))
+
+        BlackHoleBullet blackHoleBullet = FindFirstObjectByType<BlackHoleBullet>();
+        while (currentTime < (effectTime * .75))
             {
                 gameObject.transform.position = Vector3.Lerp(startPosition, blackHoleBullet.lastPosition, currentTime / (effectTime * .75f));
                 currentTime += Time.deltaTime;

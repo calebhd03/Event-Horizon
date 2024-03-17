@@ -12,15 +12,17 @@ public class TriggerDialog : MonoBehaviour
     public AudioClip[] dialogClips;
     public TextMeshProUGUI[] dialogText;
     GameObject dialogBox;
+    public TMP_Text TopObjectiveText;
     int number = 0;
+    public int objectiveNumber;
     StarterAssetsInputs starterAssetsInputs;
     ThirdPersonShooterController thirdPersonShooterController;
     AudioSource audioSource;
     ObjectiveText objectiveText;
     PauseMenuScript pauseMenuScript;
     public GameObject player;
-    public bool dialogActive = false, wasPlaying = false;
-
+    public bool dialogActive = false, wasPlaying = false, motherBoardDialog;
+    public AudioClip updateObjectiveSound;
     void Awake()
     {
         pauseMenuScript = FindObjectOfType<PauseMenuScript>();
@@ -56,10 +58,13 @@ public class TriggerDialog : MonoBehaviour
         {
             dialogActive = true;
             pauseMenuScript.dialogActive = true;
-            objectiveText.ShowDialogText();
+            if (SettingsScript.SubEnabled == true)
+                {
+                objectiveText.ShowDialogText();
+                objectiveText.displayedText.text = dialogText[number].text;
+                }
             audioSource.clip = dialogClips[number];
             audioSource.Play();
-            objectiveText.displayedText.text = dialogText[number].text;
             number += 1;
                 if (number >= dialogClips.Length)
                 {
@@ -74,6 +79,11 @@ public class TriggerDialog : MonoBehaviour
     IEnumerator TurnOffText()
     {
         yield return new WaitForSeconds(audioSource.clip.length);
+        if(motherBoardDialog == true)
+        {
+        TopObjectiveText.text = objectiveText.textToDisplay[objectiveNumber].text;
+        audioSource.PlayOneShot(updateObjectiveSound);
+        }
         objectiveText.HideDialogText();
     }
 }

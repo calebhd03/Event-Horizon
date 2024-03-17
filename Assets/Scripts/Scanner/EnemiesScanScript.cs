@@ -24,6 +24,8 @@ public class EnemiesScanScript : MonoBehaviour
     public Material[] materials;
     ScanCam scanCam;
     public GameObject player;
+    LogSystem logSystem;
+    weakPoint[] weakPointToShow;
 
     void Awake()
     {
@@ -44,19 +46,20 @@ public class EnemiesScanScript : MonoBehaviour
         
         foreach (weakPoint weakPoint in weakPointReveal)
         {
-            weakPoint.enabled = false;     
+            weakPoint.enabled = false;
         }
+        logSystem = FindObjectOfType<LogSystem>();
+        weakPointToShow = GetComponentsInChildren<weakPoint>();
     }
     void Update()
     {
-        LogSystem logSystem = FindObjectOfType<LogSystem>();
         if (logSystem.enemy[number].interactable == true)
         {
             Scanned = true;
         }
         if(Scanned == true)
         {
-            weakPoint[] weakPointToShow = GetComponentsInChildren<weakPoint>();
+            
             foreach (weakPoint weakPoint in weakPointToShow)
                 {
                     weakPoint.enabled = true;
@@ -71,12 +74,12 @@ public class EnemiesScanScript : MonoBehaviour
         ScanCam.allUnhighlight += Unhighlight;
     }
 
-    void OnDisable()
+    /*void OnDisable()
     {
         ScanCam.scannerEnabled -= ScanColor;
         ScanCam.scannerDisabled -= NormColor;
         ScanCam.allUnhighlight -= Unhighlight;
-    }
+    }*/
 
     public void ScriptActive()
     {
@@ -100,13 +103,11 @@ public class EnemiesScanScript : MonoBehaviour
     public void highlight()
     {
         materials[1].SetFloat("_isHovered", 0);
-        Debug.LogError("Highlight");
     }
 
     public void Unhighlight()
     {
         materials[1].SetFloat("_isHovered", 1);
-        Debug.LogError("unHighlight");
     }
     
     public void WeakPoints()

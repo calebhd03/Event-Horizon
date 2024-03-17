@@ -22,6 +22,8 @@ public class ExplodingPlant : MonoBehaviour
     [SerializeField] private GameObject explosionParticlePrefab;
     [SerializeField] private Transform acidSpawn;
     private bool hasExploded = false;
+    private bool explosionSouundTriggered = false;
+    private bool sound;
 
 
     [Header("Audio")]
@@ -35,6 +37,8 @@ public class ExplodingPlant : MonoBehaviour
     public GameObject bHPickupPrefab;
     public GameObject healthPickupPrefab;
     public float pickupDropChance = 0.3f;
+
+    private bool isDead = false; //assuming it is alive
 
     private void Awake()
     {
@@ -59,7 +63,7 @@ public class ExplodingPlant : MonoBehaviour
         updateHealth();
         iSeeYou = Physics.CheckSphere(transform.position, triggerDistance, playerZone);
 
-        if (iSeeYou)
+        if (iSeeYou && !explosionSouundTriggered)
         {
             TriggerPlant();
         }
@@ -69,6 +73,7 @@ public class ExplodingPlant : MonoBehaviour
     {
         if (!hasExploded) 
         {
+            explosionSouundTriggered = true;
             explode = true;
             hasExploded = true;
             StartCoroutine(ExplodeDelay());
@@ -81,7 +86,12 @@ public class ExplodingPlant : MonoBehaviour
         meshRenderer.enabled = false;
         colliderPrefab.SetActive(false);
         yield return new WaitForSeconds(.1f);
-        audioSource.PlayOneShot(ExplosionSound);
+        if(!sound)
+        {
+            sound = true;
+            audioSource.PlayOneShot(ExplosionSound);
+
+        }
         ParticleSystem explosionParticleSystem = explosionParticlePrefab.GetComponentInChildren<ParticleSystem>();
         explosionParticleSystem.Play();
 
@@ -97,7 +107,7 @@ public class ExplodingPlant : MonoBehaviour
         Debug.Log("Spawn acid");
         GameObject newAcidCloud = Instantiate(acidPrefab, acidSpawn.position, Quaternion.identity);
         Destroy(newAcidCloud.gameObject, 10f);
-        Destroy(this.gameObject, 10f);
+        Invoke("DeactivateObject", 10f);
     }
 
     public void OneShotTop()
@@ -116,6 +126,7 @@ public class ExplodingPlant : MonoBehaviour
 
         if (healthMetrics.currentHealth <= 0)
         {
+            isDead = true;
             Die();
         }
     }
@@ -149,12 +160,36 @@ public class ExplodingPlant : MonoBehaviour
             Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
         }
 
-        Destroy(transform.parent.gameObject);
+        Dead();
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, triggerDistance);
+    }
+
+    //for shooting the top part
+    void DeactivateObject()
+    {
+        isDead = true;
+        transform.parent.gameObject.SetActive(false);
+
+    }
+
+    public void Dead()
+    {
+        if (isDead)
+        {
+            transform.parent.gameObject.SetActive(false);
+        }
+    }
+
+    public void Alive()
+    {
+        if (!isDead)
+        {
+            transform.parent.gameObject.SetActive(true);
+        }
     }
 }

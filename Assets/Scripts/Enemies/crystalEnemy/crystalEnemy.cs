@@ -48,6 +48,9 @@ public class crystalEnemy : MonoBehaviour
     [Header("Audio")]
     AudioSource audioSource;
     public AudioClip deathAudio;
+
+    private bool isDead = false;//assuming it is alive
+
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -221,6 +224,7 @@ public class crystalEnemy : MonoBehaviour
 
         if (healthMetrics.currentHealth <= 0)
         {
+            isDead = true;
             Die();
             Debug.Log("Zero Health");
         }
@@ -255,7 +259,7 @@ public class crystalEnemy : MonoBehaviour
             Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
         }
 
-        Destroy(transform.parent.gameObject);
+        Dead();
     }
 
     public void SetISeeYou()
@@ -299,5 +303,21 @@ public class crystalEnemy : MonoBehaviour
         Background_Music.instance.DecrementSeeingPlayerCount();
         StartCoroutine(EnemyMusic());
         yield return null;
+    }
+
+    public void Dead()
+    {
+        if (isDead)
+        {
+            transform.parent.gameObject.SetActive(false);
+        }
+    }
+
+    public void Alive()
+    {
+        if (!isDead)
+        {
+            transform.parent.gameObject.SetActive(true);
+        }
     }
 }

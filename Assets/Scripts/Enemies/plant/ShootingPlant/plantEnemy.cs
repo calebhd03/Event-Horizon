@@ -35,6 +35,8 @@ public class plantEnemy : MonoBehaviour
     public AudioClip projectileSpawnSound;
     public AudioClip deathAudio;
 
+    private bool isDead = false;//assuming it is alive
+
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -110,6 +112,7 @@ public class plantEnemy : MonoBehaviour
 
         if (healthMetrics.currentHealth <= 0)
         {
+            isDead = true;
             Die();
             Debug.Log("Zero Health");
         }
@@ -143,12 +146,28 @@ public class plantEnemy : MonoBehaviour
             Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
         }
 
-        Destroy(transform.parent.gameObject);
+        Dead();
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, seeDistance);
+    }
+
+    public void Dead()
+    {
+        if(isDead)
+        {
+            transform.parent.gameObject.SetActive(false);
+        }
+    }
+
+    public void Alive()
+    {
+        if (!isDead)
+        {
+            transform.parent.gameObject.SetActive(true);
+        }
     }
 }

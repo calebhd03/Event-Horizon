@@ -468,6 +468,9 @@ MonoBehaviour:
   bHPickupPrefab: {fileID: 1464895933930130252, guid: 8f0d8942908b01c41b83f3c8c7be7cef, type: 3}
   healthPickupPrefab: {fileID: 1464895933930130252, guid: f867f91f0bffc4f4db651b1be23a1a15, type: 3}
   pickupDropChance: 0.3
+  updateObjectiveSound: {fileID: 8300000, guid: c263fac6b7ec450449136780f4f05905, type: 3}
+  TopObjectiveText: {fileID: 0}
+  objectiveNumber: 0
 --- !u!114 &3005844115365950184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -482,8 +485,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Scanned: 0
   criticalPointReveal: {fileID: 0}
-  number: 0
+  number: 7
   weakPointReveal: []
+  skinnedMeshRenderer: {fileID: 0}
+  materials: []
+  player: {fileID: 0}
 --- !u!1 &1375103745523238436
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,7 +805,7 @@ GameObject:
   - component: {fileID: 1375103746728593475}
   - component: {fileID: 1375103746728593474}
   - component: {fileID: 343839680625958190}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FrondBeast
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -863,7 +869,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1736891373908495107}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rock (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -894,7 +900,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4644905344120458478}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rock (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -925,7 +931,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8912295232973228199}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -959,7 +965,7 @@ GameObject:
   - component: {fileID: 2098786032739253686}
   - component: {fileID: 6062609755175573931}
   - component: {fileID: 8290370577509762845}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Mouth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1053,7 +1059,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3572098168606468035}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ShockWaveSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1084,7 +1090,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5427288828728359586}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BoulderSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}

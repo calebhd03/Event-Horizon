@@ -37,6 +37,8 @@ public class OverHeadPlant : MonoBehaviour
     AudioSource audioSource;
     public AudioClip deathAudio;
 
+    private bool isDead = false;//assuming it is alive
+
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -100,6 +102,7 @@ public class OverHeadPlant : MonoBehaviour
 
         if (healthMetrics.currentHealth <= 0)
         {
+            isDead = true;
             Die();
             Debug.Log("Zero Health");
         }
@@ -133,7 +136,7 @@ public class OverHeadPlant : MonoBehaviour
             Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
         }
 
-        Destroy(transform.parent.gameObject);
+        Dead();
     }
 
     private void OnDrawGizmos()
@@ -151,6 +154,7 @@ public class OverHeadPlant : MonoBehaviour
                 knifeDeath = true;
                 if (knifeDeath && knifeCount >= 1)
                 {
+                    isDead = true;
                     isOn = false;
                     triggerCollider.SetActive(false);
                     if (thirdPersonController != null)
@@ -169,7 +173,23 @@ public class OverHeadPlant : MonoBehaviour
     private IEnumerator DeathDelay()
     {
         yield return new WaitForSeconds(.5f);
-        Destroy(transform.parent.gameObject);
-        audioSource.PlayOneShot(deathAudio);
+        Dead()
+;       audioSource.PlayOneShot(deathAudio);
+    }
+
+    public void Dead()
+    {
+        if (isDead)
+        {
+            transform.parent.gameObject.SetActive(false);
+        }
+    }
+
+    public void Alive()
+    {
+        if (!isDead)
+        {
+            transform.parent.gameObject.SetActive(true);
+        }
     }
 }
