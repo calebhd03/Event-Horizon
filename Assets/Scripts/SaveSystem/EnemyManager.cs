@@ -87,7 +87,6 @@ public class EnemyManager : MonoBehaviour
     {
         Debug.Log("Load Enemy Locations");
 
-        // Check if the number of enemies has been saved
         if (PlayerPrefs.HasKey("Scene" + sceneIndex + "NumEnemies"))
         {
             int numEnemies = PlayerPrefs.GetInt("Scene" + sceneIndex + "NumEnemies");
@@ -95,10 +94,8 @@ public class EnemyManager : MonoBehaviour
             // Clear the list to remove references to previous enemy game objects
             enemyGameObjects.Clear();
 
-            // Store references to the original enemy game objects
             EnemyLister[] originalEnemies = FindObjectsOfType<EnemyLister>();
 
-            // Load each enemy's position individually
             for (int i = 0; i < numEnemies; i++)
             {
                 string positionKey = "Scene" + sceneIndex + "EnemyPosition" + i;
@@ -112,16 +109,15 @@ public class EnemyManager : MonoBehaviour
                         float z = float.Parse(positionString[2]);
                         Vector3 position = new Vector3(x, y, z);
 
-                        Debug.Log("Retrieved enemy position: " + position); // Log the retrieved position
+                        // Check if this enemy was dead in the last save
+                        bool wasDeadInLastSave = PlayerPrefs.GetInt("Scene" + sceneIndex + "EnemyIsDead" + i) == 1;
 
-                        // Find the prefab for the enemy
-                        GameObject enemyPrefab = enemyPrefabs[i % enemyPrefabs.Length]; // Ensure looping through enemyPrefabs if fewer than numEnemies
-
-                        // Instantiate the enemy prefab at the saved position
-                        GameObject newEnemy = Instantiate(enemyPrefab, position, Quaternion.identity);
-
-                        // Add the instantiated enemy to the list
-                        enemyGameObjects.Add(newEnemy);
+                        if (!wasDeadInLastSave) // If the enemy was not dead in the last save
+                        {
+                            GameObject enemyPrefab = enemyPrefabs[i % enemyPrefabs.Length];
+                            GameObject newEnemy = Instantiate(enemyPrefab, position, Quaternion.identity);
+                            enemyGameObjects.Add(newEnemy);
+                        }
                     }
                     else
                     {
