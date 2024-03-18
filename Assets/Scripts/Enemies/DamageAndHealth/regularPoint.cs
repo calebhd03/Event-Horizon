@@ -192,13 +192,14 @@ public class regularPoint : MonoBehaviour
 
     private void bulletDamage(float damage)
     {
-        if(upgradeEffects.stopSlowStack == false)
+        if(upgradeEffects != null && upgradeEffects.stopSlowStack == false)
             {
             upgradeEffects.SlowDownEnemy();
             upgradeEffects.stopSlowStack = true;
             }
 
-        upgradeEffects.knockBackAttack();
+        if(upgradeEffects != null) upgradeEffects.knockBackAttack();
+        
         if (healthMetrics != null)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");

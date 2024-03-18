@@ -24,9 +24,25 @@ public class MenuScript : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             normalToggle.onValueChanged.AddListener(delegate { ToggleValueChanged(normalToggle); });
             hardToggle.onValueChanged.AddListener(delegate { ToggleValueChanged(hardToggle); });
-            normalToggle.isOn = normalState == 1;
-            hardToggle.isOn = hardState == 1;
+            
+            
+    }
+    void Start()
+    {
+        if(hardMode == true)
+        {
+            hardState = 1;
+            normalState = 0;
+            hardToggle.interactable = false;
+        }
+        else
+        {
+            hardState = 0;
+            normalState = 1;
             normalToggle.interactable = false;
+        }
+        normalToggle.isOn = normalState == 1;
+        hardToggle.isOn = hardState == 1;
     }
     //The three functions here open their respective menus and close out the main
     public void OpenSettings()
@@ -102,6 +118,7 @@ public class MenuScript : MonoBehaviour
 
                 hardState = 0;
                 hardToggle.isOn = false;
+                Debug.LogError("Your static bool value: " + hardMode);
 
             }
             else
@@ -121,6 +138,7 @@ public class MenuScript : MonoBehaviour
 
                 normalState = 0;
                 normalToggle.isOn = false;
+                Debug.LogError("Your static bool value: " + hardMode);
 
             }
             else

@@ -15,6 +15,7 @@ public class PlantBasedHealth : MonoBehaviour
     StarterAssetsInputs starterAssetsInputs;
     GameObject player;
     PlayerHealthMetric playerHealth;
+    public bool toxicPlant;
 
 
     void Start()
@@ -35,7 +36,14 @@ public class PlantBasedHealth : MonoBehaviour
                 {
                     if (starterAssetsInputs.interact)
                     {
-                        HealPlayer();
+                        if(toxicPlant == false)
+                        {
+                            HealPlayer();
+                        }
+                        else
+                        {
+                            DamagePlayer();
+                        }
 
                         if(starterAssetsInputs.interact == true)
                             {
@@ -53,6 +61,20 @@ public class PlantBasedHealth : MonoBehaviour
                 {
                     used = true;
                     playerHealth.ModifyHealth(pickUpHealthAmount);
+                    mesh.enabled = false;
+                    cloud.Play();
+                    StartCoroutine(StopCloud());
+                }
+        }
+    }
+    void DamagePlayer()
+    {
+        if (used == false)
+        {
+                if (playerHealth != null && playerHealth.playerData.currentHealth < playerHealth.playerData.maxHealth)
+                {
+                    used = true;
+                    playerHealth.ModifyHealth(-pickUpHealthAmount);
                     mesh.enabled = false;
                     cloud.Play();
                     StartCoroutine(StopCloud());
