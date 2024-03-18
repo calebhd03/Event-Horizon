@@ -23,6 +23,7 @@ public class ShootableTriggerDialog : MonoBehaviour
     public GameObject player;
     public bool dialogActive = false, wasPlaying = false, motherBoardDialog;
     public AudioClip updateObjectiveSound;
+    public GameObject crystalObj;
     HealthMetrics healthMetrics;
     void Awake()
     {
@@ -74,6 +75,7 @@ public class ShootableTriggerDialog : MonoBehaviour
     {
         dialogActive = true;
         pauseMenuScript.dialogActive = true;
+        crystalObj.SetActive(false);
         if (SettingsScript.SubEnabled == true)
         {
             objectiveText.ShowDialogText();
