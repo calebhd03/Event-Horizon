@@ -13,11 +13,13 @@ public class AmmoHole : MonoBehaviour
     //hardmode
     public GameObject player;
     PlayerHealthMetric playerHealthMetric;
+    public Animator animator;
 
     void Awake()
     {
         player = GameObject.FindWithTag("Player");
         playerHealthMetric = player.GetComponent<PlayerHealthMetric>();
+        //animator = player.GetComponent<Animator>();
     }
 
     void Start()
@@ -30,20 +32,20 @@ public class AmmoHole : MonoBehaviour
     public void ToggleHole()
     {
         isOpen = !isOpen;
-        holeCover.SetActive(!isOpen);
 
         // Instantiate or destroy ammo objects based on the hole state
         if (isOpen)
         {
             if (MenuScript.hardMode == false || playerHealthMetric.playerData.hardMode == false)
             {
-            // Instantiate ammo objects slightly higher than the hole position
-                    foreach (GameObject prefab in ammoPrefabs)
-                    {
-                        Vector3 spawnPosition = transform.position + Vector3.up * 0.5f; // Adjust the height as needed
-                        GameObject ammoInstance = Instantiate(prefab, spawnPosition, transform.rotation);
-                        instantiatedAmmo.Add(ammoInstance);
-                    }
+                // Instantiate ammo objects slightly higher than the hole position
+                foreach (GameObject prefab in ammoPrefabs)
+                {
+                    Vector3 spawnPosition = transform.position + Vector3.up * 0.5f; // Adjust the height as needed
+                    GameObject ammoInstance = Instantiate(prefab, spawnPosition, transform.rotation);
+                    instantiatedAmmo.Add(ammoInstance);
+                    animator.SetBool("Ammo Picked Up", isOpen);
+                }
             }
         }
         else
