@@ -36,7 +36,7 @@ public class ObjectiveTracker : MonoBehaviour
         }
         else
         {
-            Debug.Log(remaining + " objects remaining.");
+            //Debug.Log(remaining + " objects remaining.");
         }
     }
 }
