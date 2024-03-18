@@ -106,7 +106,7 @@ public static void SavePlayer(PlayerSaveData saveData)
         }
 
         // Save enemy locations
-        EnemyManager.instance.SaveEnemyLocations(sceneIndex);
+        //EnemyManager.instance.SaveEnemyLocations(sceneIndex);
     }
 
     public static EnemyData LoadEnemyData(int sceneIndex)

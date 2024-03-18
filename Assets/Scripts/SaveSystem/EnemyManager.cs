@@ -5,12 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class EnemyManager : MonoBehaviour
 {
-  public static EnemyManager instance;
+   public static EnemyManager instance;
+    public int index;
 
     // List of all enemy prefabs, indexed by their type
     public GameObject[] enemyPrefabs;
-    private List<EnemySaveData> enemyDataList = new List<EnemySaveData>();
     private List<Vector3> initialEnemyPositions = new List<Vector3>();
+    private List<GameObject> enemyGameObjects = new List<GameObject>();
 
     private void Awake()
     {
@@ -28,6 +29,12 @@ public class EnemyManager : MonoBehaviour
     {
         // Pass the scene index when initializing enemy positions
         InitializeEnemyPositions(SceneManager.GetActiveScene().buildIndex);
+
+        // Save enemy locations once on start
+        SaveEnemyLocations(SceneManager.GetActiveScene().buildIndex);
+
+        // Instantiate enemy objects at initial positions
+       // InstantiateEnemyObjects();
     }
 
     private void InitializeEnemyPositions(int sceneIndex)
@@ -37,41 +44,27 @@ public class EnemyManager : MonoBehaviour
 
         // Clear previous data
         initialEnemyPositions.Clear();
-        enemyDataList.Clear();
 
         // Save the initial positions into the list
         foreach (EnemyLister enemy in enemies)
         {
             initialEnemyPositions.Add(enemy.transform.position);
-            float health = enemy.GetComponent<HealthMetrics>().currentHealth;
-            enemyDataList.Add(new EnemySaveData(0, enemy.transform.position, health)); // Assuming enemy type is 0
         }
-
-        // Convert the list to JSON and save it to PlayerPrefs
-        string json = JsonUtility.ToJson(initialEnemyPositions.ToArray());
-        PlayerPrefs.SetString("Scene" + sceneIndex + "EnemyPositions", json);
-        PlayerPrefs.SetInt("Scene" + sceneIndex + "HasBeenPlayed", 1);
-        Debug.Log("Enemy positions initialized and saved.");
     }
 
-    public void SaveEnemyLocations(int sceneIndex)
+    private void SaveEnemyLocations(int sceneIndex)
     {
         Debug.Log("Save Enemy Locations");
 
-        // Find all objects with the "EnemyLister" script
-        EnemyLister[] enemies = FindObjectsOfType<EnemyLister>();
-
-        Debug.Log("Number of enemies to save: " + enemies.Length);
-
         // Save each enemy's position individually
-        for (int i = 0; i < enemies.Length; i++)
+        for (int i = 0; i < initialEnemyPositions.Count; i++)
         {
             string positionKey = "Scene" + sceneIndex + "EnemyPosition" + i;
-            PlayerPrefs.SetString(positionKey, enemies[i].transform.position.x + "," + enemies[i].transform.position.y + "," + enemies[i].transform.position.z);
+            PlayerPrefs.SetString(positionKey, initialEnemyPositions[i].x + "," + initialEnemyPositions[i].y + "," + initialEnemyPositions[i].z);
         }
 
         // Save the number of enemies for reference
-        PlayerPrefs.SetInt("Scene" + sceneIndex + "NumEnemies", enemies.Length);
+        PlayerPrefs.SetInt("Scene" + sceneIndex + "NumEnemies", initialEnemyPositions.Count);
 
         // Flag to indicate that the data has been saved
         PlayerPrefs.SetInt("Scene" + sceneIndex + "HasBeenPlayed", 1);
@@ -79,15 +72,31 @@ public class EnemyManager : MonoBehaviour
         Debug.Log("Enemy locations saved successfully.");
     }
 
+    private void InstantiateEnemyObjects()
+    {
+        // Instantiate enemy game objects at initial positions
+        for (int i = 0; i < initialEnemyPositions.Count; i++)
+        {
+            GameObject enemyPrefab = enemyPrefabs[i % enemyPrefabs.Length]; // Choose enemy prefab based on index
+            GameObject enemyObject = Instantiate(enemyPrefab, initialEnemyPositions[i], Quaternion.identity);
+            enemyGameObjects.Add(enemyObject);
+        }
+    }
+
     public void LoadEnemyLocations(int sceneIndex)
     {
-
         Debug.Log("Load Enemy Locations");
 
         // Check if the number of enemies has been saved
         if (PlayerPrefs.HasKey("Scene" + sceneIndex + "NumEnemies"))
         {
             int numEnemies = PlayerPrefs.GetInt("Scene" + sceneIndex + "NumEnemies");
+
+            // Clear the list to remove references to previous enemy game objects
+            enemyGameObjects.Clear();
+
+            // Store references to the original enemy game objects
+            EnemyLister[] originalEnemies = FindObjectsOfType<EnemyLister>();
 
             // Load each enemy's position individually
             for (int i = 0; i < numEnemies; i++)
@@ -105,22 +114,14 @@ public class EnemyManager : MonoBehaviour
 
                         Debug.Log("Retrieved enemy position: " + position); // Log the retrieved position
 
-                        // Find the parent objects with the "Enemy" tag
-                        GameObject[] enemyObjects = GameObject.FindGameObjectsWithTag("Enemy");
-                        foreach (GameObject enemyObject in enemyObjects)
-                        {
-                            // Set the position of both parent and child GameObjects
-                            Transform[] allChildren = enemyObject.GetComponentsInChildren<Transform>();
-                            foreach (Transform child in allChildren)
-                            {
-                                UnityEngine.AI.NavMeshAgent navMeshAgent = child.GetComponent<UnityEngine.AI.NavMeshAgent>();
-                                if (navMeshAgent != null)
-                                {
-                                    // Set the destination of the NavMeshAgent
-                                    navMeshAgent.Warp(position);
-                                }
-                            }
-                        }
+                        // Find the prefab for the enemy
+                        GameObject enemyPrefab = enemyPrefabs[i % enemyPrefabs.Length]; // Ensure looping through enemyPrefabs if fewer than numEnemies
+
+                        // Instantiate the enemy prefab at the saved position
+                        GameObject newEnemy = Instantiate(enemyPrefab, position, Quaternion.identity);
+
+                        // Add the instantiated enemy to the list
+                        enemyGameObjects.Add(newEnemy);
                     }
                     else
                     {
@@ -133,17 +134,17 @@ public class EnemyManager : MonoBehaviour
                 }
             }
 
+            // Destroy the original enemy game objects from the scene
+            foreach (EnemyLister originalEnemy in originalEnemies)
+            {
+                Destroy(originalEnemy.gameObject);
+            }
+
             Debug.Log("Enemy locations loaded successfully.");
         }
         else
         {
             Debug.Log("No saved enemy positions found for scene " + sceneIndex);
         }
-    }
-
-    public void SetEnemyData(List<EnemySaveData> enemyData)
-    {
-        Debug.Log("Set enemy data called");
-        enemyDataList = enemyData;
     }
 }
