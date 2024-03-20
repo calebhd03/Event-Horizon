@@ -9,7 +9,7 @@ public class ChangeControlIcon : MonoBehaviour
     [SerializeField] string actionName;
     SpriteRenderer spriteRenderer;
     public SO_GamepadIcons icons;
-    PlayerInput playerInput;
+    public PlayerInput playerInput;
     Image imageComponent;
     TextMeshProUGUI textComponent;
 
@@ -21,15 +21,13 @@ public class ChangeControlIcon : MonoBehaviour
     }
     private void OnEnable()
     {
+        playerInput = StarterAssetsInputs.Instance.playerInput;
         StarterAssetsInputs.ChangedControlSchemeEvent += OnUpdateBindingDisplay;
+        OnUpdateBindingDisplay(StarterAssetsInputs.Instance.currentControlScheme);
     }
     private void OnDisable()
     {
         StarterAssetsInputs.ChangedControlSchemeEvent += OnUpdateBindingDisplay;
-    }
-    private void Start()
-    {
-        playerInput = StarterAssetsInputs.Instance.playerInput;
     }
 
     protected void OnUpdateBindingDisplay(string deviceLayoutName)

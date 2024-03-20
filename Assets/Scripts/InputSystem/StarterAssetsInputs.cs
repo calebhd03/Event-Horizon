@@ -73,7 +73,7 @@ using System.Collections;
         public string currentControlScheme = String.Empty;
         public static Action<string> ChangedControlSchemeEvent;
       //  [HideInInspector] 
-	public PlayerInput playerInput;
+		public PlayerInput playerInput;
 
         private void Awake()
         {
