@@ -89,7 +89,7 @@ using System.Collections;
         private void Update()
         {
             // Player changes control scheme
-            if (playerInput.currentControlScheme != currentControlScheme)
+            if (playerInput != null && playerInput.currentControlScheme != currentControlScheme)
             {
                 currentControlScheme = playerInput.currentControlScheme;
                 ChangedControlSchemeEvent?.Invoke(currentControlScheme);
