@@ -46,6 +46,11 @@ public class StartMenu : MonoBehaviour
         }
     }
 
+    public void CloseAccessibilityMenu()
+    {
+        accessibilityMenu.SetActive(false);
+    }
+
     public void LoadCodePrototype()
     {
         Cursor.visible = false;
