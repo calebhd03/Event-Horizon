@@ -47,23 +47,23 @@ public class MenuScript : MonoBehaviour
     //The three functions here open their respective menus and close out the main
     public void OpenSettings()
         {
-            settingsScreen.SetActive(true);
             menuScreen.SetActive(false);
+            settingsScreen.SetActive(true);
         }
     public void OpenCredits()
         {
-            creditsScreen.SetActive(true);
             menuScreen.SetActive(false);
+            creditsScreen.SetActive(true);
         }
     public void OpenExtras()
-        {
-            extrasScreen.SetActive(true);
+        {            
             menuScreen.SetActive(false);
+            extrasScreen.SetActive(true);
         }
     public void OpenSaves()
         {
-            dataScreen.SetActive(true);
             menuScreen.SetActive(false);
+            dataScreen.SetActive(true);
         }
 
         
@@ -96,8 +96,8 @@ public class MenuScript : MonoBehaviour
     }
     public void Difficulty()
     {
-        difficultyScreen.SetActive(true);
         menuScreen.SetActive(false);
+        difficultyScreen.SetActive(true);
     }
 
     public void CloseDifficulty()
