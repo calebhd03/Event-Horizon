@@ -23,7 +23,7 @@ public class SettingsScript : MonoBehaviour
 
     public Slider brightness;
 
-    public Slider FOV;
+    public Slider fovSlider;
 
     public Volume volume;
 
@@ -73,9 +73,9 @@ public class SettingsScript : MonoBehaviour
         brightness.value = PlayerPrefs.GetFloat("PostExposureValue", 1);
         brightness.enabled = true;
 
-        FOV.enabled = false;
-        FOV.value = PlayerPrefs.GetFloat("FOV", 30);
-        FOV.enabled = true;
+        fovSlider.enabled = false;
+        fovSlider.value = PlayerPrefs.GetFloat("FOV", 30);
+        fovSlider.enabled = true;
 
         Sens.enabled = false; 
         Sens.value = PlayerPrefs.GetFloat("Sensitivity", 1);
@@ -290,16 +290,16 @@ public class SettingsScript : MonoBehaviour
 
     public void ChangeFOV()
     {
-        PlayerPrefs.SetFloat("FOV", FOV.value);
+        PlayerPrefs.SetFloat("FOV", fovSlider.value);
         PlayerPrefs.Save();
 
         ThirdPersonController thirdPersonController = FindObjectOfType<ThirdPersonController>();
         /*if (thirdPersonController != null)
         {
-            thirdPersonController.ChangeFOV(FOV.value);
+            thirdPersonController.ChangeFOV(fovSlider.value);
         }*/
-        thirdPersonController._cinemachineFollowCamera.m_Lens.FieldOfView = FOV.value;
-        thirdPersonController._cinemachineAimCamera.m_Lens.FieldOfView = FOV.value;
+        thirdPersonController._cinemachineFollowCamera.m_Lens.FieldOfView = fovSlider.value;
+        thirdPersonController._cinemachineAimCamera.m_Lens.FieldOfView = fovSlider.value;
     }
 
     public void AudioSelection()
