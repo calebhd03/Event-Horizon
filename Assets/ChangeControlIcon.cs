@@ -9,7 +9,6 @@ public class ChangeControlIcon : MonoBehaviour
     [SerializeField] string actionName;
     SpriteRenderer spriteRenderer;
     public SO_GamepadIcons icons;
-    public PlayerInput playerInput;
     Image imageComponent;
     TextMeshProUGUI textComponent;
 
@@ -21,7 +20,6 @@ public class ChangeControlIcon : MonoBehaviour
     }
     private void OnEnable()
     {
-        playerInput = StarterAssetsInputs.Instance.playerInput;
         StarterAssetsInputs.ChangedControlSchemeEvent += OnUpdateBindingDisplay;
         OnUpdateBindingDisplay(StarterAssetsInputs.Instance.currentControlScheme);
     }
@@ -34,7 +32,7 @@ public class ChangeControlIcon : MonoBehaviour
     {
         if (string.IsNullOrEmpty(deviceLayoutName) || string.IsNullOrEmpty(actionName)) return;
 
-        InputActionAsset actions = playerInput.actions; // Current action of the player
+        InputActionAsset actions = StarterAssetsInputs.Instance.playerInput.actions; // Current action of the player
 
         InputAction a = actions.FindAction(actionName); // Input action that we are looking to find
 

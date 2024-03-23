@@ -21,19 +21,27 @@ public class EnemyText : MonoBehaviour
         ScannerUI.eneText += ShowText;
     }
 
+    List<TextMeshProUGUI> activeTexts = new List<TextMeshProUGUI>();
     void ShowText()
     {
         ScanCam scanCam = FindObjectOfType<ScanCam>();
         //Cursor.visible = true;
         //Cursor.lockState = CursorLockMode.None;
+        //displayedText.text = textToDisplay[scanCam.currentClipIndex].text;
+
         gameObject.SetActive(true);
-        displayedText.text = textToDisplay[scanCam.currentClipIndex].text;
+        textToDisplay[scanCam.currentClipIndex].gameObject.SetActive(true);
+        activeTexts.Add(textToDisplay[scanCam.currentClipIndex]);
         Invoke("HideText", 3);
     }
     public void HideText()
     {
         //Cursor.visible = false;
         //Cursor.lockState = CursorLockMode.Locked;
+        foreach (var text in textToDisplay)
+        {
+            text.gameObject.SetActive(false);
+        }
         gameObject.SetActive(false);
     }
 }
