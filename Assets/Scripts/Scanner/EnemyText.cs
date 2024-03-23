@@ -8,12 +8,10 @@ using TMPro;
 
 public class EnemyText : MonoBehaviour
 {
-    private TextMeshProUGUI displayedText; 
     [Tooltip("The number of the enemy associated text from the array.")]  
     public TextMeshProUGUI[] textToDisplay;
     void Start()
     {
-        displayedText = GetComponentInChildren<TextMeshProUGUI>();
         gameObject.SetActive(false);
     }
     private void OnEnable()
@@ -25,9 +23,6 @@ public class EnemyText : MonoBehaviour
     void ShowText()
     {
         ScanCam scanCam = FindObjectOfType<ScanCam>();
-        //Cursor.visible = true;
-        //Cursor.lockState = CursorLockMode.None;
-        //displayedText.text = textToDisplay[scanCam.currentClipIndex].text;
 
         gameObject.SetActive(true);
         textToDisplay[scanCam.currentClipIndex].gameObject.SetActive(true);
