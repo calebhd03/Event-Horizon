@@ -78,7 +78,8 @@ using System.Collections;
         private void Awake()
         {
             playerInput = GetComponent<PlayerInput>();
-
+			currentControlScheme = playerInput.currentControlScheme;
+			
             if (Instance == null)
                 Instance = this;
 			else

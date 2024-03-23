@@ -84,9 +84,6 @@ public class PlayerData : ScriptableObject
             nexusAmmoDefault = normalNexusAmmo;
             hardMode = false;
         }
-        
-        
-        Debug.LogError("Your static bool value: " + MenuScript.hardMode);
     }
 
     public void ResetHealthAmmo()

@@ -21,11 +21,14 @@ public class ChangeControlIcon : MonoBehaviour
     private void OnEnable()
     {
         StarterAssetsInputs.ChangedControlSchemeEvent += OnUpdateBindingDisplay;
-        OnUpdateBindingDisplay(StarterAssetsInputs.Instance.currentControlScheme);
     }
     private void OnDisable()
     {
-        StarterAssetsInputs.ChangedControlSchemeEvent += OnUpdateBindingDisplay;
+        StarterAssetsInputs.ChangedControlSchemeEvent -= OnUpdateBindingDisplay;
+    }
+    private void Start()
+    {
+        OnUpdateBindingDisplay(StarterAssetsInputs.Instance.currentControlScheme);
     }
 
     protected void OnUpdateBindingDisplay(string deviceLayoutName)
