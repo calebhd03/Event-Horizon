@@ -727,7 +727,7 @@ namespace StarterAssets
             }
 
             // Reset the interact input
-            _input.interact = false;
+            //_input.interact = false;
             }
         }
 
