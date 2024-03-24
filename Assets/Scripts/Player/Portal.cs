@@ -55,8 +55,8 @@ public class Portal : MonoBehaviour
             SaveSystemTest saveSystem = FindObjectOfType<SaveSystemTest>();
             if (saveSystem != null)
             {
-                saveSystem.SaveGame();
-                saveSystem.LoadGame();
+                //saveSystem.SaveGame();
+                //saveSystem.LoadGame();
             }
 
             
