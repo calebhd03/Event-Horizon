@@ -259,7 +259,8 @@ public class bossPhaseTwo : MonoBehaviour
     {
         yield return new WaitForSeconds(waitTime);
         audioSource1.PlayOneShot(deathAudio);
-        Background_Music.instance.CenterMusic();
+        if (Background_Music.instance != null)
+            Background_Music.instance.CenterMusic();
 
         // Call DropStuff after waiting for 3 seconds
         DropStuff();

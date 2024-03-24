@@ -70,7 +70,7 @@ public class Dialog : MonoBehaviour
 
                     dialogActive = true;
                     pauseMenuScript.dialogActive = true;
-                    Time.timeScale = 0;
+                    Time.timeScale = 1;
                     if (SettingsScript.SubEnabled == true)
                     {
                     objectiveText.ShowDialogText();

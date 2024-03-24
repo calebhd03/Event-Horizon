@@ -29,6 +29,11 @@ public class ObjectiveText : MonoBehaviour
         ScannerUI.objectiveText += ShowText;
         ScannerUI.disableObjText += HideText;
     }
+    private void OnDisable()
+    {
+        ScannerUI.objectiveText -= ShowText;
+        ScannerUI.disableObjText -= HideText;
+    }
 
     public void ShowText()
     {

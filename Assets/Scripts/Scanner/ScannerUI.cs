@@ -105,7 +105,7 @@ public class ScannerUI : MonoBehaviour
                 }
                 else 
                 {
-                    objectiveText();
+                    objectiveText?.Invoke();
                     Invoke("HideText", 3);
                 }
                 Destroy(ScanCam.scannerCurrentObject);
@@ -237,7 +237,7 @@ public class ScannerUI : MonoBehaviour
 
     void HideText()
     {
-        disableObjText();
+        disableObjText?.Invoke();
     }
 
     public void Overlay()

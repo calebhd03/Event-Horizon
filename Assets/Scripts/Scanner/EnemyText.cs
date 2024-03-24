@@ -18,6 +18,10 @@ public class EnemyText : MonoBehaviour
     {
         ScannerUI.eneText += ShowText;
     }
+    private void OnDisable()
+    {
+        ScannerUI.eneText -= ShowText;
+    }
 
     List<TextMeshProUGUI> activeTexts = new List<TextMeshProUGUI>();
     void ShowText()
