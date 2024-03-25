@@ -743,10 +743,10 @@ namespace StarterAssets
         }
         public void NewSave()
         {
-            if(_input.newSave == true)
+            if(_input.newSave)
             {
+                 _input.newSave = false;
                 Debug.Log("New Save input detected");
-                _input.newSave = false;
                 ResetPlayerDataToDefault();
             }
                 

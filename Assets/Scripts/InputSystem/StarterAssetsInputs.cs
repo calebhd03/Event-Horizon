@@ -305,9 +305,9 @@ using System.Collections;
 		{
 			R_BumperInput(value.isPressed);
 		}
-		public void NewSave(InputValue value)
+		public void OnNewSave(InputValue value)
 		{
-			NewSave(value.isPressed);
+			NewSaveInput(value.isPressed);
 		}
 		
 #endif
@@ -492,7 +492,7 @@ using System.Collections;
 		{
 			R_Bumper = newR_BumperState;
 		}
-		public void NewSave(bool newNewSaveState)
+		public void NewSaveInput(bool newNewSaveState)
 		{
 			newSave = newNewSaveState;
 		}
