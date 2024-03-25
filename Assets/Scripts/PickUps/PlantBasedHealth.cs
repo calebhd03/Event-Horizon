@@ -47,7 +47,7 @@ public class PlantBasedHealth : MonoBehaviour
 
                         if(starterAssetsInputs.interact == true)
                             {
-                                starterAssetsInputs.interact = false;
+                                //starterAssetsInputs.interact = false;
                             }
                     }
                 }

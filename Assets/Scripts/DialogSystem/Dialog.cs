@@ -45,7 +45,7 @@ public class Dialog : MonoBehaviour
 
                         if(starterAssetsInputs.interact == true)
                             {
-                                starterAssetsInputs.interact = false;
+                                //starterAssetsInputs.interact = false;
                             }
                     }
                 }

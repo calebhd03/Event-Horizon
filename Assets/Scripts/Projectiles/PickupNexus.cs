@@ -31,7 +31,7 @@ public class PickupNexus : MonoBehaviour
                     {
                         if(starterAssetsInputs.interact == true)
                             {
-                                starterAssetsInputs.interact = false;
+                                //starterAssetsInputs.interact = false;
                             }
                         EquipNexusGun();
                     }
