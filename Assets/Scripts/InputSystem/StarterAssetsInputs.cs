@@ -60,6 +60,8 @@ using System.Collections;
         public bool innerTP;
         public bool centerTP;
 
+		public bool newSave;
+
 		public bool delayShoot;
 		public bool interact;
 
@@ -303,6 +305,10 @@ using System.Collections;
 		{
 			R_BumperInput(value.isPressed);
 		}
+		public void NewSave(InputValue value)
+		{
+			NewSave(value.isPressed);
+		}
 		
 #endif
 
@@ -485,6 +491,10 @@ using System.Collections;
 		public void R_BumperInput(bool newR_BumperState)
 		{
 			R_Bumper = newR_BumperState;
+		}
+		public void NewSave(bool newNewSaveState)
+		{
+			newSave = newNewSaveState;
 		}
 	}
 
