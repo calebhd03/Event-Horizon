@@ -92,7 +92,8 @@ public class UpgradeSpot : MonoBehaviour
 
         pauseMenuScript.PauseGame();
 
-        objectiveText.ShowUpgradeText();
+        objectiveText = scannerUI.GetComponentInChildren<ObjectiveText>();
+        scannerUI.objectiveTextObj.ShowUpgradeText();
         Debug.LogError("text");
         Upgrade = true;
         Debug.LogError("upgrade");

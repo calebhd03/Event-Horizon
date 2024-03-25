@@ -8,12 +8,14 @@ public class ScannerUI : MonoBehaviour
 {
     public delegate void EneText();
     public static event EneText eneText;
-    public delegate void ObjectiveText();
-    public static event ObjectiveText objectiveText;
+    public delegate void OnObjectiveText();
+    public static event OnObjectiveText objectiveText;
     public delegate void DisableObjText();
     public static event DisableObjText disableObjText;
     public GameObject screenOverlay;
     public GameObject screenGradient;
+
+    public ObjectiveText objectiveTextObj;
 
     //ObjectiveSlider
     public GameObject sliderPrefab;
