@@ -5,6 +5,7 @@ using Cinemachine;
 using UnityEngine.InputSystem;
 using System.Collections;
 #endif
+using UnityEditor;
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
  */
@@ -153,6 +154,8 @@ namespace StarterAssets
 
         private AmmoHole currentAmmoHole;
 
+        public PlayerDataManager playerDataManager;
+
         private const float _threshold = 0.01f;
 
         private bool _hasAnimator;
@@ -217,6 +220,8 @@ namespace StarterAssets
             Crouch();
             Teleport();
             Interact();
+            NewSave();
+
             
         }
 
@@ -736,5 +741,28 @@ namespace StarterAssets
             _cinemachineFollowCamera.m_Lens.FieldOfView = FOV;
             _cinemachineAimCamera.m_Lens.FieldOfView = FOV;
         }
+        public void NewSave()
+        {
+            if(_input.newSave == true)
+            {
+                Debug.Log("New Save input detected");
+                _input.newSave = false;
+                ResetPlayerDataToDefault();
+            }
+                
+        }
+
+        public void ResetPlayerDataToDefault()
+        {
+            if (playerDataManager != null)
+            {
+                playerDataManager.ResetDataToDefault();
+            }
+            else
+            {
+                Debug.LogError("PlayerDataManager reference is not set in ThirdPersonController.");
+            }
+        }
+
     }
 }

@@ -1,24 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(PlayerData))]
-public class PlayerDataEditor : Editor
+public class PlayerDataManager : MonoBehaviour
 {
-    public override void OnInspectorGUI()
+    public PlayerData playerData;
+
+    public void ResetDataToDefault()
     {
-        base.OnInspectorGUI();
-        PlayerData playerData = (PlayerData)target;
-
-        EditorGUILayout.Space();
-
-        if (GUILayout.Button("Reset All Data to Default", GUILayout.Height(40)))
+        if (playerData != null)
         {
-            Undo.RecordObject(playerData, "Reset Player Data");
-
-
-
             // Reset boolean fields
             playerData.SavePlasmaUpgrade = false;
             playerData.SaveMeleeDamageUpgrade = false;
@@ -36,7 +27,11 @@ public class PlayerDataEditor : Editor
             // Reset health
             playerData.currentHealth = playerData.maxHealth;
 
-            EditorUtility.SetDirty(playerData);
+            Debug.Log("PlayerData reset to default.");
+        }
+        else
+        {
+            Debug.LogError("PlayerData reference is not set in PlayerDataManager.");
         }
     }
 }
