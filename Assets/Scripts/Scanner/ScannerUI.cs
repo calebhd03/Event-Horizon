@@ -37,6 +37,7 @@ public class ScannerUI : MonoBehaviour
     public int quest = 0;
     public int currentQuest = 0;
     [SerializeField] Compass compass;
+    [SerializeField]EnemyText enemyText;
 
 
     void Awake()
@@ -62,9 +63,8 @@ public class ScannerUI : MonoBehaviour
         enelapsed = 0;
         newSliderProgress2.value = enelapsed;
         compass = FindObjectOfType<Compass>();
-
+        enemyText = GetComponentInChildren<EnemyText>();
     }
-    
     void Update()
     {   
         ScanCam ScanCam = FindObjectOfType<ScanCam>();
@@ -118,12 +118,13 @@ public class ScannerUI : MonoBehaviour
 
     public void SetEnemySlider()
     {
-        EnemiesScanScript eneScr = FindObjectOfType<EnemiesScanScript>();
+        //EnemiesScanScript eneScr = FindObjectOfType<EnemiesScanScript>();
         enelapsed += Time.deltaTime;
 
         if (enelapsed >= enelapsedMaxTime)
         {
-            eneText();
+            //eneText();
+            enemyText.ShowText();
             DisableEnemySlider();
             WeakPoints();
         }

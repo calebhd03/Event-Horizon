@@ -39,7 +39,10 @@ public class ObjectivesScript : MonoBehaviour
 
     public void ScriptActive()
     {
+            if(EneSlider.eneSliderActive == false)
+            {
             objSlider();
+            }
     }
 
     void NormColor()
