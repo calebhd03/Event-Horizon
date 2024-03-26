@@ -153,6 +153,10 @@ public class FrondBeast : MonoBehaviour
                 }
             }
         }
+        if(healthMetrics.currentHealth <= 0)
+        {
+            iSeeYou = false;
+        }
     }
 
     private void RandomAttackPhaseOne()

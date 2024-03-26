@@ -5270,12 +5270,14 @@ MonoBehaviour:
     m_Bits: 1
   playerZone:
     serializedVersion: 2
-    m_Bits: 72
+    m_Bits: 8
   obstacleZone:
     serializedVersion: 2
     m_Bits: 128
   movePoints: []
   idleTime: 10
+  iSeeYou: 0
+  iHearYou: 0
   attackRange: 1.3
   attackAgainTimer: 10
   viewRadius: 15
@@ -5331,6 +5333,7 @@ MonoBehaviour:
   weakPointReveal: []
   skinnedMeshRenderer: {fileID: 1322540773969501210}
   materials: []
+  player: {fileID: 0}
 --- !u!95 &5196923581864970213
 Animator:
   serializedVersion: 5
@@ -5717,8 +5720,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: f3c8e3f0cc287624eb9a3ff5ba8b4c78, type: 2}
   healthMetrics: {fileID: 0}
+  enemyType: 0
   listIndex: 0
-  scene: 0
+  sceneIndex: 0
+  wasDeadInLastSave: 0
 --- !u!1 &986633096862746179
 GameObject:
   m_ObjectHideFlags: 0

@@ -40,6 +40,7 @@ public class crabEnemy : MonoBehaviour
     AudioSource audioSource;
     public AudioClip deathAudio;
     public AudioClip stickAudio;
+    HealthMetrics healthMetrics;
 
     private bool isDead = false;//assuming it is alive
     private void Awake()
@@ -55,7 +56,7 @@ public class crabEnemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+        healthMetrics = GetComponentInParent<HealthMetrics>();
         healthMetrics.currentHealth = healthMetrics.maxHealth;
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
         audioSource = GetComponent<AudioSource>();
@@ -81,6 +82,10 @@ public class crabEnemy : MonoBehaviour
             AttackPlayer();
             transform.LookAt(player);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        }
+        if(healthMetrics.currentHealth <= 0)
+        {
+            iSeeYou = false;
         }
     }
     

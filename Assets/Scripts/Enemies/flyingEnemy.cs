@@ -97,6 +97,10 @@ public class flyingEnemy : MonoBehaviour
             transform.LookAt(player);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
         }
+        if(healthMetrics.currentHealth <= 0)
+        {
+            iSeeYou = false;
+        }
     }
     public void Patrol()
     {

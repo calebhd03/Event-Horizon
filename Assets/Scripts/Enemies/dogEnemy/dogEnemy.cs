@@ -49,6 +49,7 @@ public class dogEnemy : MonoBehaviour
     [Header("Audio")]
     AudioSource audioSource;
     public AudioClip deathAudio;
+    HealthMetrics healthMetrics;
 
     private bool isDead = false;//assuming it is alive
 
@@ -64,7 +65,7 @@ public class dogEnemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+        healthMetrics = GetComponentInParent<HealthMetrics>();
         healthMetrics.currentHealth = healthMetrics.maxHealth;
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
         audioSource = GetComponent<AudioSource>();
@@ -83,7 +84,10 @@ public class dogEnemy : MonoBehaviour
 
             if (distanceTarget <= viewRadius && !Physics.Raycast(transform.position, playerTarget, distanceTarget, obstacleZone))
             {
-                iSeeYou = true;
+                if(healthMetrics.currentHealth > 0)
+                    {
+                    iSeeYou = true;
+                    }
                 transform.LookAt(player);
                 Debug.DrawRay(transform.position, playerTarget * viewRadius * viewAngle, Color.blue); //debug raycast line to show if enemy can see the player
             }

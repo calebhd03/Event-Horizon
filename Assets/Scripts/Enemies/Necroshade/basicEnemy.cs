@@ -34,7 +34,7 @@ namespace StarterAssets
 
         //check to find player
         [SerializeField] private bool iSeeYou;
-        private bool iHearYou;
+        [SerializeField]private bool iHearYou;
 
         //attack
         private bool attackAgainCoolDown;
@@ -140,7 +140,10 @@ namespace StarterAssets
                 if (distanceTarget <= viewRadius && !Physics.Raycast(transform.position, playerTarget, distanceTarget, obstacleZone))
                 {
                     animator.applyRootMotion = true;
+                    if(healthMetrics.currentHealth > 0)
+                    {
                     iSeeYou = true;
+                    }
                     hearDistance = 0;
                     transform.LookAt(player);
                     Debug.DrawRay(transform.position, playerTarget * viewRadius * viewAngle, Color.blue); //debug raycast line to show if enemy can see the player
