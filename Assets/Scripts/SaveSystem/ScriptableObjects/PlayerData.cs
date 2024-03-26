@@ -40,6 +40,8 @@ public class PlayerData : ScriptableObject
         public bool hasBlaster = false, hasNexus = false;
     [Header("Tutorial")]
         public bool tutorialComplete = false;
+    [Header("Compass")]
+        public bool hasCompass = false;
 
     //hardModeToggle
     public bool hardMode = false;
