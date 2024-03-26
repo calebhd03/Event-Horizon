@@ -43,10 +43,10 @@ public class Dialog : MonoBehaviour
                     {
                         TriggerDialogue();
 
-                        if(starterAssetsInputs.interact == true)
-                            {
+                       //if(starterAssetsInputs.interact == true)
+                            //{
                                 //starterAssetsInputs.interact = false;
-                            }
+                            //}
                     }
                 }
         
