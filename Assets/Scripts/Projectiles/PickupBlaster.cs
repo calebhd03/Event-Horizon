@@ -11,7 +11,7 @@ public class PickupBlaster : MonoBehaviour
     TutorialScript tutorialScript;
     GameObject player;
     public Collider[] colliderArray;
-    float interactRange = .5f;
+    float interactRange = 2f;
     void Start()
     {
         player = GameObject.FindWithTag("Player");
