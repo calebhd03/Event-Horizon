@@ -19,6 +19,10 @@ public class StartMenu : MonoBehaviour
     public GameObject VSSceneButton;
     public GameObject InnerSceneButton;
     public PlayerData playerData;
+    void Awake()
+    {
+        Time.timeScale = 1;
+    }
 
     void Start()
     {
