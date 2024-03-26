@@ -48,5 +48,6 @@ public class TachyonTranslocator : MonoBehaviour
         hasCompass = true;
         playerHealthMetric.playerData.hasCompass = true;
         //Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }
