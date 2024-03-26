@@ -29,10 +29,10 @@ public class PickupBlaster : MonoBehaviour
                 {
                     if (starterAssetsInputs.interact)
                     {
-                        if(starterAssetsInputs.interact == true)
-                            {
+                      //  if(starterAssetsInputs.interact == true)
+                           // {
                                //starterAssetsInputs.interact = false;
-                            }
+                           // }
                         EquipBlaster();
                     }
                 }
@@ -43,6 +43,7 @@ public class PickupBlaster : MonoBehaviour
         playerHealthMetric.playerData.hasBlaster = true;
         TPSC.EquipBlaster();
         TPSC.EnableBGunMesh();
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

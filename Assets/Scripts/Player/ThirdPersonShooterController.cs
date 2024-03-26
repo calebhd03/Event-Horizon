@@ -1024,8 +1024,14 @@ public class ThirdPersonShooterController : MonoBehaviour
     public void EnablePlayerMesh()
     {
         playermesh.enabled = true;
+        if(playerData.hasNexus == true)
+        {
         nxgun.EnableMesh();
+        }
+        if(playerData.hasBlaster == true)
+        {
         bgun.EnableMesh();
+        }
         //sgun.EnableMesh();
     }
     public void DisablePlayerMesh()

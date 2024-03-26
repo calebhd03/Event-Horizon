@@ -81,8 +81,8 @@ public class ScannerUI : MonoBehaviour
         Vector3 direction = Vector3.forward;
         Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
         Debug.DrawRay(scanRay.origin, scanRay.direction * ScanCam.range, Color.blue);
-
-        Physics.Raycast(scanRay, out RaycastHit hit, ScanCam.range);
+        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","Dialog"));
+        Physics.Raycast(scanRay, out RaycastHit hit, ScanCam.range, layerMask);
         ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
         if(hit.collider != null)
         {   
@@ -171,8 +171,8 @@ public class ScannerUI : MonoBehaviour
         Vector3 direction = Vector3.forward;
         Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
         Debug.DrawRay(scanRay.origin, scanRay.direction * ScanCam.range, Color.blue);
-
-        Physics.Raycast(scanRay, out RaycastHit hit, ScanCam.range);
+        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","Dialog"));
+        Physics.Raycast(scanRay, out RaycastHit hit, ScanCam.range, layerMask);
         ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
         if(hit.collider.tag == "Memory")
         {
@@ -206,8 +206,8 @@ public class ScannerUI : MonoBehaviour
         Vector3 direction = Vector3.forward;
         Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
         Debug.DrawRay(scanRay.origin, scanRay.direction * sc.range, Color.blue);
-
-        Physics.Raycast(scanRay, out RaycastHit hit, sc.range);
+        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","Dialog"));
+        Physics.Raycast(scanRay, out RaycastHit hit, sc.range, layerMask);
         EnemiesScanScript eneScr = hit.collider.GetComponent<EnemiesScanScript>() ?? hit.collider.GetComponentInParent<EnemiesScanScript>() ?? hit.collider.GetComponentInChildren<EnemiesScanScript>();
         if(hit.collider != null)
         {
@@ -222,8 +222,8 @@ public class ScannerUI : MonoBehaviour
         Vector3 direction = Vector3.forward;
         Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
         Debug.DrawRay(scanRay.origin, scanRay.direction * sc.range, Color.blue);
-
-        Physics.Raycast(scanRay, out RaycastHit hit, sc.range);
+        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","Dialog"));
+        Physics.Raycast(scanRay, out RaycastHit hit, sc.range, layerMask);
         ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
         if(hit.collider != null)
         {

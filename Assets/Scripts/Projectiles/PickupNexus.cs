@@ -29,10 +29,10 @@ public class PickupNexus : MonoBehaviour
                 {
                     if (starterAssetsInputs.interact)
                     {
-                        if(starterAssetsInputs.interact == true)
-                            {
+                        //if(starterAssetsInputs.interact == true)
+                           // {
                                 //starterAssetsInputs.interact = false;
-                            }
+                            //}
                         EquipNexusGun();
                     }
                 }
@@ -43,7 +43,8 @@ public class PickupNexus : MonoBehaviour
         playerHealthMetric.playerData.hasNexus = true;
         TPSC.EquipBlackHoleGun();
         TPSC.EnableNXGunMesh();
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
 }
