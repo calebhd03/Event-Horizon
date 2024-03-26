@@ -27,16 +27,39 @@ public class Compass : MonoBehaviour
     float maxDistance = 65f;
     public GameObject scannerCurrentObject;
 
+    PlayerHealthMetric playerHealthMetric;
+    GameObject playerReference;
+
+    private void Awake()
+    {
+        playerReference = GameObject.FindWithTag("Player");
+        playerHealthMetric = playerReference.GetComponent<PlayerHealthMetric>();
+    }
     private void Start()
     {
+        
         compassUnit = compassImage.rectTransform.rect.width / 360f;
 
          AddQuestMarkerIfNotNull(one);
 
+        if (playerHealthMetric.playerData.hasCompass == false)
+        {
+            compassImage.gameObject.SetActive(false);
+        }
+
+        if (playerHealthMetric.playerData.hasCompass == true)
+        {
+            compassImage.gameObject.SetActive(true);
+        }
     }
 
     private void Update()
-    {        
+    {
+        if (playerHealthMetric.playerData.hasCompass == true)
+        {
+            compassImage.gameObject.SetActive(true);
+        }
+
         compassImage.uvRect = new Rect (player.localEulerAngles.y / 360f, 0f, 1f,1f);
 
         foreach (QuestMarker marker in questMarkers)
