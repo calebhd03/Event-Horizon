@@ -58,27 +58,32 @@ public class TriggerDialog : MonoBehaviour
         {
             dialogActive = true;
             pauseMenuScript.dialogActive = true;
-            if (SettingsScript.SubEnabled == true)
-                {
-                objectiveText.ShowDialogText();
-                objectiveText.displayedText.text = dialogText[number].text;
-                }
-            audioSource.clip = dialogClips[number];
-            audioSource.Play();
-            number += 1;
-                if (number >= dialogClips.Length)
-                {
-                    number = 0;
-                    //dialogActive = false;
-                    pauseMenuScript.dialogActive = false;
-                    StartCoroutine(TurnOffText());
-                }
+            StartCoroutine(PlayAllAudio());
         }
     }
-
-    IEnumerator TurnOffText()
+    IEnumerator PlayAllAudio()
     {
-        yield return new WaitForSeconds(audioSource.clip.length);
+        
+        for (int i = number; i < dialogClips.Length; i++)
+            {
+                audioSource.clip = dialogClips[i];
+                
+                audioSource.Play();
+                if (SettingsScript.SubEnabled == true)
+                    {
+                        objectiveText.ShowDialogText();
+                    }
+                objectiveText.displayedText.text = dialogText[i].text;
+                yield return new WaitForSeconds(audioSource.clip.length);
+            }
+                number = 0;
+                //dialogActive = false;
+                pauseMenuScript.dialogActive = false;
+                TurnOffText();
+    }
+
+    void TurnOffText()
+    {
         if(motherBoardDialog == true)
         {
         TopObjectiveText.text = objectiveText.textToDisplay[objectiveNumber].text;
