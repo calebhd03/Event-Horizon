@@ -12,6 +12,7 @@ public class AmmoHole : MonoBehaviour
     private bool isOpen = false; // Flag to track if the hole is open or closed
     //hardmode
     public GameObject player;
+    public GameObject PE_AmmoHole;
     PlayerHealthMetric playerHealthMetric;
     public Animator animator;
 
@@ -57,6 +58,7 @@ public class AmmoHole : MonoBehaviour
             }
             // Clear the list
             instantiatedAmmo.Clear();
+            Destroy(PE_AmmoHole.gameObject);
         }
     }
 }
