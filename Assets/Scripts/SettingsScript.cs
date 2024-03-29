@@ -27,6 +27,14 @@ public class SettingsScript : MonoBehaviour
 
     public Volume volume;
 
+    public Volume motionBlurVolume;
+
+    private MotionBlur motionBlur;
+
+    private bool isMotionBlurOn;
+
+    public Toggle motionBlurToggle;
+
     private ColorAdjustments postExposure;
 
     Resolution[] resolutions;
@@ -68,6 +76,11 @@ public class SettingsScript : MonoBehaviour
         controlsDisplay.SetActive(false);
 
         gameBackgroundSettings.SetActive(true);
+
+        int motionBlurEnabled = PlayerPrefs.GetInt("MotionBlurEnabled", 1);
+        bool isMotionBlurEnabled = motionBlurEnabled == 1;
+        motionBlurToggle.isOn = isMotionBlurEnabled; 
+        ToggleMotionBlur(isMotionBlurEnabled);
 
         brightness.enabled = false;
         brightness.value = PlayerPrefs.GetFloat("PostExposureValue", 1);
@@ -269,7 +282,6 @@ public class SettingsScript : MonoBehaviour
         PlayerPrefs.SetFloat("PostExposureValue", brightness.value);
         PlayerPrefs.Save();
 
-
         if (volume != null && volume.profile != null)
         {
             if (volume.profile.TryGet<ColorAdjustments>(out postExposure))
@@ -286,6 +298,34 @@ public class SettingsScript : MonoBehaviour
             Debug.LogWarning("Volume is null.");
         }
 
+    }
+
+    public void ToggleMotionBlur(bool value)
+    {
+        motionBlurToggle.isOn = value;
+        isMotionBlurOn = value;
+
+        PlayerPrefs.SetInt("MotionBlurEnabled", value ? 1 : 0);
+        PlayerPrefs.Save();
+
+        if (motionBlurVolume != null && motionBlurVolume.profile != null)
+        {
+            Debug.Log("Before TryGet<MotionBlur>");
+            if (motionBlurVolume.profile.TryGet<MotionBlur>(out MotionBlur blur))
+            {
+                Debug.Log("Motion Blur effect found!");
+                blur.active = value;
+                Debug.Log("Motion Blur toggled. Active: " + motionBlur.active);
+            }
+            else
+            {
+                Debug.LogWarning("Motion not found in the Volume.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Volume is null.");
+        }
     }
 
     public void ChangeFOV()
