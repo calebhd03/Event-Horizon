@@ -315,7 +315,7 @@ public class SettingsScript : MonoBehaviour
             {
                 Debug.Log("Motion Blur effect found!");
                 blur.active = value;
-                Debug.Log("Motion Blur toggled. Active: " + motionBlur.active);
+                Debug.Log("Motion Blur toggled. Active: " + blur.active);
             }
             else
             {
