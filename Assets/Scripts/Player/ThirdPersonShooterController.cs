@@ -145,8 +145,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         //Shotgun sgun;
         public Blaster bgun;
 
-
-        private void Awake()
+    private void Awake()
         {
             animator = GetComponent<Animator>();
             playermesh = GetComponentInChildren<SkinnedMeshRenderer>();
@@ -486,6 +485,38 @@ public class ThirdPersonShooterController : MonoBehaviour
                     Debug.Log("Knife Animatoion");
                     knifeSlash = true;
                     Debug.Log("Knife Slash is true");
+
+                    float maxDistanceKnife = 3f;
+                    Vector3 raycastOffset = new Vector3(0f, 1.22f, 0f);
+                    Vector3 raycastOrigin = transform.position + raycastOffset;
+
+                    Vector3 raycastOffset2 = new Vector3(0f, 1f, 0f);
+                    RaycastHit hit;
+                    if (Physics.Raycast(raycastOrigin, transform.forward, out hit, maxDistanceKnife))
+                    {
+                        // Check if the ray has hit the target object
+                        if (hit.collider.gameObject.CompareTag("Enemy"))
+                        {
+                            Debug.Log("KNIFE RAYCAST HIT ON ENEMY");
+
+                            // Do whatever you need to do when a collision occurs
+                            regularPoint regularDamage = hit.collider.GetComponentInChildren<regularPoint>();
+                            weakPoint criticalDamage = hit.collider.GetComponentInChildren<weakPoint>();
+                            if (regularDamage != null)
+                            {
+                                regularDamage.KnifeDamageFunction();
+                                Debug.Log("KNIFE DAMAGE BABY");
+                            }
+                          
+                            else if(criticalDamage != null)
+                            {
+                                criticalDamage.KnifeDamageFunction();
+                                Debug.Log("MORE KNIFE DAMAGE BABY");
+                            }
+                        }
+                    }
+
+                    Debug.DrawRay(raycastOrigin, transform.forward * maxDistanceKnife, Color.black);
                 }
                 UpdateAmmoCount();
                 shotCooldown = 0;
