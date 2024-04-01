@@ -189,10 +189,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 731e91b9581fd754e88fb4b2b5bc3fa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ammoAmount: 12
   holeCover: {fileID: 5243552519220364219}
   ammoPrefabs:
   - {fileID: 2386002193791810672, guid: 7c96418087cb35d45820ea94edc4c74f, type: 3}
   player: {fileID: 0}
+  playerData: {fileID: 11400000, guid: 6ed2d50279210ac4d94671f1c8b74678, type: 2}
   PE_AmmoHole: {fileID: 5570918509127877604}
   animator: {fileID: 9188237998426714010}
 --- !u!95 &9188237998426714010
@@ -229,6 +231,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   number: 0
+  meshRenderer: {fileID: 0}
+  materials: []
+  player: {fileID: 0}
+  scanCam: {fileID: 0}
+  Scanned: 0
+  logSystem: {fileID: 0}
+  healthPlant: {fileID: 0}
+  plant: 0
 --- !u!1001 &1952781958
 PrefabInstance:
   m_ObjectHideFlags: 0

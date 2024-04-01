@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class AmmoHole : MonoBehaviour
 {
+    public int ammoAmount = 12;
     public GameObject holeCover; // The cover of the hole
     public GameObject[] ammoPrefabs; // Array of prefabs representing ammo pickups
 
@@ -12,6 +13,7 @@ public class AmmoHole : MonoBehaviour
     private bool isOpen = false; // Flag to track if the hole is open or closed
     //hardmode
     public GameObject player;
+    public PlayerData playerData;
     public GameObject PE_AmmoHole;
     PlayerHealthMetric playerHealthMetric;
     public Animator animator;
@@ -20,7 +22,7 @@ public class AmmoHole : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player");
         playerHealthMetric = player.GetComponent<PlayerHealthMetric>();
-        //animator = player.GetComponent<Animator>();
+        animator = GetComponent<Animator>();
     }
 
     void Start()
@@ -38,27 +40,10 @@ public class AmmoHole : MonoBehaviour
         if (isOpen)
         {
             if (MenuScript.hardMode == false || playerHealthMetric.playerData.hardMode == false)
-            {
-                // Instantiate ammo objects slightly higher than the hole position
-                foreach (GameObject prefab in ammoPrefabs)
-                {
-                    Vector3 spawnPosition = transform.position + Vector3.up * 0.5f; // Adjust the height as needed
-                    GameObject ammoInstance = Instantiate(prefab, spawnPosition, transform.rotation);
-                    instantiatedAmmo.Add(ammoInstance);
-                    animator.SetBool("Ammo Picked Up", isOpen);
-                }
+            { 
+                playerData.standardAmmo += ammoAmount;
+                animator.SetBool("Ammo Picked Up", isOpen);
             }
-        }
-        else
-        {
-            // Destroy instantiated ammo objects
-            foreach (GameObject ammoInstance in instantiatedAmmo)
-            {
-                Destroy(ammoInstance);
-            }
-            // Clear the list
-            instantiatedAmmo.Clear();
-            Destroy(PE_AmmoHole.gameObject);
         }
     }
 }

@@ -25,6 +25,8 @@ public class SettingsScript : MonoBehaviour
 
     public Slider fovSlider;
 
+    public TMPro.TMP_Dropdown qualitySelect;
+
     public Volume volume;
 
     public Volume motionBlurVolume;
@@ -89,6 +91,10 @@ public class SettingsScript : MonoBehaviour
         fovSlider.enabled = false;
         fovSlider.value = PlayerPrefs.GetFloat("FOV", 30);
         fovSlider.enabled = true;
+
+        qualitySelect.enabled = false;
+        qualitySelect.value = PlayerPrefs.GetInt("QualityLevel", 2);
+        qualitySelect.enabled = true;
 
         Sens.enabled = false; 
         Sens.value = PlayerPrefs.GetFloat("Sensitivity", 1);
@@ -340,6 +346,12 @@ public class SettingsScript : MonoBehaviour
         }*/
         thirdPersonController._cinemachineFollowCamera.m_Lens.FieldOfView = fovSlider.value;
         thirdPersonController._cinemachineAimCamera.m_Lens.FieldOfView = fovSlider.value;
+    }
+
+    public void ChangeQuality()
+    {
+        QualitySettings.SetQualityLevel(qualitySelect.value);
+        PlayerPrefs.SetInt("QualityLevel", qualitySelect.value);
     }
 
     public void AudioSelection()
