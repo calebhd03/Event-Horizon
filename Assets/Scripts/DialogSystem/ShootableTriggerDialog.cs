@@ -72,7 +72,6 @@ public class ShootableTriggerDialog : MonoBehaviour
             //StartDialogue();
             crystalObj.SetActive(false);
             crystalsDestroyed += 1;
-            Debug.LogError("Shouldgoup");
             if(crystalsDestroyed == 5)
             {
                 StartDialogue();
