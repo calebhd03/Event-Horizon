@@ -25,6 +25,7 @@ public class ShootableTriggerDialog : MonoBehaviour
     public AudioClip updateObjectiveSound;
     public GameObject crystalObj;
     HealthMetrics healthMetrics;
+    public static int crystalsDestroyed;
     void Awake()
     {
         pauseMenuScript = FindObjectOfType<PauseMenuScript>();
@@ -35,6 +36,7 @@ public class ShootableTriggerDialog : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         dialogBox = objectiveText.gameObject;
         healthMetrics = GetComponent<HealthMetrics>();
+        crystalsDestroyed = 0;
     }
 
     private void OnEnable()
@@ -67,7 +69,14 @@ public class ShootableTriggerDialog : MonoBehaviour
     {
         if(currentHealth <=0)
         {
-            StartDialogue();
+            //StartDialogue();
+            crystalObj.SetActive(false);
+            crystalsDestroyed += 1;
+            Debug.LogError("Shouldgoup");
+            if(crystalsDestroyed == 5)
+            {
+                StartDialogue();
+            }
         }
     }
 
@@ -75,7 +84,7 @@ public class ShootableTriggerDialog : MonoBehaviour
     {
         dialogActive = true;
         pauseMenuScript.dialogActive = true;
-        crystalObj.SetActive(false);
+        
         if (SettingsScript.SubEnabled == true)
         {
             objectiveText.ShowDialogText();
