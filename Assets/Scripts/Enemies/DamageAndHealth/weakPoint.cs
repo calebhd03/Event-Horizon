@@ -158,6 +158,34 @@ public class weakPoint : MonoBehaviour
         }
     }
 
+    public void KnifeDamageFunction()
+    {
+        HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+
+        if (healthMetrics != null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+            if (player != null && damageSound != null)
+            {
+                AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
+                if (audioSource != null)
+                {
+                    audioSource.PlayOneShot(damageSound);
+                }
+            }
+
+            if (meleeUp == true)
+            {
+                healthMetrics.ModifyHealth(-knifeDamage * knifeDamageUpFactor);
+            }
+            else
+            {
+                healthMetrics.ModifyHealth(-knifeDamage);
+            }
+        }
+    }
+
     public void getISeeYou()
     {
         if (hit)

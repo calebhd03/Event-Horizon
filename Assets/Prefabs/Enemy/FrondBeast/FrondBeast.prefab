@@ -13,11 +13,11 @@ GameObject:
   - component: {fileID: 1375103744893493006}
   m_Layer: 9
   m_Name: hitBoxRegular
-  m_TagString: CriticalPoint
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1375103744893493005
 Transform:
   m_ObjectHideFlags: 0
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 1375103745158194237}
   m_Layer: 9
   m_Name: Background
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -167,6 +167,7 @@ GameObject:
   - component: {fileID: 344499516300934700}
   - component: {fileID: 7392207217329617391}
   - component: {fileID: 3005844115365950184}
+  - component: {fileID: 5958229837112839082}
   m_Layer: 9
   m_Name: FrondBeast
   m_TagString: Enemy
@@ -434,8 +435,8 @@ MonoBehaviour:
     m_Bits: 8
   healthBar: {fileID: 0}
   seeDistance: 20
-  allAttackCoolDownPhaseOne: 10
-  allAttackCoolDownPhaseTwo: 10
+  allAttackCoolDownPhaseOne: 9
+  allAttackCoolDownPhaseTwo: 9
   closeDistance: 2.5
   healthMetrics: {fileID: 0}
   speedMultiplier: 2
@@ -490,6 +491,40 @@ MonoBehaviour:
   skinnedMeshRenderer: {fileID: 0}
   materials: []
   player: {fileID: 0}
+--- !u!114 &5958229837112839082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375103745290613619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94a141c56a692984fb7fb0e5d831dfc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  healthMetrics: {fileID: 0}
+  skillTree: {fileID: 0}
+  agent: {fileID: 0}
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 5
+  damageOverTimeDuration: 4
+  knockBackForce: 10
+  knockBackTimer: 0
+  meleeUp: 0
+  knockBackUp: 0
+  slowEnemyUp: 0
+  damageOverTimeEnemyUp: 0
+  plasmaUp: 0
+  OGKillUp: 0
+  PullUp: 0
+  stopStackDamage: 0
+  stopSlowStack: 0
+  slowEffect: {fileID: 8640253659854660874, guid: ee4b14e240230a345844a7fc4b3b4d88, type: 3}
+  damageOverTimeEffect: {fileID: 3456954308102798552, guid: 8bc0e7cd35ffd03429f4d5dfd22bd88b, type: 3}
 --- !u!1 &1375103745523238436
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,7 +537,7 @@ GameObject:
   - component: {fileID: 1375103745523238438}
   m_Layer: 9
   m_Name: HealthBar
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -593,7 +628,7 @@ GameObject:
   - component: {fileID: 1375103745523735297}
   m_Layer: 9
   m_Name: Fill
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -670,7 +705,7 @@ GameObject:
   - component: {fileID: 1375103746063210820}
   m_Layer: 9
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -768,7 +803,7 @@ GameObject:
   - component: {fileID: 1375103746334268868}
   m_Layer: 9
   m_Name: Fill Area
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -858,8 +893,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: f3c8e3f0cc287624eb9a3ff5ba8b4c78, type: 2}
   healthMetrics: {fileID: 1375103746728593474}
+  enemyType: 0
   listIndex: 0
-  scene: 0
+  sceneIndex: 0
+  wasDeadInLastSave: 0
 --- !u!1 &1863778535175443540
 GameObject:
   m_ObjectHideFlags: 0
@@ -871,7 +908,7 @@ GameObject:
   - component: {fileID: 1736891373908495107}
   m_Layer: 9
   m_Name: Rock (2)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -902,7 +939,7 @@ GameObject:
   - component: {fileID: 4644905344120458478}
   m_Layer: 9
   m_Name: Rock (1)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -933,7 +970,7 @@ GameObject:
   - component: {fileID: 8912295232973228199}
   m_Layer: 9
   m_Name: Rock
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -967,7 +1004,7 @@ GameObject:
   - component: {fileID: 8290370577509762845}
   m_Layer: 9
   m_Name: Mouth
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1046,7 +1083,7 @@ BoxCollider:
   m_GameObject: {fileID: 6386212331391991737}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -1061,7 +1098,7 @@ GameObject:
   - component: {fileID: 3572098168606468035}
   m_Layer: 9
   m_Name: ShockWaveSpawn
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1092,7 +1129,7 @@ GameObject:
   - component: {fileID: 5427288828728359586}
   m_Layer: 9
   m_Name: BoulderSpawn
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

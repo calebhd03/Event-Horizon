@@ -245,6 +245,34 @@ public class regularPoint : MonoBehaviour
         }
     }
 
+    public void KnifeDamageFunction()
+    {
+        HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+
+        if (healthMetrics != null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+            if (player != null && damageSound != null)
+            {
+                AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
+                if (audioSource != null)
+                {
+                    audioSource.PlayOneShot(damageSound);
+                }
+            }
+
+            if (meleeUp == true)
+            {
+                healthMetrics.ModifyHealth(-regularKnifeDamage * knifeDamageUpFactor);
+            }
+            else
+            {
+                healthMetrics.ModifyHealth(-regularKnifeDamage);
+            }
+        }
+    }
+
     public void getISeeYou()
     {
         if (hit)

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using StarterAssets;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +24,7 @@ public class TriggerDialog : MonoBehaviour
     public GameObject player;
     public bool dialogActive = false, wasPlaying = false, motherBoardDialog;
     public AudioClip updateObjectiveSound;
+    public static bool nextDialog;
     void Awake()
     {
         pauseMenuScript = FindObjectOfType<PauseMenuScript>();
@@ -32,7 +34,7 @@ public class TriggerDialog : MonoBehaviour
         thirdPersonShooterController = player.GetComponent<ThirdPersonShooterController>();
         audioSource = GetComponent<AudioSource>();
         dialogBox = objectiveText.gameObject;
-        
+        nextDialog = false;
     }
 
     void Update()
@@ -58,14 +60,29 @@ public class TriggerDialog : MonoBehaviour
         {
             dialogActive = true;
             pauseMenuScript.dialogActive = true;
-            StartCoroutine(PlayAllAudio());
+            if(nextDialog == true)
+            {
+                StartCoroutine(WaitForNextAudio());
+            }
+            else
+            {
+                StartCoroutine(PlayAllAudio());
+            }
         }
     }
-    IEnumerator PlayAllAudio()
+    IEnumerator WaitForNextAudio()
     {
-        
+        yield return new WaitUntil(() => nextDialog  == false);
+        StartCoroutine(PlayAllAudio());
+    }
+    IEnumerator PlayAllAudio()
+    {   
         for (int i = number; i < dialogClips.Length; i++)
             {
+                if(nextDialog == false)
+                {
+                    nextDialog = true;
+                }
                 audioSource.clip = dialogClips[i];
                 
                 audioSource.Play();
@@ -76,19 +93,20 @@ public class TriggerDialog : MonoBehaviour
                 objectiveText.displayedText.text = dialogText[i].text;
                 yield return new WaitForSeconds(audioSource.clip.length);
             }
-                number = 0;
-                //dialogActive = false;
-                pauseMenuScript.dialogActive = false;
-                TurnOffText();
+            number = 0;
+            //dialogActive = false;
+            pauseMenuScript.dialogActive = false;
+            TurnOffText();
+            nextDialog = false;
     }
 
     void TurnOffText()
     {
+        objectiveText.HideDialogText();
         if(motherBoardDialog == true)
         {
         TopObjectiveText.text = objectiveText.textToDisplay[objectiveNumber].text;
         audioSource.PlayOneShot(updateObjectiveSound);
         }
-        objectiveText.HideDialogText();
     }
 }

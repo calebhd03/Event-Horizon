@@ -133,7 +133,8 @@ public class FrondBeast : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
 
             //transition from phases depending on health.
-            if (healthMetrics.currentHealth <= 200 && healthMetrics.currentHealth > 100)
+            //Real Attack functions not for now because no animations
+            /*if (healthMetrics.currentHealth <= 200 && healthMetrics.currentHealth > 100)
             {
                 Debug.Log("PHASE ONE");
                 if (!a1p1Bool && !a2p1Bool && !a3p1Bool)
@@ -151,15 +152,82 @@ public class FrondBeast : MonoBehaviour
                     Debug.Log("ATTACK PHASE 2");
                     RandomAttackPhaseTwo();
                 }
+            }*/
+
+            //Temporally Attacks for now
+            if (healthMetrics.currentHealth <= 200 && healthMetrics.currentHealth > 100)
+            {
+                Debug.Log("PHASE ONE");
+                if (!a1p1Bool && !a3p1Bool)
+                {
+                    Debug.Log("ATTACK PHASE 1");
+                    RandomAttackPhaseOne();
+                }
+            }
+
+            else if (healthMetrics.currentHealth <= 100)
+            {
+                Debug.Log("PHASE TWO");
+                if (!a1p2Bool && !a3p2Bool)
+                {
+                    Debug.Log("ATTACK PHASE 2");
+                    RandomAttackPhaseTwo();
+                }
             }
         }
+
         if(healthMetrics.currentHealth <= 0)
         {
             iSeeYou = false;
         }
     }
 
+    //Temp Attack Logic Function Unitl Animations Come;
     private void RandomAttackPhaseOne()
+    {
+        int randomAttack = Random.Range(0, 2);
+
+        switch (randomAttack)
+        {
+            case 0: // rush fist
+                a1p1Bool = true;
+                StartCoroutine(fistRampage());
+                StopCoroutine(firstBoulderAttack());
+                break;
+
+            case 1: //boulder
+                a3p1Bool = true;
+                StartCoroutine(firstBoulderAttack());
+                StopCoroutine(fistRampage());
+                break;
+        }
+
+        StartCoroutine(attackCoolDownPhaseOne());
+    }
+
+    private void RandomAttackPhaseTwo()
+    {
+        int randomAttack = Random.Range(0, 2);
+
+        switch (randomAttack)
+        {
+            case 0: //ground shockwaves spam
+                a1p2Bool = true;
+                StartCoroutine(secondRampage());
+                StopCoroutine(secondBoulderAttack());
+                break;
+
+            case 1: //second boulder attack
+                a3p2Bool = true;
+                StartCoroutine(secondBoulderAttack());
+                StopCoroutine(secondRampage()); 
+                break;
+        }
+
+        StartCoroutine(attackCoolDownPhaseTwo());
+    }
+
+    /*private void RandomAttackPhaseOne()
     {
         int randomAttack = Random.Range(0, 3);
 
@@ -219,7 +287,7 @@ public class FrondBeast : MonoBehaviour
         }
 
         StartCoroutine(attackCoolDownPhaseTwo());
-    }
+    }*/
 
     private IEnumerator attackCoolDownPhaseOne()
     {
@@ -249,9 +317,31 @@ public class FrondBeast : MonoBehaviour
         resetTriggers();
     }
 
+    //Temp Attack Function with reduced times because no aninations
     //AttackOnePhaseOne = a1p1 = left right rush attack then shockwave 
     private IEnumerator fistRampage()
     {
+        agent.isStopped = true;
+        //windup a1p1 animation
+
+        //timer has to be long as windup animation
+        yield return new WaitForSeconds(1f);
+
+        //attack animation for a1p1 = left right rush
+
+        //delay for shockwave spawn and has to be as long as the animation
+        yield return new WaitForSeconds(1f);
+
+        GameObject newShockWave = Instantiate(shockWavePrefab, shockWaveSpawn.position, Quaternion.identity);
+        Destroy(newShockWave, 5f);
+
+        agent.isStopped = false;
+    }
+    /*
+    //AttackOnePhaseOne = a1p1 = left right rush attack then shockwave 
+    private IEnumerator fistRampage()
+    {
+        agent.isStopped = true;
         //windup a1p1 animation
 
         //timer has to be long as windup animation
@@ -264,7 +354,9 @@ public class FrondBeast : MonoBehaviour
 
         GameObject newShockWave = Instantiate(shockWavePrefab, shockWaveSpawn.position, Quaternion.identity);
         Destroy(newShockWave, 5f);
-    }
+
+        agent.isStopped = false;
+    }*/
 
     //AttackTwoPhaseOne = a2p1 = regular dash attack //NOT DONE STILL NEED TO CHECK FOR HIT
     private IEnumerator firstDashAttack()
@@ -280,12 +372,15 @@ public class FrondBeast : MonoBehaviour
         agent.speed *= speedMultiplier;
         Vector3 attackPosition = player.position - transform.forward * attackCloseDistance;
         agent.SetDestination(attackPosition);
+
+        yield return new WaitForSeconds(1f);
         agent.speed /= speedMultiplier;
     }
 
     //AttackThreePhaseOne = a3p1 = regular boulder attack
-    private IEnumerator firstBoulderAttack()
+    /*private IEnumerator firstBoulderAttack()
     {
+        agent.isStopped = true;
         // windup a3p1 animation
 
         //timer has to be long as windup animation
@@ -301,11 +396,37 @@ public class FrondBeast : MonoBehaviour
         directionToPlayer.Normalize();
         newBoulder.velocity = directionToPlayer * boulderSpeed;
         Destroy(newBoulder, 10f);
+
+        agent.isStopped = false;
+    }*/
+
+    //Temp Code util animations come
+    private IEnumerator firstBoulderAttack()
+    {
+        agent.isStopped = true;
+        // windup a3p1 animation
+
+        //timer has to be long as windup animation
+        yield return new WaitForSeconds(1f);
+
+        //attack animation for a3p1 = boulder attack
+
+        //delay for boulder spawn and has to be as long as the animation
+        yield return new WaitForSeconds(1f);
+
+        Rigidbody newBoulder = Instantiate(boulderPrefab, boulderSpawn.position, Quaternion.identity).GetComponent<Rigidbody>();
+        Vector3 directionToPlayer = player.position - transform.position;
+        directionToPlayer.Normalize();
+        newBoulder.velocity = directionToPlayer * boulderSpeed;
+        Destroy(newBoulder, 10f);
+
+        agent.isStopped = false;
     }
 
     //AttackOnePhase2 = a1p2 = shockwave spam
-    private IEnumerator secondRampage()
+    /*private IEnumerator secondRampage()
     {
+        agent.isStopped = true;
         // windup a1p2 animation
 
         //timer has to be long as windup animation
@@ -314,7 +435,7 @@ public class FrondBeast : MonoBehaviour
         //attack animation
 
         //wait for the animation to play and hands hit the ground to summon shockwaves.
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(a1p2AnimDuration);
         GameObject newShockWave = Instantiate(shockWavePrefab, shockWaveSpawn.position, Quaternion.identity);
         Destroy(newShockWave, 5f);
 
@@ -325,6 +446,35 @@ public class FrondBeast : MonoBehaviour
         yield return new WaitForSeconds(2f);
         newShockWave = Instantiate(shockWavePrefab, shockWaveSpawn.position, Quaternion.identity);
         Destroy(newShockWave, 5f);
+
+        agent.isStopped = false;
+    }*/
+
+    //Temp Code until animations come
+    private IEnumerator secondRampage()
+    {
+        agent.isStopped = true;
+        // windup a1p2 animation
+
+        //timer has to be long as windup animation
+        yield return new WaitForSeconds(1f);
+
+        //attack animation
+
+        //wait for the animation to play and hands hit the ground to summon shockwaves.
+        yield return new WaitForSeconds(1f);
+        GameObject newShockWave = Instantiate(shockWavePrefab, shockWaveSpawn.position, Quaternion.identity);
+        Destroy(newShockWave, 5f);
+
+        yield return new WaitForSeconds(1f);
+        newShockWave = Instantiate(shockWavePrefab, shockWaveSpawn.position, Quaternion.identity);
+        Destroy(newShockWave, 5f);
+
+        yield return new WaitForSeconds(1f);
+        newShockWave = Instantiate(shockWavePrefab, shockWaveSpawn.position, Quaternion.identity);
+        Destroy(newShockWave, 5f);
+
+        agent.isStopped = false;
     }
 
     //Attack Two Phase Two = a2p2 = harder dash attack
@@ -341,20 +491,26 @@ public class FrondBeast : MonoBehaviour
         agent.speed *= speedMultiplier;
         Vector3 attackPosition = player.position - transform.forward * attackCloseDistance;
         agent.SetDestination(attackPosition);
-        agent.speed /= speedMultiplier;
+        //agent.speed /= speedMultiplier;
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(a2p2AnimDuration);
+        agent.isStopped = true;
+        yield return new WaitForSeconds(1.5f);
+        agent.isStopped = false;
         //atack animation for a2p2 = harder dash attack
 
-        agent.speed *= speedMultiplier;
+        //agent.speed *= speedMultiplier;
         attackPosition = player.position - transform.forward * attackCloseDistance;
         agent.SetDestination(attackPosition);
+
+        yield return new WaitForSeconds(1f);
         agent.speed /= speedMultiplier;
     }
 
     //Attack Three Phase Two = a3p2 = harder boulder attack
-    private IEnumerator secondBoulderAttack()
+    /*private IEnumerator secondBoulderAttack()
     {
+        agent.isStopped = true;
         //windup animation for a3p2
 
         //timer has to be long as windup animation
@@ -365,6 +521,26 @@ public class FrondBeast : MonoBehaviour
         summonSmallRocks(smallRock1Spawn.position, Quaternion.identity);
         summonSmallRocks(smallRock2Spawn.position, Quaternion.identity);
         summonSmallRocks(smallRock3Spawn.position, Quaternion.identity);
+
+        agent.isStopped = false;
+    }*/
+
+    //Temp attaack code will be deleted till animations come
+    private IEnumerator secondBoulderAttack()
+    {
+        agent.isStopped = true;
+        //windup animation for a3p2
+
+        //timer has to be long as windup animation
+        yield return new WaitForSeconds(1f);
+
+        //attack animation for p3p2
+        yield return new WaitForSeconds(1f);
+        summonSmallRocks(smallRock1Spawn.position, Quaternion.identity);
+        summonSmallRocks(smallRock2Spawn.position, Quaternion.identity);
+        summonSmallRocks(smallRock3Spawn.position, Quaternion.identity);
+
+        agent.isStopped = false;
     }
 
     private void summonSmallRocks(Vector3 position, Quaternion rotation)
@@ -390,6 +566,7 @@ public class FrondBeast : MonoBehaviour
 
         if (healthMetrics.currentHealth <= 0)
         {
+            agent.isStopped = true;
             isDead = true;
             Die();
         }
@@ -399,7 +576,7 @@ public class FrondBeast : MonoBehaviour
     {
         //Debug.Log("Boss Death starting");
         StartCoroutine(WaitAndDropStuff(1f));
-        TopObjectiveText.text = objectiveText.textToDisplay[objectiveNumber].text;
+        TopObjectiveText.text = objectiveText.textToDisplay[objectiveNumber].text; 
         audioSource.PlayOneShot(updateObjectiveSound);
         iSeeYou = false;
     }
