@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RockSlide : MonoBehaviour
-{
-    public ParticleSystem rockEffect;
+{    public ParticleSystem rockEffect;
     public ParticleSystem dustEffect;
     public GameObject block;
     public GameObject goal;
 
     private bool isTriggerActive = true;
-    private bool isGoalDestroyed = false;
+    private bool isGoalActive = true;
     private bool hasBeenTriggered = false; 
 
     void Update()
@@ -20,7 +19,7 @@ public class RockSlide : MonoBehaviour
             block.SetActive(true);
         }
 
-        if (goal == null)
+        if (!isGoalActive) 
         {
             StopEffectsAndBlock();
         }
