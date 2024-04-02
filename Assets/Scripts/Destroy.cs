@@ -8,7 +8,7 @@ public class Destroy : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Destroy(gameObject);
+             gameObject.SetActive(false);
         }
     }
 }
