@@ -11,7 +11,7 @@ public class RockSlide : MonoBehaviour
 
     private bool isTriggerActive = true;
     private bool isGoalDestroyed = false;
-    private bool hasBeenTriggered = false; // New variable to track if the trigger has been activated
+    private bool hasBeenTriggered = false; 
 
     void Update()
     {
@@ -28,9 +28,9 @@ public class RockSlide : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (!hasBeenTriggered && other.CompareTag("Player")) // Check if the trigger hasn't been activated yet
+        if (!hasBeenTriggered && other.CompareTag("Player")) 
         {
-            hasBeenTriggered = true; // Mark the trigger as activated
+            hasBeenTriggered = true; 
             isTriggerActive = false;
             rockEffect.Play();
             dustEffect.Play();
