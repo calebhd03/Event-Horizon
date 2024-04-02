@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class RockSlide : MonoBehaviour
 {
-   public ParticleSystem rockEffect;
+    public ParticleSystem rockEffect;
     public ParticleSystem dustEffect;
-    public GameObject trigger;
     public GameObject block;
     public GameObject goal;
 
     private bool isTriggerActive = true;
     private bool isGoalDestroyed = false;
+    private bool hasBeenTriggered = false; // New variable to track if the trigger has been activated
 
     void Update()
     {
@@ -28,8 +28,9 @@ public class RockSlide : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == trigger)
+        if (!hasBeenTriggered && other.CompareTag("Player")) // Check if the trigger hasn't been activated yet
         {
+            hasBeenTriggered = true; // Mark the trigger as activated
             isTriggerActive = false;
             rockEffect.Play();
             dustEffect.Play();
