@@ -13,6 +13,7 @@ public class ExtrasImageButtons : MonoBehaviour
     public List<string> imageTitles;
     public Image largeImage;
     public TextMeshProUGUI text;
+    public TextMeshProUGUI videoText;
     public List<Image> thumbnailImages;
     public GameObject returnButton, header, scrollView;
 
@@ -35,10 +36,10 @@ public class ExtrasImageButtons : MonoBehaviour
 
         videoPlayer.clip = videoClips[index]; 
         videoPlayer.Play();  
-        text.text = videoTitles[index];
+        videoText.text = videoTitles[index];
         videoPanel.SetActive(true);
         returnButton.SetActive(true);
-        header.SetActive(true); 
+        header.SetActive(false); 
         scrollView.SetActive(false);
         
     }
