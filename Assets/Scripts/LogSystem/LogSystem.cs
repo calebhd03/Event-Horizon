@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 
 public class LogSystem : MonoBehaviour
 {
-    [SerializeField] GameObject enemiesButton, memoriesButton, itemButton, skillsButton, returnButton;
+    [SerializeField] public GameObject enemiesButton, memoriesButton, itemButton, skillsButton, returnButton;
     [SerializeField] public GameObject enemiesPage, memoriesPage, itemsPage, pauseMenu, LogPage, skillsPage;
     [SerializeField] public Button[] enemy, memory, item;
     [HideInInspector] public Image[] enemyImage, memoryImage, itemImage;
@@ -415,7 +415,7 @@ public class LogSystem : MonoBehaviour
                         }
                 break;
                 case 2:
-                        Image sourceImage2 = enemy[buttonIndex].GetComponent<Image>();
+                        Image sourceImage2 = item[buttonIndex].GetComponent<Image>();
 
                         if (sourceImage2 != null)
                         {
@@ -457,6 +457,7 @@ public class LogSystem : MonoBehaviour
     {
         UpdateImage(buttonIndex);
         UpdateText(buttonIndex);
+        Debug.LogError("clickedbutton");
     }
 
     /*public void UpgradeSpeed()

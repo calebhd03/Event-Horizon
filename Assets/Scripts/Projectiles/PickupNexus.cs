@@ -14,6 +14,7 @@ public class PickupNexus : MonoBehaviour
     float interactRange = 2f;
     public bool isScanned = false;
     ItemsScript itemsScript;
+    LogSystem logSystem;
     void Start()
     {
         player = GameObject.FindWithTag("Player");
@@ -22,6 +23,13 @@ public class PickupNexus : MonoBehaviour
         TPSC = player.GetComponent<ThirdPersonShooterController>();
         tutorialScript = player.GetComponent<TutorialScript>();
         itemsScript = GetComponent<ItemsScript>();
+        logSystem = FindObjectOfType<LogSystem>();
+        if(playerHealthMetric.playerData.tutorialComplete == true)
+        {
+            isScanned = true;
+            logSystem.skillsButton.SetActive(true);
+            gameObject.SetActive(false);
+        }
         
     }
 
