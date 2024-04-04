@@ -103,6 +103,7 @@ public class LogSystem : MonoBehaviour
             int index = i; // Capture the current value of i for the lambda expression
             item[i].onClick.AddListener(() => OnButtonClick(index));
         }
+        skillsButton.SetActive(false);
     }
     
     void Update()

@@ -82,6 +82,7 @@ public class ScanCam : MonoBehaviour
                     if (itmScr != null)
                         {                        
                             itmScr.highlight();
+                            currentClipIndex = itmScr.number;
                             logSys.number = itmScr.number;
                         }
                         

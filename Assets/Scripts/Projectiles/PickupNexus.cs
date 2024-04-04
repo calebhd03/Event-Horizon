@@ -12,6 +12,8 @@ public class PickupNexus : MonoBehaviour
     GameObject player;
     public Collider[] colliderArray;
     float interactRange = 2f;
+    public bool isScanned = false;
+    ItemsScript itemsScript;
     void Start()
     {
         player = GameObject.FindWithTag("Player");
@@ -19,10 +21,16 @@ public class PickupNexus : MonoBehaviour
         starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
         TPSC = player.GetComponent<ThirdPersonShooterController>();
         tutorialScript = player.GetComponent<TutorialScript>();
+        itemsScript = GetComponent<ItemsScript>();
+        
     }
 
     void Update()
     {
+        
+        if(itemsScript.Scanned == true)
+        {
+            isScanned = true;
         colliderArray = Physics.OverlapSphere(transform.position, interactRange);
         foreach (Collider collider in colliderArray)
                 if (collider.tag == "Player")
@@ -36,6 +44,7 @@ public class PickupNexus : MonoBehaviour
                         EquipNexusGun();
                     }
                 }
+        }
     }
     void EquipNexusGun()
     {
