@@ -24,6 +24,8 @@ public class OverHeadPlant : MonoBehaviour
     private bool stuck = false;
     private bool knifeDeath = false;
     private bool isOn = true;
+    public float playerMoveSpeed = 5f;
+    public float attackCloseDistance = 1.5f;
 
 
     [Header("Drops")]
@@ -72,25 +74,40 @@ public class OverHeadPlant : MonoBehaviour
 
     public void PlantEffect()
     {
-         if(trigger != null && trigger.atActivated && isOn)
-         {
-            healthMetrics.currentHealth = 100f;
-            healthMetrics.maxHealth = 100f;
-            if (thirdPersonShooterController.knifeSlash == true)
+        if (trigger != null && trigger.atActivated && isOn)
+        {
+           healthMetrics.currentHealth = 100f;
+           healthMetrics.maxHealth = 100f;
+           if (thirdPersonShooterController.knifeSlash == true)
+           {
+
+               knifeCount += 1;
+               Debug.Log(knifeCount);
+           }
+           if (thirdPersonController != null)
+           {
+               thirdPersonController.MoveSpeed = 0;
+               thirdPersonController.SprintSpeed = 0;
+               Debug.Log("Speed has been changed");
+           }
+           else
+           {
+               Debug.Log("Move Speed can not be found");
+           }
+
+            if (player != null)
             {
-                
-                knifeCount += 1;
-                Debug.Log(knifeCount);
-            }
-            if (thirdPersonController != null)
-            {
-                thirdPersonController.MoveSpeed = 0;
-                thirdPersonController.SprintSpeed = 0;
-                Debug.Log("Speed has been changed");
-            }
-            else
-            {
-                Debug.Log("Move Speed can not be found");
+                player.gameObject.transform.LookAt(transform.position);
+                player.transform.rotation = Quaternion.Euler(0f, player.transform.rotation.eulerAngles.y, player.transform.rotation.eulerAngles.z);
+                thirdPersonController.canMove = false;
+                Vector3 direction = transform.position - player.position;
+                direction.Normalize();
+                float distanceToPlant = Vector3.Distance(player.position, transform.position);
+                if (distanceToPlant > attackCloseDistance)
+                {
+                    player.position += direction * Time.deltaTime * playerMoveSpeed;
+                }
+                Debug.Log("PLAYER MOVE NOW");
             }
         }
     }
@@ -152,13 +169,14 @@ public class OverHeadPlant : MonoBehaviour
             if (thirdPersonShooterController.knifeSlash == true)
             {
                 knifeDeath = true;
-                if (knifeDeath && knifeCount >= 1)
+                if (knifeDeath && knifeCount >= 65)
                 {
                     isDead = true;
                     isOn = false;
                     triggerCollider.SetActive(false);
                     if (thirdPersonController != null)
                     {
+                        thirdPersonController.canMove = true;
                         thirdPersonController.MoveSpeed = 3f;
                         thirdPersonController.SprintSpeed = 6f;
                         Debug.Log("Speed has been changed back");

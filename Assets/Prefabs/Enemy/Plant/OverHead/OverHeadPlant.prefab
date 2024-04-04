@@ -44,7 +44,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 5
+  m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2779576704419976830
 MonoBehaviour:
@@ -61,7 +61,7 @@ MonoBehaviour:
   inRadius: 0
   atActivated: 0
   Damage: 5
-  damageInterval: 1
+  damageInterval: 2
 --- !u!1 &1402006817891671230
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,7 +556,7 @@ MonoBehaviour:
   playerZone:
     serializedVersion: 2
     m_Bits: 8
-  seeDistance: 5
+  seeDistance: 10
   player: {fileID: 0}
   thirdPersonController: {fileID: 0}
   thirdPersonShooterController: {fileID: 0}
@@ -565,6 +565,8 @@ MonoBehaviour:
   healthMetrics: {fileID: 0}
   triggerCollider: {fileID: 796967764148592121}
   knifeCount: 0
+  playerMoveSpeed: 10
+  attackCloseDistance: 1.5
   blasterPickupPrefab: {fileID: 2386002193791810672, guid: 7c96418087cb35d45820ea94edc4c74f, type: 3}
   shotGunPickupPrefab: {fileID: 3616794700435168829, guid: 8202146b65b22bb4fb80945099e41b86, type: 3}
   bHPickupPrefab: {fileID: 1464895933930130252, guid: 8f0d8942908b01c41b83f3c8c7be7cef, type: 3}
