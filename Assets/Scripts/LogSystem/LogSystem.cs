@@ -457,7 +457,6 @@ public class LogSystem : MonoBehaviour
     {
         UpdateImage(buttonIndex);
         UpdateText(buttonIndex);
-        Debug.LogError("clickedbutton");
     }
 
     /*public void UpgradeSpeed()

@@ -26,6 +26,7 @@ public class ShootableTriggerDialog : MonoBehaviour
     public GameObject crystalObj;
     HealthMetrics healthMetrics;
     public static int crystalsDestroyed;
+    public GameObject blockedRainbowRoad;
     void Awake()
     {
         pauseMenuScript = FindObjectOfType<PauseMenuScript>();
@@ -37,6 +38,7 @@ public class ShootableTriggerDialog : MonoBehaviour
         dialogBox = objectiveText.gameObject;
         healthMetrics = GetComponent<HealthMetrics>();
         crystalsDestroyed = 0;
+        blockedRainbowRoad.SetActive(true);
     }
 
     private void OnEnable()
@@ -74,6 +76,7 @@ public class ShootableTriggerDialog : MonoBehaviour
             crystalsDestroyed += 1;
             if(crystalsDestroyed == 5)
             {
+                blockedRainbowRoad.SetActive(false);
                 StartDialogue();
             }
         }
