@@ -22,6 +22,7 @@ namespace StarterAssets
         public PlayerData playerData;
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
+        public bool canMove = true;
 
         [Tooltip("Sprint speed of the character in m/s")]
         public float SprintSpeed = 5.335f;
@@ -215,7 +216,10 @@ namespace StarterAssets
             Pause();
             JumpAndGravity();
             GroundedCheck();
-            Move();
+            if(canMove)
+            {
+                Move();
+            }
             SaveTestInputs();
             Crouch();
             Teleport();
@@ -742,7 +746,7 @@ namespace StarterAssets
             _cinemachineAimCamera.m_Lens.FieldOfView = FOV;
         }
         public void NewSave()
-        {
+        { 
             if(_input.newSave)
             {
                  _input.newSave = false;

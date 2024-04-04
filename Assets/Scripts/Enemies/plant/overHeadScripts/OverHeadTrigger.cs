@@ -6,7 +6,7 @@ public class OverHeadTrigger : MonoBehaviour
 {
     public bool inRadius = false;
     public bool atActivated = false;
-    private WaitForSeconds delay = new WaitForSeconds(2f);
+    private WaitForSeconds delay = new WaitForSeconds(.5f);
     public float Damage = 5f;
     public float damageInterval = 1f;
     private float timer = 0f;
