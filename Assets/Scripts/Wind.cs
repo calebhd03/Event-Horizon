@@ -6,12 +6,17 @@ public class Wind : MonoBehaviour
 {
     public ParticleSystem wind;
     public Vector3 windRotation;
+    public bool isBlowing = false;
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            if(isBlowing == false)
+            {
             Quaternion rotation = Quaternion.Euler(windRotation);
             Instantiate(wind, transform.position, rotation);
+            isBlowing = true;
+            }
         }
     }
 }
