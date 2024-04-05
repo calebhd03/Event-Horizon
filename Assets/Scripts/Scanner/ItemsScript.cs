@@ -17,7 +17,7 @@ public class ItemsScript : MonoBehaviour
     public Material[] materials;
 
     public GameObject player;
-    public ScanCam scanCam;
+    //public ScanCam scanCam;
     public bool Scanned;
     public LogSystem logSystem;
     [SerializeField] private PlantBasedHealth healthPlant;
@@ -29,7 +29,8 @@ public class ItemsScript : MonoBehaviour
         logSystem = FindObjectOfType<LogSystem>();
         healthPlant = GetComponent<PlantBasedHealth>();
         player = GameObject.FindWithTag("Player");
-        scanCam = player.GetComponentInChildren<ScanCam>();
+        //scanCam = player.GetComponent<ScanCam>();
+        materials = meshRenderer.materials;
 
         if (plant)
         {
@@ -85,8 +86,8 @@ public class ItemsScript : MonoBehaviour
 
     void NormColor()
     {
-        //materials[1].SetFloat("_isHighlighted", 0);
-        //materials[1].SetFloat("_isHovered", 1);
+        materials[1].SetFloat("_isHighlighted", 0);
+        materials[1].SetFloat("_isHovered", 1);
         for (int i = 0; i < materials.Length; i++)
         {
             materials[i].SetFloat("_isHighlighted", 0);
@@ -96,7 +97,7 @@ public class ItemsScript : MonoBehaviour
 
     public void ScanColor()
     {
-        //materials[1].SetFloat("_isHighlighted", 1);
+        materials[1].SetFloat("_isHighlighted", 1);
 
         if (plant)
         {
@@ -118,7 +119,7 @@ public class ItemsScript : MonoBehaviour
 
     public void highlight()
     {
-        //materials[1].SetFloat("_isHovered", 0);
+        materials[1].SetFloat("_isHovered", 0);
 
         if (plant)
         {
@@ -142,7 +143,7 @@ public class ItemsScript : MonoBehaviour
 
     public void Unhighlight()
     {
-        //materials[1].SetFloat("_isHovered", 1);
+        materials[1].SetFloat("_isHovered", 1);
 
         if (plant)
         {

@@ -19,6 +19,10 @@ public class PickupBlaster : MonoBehaviour
         starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
         TPSC = player.GetComponent<ThirdPersonShooterController>();
         tutorialScript = player.GetComponent<TutorialScript>();
+        if(playerHealthMetric.playerData.tutorialComplete == true)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     void Update()

@@ -35,7 +35,7 @@ public class ProtagDialog : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             objectiveText.displayedText.text = dialogText.text;
-            dialogBox.SetActive(true);
+            objectiveText.ShowDialogText();
             Invoke("TurnOffText", 3);
         }
     }

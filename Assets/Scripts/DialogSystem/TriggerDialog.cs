@@ -21,10 +21,13 @@ public class TriggerDialog : MonoBehaviour
     AudioSource audioSource;
     ObjectiveText objectiveText;
     PauseMenuScript pauseMenuScript;
+    ThirdPersonController thirdPersonController;
     public GameObject player;
     public bool dialogActive = false, wasPlaying = false, motherBoardDialog;
     public AudioClip updateObjectiveSound;
     public static bool nextDialog;
+    public bool freezeUntilDialogEnd;
+    public float normalSpeed, normalSprintSpeed;
     void Awake()
     {
         pauseMenuScript = FindObjectOfType<PauseMenuScript>();
@@ -35,6 +38,9 @@ public class TriggerDialog : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         dialogBox = objectiveText.gameObject;
         nextDialog = false;
+        thirdPersonController = player.GetComponent<ThirdPersonController>();
+        normalSpeed = thirdPersonController.MoveSpeed;
+        normalSprintSpeed = thirdPersonController.SprintSpeed;
     }
 
     void Update()
@@ -58,6 +64,11 @@ public class TriggerDialog : MonoBehaviour
     {
         if(other.CompareTag("Player") && dialogActive == false)
         {
+            if(freezeUntilDialogEnd == true)
+            {
+                thirdPersonController.MoveSpeed = 0;
+                thirdPersonController.SprintSpeed = 0;
+            }
             dialogActive = true;
             pauseMenuScript.dialogActive = true;
             if(nextDialog == true)
@@ -98,6 +109,12 @@ public class TriggerDialog : MonoBehaviour
             pauseMenuScript.dialogActive = false;
             TurnOffText();
             nextDialog = false;
+            freezeUntilDialogEnd = false;
+            if(freezeUntilDialogEnd == false)
+            {
+            thirdPersonController.MoveSpeed = normalSpeed;
+            thirdPersonController.SprintSpeed = normalSprintSpeed;
+            }
     }
 
     void TurnOffText()

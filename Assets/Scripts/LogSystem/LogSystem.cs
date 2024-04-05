@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 
 public class LogSystem : MonoBehaviour
 {
-    [SerializeField] GameObject enemiesButton, memoriesButton, itemButton, skillsButton, returnButton;
+    [SerializeField] public GameObject enemiesButton, memoriesButton, itemButton, skillsButton, returnButton;
     [SerializeField] public GameObject enemiesPage, memoriesPage, itemsPage, pauseMenu, LogPage, skillsPage;
     [SerializeField] public Button[] enemy, memory, item;
     [HideInInspector] public Image[] enemyImage, memoryImage, itemImage;
@@ -103,6 +103,7 @@ public class LogSystem : MonoBehaviour
             int index = i; // Capture the current value of i for the lambda expression
             item[i].onClick.AddListener(() => OnButtonClick(index));
         }
+        skillsButton.SetActive(false);
     }
     
     void Update()
@@ -414,7 +415,7 @@ public class LogSystem : MonoBehaviour
                         }
                 break;
                 case 2:
-                        Image sourceImage2 = enemy[buttonIndex].GetComponent<Image>();
+                        Image sourceImage2 = item[buttonIndex].GetComponent<Image>();
 
                         if (sourceImage2 != null)
                         {
