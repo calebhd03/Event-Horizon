@@ -41,6 +41,7 @@ namespace StarterAssets
         private bool withInAttackRange;
         public float attackRange;
         public float attackAgainTimer;
+        public float attackCloseDistance = 1.3f;
 
         //enemy view in coned shaped
         public float viewRadius;
@@ -144,7 +145,7 @@ namespace StarterAssets
                     {
                     iSeeYou = true;
                     }
-                    hearDistance = 0;
+                    //hearDistance = 0;
                     transform.LookAt(player);
                     Debug.DrawRay(transform.position, playerTarget * viewRadius * viewAngle, Color.blue); //debug raycast line to show if enemy can see the player
                 }
@@ -238,6 +239,7 @@ namespace StarterAssets
                 animator.SetBool("PanningIdle", false);
                 animator.SetBool("RangeAttack", false);
                 animator.SetBool("MeleeAttack", false);
+                animator.SetBool("Moving", true);
 
 
                 if (meleeAttack == true)
@@ -265,6 +267,7 @@ namespace StarterAssets
 
                 if(meleeAttack == true)
                 {
+                    animator.SetBool("MeleeAttack", true);
                     transform.LookAt(player);
                     transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
 
@@ -335,8 +338,10 @@ namespace StarterAssets
 
             if (meleeAttack == true)
             {
-                  agent.SetDestination(player.position);
-                  transform.LookAt(player);
+                //agent.SetDestination(player.position);
+                Vector3 attackPosition = player.position - transform.forward * attackCloseDistance;
+                agent.SetDestination(attackPosition);
+                transform.LookAt(player);
             }
         }
         private void attackPlayer() //atacks player if there is no cooldown
@@ -389,12 +394,16 @@ namespace StarterAssets
 
             if (attackAgainCoolDown == false && meleeAttack == true)
             {
-                agent.SetDestination(transform.position);
+                Vector3 attackPosition = player.position - transform.forward * attackCloseDistance;
+                agent.SetDestination(attackPosition);
+                //agent.SetDestination(transform.position);
                 transform.LookAt(player);
                 transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
                 attackAgainCoolDown = true;
+                animator.SetBool("MeleeAttack", true);
+                animator.SetBool("Moving", false);
 
-                if (attackAgainCoolDown == true)
+                /*if (attackAgainCoolDown == true)
                 {
                     animator.SetBool("MeleeAttack", true);
                 }
@@ -402,8 +411,8 @@ namespace StarterAssets
                 else
                 {
                     animator.SetBool("MeleeAttack", false);
-                }
-                
+                }*/
+
                 Invoke(nameof(meleeAttackCoolDown), attackAgainTimer);
                 //Debug.Log("Melee Atack");
             }
@@ -431,7 +440,15 @@ namespace StarterAssets
         }
         private void meleeAttackCoolDown()
         {
-            //animator.SetBool("MeleeAttack", false);
+            iSeeYou = false;
+            withInAttackRange = false;
+            iHearYou = false;
+            hearDistance = 0;
+            attackRange = 0;
+            viewRadius = 0;
+            Debug.Log("GLITCH HERE");
+            animator.SetBool("Moving", true);
+            animator.SetBool("MeleeAttack", false);
             attackAgainCoolDown = false;
             if(!isMovingBackwards)
             {
@@ -449,6 +466,8 @@ namespace StarterAssets
 
         private IEnumerator moveBackWards()
         {
+            animator.SetBool("Moving", true);
+            animator.SetBool("MeleeAttack", false);
             float Timer = 0f;
             while(Timer < backWardMoveDuration)
             {
@@ -460,6 +479,14 @@ namespace StarterAssets
             }
 
             isMovingBackwards = false;
+            yield return new WaitForSeconds(1f);
+
+            iSeeYou = true;
+            withInAttackRange = true;
+            iHearYou = true;
+            hearDistance = 20f;
+            attackRange = 2f;
+            viewRadius = 15f;
         }
 
         public void updateHealth()
