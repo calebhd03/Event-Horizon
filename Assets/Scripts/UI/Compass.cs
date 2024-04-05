@@ -6,14 +6,24 @@ using UnityEngine.UI;
 public class Compass : MonoBehaviour
 {
     public GameObject IconPrefab;
+    List<QuestMarker> questMarkers = new List<QuestMarker>(); // Normal quest markers
+    List<QuestMarker> StaticQuestMarkers = new List<QuestMarker>(); // Static quest markers
+
     public RawImage compassImage;
     public Transform player;
 
-    public GameObject previousMarker; // Declare previousMarker as public
+    public GameObject currentMarker; // Only one marker shown at a time
+    public GameObject previousMarker;
+    public GameObject nextMarker;
 
-    List<QuestMarker> dynamicQuestMarkers = new List<QuestMarker>();
-    List<QuestMarker> staticQuestMarkers = new List<QuestMarker>();
+    float compassUnit;
+    float maxDistance = 65f;
+    public GameObject scannerCurrentObject;
 
+    PlayerHealthMetric playerHealthMetric;
+    GameObject playerReference;
+
+    // Define public QuestMarker variables for regular quest markers and static quest markers
     public QuestMarker one;
     public QuestMarker two;
     public QuestMarker three;
@@ -22,50 +32,66 @@ public class Compass : MonoBehaviour
     public QuestMarker six;
     public QuestMarker seven;
     public QuestMarker eight;
-
-    public QuestMarker staticMarker1;
-    public QuestMarker staticMarker2;
-    public QuestMarker staticMarker3;
-    public QuestMarker staticMarker4;
-    public QuestMarker staticMarker5;
-    public QuestMarker staticMarker6;
-    public QuestMarker staticMarker7;
-    public QuestMarker staticMarker8;
-
-    float compassUnit;
-    float defaultMaxDistance = 65f; // Default max distance for dynamic quest markers
-    float staticMaxDistance = 40f; // Max distance for static quest markers
+    // Add more variables as needed for regular quest markers
+    
+    public QuestMarker staticOne;
+    public QuestMarker staticTwo;
+    public QuestMarker staticThree;
+    public QuestMarker staticFour;
+    public QuestMarker staticFive;
+    public QuestMarker staticSix;
+    public QuestMarker staticSeven;
+    public QuestMarker staticEight;
+    // Add more variables as needed for static quest markers
 
     private void Awake()
     {
-        compassUnit = compassImage.rectTransform.rect.width / 360f;
+        playerReference = GameObject.FindWithTag("Player");
+        playerHealthMetric = playerReference.GetComponent<PlayerHealthMetric>();
     }
 
     private void Start()
     {
+        compassUnit = compassImage.rectTransform.rect.width / 360f;
+
+        // Add regular quest markers
         AddQuestMarkerIfNotNull(one);
-        AddQuestMarkerIfNotNull(two);
-        AddQuestMarkerIfNotNull(three);
-        AddQuestMarkerIfNotNull(four);
-        AddQuestMarkerIfNotNull(five);
-        AddQuestMarkerIfNotNull(six);
-        AddQuestMarkerIfNotNull(seven);
-        AddQuestMarkerIfNotNull(eight);
+        // Add more regular quest markers as needed
 
-        AddStaticQuestMarker(staticMarker1);
-        AddStaticQuestMarker(staticMarker2);
-        AddStaticQuestMarker(staticMarker3);
-        AddStaticQuestMarker(staticMarker4);
-        AddStaticQuestMarker(staticMarker5);
-        AddStaticQuestMarker(staticMarker6);
-        AddStaticQuestMarker(staticMarker7);
-        AddStaticQuestMarker(staticMarker8);
+        AddStaticQuestMarkerIfNotNull(staticOne);
+        AddStaticQuestMarkerIfNotNull(staticTwo);
+        AddStaticQuestMarkerIfNotNull(staticThree);
+        AddStaticQuestMarkerIfNotNull(staticFour);
+        AddStaticQuestMarkerIfNotNull(staticFive);
+        AddStaticQuestMarkerIfNotNull(staticSix);
+        AddStaticQuestMarkerIfNotNull(staticSeven);
+        AddStaticQuestMarkerIfNotNull(staticEight);
+        // Add more static quest markers as needed
 
+        if (playerHealthMetric.playerData.hasCompass == false)
+        {
+            compassImage.gameObject.SetActive(false);
+        }
+
+        if (playerHealthMetric.playerData.hasCompass == true)
+        {
+            compassImage.gameObject.SetActive(true);
+        }
+
+        // Initialize current marker
+        SetCurrentMarker(questMarkers[0]);
     }
 
     private void Update()
     {
-        foreach (QuestMarker marker in dynamicQuestMarkers)
+        if (playerHealthMetric.playerData.hasCompass == true)
+        {
+            compassImage.gameObject.SetActive(true);
+        }
+
+        compassImage.uvRect = new Rect(player.localEulerAngles.y / 360f, 0f, 1f, 1f);
+
+        foreach (QuestMarker marker in questMarkers)
         {
             if (marker != null)
             {
@@ -74,28 +100,29 @@ public class Compass : MonoBehaviour
                 float dst = Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), marker.position);
                 float scale = .1f;
 
-                if (dst < defaultMaxDistance)
+                if (dst < maxDistance)
                 {
-                    scale = 1f - (dst / defaultMaxDistance);
+                    scale = 1f - (dst / maxDistance);
                 }
                 marker.image.rectTransform.localScale = Vector3.one * scale;
             }
         }
 
-        foreach (QuestMarker marker in staticQuestMarkers)
+        // Show static quest markers
+        foreach (QuestMarker staticMarker in StaticQuestMarkers)
         {
-            if (marker != null)
+            if (staticMarker != null)
             {
-                marker.image.rectTransform.anchoredPosition = GetPosOnCompass(marker);
+                staticMarker.image.rectTransform.anchoredPosition = GetPosOnCompass(staticMarker);
 
-                float dst = Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), marker.position);
+                float dst = Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), staticMarker.position);
                 float scale = .1f;
 
-                if (dst < staticMaxDistance)
+                if (dst < maxDistance)
                 {
-                    scale = 1f - (dst / staticMaxDistance);
+                    scale = 1f - (dst / maxDistance);
                 }
-                marker.image.rectTransform.localScale = Vector3.one * scale;
+                staticMarker.image.rectTransform.localScale = Vector3.one * scale;
             }
         }
     }
@@ -104,26 +131,29 @@ public class Compass : MonoBehaviour
     {
         if (marker != null)
         {
+            questMarkers.Add(marker);
             AddQuestMarker(marker);
+        }
+        else
+        {
+            Debug.LogWarning("its not finding it");
         }
     }
 
-    public void AddStaticQuestMarker(QuestMarker marker)
+    public void AddStaticQuestMarkerIfNotNull(QuestMarker marker)
     {
         if (marker != null)
         {
+            StaticQuestMarkers.Add(marker);
             AddQuestMarker(marker);
-            staticQuestMarkers.Add(marker);
         }
     }
 
-    private void AddQuestMarker(QuestMarker marker)
+    public void AddQuestMarker(QuestMarker marker)
     {
         GameObject newMarker = Instantiate(IconPrefab, compassImage.transform);
         marker.image = newMarker.GetComponent<Image>();
         marker.image.sprite = marker.icon;
-
-        dynamicQuestMarkers.Add(marker);
     }
 
     Vector2 GetPosOnCompass(QuestMarker marker)
@@ -134,5 +164,39 @@ public class Compass : MonoBehaviour
         float angle = Vector2.SignedAngle(marker.position - playerPos, playerFwd);
 
         return new Vector2(compassUnit * angle, 0f);
+    }
+
+
+
+    // Method to set the current marker
+    void SetCurrentMarker(QuestMarker marker)
+    {
+        if (currentMarker != null)
+        {
+            Destroy(currentMarker);
+        }
+        currentMarker = Instantiate(IconPrefab, compassImage.transform);
+        marker.image = currentMarker.GetComponent<Image>();
+        marker.image.sprite = marker.icon;
+    }
+
+    // Method to switch to the previous marker
+    public void SwitchToPreviousMarker()
+    {
+        int index = questMarkers.IndexOf(currentMarker.GetComponent<QuestMarker>());
+        if (index > 0)
+        {
+            SetCurrentMarker(questMarkers[index - 1]);
+        }
+    }
+
+    // Method to switch to the next marker
+    public void SwitchToNextMarker()
+    {
+        int index = questMarkers.IndexOf(currentMarker.GetComponent<QuestMarker>());
+        if (index < questMarkers.Count - 1)
+        {
+            SetCurrentMarker(questMarkers[index + 1]);
+        }
     }
 }
