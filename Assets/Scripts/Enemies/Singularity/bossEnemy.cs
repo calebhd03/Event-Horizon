@@ -10,6 +10,7 @@ public class bossEnemy : MonoBehaviour
     public Transform player;
     public NavMeshAgent agent;
     public Animator animator;
+    [SerializeField] private UpgradeEffects upgrades;
 
     //layerCheck
     public LayerMask playerZone;
@@ -81,6 +82,7 @@ public class bossEnemy : MonoBehaviour
         agent = GetComponentInParent<NavMeshAgent>();
         healthBar = GetComponentInChildren<EnemyHealthBar>();
         rb = GetComponent<Rigidbody>();
+        upgrades = GetComponent<UpgradeEffects>();
         //Portal.SetActive(false);
 
         Transform childTransform = transform.Find("rightArmSlash");
@@ -90,6 +92,7 @@ public class bossEnemy : MonoBehaviour
         }
         audioSource1 = GetComponent<AudioSource>();
         StartCoroutine(BossMusic());
+        upgrades.knockBackUp = false;
     }
 
     // Update is called once per frame
