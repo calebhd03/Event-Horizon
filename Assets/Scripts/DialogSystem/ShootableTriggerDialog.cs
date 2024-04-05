@@ -27,6 +27,7 @@ public class ShootableTriggerDialog : MonoBehaviour
     HealthMetrics healthMetrics;
     public static int crystalsDestroyed;
     public GameObject blockedRainbowRoad;
+    public `AudioClip[] crystalSounds;
     void Awake()
     {
         pauseMenuScript = FindObjectOfType<PauseMenuScript>();
@@ -69,6 +70,8 @@ public class ShootableTriggerDialog : MonoBehaviour
 
     void CrystalChangedHealth(float currentHealth, float maxHealth)
     {
+        int randomNumber = Random.Range(0, 3);
+        audioSource.PlayOneShot(crystalSounds[randomNumber]);
         if(currentHealth <=0)
         {
             //StartDialogue();
