@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BackTracking : MonoBehaviour
-{
-    public GameObject goal;
+{ 
+        public GameObject goal;
     public GameObject[] IgnoreUntilGoal;
 
     void Start()
     {
-        
+        // Deactivate objects in IgnoreUntilGoal array
         foreach (GameObject obj in IgnoreUntilGoal)
         {
             obj.SetActive(false);
@@ -18,14 +18,18 @@ public class BackTracking : MonoBehaviour
 
     void Update()
     {
-        
+        // Check if goal is inactive
         if (goal == null || !goal.activeSelf)
         {
-            
-            foreach (GameObject obj in IgnoreUntilGoal)
-            {
-                obj.SetActive(true);
-            }
+            SetActive();
+        }
+    }
+
+    public void SetActive()
+    {
+        foreach (GameObject obj in IgnoreUntilGoal)
+        {
+            obj.SetActive(true);
         }
     }
 }
