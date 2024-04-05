@@ -32,6 +32,7 @@ public class regularPoint : MonoBehaviour
     regularPoint[] regularPoints;
 
     private bool hit = false;
+    private bool oneTime = false;
 
     private void Start()
     {
@@ -279,12 +280,16 @@ public class regularPoint : MonoBehaviour
         {
             if (basicEnemyScript != null)
             {
-                basicEnemyScript.SetISeeYou();
-                Debug.Log("reg iSeeYou to true in BasicEnemy");
+                if(!oneTime)
+                {
+                    oneTime = true;
+                    basicEnemyScript.SetISeeYou();
+                    Debug.Log("reg iSeeYou to true in BasicEnemy");
 
-                // Call PlayEnemyHitAnimation in the BasicEnemy script
-                basicEnemyScript.PlayEnemyHitAnimation();
-                Debug.Log("Called PlayEnemyHitAnimation");
+                    // Call PlayEnemyHitAnimation in the BasicEnemy script
+                    basicEnemyScript.PlayEnemyHitAnimation();
+                    Debug.Log("Called PlayEnemyHitAnimation");
+                }
             }
 
             if (dogEnemyScript != null)
