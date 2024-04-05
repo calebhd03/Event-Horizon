@@ -10,6 +10,7 @@ public class bossPhaseTwo : MonoBehaviour
     public LayerMask playerZone;
     [SerializeField] EnemyHealthBar healthBar;
     private Rigidbody rb;
+    [SerializeField] private UpgradeEffects upgrades;
 
     private bool iSeeYou;
     public float seeDistance;
@@ -68,6 +69,8 @@ public class bossPhaseTwo : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
         audioSource1 = GetComponent<AudioSource>();
+        upgrades = GetComponent<UpgradeEffects>();
+        upgrades.knockBackUp = false;
     }
 
     // Update is called once per frame
