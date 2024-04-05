@@ -27,7 +27,7 @@ public class ShootableTriggerDialog : MonoBehaviour
     HealthMetrics healthMetrics;
     public static int crystalsDestroyed;
     public GameObject blockedRainbowRoad;
-    public `AudioClip[] crystalSounds;
+    public AudioClip[] crystalSounds;
     void Awake()
     {
         pauseMenuScript = FindObjectOfType<PauseMenuScript>();
