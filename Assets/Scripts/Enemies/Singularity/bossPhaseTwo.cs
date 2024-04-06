@@ -11,6 +11,7 @@ public class bossPhaseTwo : MonoBehaviour
     [SerializeField] EnemyHealthBar healthBar;
     private Rigidbody rb;
     [SerializeField] private UpgradeEffects upgrades;
+    [SerializeField] private HealthMetrics health;
 
     private bool iSeeYou;
     public float seeDistance;
@@ -58,7 +59,14 @@ public class bossPhaseTwo : MonoBehaviour
     private bool enemyBool = false;
     private bool aoeBool = false;
 
-    private float timer;
+    public bool isDead = false;//assuming it is alive
+
+    //capture
+    public bool captured = false;
+
+    //private float timer;
+    public static bool shootingEnding = false;
+    public static bool captureEnding = false;
 
 
     // Start is called before the first frame update
@@ -69,6 +77,7 @@ public class bossPhaseTwo : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
         audioSource1 = GetComponent<AudioSource>();
+        health = GetComponentInParent<HealthMetrics>();
         upgrades = GetComponent<UpgradeEffects>();
         upgrades.knockBackUp = false;
     }
@@ -76,8 +85,9 @@ public class bossPhaseTwo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        SceneManagement();
         // Increase timer by Time.deltaTime each frame
-        timer += Time.deltaTime;
+        //timer += Time.deltaTime;
 
         // Output the timer value to the console for debugging
         //Debug.Log("Timer: " + timer.ToString("F2")); // "F2" formats the timer value to 2 decimal places
@@ -243,11 +253,12 @@ public class bossPhaseTwo : MonoBehaviour
 
     public void updateHealth()
     {
-        HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
-        healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
+        //HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+        healthBar.updateHealthBar(health.currentHealth, health.maxHealth);
 
-        if (healthMetrics.currentHealth <= 0)
+        if (health.currentHealth <= 0)
         {
+            isDead = true;
             Die();
         }
     }
@@ -286,7 +297,8 @@ public class bossPhaseTwo : MonoBehaviour
 
         Portal.SetActive(true);
         //Debug.Log("Boss Death end");
-        Destroy(transform.parent.gameObject);
+        //Destroy(transform.parent.gameObject);
+        Dead();
     }
 
     private void resetTriggers()
@@ -301,6 +313,37 @@ public class bossPhaseTwo : MonoBehaviour
     {
         //Trigger the "EnemyHit" animation
         animator.SetTrigger("EnemyHit");
+    }
+
+    public void Dead()
+    {
+        if (isDead)
+        {
+            transform.parent.gameObject.SetActive(false);
+        }
+    }
+
+    public void Alive()
+    {
+        if (!isDead)
+        {
+            transform.parent.gameObject.SetActive(true);
+        }
+    }
+
+    public void SceneManagement()
+    {
+        if(captured)
+        {
+            captureEnding = true;
+            shootingEnding = false;
+        }
+
+        else
+        {
+            shootingEnding = true;
+            captureEnding = false;
+        }
     }
 
     private void OnDrawGizmos()
