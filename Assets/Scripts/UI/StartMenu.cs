@@ -19,6 +19,7 @@ public class StartMenu : MonoBehaviour
     public GameObject VSSceneButton;
     public GameObject InnerSceneButton;
     public PlayerData playerData;
+
     void Awake()
     {
         Time.timeScale = 1;
@@ -39,9 +40,10 @@ public class StartMenu : MonoBehaviour
             accessibilityMenu.SetActive(false);
         }
     }
+
     void Update()
     {
-        if(Input.anyKey && menuOpen == false && accessibilityMenu.active == false)
+        if (Input.anyKey && menuOpen == false && accessibilityMenu.active == false)
         {
             start.SetActive(false);
             menu.SetActive(true);
@@ -66,12 +68,16 @@ public class StartMenu : MonoBehaviour
         Cursor.visible = false;
         SceneManager.LoadScene("ArtPrototype");
     }
+
     public void StartGame()
     {
+        // Call ResetHealthAmmo() from PlayerData script before loading the scene
+        playerData.ResetHealthAmmo();
+        
         Background_Music.instance.audioSource.Stop();
         Cursor.visible = false;
         SceneManager.LoadScene("IntroCutScene");
-      // SceneManager.LoadScene("AeonDevCenter");
+        // SceneManager.LoadScene("AeonDevCenter");
     }
 
     public void LoadVerticalSlice()
@@ -82,19 +88,21 @@ public class StartMenu : MonoBehaviour
 
     public void SetSelected(GameObject obj)
     {
-        if(obj == null)
+        if (obj == null)
         {
             Debug.LogError("Set selected obj is null");
             return;
         }
         EventSystem.current.SetSelectedGameObject(obj);
     }
-     public void LoadTheOuterVer2Scene()
+
+    public void LoadTheOuterVer2Scene()
     {
         Background_Music.instance.OuterMusic();
         Cursor.visible = false;
         SceneManager.LoadScene("TheOuterVer2");
     }
+
     public void LoadInnerScene()
     {
         Background_Music.instance.InnerMusic();
@@ -102,12 +110,13 @@ public class StartMenu : MonoBehaviour
         Cursor.visible = false;
         SceneManager.LoadScene("Inner");
     }
+
     public void LoadCenterScene()
     {
         Background_Music.instance.CenterMusic();
         playerData.tutorialComplete = true;
         Cursor.visible = false;
         SceneManager.LoadScene("The Center");
-        
+
     }
 }
