@@ -12,9 +12,12 @@ public class TachyonTranslocator : MonoBehaviour
     public Collider[] colliderArray;
     float interactRange = 2f;
     public bool hasCompass = false;
+    public AudioClip pickupClip;
+    private AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         player = GameObject.FindWithTag("Player");
         playerHealthMetric = player.GetComponent<PlayerHealthMetric>();
         starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
@@ -47,6 +50,7 @@ public class TachyonTranslocator : MonoBehaviour
     {
         hasCompass = true;
         playerHealthMetric.playerData.hasCompass = true;
+        audioSource.PlayOneShot(pickupClip);
         //Destroy(gameObject);
         gameObject.SetActive(false);
     }
