@@ -109,6 +109,19 @@ public class PlayerData : ScriptableObject
         SaveOGBHGUpgrade = false;
         SaveBHGPullEffect = false;
         hardMode = false;
+        hasCompass = false;
+    }
+    public void ResetSemiHealth()
+    {
+        Debug.Log("ResetSemiHealth");
+        currentHealth = maxHealth;
+        standardAmmo = standardAmmoDefault;
+        standardAmmoLoaded = standardAmmoMax;
+        shotgunAmmo = shotgunAmmoDefault;
+        shotgunAmmoLoaded = shotgunAmmoMax;
+        nexusAmmo = nexusAmmoDefault;
+        nexusAmmoLoaded = nexusAmmoMax;
+
     }
 
 }
