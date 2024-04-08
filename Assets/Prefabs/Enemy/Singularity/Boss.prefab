@@ -963,6 +963,9 @@ MonoBehaviour:
   criticalPointReveal: {fileID: 2685724367689611176}
   number: 0
   weakPointReveal: []
+  skinnedMeshRenderer: {fileID: 0}
+  materials: []
+  player: {fileID: 0}
 --- !u!82 &3170739756306172419
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1074,6 +1077,7 @@ MonoBehaviour:
   player: {fileID: 0}
   agent: {fileID: 1596564476}
   animator: {fileID: 1179881034389411023}
+  upgrades: {fileID: 0}
   playerZone:
     serializedVersion: 2
     m_Bits: 8
@@ -1155,7 +1159,9 @@ MonoBehaviour:
   knockBackUp: 0
   slowEnemyUp: 0
   damageOverTimeEnemyUp: 0
-  laserUp: 0
+  plasmaUp: 0
+  OGKillUp: 0
+  PullUp: 0
   stopStackDamage: 0
   stopSlowStack: 0
   slowEffect: {fileID: 0}
@@ -1356,8 +1362,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: f3c8e3f0cc287624eb9a3ff5ba8b4c78, type: 2}
   healthMetrics: {fileID: 4973244207957182977}
+  enemyType: 0
   listIndex: 0
-  scene: 0
+  sceneIndex: 0
+  wasDeadInLastSave: 0
 --- !u!1 &6736512306054190801
 GameObject:
   m_ObjectHideFlags: 0
@@ -1770,7 +1778,7 @@ Animator:
   m_GameObject: {fileID: 919132147604399557}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6669679ce1ba98646b194be921940200, type: 2}
+  m_Controller: {fileID: 9100000, guid: 28c8741fc28e2054c96e6e2ae5f26815, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
