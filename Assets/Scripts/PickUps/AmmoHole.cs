@@ -15,9 +15,12 @@ public class AmmoHole : MonoBehaviour
     public GameObject PE_AmmoHole;
     PlayerHealthMetric playerHealthMetric;
     public Animator animator;
+    private AudioSource audioSource;
+    public AudioClip holeAudio;
 
     void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         player = GameObject.FindWithTag("Player");
         playerHealthMetric = player.GetComponent<PlayerHealthMetric>();
         //animator = player.GetComponent<Animator>();
@@ -39,13 +42,15 @@ public class AmmoHole : MonoBehaviour
         {
             if (MenuScript.hardMode == false || playerHealthMetric.playerData.hardMode == false)
             {
+                audioSource.PlayOneShot(holeAudio, 1);
                 // Instantiate ammo objects slightly higher than the hole position
                 foreach (GameObject prefab in ammoPrefabs)
                 {
-                    //MeshRenderer renderer = prefab.GetComponent<MeshRenderer>();
-                    //renderer.enabled = false;
                     Vector3 spawnPosition = transform.position + Vector3.up * 0.5f; // Adjust the height as needed
                     GameObject ammoInstance = Instantiate(prefab, spawnPosition, transform.rotation);
+                    MeshRenderer renderer = ammoInstance.GetComponentInChildren<MeshRenderer>(true);
+                    renderer.enabled = false;
+                    ammoInstance.transform.localScale = new Vector3(5, 5, 5);
                     instantiatedAmmo.Add(ammoInstance);
                     animator.SetBool("Ammo Picked Up", isOpen);
                 }
