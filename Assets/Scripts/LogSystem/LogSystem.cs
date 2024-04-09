@@ -109,14 +109,160 @@ public class LogSystem : MonoBehaviour
         }
     }
     
-    void Update()
+    public void UpgradesUnlocked()
     {   
-        if (log == true)
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            Time.timeScale = 0;
+        ReturnButton();
+        LogPage.SetActive(false);
+        if (skillsUnlocked == true)
+        {            
+            if (BHGToolUpgraded == true)
+            {
+                bHGToolButton.interactable = false;
+                skillsUnlocked = false;
+            }
+            else
+            {
+                bHGToolButton.interactable = true;
+            }
         }
+        else if (skillsUnlocked2 == true)
+        {
+            if (SlowEnemyUpgraded == true)
+            {
+                SlowEnemyButton.interactable = false;
+                DamageOverTimeButton.interactable = false;
+                skillsUnlocked2 = false;
+                
+            }
+            else
+            {
+                SlowEnemyButton.interactable = true;
+            }
+            if (DamageOverTimeSkillUpgraded == true)
+            {
+
+                DamageOverTimeButton.interactable = false;
+                SlowEnemyButton.interactable = false;
+                skillsUnlocked2 = false;
+            }
+            else
+            {
+                DamageOverTimeButton.interactable = true;
+            }
+        }
+        else if (skillsUnlocked3 == true)
+        { 
+            if (knockBackUpgraded == true)
+            {
+                knockBackButton.interactable = false;
+                BHGPullButton.interactable = false;
+                skillsUnlocked3 = false;
+            }
+            else
+            {
+                knockBackButton.interactable = true;
+            }
+            if (BHGPullUpgraded == true)
+            {
+                BHGPullButton.interactable = false;
+                knockBackButton.interactable = false;
+                skillsUnlocked3 = false;
+            }
+            else
+            {
+                BHGPullButton.interactable = true;
+            }
+        }
+        else if (skillsUnlocked4 == true)
+        {
+            if (plasmaSkillUpgraded == true)
+            {
+                plasmaUpgradeButton.interactable = false;
+                OGBHGButton.interactable = false;
+                skillsUnlocked4 = false;
+            }
+            else
+            {
+                plasmaUpgradeButton.interactable = true;
+            }
+            if (OGBHG == true)
+            {
+                OGBHGButton.interactable = false;
+                plasmaUpgradeButton.interactable = false;
+                skillsUnlocked4 = false;
+            }
+            else
+            {
+                OGBHGButton.interactable = true;
+            }
+        }
+        else 
+        {
+        plasmaUpgradeButton.interactable = false;
+        SlowEnemyButton.interactable = false;
+        DamageOverTimeButton.interactable = false;
+        meleeButton.interactable = false;
+        knockBackButton.interactable = false;
+        OGBHGButton.interactable = false;
+        bHGToolButton.interactable = false;
+        BHGPullButton.interactable = false;
+        }
+    }
+
+    public void SetLog()
+    {
+        UpgradesUnlocked();
+        log = true;
+        //Debug.LogWarning("log");
+        LogPage.SetActive(true);
+        starterAssetsInputs.delayShoot = true;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 0;
+    }
+    public void CloseLog()
+    {   
+        log = false;
+        if(scnScr != null) scnScr.HudObject.SetActive(true);
+        //Debug.LogWarning("closelog");
+        LogPage.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Time.timeScale = 1;
+        Invoke("DelayShoot", 0.1f);
+
+        pauseMenuScript.UnPause();
+        GetComponent<ToolTip>().HideToolTip();
+    }
+
+    public void EnemiesTab()
+    {
+        audioSource.PlayOneShot(SwitchTabSound);
+        currentTab = 0;
+        SetTab();
+    }
+
+    public void MemoriesTab()
+    {
+        audioSource.PlayOneShot(SwitchTabSound);
+        currentTab = 1;
+        SetTab();
+    }
+
+    public void ItemsTab()
+    {
+        audioSource.PlayOneShot(SwitchTabSound);
+        currentTab = 2;
+        SetTab();
+    }
+    public void SkillsTab()
+    {
+        audioSource.PlayOneShot(SwitchTabSound);
+        currentTab = 3;
+        SetTab();
+    }
+    void SetTab()
+    {
         switch (currentTab)
         {
         case 0:
@@ -165,167 +311,6 @@ public class LogSystem : MonoBehaviour
             skillsHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
         break;
         }
-        
-        if (skillsUnlocked == true)
-        {
-            /*if (healthSkillUpgraded == true)
-            {
-                healthUpgradeButton.interactable = false;
-                skillsUnlocked = false;
-                upgradePage1.SetActive(false);
-            }
-            else
-            {
-                healthUpgradeButton.interactable = true;
-            }*/
-            
-            if (BHGToolUpgraded == true)
-            {
-                bHGToolButton.interactable = false;
-                skillsUnlocked = false;
-                upgradePage1.SetActive(false);
-            }
-            else
-            {
-                bHGToolButton.interactable = true;
-            }
-        }
-        else if (skillsUnlocked2 == true)
-        {
-            if (SlowEnemyUpgraded == true)
-            {
-                SlowEnemyButton.interactable = false;
-                DamageOverTimeButton.interactable = false;
-                skillsUnlocked2 = false;
-                upgradePage2.SetActive(false);
-            }
-            else
-            {
-                SlowEnemyButton.interactable = true;
-            }
-            if (DamageOverTimeSkillUpgraded == true)
-            {
-
-                DamageOverTimeButton.interactable = false;
-                SlowEnemyButton.interactable = false;
-                skillsUnlocked2 = false;
-                upgradePage2.SetActive(false);
-            }
-            else
-            {
-                DamageOverTimeButton.interactable = true;
-            }
-        }
-        else if (skillsUnlocked3 == true)
-        { 
-            if (knockBackUpgraded == true)
-            {
-                knockBackButton.interactable = false;
-                BHGPullButton.interactable = false;
-                skillsUnlocked3 = false;
-                upgradePage3.SetActive(false);
-            }
-            else
-            {
-                knockBackButton.interactable = true;
-            }
-            if (BHGPullUpgraded == true)
-            {
-                BHGPullButton.interactable = false;
-                knockBackButton.interactable = false;
-                skillsUnlocked3 = false;
-                upgradePage3.SetActive(false);
-            }
-            else
-            {
-                BHGPullButton.interactable = true;
-            }
-        }
-        else if (skillsUnlocked4 == true)
-        {
-            if (plasmaSkillUpgraded == true)
-            {
-                plasmaUpgradeButton.interactable = false;
-                OGBHGButton.interactable = false;
-                skillsUnlocked4 = false;
-                upgradePage4.SetActive(false);
-            }
-            else
-            {
-                plasmaUpgradeButton.interactable = true;
-            }
-            if (OGBHG == true)
-            {
-                OGBHGButton.interactable = false;
-                plasmaUpgradeButton.interactable = false;
-                skillsUnlocked4 = false;
-                upgradePage4.SetActive(false);
-            }
-            else
-            {
-                OGBHGButton.interactable = true;
-            }
-        }
-        else 
-        {
-        //healthUpgradeButton.interactable = false;
-        plasmaUpgradeButton.interactable = false;
-        //speedUpgradeButton.interactable = false;
-        //ammoCapactiyButton.interactable = false;
-        SlowEnemyButton.interactable = false;
-        DamageOverTimeButton.interactable = false;
-        meleeButton.interactable = false;
-        knockBackButton.interactable = false;
-        OGBHGButton.interactable = false;
-        bHGToolButton.interactable = false;
-        BHGPullButton.interactable = false;
-        }
-    }
-
-    public void SetLog()
-    {
-        log = true;
-        //Debug.LogWarning("log");
-        LogPage.SetActive(true);
-        starterAssetsInputs.delayShoot = true;
-    }
-    public void CloseLog()
-    {   
-        log = false;
-        if(scnScr != null) scnScr.HudObject.SetActive(true);
-        //Debug.LogWarning("closelog");
-        LogPage.SetActive(false);
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        Time.timeScale = 1;
-        Invoke("DelayShoot", 0.1f);
-
-        pauseMenuScript.UnPause();
-        GetComponent<ToolTip>().HideToolTip();
-    }
-
-    public void EnemiesTab()
-    {
-        audioSource.PlayOneShot(SwitchTabSound);
-        currentTab = 0;
-    }
-
-    public void MemoriesTab()
-    {
-        audioSource.PlayOneShot(SwitchTabSound);
-        currentTab = 1;
-        
-    }
-
-    public void ItemsTab()
-    {
-        audioSource.PlayOneShot(SwitchTabSound);
-        currentTab = 2;
-    }
-    public void SkillsTab()
-    {
-        audioSource.PlayOneShot(SwitchTabSound);
-        currentTab = 3;
     }
     
     public void ReturnToPause()
@@ -378,6 +363,10 @@ public class LogSystem : MonoBehaviour
 
     public void returnToLog()
     {
+        upgradePage1.SetActive(false);
+        upgradePage2.SetActive(false);
+        upgradePage3.SetActive(false);
+        upgradePage4.SetActive(false);
         displayInfo.SetActive(false);
         LogPage.SetActive(true);
     }
@@ -462,22 +451,6 @@ public class LogSystem : MonoBehaviour
         UpdateText(buttonIndex);
     }
 
-    /*public void UpgradeSpeed()
-    {
-        //Debug.LogWarning("IAmSpeed");
-        speedSkillUpgraded = true;
-        speedUpgradeButton.image.sprite = upgradedSprite;
-        skillTree.SpeedUpgraded();
-    }*/
-
-    /*public void UpgradeHealth()
-    {
-        //Debug.LogWarning("1Up");
-        healthSkillUpgraded = true;
-        healthUpgradeButton.image.sprite = upgradedSprite;
-        skillTree.HealthUpgraded();
-    }*/
-
     public void UpgradeToPlasma()
     {
         //Debug.LogWarning("SayHelloToMyLittleFriend");
@@ -485,14 +458,6 @@ public class LogSystem : MonoBehaviour
         plasmaUpgradeButton.image.sprite = upgradedSprite;
         skillTree.PlasmaUpgrade();
     }
-
-    /*public void UpgradeAmmoCapacity()
-    {
-        //Debug.LogWarning("Ammo capacity increase");
-        ammoSkillUpgraded = true;
-        ammoCapactiyButton.image.sprite = upgradedSprite;
-        //Put code here for ammo capacity function or call to thirdpersonshootercontroller
-    }*/
 
     public void UpgradeToDamageOverTime()
     {
