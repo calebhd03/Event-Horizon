@@ -148,7 +148,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4416926081852918481}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 36078ab0369161e49a29d349ae3e0739, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 17463d722a87cc7479db3abc00c3232a, type: 3}
   m_Controller: {fileID: 9100000, guid: 40db3173a05ae3242b1c182a09b0a183, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
@@ -192,6 +192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerData: {fileID: 0}
   MoveSpeed: 3
+  canMove: 1
   SprintSpeed: 6
   RotationSmoothTime: 0.12
   SpeedChangeRate: 10
@@ -228,15 +229,19 @@ MonoBehaviour:
   deathAudio: {fileID: 8300000, guid: c912323f52ecbea4386d893da4facc66, type: 3}
   deathScreen: {fileID: 0}
   deathbool: 0
+  _cinemachineFollowCamera: {fileID: 0}
+  _cinemachineAimCamera: {fileID: 0}
   _speed: 0
   RotationSpeed: 5
   progressScript: {fileID: 0}
   sceneTransition: {fileID: 0}
+  _mainCamera: {fileID: 0}
   riftSound: {fileID: 0}
   teleportLocation1: {fileID: 0}
   teleportLocation2: {fileID: 0}
   teleportLocation3: {fileID: 0}
   pauseMenuScript: {fileID: 0}
+  playerDataManager: {fileID: 0}
 --- !u!114 &5885216827943657505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,8 +307,13 @@ MonoBehaviour:
   outerTP: 0
   innerTP: 0
   centerTP: 0
+  newSave: 0
   delayShoot: 0
   interact: 0
+  R_Bumper: 0
+  L_Bumper: 0
+  currentControlScheme: 
+  playerInput: {fileID: 0}
 --- !u!114 &7512216137511064084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -949,7 +959,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4bf0be872a26ee34e84da9cecc2d5b99, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3527615200712373158, guid: 4bf0be872a26ee34e84da9cecc2d5b99, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1117,7 +1127,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: dedf1db9b9faaf340839ee93ec40ca0b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dedf1db9b9faaf340839ee93ec40ca0b, type: 3}
