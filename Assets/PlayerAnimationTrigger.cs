@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class PlayerAnimationTrigger : MonoBehaviour
 {
-    [Tooltip("A reference to the player's animator")]
-    [SerializeField] Animator _player;
+    Animator _player;
 
     [Tooltip("The trigger parameter in the player's and this animator")]
     [SerializeField] string _trigger;
@@ -27,6 +26,9 @@ public class PlayerAnimationTrigger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _player = StarterAssetsInputs.Instance.GetComponent<Animator>();
+
+
         _virtualCamera = GetComponentInChildren<CinemachineVirtualCamera>();
         _virtualCamera.gameObject.SetActive(false);
 
