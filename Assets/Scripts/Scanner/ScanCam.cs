@@ -51,7 +51,7 @@ public class ScanCam : MonoBehaviour
             }
             Vector3 direction = Vector3.forward;
             Ray LookRay = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-            int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","Dialog"));
+            int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","Dialog", "Interact"));
             //Debug.DrawRay(LookRay.origin, LookRay.direction * range, Color.blue);
             Physics.Raycast(LookRay, out RaycastHit hit, range, layerMask);
                                 
@@ -125,7 +125,7 @@ public class ScanCam : MonoBehaviour
         Vector3 direction = Vector3.forward;
         Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
         Debug.DrawRay(scanRay.origin, scanRay.direction * range, Color.blue);
-        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","Dialog"));
+        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","Dialog", "Interact"));
 
         Physics.Raycast(scanRay, out RaycastHit hit, range, layerMask);
             if(hit.collider != null)
