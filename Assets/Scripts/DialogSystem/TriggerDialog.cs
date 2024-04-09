@@ -70,7 +70,7 @@ public class TriggerDialog : MonoBehaviour
                 thirdPersonController.SprintSpeed = 0;
             }
             dialogActive = true;
-            pauseMenuScript.dialogActive = true;
+            //pauseMenuScript.dialogActive = true;
             if(nextDialog == true)
             {
                 StartCoroutine(WaitForNextAudio());

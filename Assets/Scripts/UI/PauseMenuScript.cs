@@ -100,10 +100,10 @@ public class PauseMenuScript : MonoBehaviour
         PauseScreen.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        if (dialogActive == false)
-        {
+        //if (dialogActive == false)
+        //{
         Time.timeScale = 1;
-        }
+       // }
 
         starterAssetsInputs.PauseInput(false);
         PauseFalse();
