@@ -28,6 +28,7 @@ public class ChangeControlIcon : MonoBehaviour
     }
     private void Start()
     {
+        StarterAssetsInputs.ChangedControlSchemeEvent += OnUpdateBindingDisplay;
         OnUpdateBindingDisplay(StarterAssetsInputs.Instance.currentControlScheme);
     }
 
