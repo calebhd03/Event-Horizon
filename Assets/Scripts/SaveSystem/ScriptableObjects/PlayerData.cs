@@ -31,7 +31,7 @@ public class PlayerData : ScriptableObject
     public int nexusAmmoLoaded;
     public int nexusAmmoMax;
     [Header ("Skill")]
-        public bool SavePlasmaUpgrade = false, SaveMeleeDamageUpgrade = false, SaveBHGToolUpgrade = false;
+        public bool SavePlasmaUpgrade = false, SaveBHGToolUpgrade = false;
     [Header ("Skill")]
         public bool SaveDamageOverTimeUpgrade = false, SaveSlowEnemyUpgrade = false, SaveKnockBackUpgrade = false;
     [Header("Skill")]
@@ -101,7 +101,7 @@ public class PlayerData : ScriptableObject
         hasNexus = false;
         tutorialComplete = false;
         SavePlasmaUpgrade = false;
-        SaveMeleeDamageUpgrade = false;
+        //SaveMeleeDamageUpgrade = false;
         SaveBHGToolUpgrade = false;
         SaveDamageOverTimeUpgrade = false; 
         SaveSlowEnemyUpgrade = false;

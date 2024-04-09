@@ -93,7 +93,10 @@ public class PauseMenuScript : MonoBehaviour
         upgradeScreen.SetActive(false);
 
         paused = false;
+        if(logSystem.log == false)
+        {
         HUD.SetActive(true);
+        }
         PauseScreen.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

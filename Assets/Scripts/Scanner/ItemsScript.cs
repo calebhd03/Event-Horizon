@@ -67,7 +67,7 @@ public class ItemsScript : MonoBehaviour
     }
     public void ScriptActive()
     {
-        if (itemText != null)
+        if (Scanned == false && itemText != null)
         {
             itemText();
         }

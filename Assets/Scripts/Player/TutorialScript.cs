@@ -76,4 +76,9 @@ public class TutorialScript : MonoBehaviour
         yield return new WaitForSeconds(.1f);
         transform.position = teleportPlayer;
     }
+    public void HasNexusTool()
+    {
+        hasNexusTool = true;
+        CheckTutorial();
+    }
 }

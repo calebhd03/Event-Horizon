@@ -44,7 +44,6 @@ public class UpgradeSpot : MonoBehaviour
                 Debug.Log("interact input " + starterAssetsInputs.interact);
                 if (starterAssetsInputs.interact)
                 {
-                    Debug.LogError("Interacted");
                     EnableUpgrade();
                     interacted = true;
                     if(starterAssetsInputs.interact == true)
@@ -96,9 +95,7 @@ public class UpgradeSpot : MonoBehaviour
 
         objectiveText = scannerUI.GetComponentInChildren<ObjectiveText>();
         scannerUI.objectiveTextObj.ShowUpgradeText();
-        Debug.LogError("text");
         Upgrade = true;
-        Debug.LogError("upgrade");
         if (Upgrade == true)
         {
                 switch(upgradeOption)
@@ -124,7 +121,7 @@ public class UpgradeSpot : MonoBehaviour
                         logSystem.UpgradesUnlocked();
                     break;
                 }
-                Debug.LogError("switch");
+
                 Upgrade = false;
                 
                 Time.timeScale = 0;

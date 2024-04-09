@@ -20,7 +20,7 @@ public class ObjectivesScript : MonoBehaviour
     [Tooltip("Put the number associated with with the cutscene(MemoryTag)/objective(ObjectiveTag)in the array desired to play. The array is located on the video player(cutscene)/ObjectivePanel(scannerUI) game object. Array list starts with zero.")]
     public int number;
     public bool spatialAudio;
-    private bool Scanned;
+    public bool Scanned;
     public GameObject activateSpatialAudio;
     [SerializeField]LogSystem logSystem;
     ScannerUI scannerUI; 
@@ -28,6 +28,7 @@ public class ObjectivesScript : MonoBehaviour
     public SkinnedMeshRenderer skinnedMeshRenderer;
     public Material[] materials;
     [SerializeField] bool memory, objective;
+    [SerializeField] GameObject blockedPath;
     void Awake()
     {   
         scannerUI = FindObjectOfType<ScannerUI>();
@@ -44,21 +45,24 @@ public class ObjectivesScript : MonoBehaviour
     }
     void Start()
     {
-        
         Scanned = false;
         if(activateSpatialAudio != null)
         {
         activateSpatialAudio.SetActive(false);
         }
         NormColor();
+        if(blockedPath != null)
+        {
+            blockedPath.SetActive(true);
+        }
     }
-    void Update()
+    /*void Update()
     {
         if (logSystem.memory[number].interactable == true && memory)
         {
             Scanned = true;
         }
-    }
+    }*/
     private void OnEnable()
     {
         ScanCam.scannerEnabled += ScanColor;
@@ -90,7 +94,7 @@ public class ObjectivesScript : MonoBehaviour
             materials[1].SetFloat("_isHovered", 1);
             materials[1].SetFloat("_isHighlighted", 0);
         }
-        else if (meshRenderer != null && objective)
+        else if (skinnedMeshRenderer != null && objective)
         {
             materials[24].SetFloat("_isHovered", 1);
             materials[24].SetFloat("_isHighlighted", 0);
@@ -135,12 +139,21 @@ public class ObjectivesScript : MonoBehaviour
     {
         logSystem.UpdateMemoryLog();
     }
+    public void JournalLog()
+    {
+        
+        logSystem.UpdateJournalLog();
+    }
     void ShowSpatialAudio()
     {
         if(spatialAudio == true && Scanned == true)
         {
             activateSpatialAudio.SetActive(true);
         }
+    }
+    public void OpenBlockedPath()
+    {
+        blockedPath.SetActive(false);
     }
     void GetMaterials()
     {

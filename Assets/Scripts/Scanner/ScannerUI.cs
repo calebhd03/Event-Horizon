@@ -38,10 +38,13 @@ public class ScannerUI : MonoBehaviour
     public int currentQuest = 0;
     [SerializeField] Compass compass;
     [SerializeField]EnemyText enemyText;
+    [SerializeField] MiniCore miniCore;
+    [SerializeField] ScanCam ScanCam;
 
 
     void Awake()
     {   
+        miniCore = GetComponentInParent<MiniCore>();
         AudioSource audioSource = GetComponent<AudioSource>();
         if (gameObject == null)
             {
@@ -62,12 +65,13 @@ public class ScannerUI : MonoBehaviour
         newSlider2.SetActive(false);
         enelapsed = 0;
         newSliderProgress2.value = enelapsed;
-        compass = FindObjectOfType<Compass>();
-        enemyText = GetComponentInChildren<EnemyText>();
+        compass = miniCore.GetComponentInChildren<Compass>();
+        enemyText = miniCore.GetComponentInChildren<EnemyText>();
+        ScanCam = miniCore.GetComponentInChildren<ScanCam>();
     }
     void Update()
     {   
-        ScanCam ScanCam = FindObjectOfType<ScanCam>();
+        //ScanCam ScanCam = FindObjectOfType<ScanCam>();
         scannerCurrentObject = ScanCam.scannerCurrentObject;
         if (scannerCurrentObject == null)
         {
@@ -77,7 +81,7 @@ public class ScannerUI : MonoBehaviour
     }
     public void SetSliderValue()
     {   
-        ScanCam ScanCam = FindObjectOfType<ScanCam>();
+        //ScanCam ScanCam = FindObjectOfType<ScanCam>();
         Vector3 direction = Vector3.forward;
         Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
         Debug.DrawRay(scanRay.origin, scanRay.direction * ScanCam.range, Color.blue);
@@ -93,17 +97,24 @@ public class ScannerUI : MonoBehaviour
             {   
                 if (hit.collider.tag == "Objective" && currentQuest < quest)
                 {
+                    objScr.Scanned = true;
+                    objScr.OpenBlockedPath();
+                    LogJournal();
                     currentQuest = quest;
                     SwitchQuest();
                 }            
                 else if(hit.collider.tag == "Objective" && currentQuest == quest)
                 {
+                    objScr.Scanned = true;
+                    objScr.OpenBlockedPath();
+                    LogJournal();
                     SwitchQuest();
                 }
                 if (ScanCam.scannerCurrentObject.tag == "Memory")
                 {
-                LogMemories();
-                PlayVideo();
+                    objScr.Scanned = true;
+                    LogMemories();
+                    PlayVideo();
                 }
                 else 
                 {
@@ -168,7 +179,7 @@ public class ScannerUI : MonoBehaviour
     }
     void ObjectiveSlider()
     {
-        ScanCam ScanCam = FindObjectOfType<ScanCam>();
+        //ScanCam ScanCam = FindObjectOfType<ScanCam>();
         Vector3 direction = Vector3.forward;
         Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
         Debug.DrawRay(scanRay.origin, scanRay.direction * ScanCam.range, Color.blue);
@@ -203,12 +214,12 @@ public class ScannerUI : MonoBehaviour
 
     void WeakPoints()
     {   
-        ScanCam sc = FindObjectOfType<ScanCam>();
+        //ScanCam sc = FindObjectOfType<ScanCam>();
         Vector3 direction = Vector3.forward;
         Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
-        Debug.DrawRay(scanRay.origin, scanRay.direction * sc.range, Color.blue);
+        Debug.DrawRay(scanRay.origin, scanRay.direction * ScanCam.range, Color.blue);
         int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","Dialog"));
-        Physics.Raycast(scanRay, out RaycastHit hit, sc.range, layerMask);
+        Physics.Raycast(scanRay, out RaycastHit hit, ScanCam.range, layerMask);
         EnemiesScanScript eneScr = hit.collider.GetComponent<EnemiesScanScript>() ?? hit.collider.GetComponentInParent<EnemiesScanScript>() ?? hit.collider.GetComponentInChildren<EnemiesScanScript>();
         if(hit.collider != null)
         {
@@ -219,16 +230,30 @@ public class ScannerUI : MonoBehaviour
 
     void LogMemories()
     {
-        ScanCam sc = FindObjectOfType<ScanCam>();
+        //ScanCam sc = FindObjectOfType<ScanCam>();
         Vector3 direction = Vector3.forward;
         Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
-        Debug.DrawRay(scanRay.origin, scanRay.direction * sc.range, Color.blue);
+        Debug.DrawRay(scanRay.origin, scanRay.direction * ScanCam.range, Color.blue);
         int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","Dialog"));
-        Physics.Raycast(scanRay, out RaycastHit hit, sc.range, layerMask);
+        Physics.Raycast(scanRay, out RaycastHit hit, ScanCam.range, layerMask);
         ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
         if(hit.collider != null)
         {
             objScr.MemoryLog();
+        }
+    }
+
+    void LogJournal()
+    {
+        Vector3 direction = Vector3.forward;
+        Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
+        Debug.DrawRay(scanRay.origin, scanRay.direction * ScanCam.range, Color.blue);
+        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","Dialog"));
+        Physics.Raycast(scanRay, out RaycastHit hit, ScanCam.range, layerMask);
+        ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
+        if(hit.collider != null)
+        {
+            objScr.JournalLog();
         }
     }
 

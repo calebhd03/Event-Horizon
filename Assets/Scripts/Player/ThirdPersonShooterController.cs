@@ -619,7 +619,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         // remove scnScr.scan == true from if statement to remove requirement of being in scan mode.
         if (starterAssetsInputs.log && pauseMenuScript.paused == false && thirdPersonController.deathbool == false)// && scnScr.Scan == true)
         {
-            if (logSystem.log == false)
+            if ((logSystem.log == false && scnScr.Scan == false) || (logSystem.log == false && scnScr.Scan == true))
             {
                 logSystem.SetLog();
                 DisablePlayerMesh();
@@ -633,7 +633,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 EnablePlayerMesh();
                 // Debug.LogWarning("this2");
                                 // for scanner not used
-                scnScr.SwitchCamPriority();
+                scnScr.MainCamPriority();
             }
             starterAssetsInputs.log = true;
             // for scanner == true
