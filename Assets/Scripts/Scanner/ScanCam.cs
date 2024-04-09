@@ -23,6 +23,18 @@ public class ScanCam : MonoBehaviour
     public static event StopScan stopScan;
     public int currentClipIndex;
     int hitLayer;
+    [SerializeField] MiniCore miniCore;
+    [SerializeField] LogSystem logSys;
+    [SerializeField] Scanning scnScr;
+    [SerializeField] ScannerUI scannerUI;
+
+    void Awake()
+    {
+        miniCore = GetComponentInParent<MiniCore>();
+        logSys = miniCore.GetComponentInChildren<LogSystem>();
+        scnScr = miniCore.GetComponentInChildren<Scanning>();
+        scannerUI = miniCore.GetComponentInChildren<ScannerUI>();
+    }
     void Start()
     {
         scannerCurrentObject = null;
@@ -30,8 +42,6 @@ public class ScanCam : MonoBehaviour
 
     void Update()
     {
-        Scanning scnScr = Scanningobject.GetComponent<Scanning>();
-        LogSystem logSys = FindObjectOfType<LogSystem>();
 
         if (scnScr.Scan == true)
         {
@@ -39,7 +49,6 @@ public class ScanCam : MonoBehaviour
             {
             scannerEnabled(); 
             }
-
             Vector3 direction = Vector3.forward;
             Ray LookRay = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","Dialog"));
@@ -55,7 +64,6 @@ public class ScanCam : MonoBehaviour
                 case 8:
                     scannerCurrentObject = hit.collider.gameObject;                     
                     ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
-                    ScannerUI scannerUI = FindObjectOfType<ScannerUI>();
                     if (objScr != null)
                         {                        
                         objScr.highlight();

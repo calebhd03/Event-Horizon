@@ -144,9 +144,14 @@ public class ThirdPersonShooterController : MonoBehaviour
         public NexusGun nxgun;
         //Shotgun sgun;
         public Blaster bgun;
+        [SerializeField] MiniCore miniCore;
+        [SerializeField] Scanning scnScr;
+        [SerializeField] ScanCam scnCam;
+        [SerializeField] ScanZoom scnzCam;
 
     private void Awake()
         {
+            miniCore = GetComponentInParent<MiniCore>();
             animator = GetComponent<Animator>();
             playermesh = GetComponentInChildren<SkinnedMeshRenderer>();
             originalRotation = transform.rotation;
@@ -160,13 +165,16 @@ public class ThirdPersonShooterController : MonoBehaviour
             RefreshWeaponIcons();
             //EquipBlaster();
             SettingsScript settings = FindObjectOfType<SettingsScript>();
-            pauseMenuScript = FindObjectOfType<PauseMenuScript>();
-            logSystem = FindObjectOfType<LogSystem>();
+            pauseMenuScript = miniCore.GetComponentInChildren<PauseMenuScript>();
+            logSystem = miniCore.GetComponentInChildren<LogSystem>();
             audioSource = GetComponent<AudioSource>();
             skillTree = GetComponent<SkillTree>();
             nxgun = GetComponentInChildren<NexusGun>();
             //Shotgun sgun = GetComponentInChildren<Shotgun>();
             bgun = GetComponentInChildren<Blaster>();
+            scnScr = miniCore.GetComponentInChildren<Scanning>();
+            scnCam = miniCore.GetComponentInChildren<ScanCam>();
+            scnzCam = miniCore.GetComponentInChildren<ScanZoom>();
 
         }
 
@@ -174,9 +182,9 @@ public class ThirdPersonShooterController : MonoBehaviour
         {
             UpdateIcon();
             
-            Scanning scnScr = Scanningobject.GetComponent<Scanning>();
-            ScanCam scnCam = Scannercamera.GetComponent<ScanCam>();
-            ScanZoom scnzCam = ScannerZoomCamera.GetComponent<ScanZoom>();
+            //Scanning scnScr = Scanningobject.GetComponent<Scanning>();
+            //ScanCam scnCam = Scannercamera.GetComponent<ScanCam>();
+            //ScanZoom scnzCam = ScannerZoomCamera.GetComponent<ScanZoom>();
             ThirdPersonController TPC = GetComponent<ThirdPersonController>();
             Vector3 mouseWorldPosition = Vector3.zero;
 
@@ -578,7 +586,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             }
         }
 
-        if (starterAssetsInputs.scanobj && scnScr.Scan == true)
+        if (starterAssetsInputs.scanobj && scnScr.Scan == true && logSystem.log == false)
         {
             scnCam.ScanObj();
         }

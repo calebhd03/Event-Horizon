@@ -24,8 +24,8 @@ public class LogSystem : MonoBehaviour
     public TextMeshProUGUI enemyHeadingText, memoriesHeadingText, itemsHeadingText, skillsHeadingText;
     public GameObject scannerCurrentObject;
     public int number;
-    private StarterAssetsInputs starterAssetsInputs;
-    private ThirdPersonController thirdPersonController;
+    [SerializeField] private StarterAssetsInputs starterAssetsInputs;
+    [SerializeField] private ThirdPersonController thirdPersonController;
     public bool log;
     //Skills
     public bool skillsUnlocked = false, skillsUnlocked2 = false, skillsUnlocked3 = false, skillsUnlocked4 = false;
@@ -38,28 +38,34 @@ public class LogSystem : MonoBehaviour
     public Sprite upgradedSprite;
     AudioSource audioSource;
     public AudioClip SwitchTabSound;
-    SkillTree skillTree;
-    TutorialScript tutorialScript;
-    public GameObject player;
+    [SerializeField]SkillTree skillTree;
+    [SerializeField]TutorialScript tutorialScript;
+    //public GameObject player;
     public Scanning scnScr;
     //Upgrade option pages
     public GameObject upgradePage1, upgradePage2, upgradePage3, upgradePage4;
 
-    PauseMenuScript pauseMenuScript;
+    [SerializeField]PauseMenuScript pauseMenuScript;
+    [SerializeField]MiniCore miniCore;
 
+    void Awake()
+    {
+        miniCore = GetComponentInParent<MiniCore>();
+        //player = GameObject.FindWithTag("Player");
+        pauseMenuScript = FindObjectOfType<PauseMenuScript>();
+        starterAssetsInputs = miniCore.GetComponentInChildren<StarterAssetsInputs>();
+        thirdPersonController = miniCore.GetComponentInChildren<ThirdPersonController>();
+        tutorialScript = miniCore.GetComponentInChildren<TutorialScript>();
+        audioSource = GetComponent<AudioSource>();
+        skillTree = miniCore.GetComponentInChildren<SkillTree>();
+        scnScr = miniCore.GetComponentInChildren<Scanning>();
+    }
     void Start()
     {
-        player = GameObject.FindWithTag("Player");
-        pauseMenuScript = FindObjectOfType<PauseMenuScript>();
+        
         log = false;
-        starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
-        thirdPersonController = player.GetComponent<ThirdPersonController>();
-        tutorialScript = player.GetComponent<TutorialScript>();
         LogPage.SetActive(false);
         displayInfo.SetActive(false);
-        audioSource = GetComponent<AudioSource>();
-        skillTree = player.GetComponent<SkillTree>();
-        scnScr = player.GetComponent<Scanning>();
         upgradePage1.SetActive(false);
         upgradePage2.SetActive(false);
         upgradePage3.SetActive(false);
