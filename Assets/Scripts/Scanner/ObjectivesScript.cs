@@ -18,16 +18,34 @@ public class ObjectivesScript : MonoBehaviour
     //Cutscene
     [Tooltip("Put the number associated with with the cutscene(MemoryTag)/objective(ObjectiveTag)in the array desired to play. The array is located on the video player(cutscene)/ObjectivePanel(scannerUI) game object. Array list starts with zero.")]
     public int number;
-    
+    public bool spatialAudio;
+    private bool Scanned;
+    [SerializeField] bool memory, objective;
+    public GameObject activateSpatialAudio;
+    [SerializeField]LogSystem logSystem;
+    void Awake()
+    {
+        logSystem = FindObjectOfType<LogSystem>();
+    }
     void Start()
     {
+        Scanned = false;
+        activateSpatialAudio.SetActive(false);
         NormColor();
+    }
+    void Update()
+    {
+        if (logSystem.memory[number].interactable == true)
+        {
+            Scanned = true;
+        }
     }
     private void OnEnable()
     {
         ScanCam.scannerEnabled += ScanColor;
         ScanCam.scannerDisabled += NormColor;
         ScanCam.allUnhighlight += Unhighlight;
+        CutScene.cutsceneEnd += ShowSpatialAudio;
     }
 
     void OnDisable()
@@ -74,7 +92,14 @@ public class ObjectivesScript : MonoBehaviour
     }
     public void MemoryLog()
     {
-        LogSystem logSystem = FindObjectOfType<LogSystem>();
+        //LogSystem logSystem = FindObjectOfType<LogSystem>();
         logSystem.UpdateMemoryLog();
+    }
+    void ShowSpatialAudio()
+    {
+        if(spatialAudio == true && Scanned == true)
+        {
+            activateSpatialAudio.SetActive(true);
+        }
     }
 }

@@ -77,6 +77,10 @@ public class ItemsScript : MonoBehaviour
 
     private void Update()
     {
+        if (logSystem.item[number].interactable == true)
+        {
+            Scanned = true;
+        }
         //NormColor();
         if (plant)
         {

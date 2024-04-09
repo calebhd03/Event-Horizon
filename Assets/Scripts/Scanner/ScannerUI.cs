@@ -110,7 +110,7 @@ public class ScannerUI : MonoBehaviour
                     objectiveText?.Invoke();
                     Invoke("HideText", 3);
                 }
-                Destroy(ScanCam.scannerCurrentObject);
+                //Destroy(ScanCam.scannerCurrentObject);
                 DisableSlider();
             }
         }
