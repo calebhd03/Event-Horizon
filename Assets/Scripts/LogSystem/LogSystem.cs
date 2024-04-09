@@ -103,7 +103,10 @@ public class LogSystem : MonoBehaviour
             int index = i; // Capture the current value of i for the lambda expression
             item[i].onClick.AddListener(() => OnButtonClick(index));
         }
+        if(tutorialScript.tutorialComplete == false)
+        {
         skillsButton.SetActive(false);
+        }
     }
     
     void Update()
@@ -530,6 +533,7 @@ public class LogSystem : MonoBehaviour
     {
         BHGToolUpgraded = true;
         tutorialScript.hasNexusTool = true;
+        tutorialScript.CheckTutorial();
         bHGToolButton.image.sprite = upgradedSprite;
         skillTree.BHGToolUpgrade();
     }

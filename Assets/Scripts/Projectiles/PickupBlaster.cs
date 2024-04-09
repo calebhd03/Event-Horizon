@@ -44,6 +44,7 @@ public class PickupBlaster : MonoBehaviour
     void EquipBlaster()
     {
         tutorialScript.hasBlaster = true;
+        tutorialScript.CheckTutorial();
         playerHealthMetric.playerData.hasBlaster = true;
         TPSC.EquipBlaster();
         TPSC.EnableBGunMesh();
