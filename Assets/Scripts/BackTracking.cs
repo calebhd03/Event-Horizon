@@ -29,7 +29,8 @@ public class BackTracking : MonoBehaviour
     {
         foreach (GameObject obj in IgnoreUntilGoal)
         {
-            obj.SetActive(true);
+            if(obj != null)
+                obj.SetActive(true);
         }
     }
 }
