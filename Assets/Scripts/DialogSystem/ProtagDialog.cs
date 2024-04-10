@@ -36,7 +36,7 @@ public class ProtagDialog : MonoBehaviour
         {
             objectiveText.displayedText.text = dialogText.text;
             objectiveText.ShowDialogText();
-            Invoke("TurnOffText", 3);
+            Invoke("TurnOffText", 5);
         }
     }
 
