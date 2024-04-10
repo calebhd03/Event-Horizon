@@ -117,7 +117,7 @@ public class FrondBeast : MonoBehaviour
         healthMetrics = GetComponentInParent<HealthMetrics>();
         healthMetrics.currentHealth = healthMetrics.maxHealth;
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
-        StartCoroutine(EnemyMusic());
+        //StartCoroutine(EnemyMusic());
     }
 
     // Update is called once per frame
@@ -630,7 +630,7 @@ public class FrondBeast : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, seeDistance);
     }
-    IEnumerator EnemyMusic()
+    /*IEnumerator EnemyMusic()
     {
         yield return new WaitUntil(() => iSeeYou);
         Background_Music.instance.IncrementSeeingPlayerCount();
@@ -643,7 +643,7 @@ public class FrondBeast : MonoBehaviour
         Background_Music.instance.DecrementSeeingPlayerCount();
         StartCoroutine(EnemyMusic());
         yield return null;
-    }
+    }*/
     public void Dead()
     {
         if (isDead)

@@ -69,7 +69,7 @@ public class dogEnemy : MonoBehaviour
         healthMetrics.currentHealth = healthMetrics.maxHealth;
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
         audioSource = GetComponent<AudioSource>();
-        StartCoroutine(EnemyMusic());
+        //StartCoroutine(EnemyMusic());
     }
 
     // Update is called once per frame
@@ -334,7 +334,7 @@ public class dogEnemy : MonoBehaviour
 
         Debug.DrawRay(startPoint + endPointLeft, endPointRight - endPointLeft, Color.green);
     }
-    IEnumerator EnemyMusic()
+    /*IEnumerator EnemyMusic()
     {
         yield return new WaitUntil(() => iSeeYou);
         Background_Music.instance.IncrementSeeingPlayerCount();
@@ -347,7 +347,7 @@ public class dogEnemy : MonoBehaviour
         Background_Music.instance.DecrementSeeingPlayerCount();
         StartCoroutine(EnemyMusic());
         yield return null;
-    }
+    }*/
 
     public void Dead()
     {

@@ -123,7 +123,7 @@ namespace StarterAssets
             healthMetrics.currentHealth = healthMetrics.maxHealth;
             healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
             currentMag = maxMag;
-            StartCoroutine(EnemyMusic());
+            //StartCoroutine(EnemyMusic());
         }
 
         // Update is called once per frame
@@ -604,7 +604,7 @@ namespace StarterAssets
             // Set the EnemyHit parameter back to false
             animator.SetBool("EnemyHit", false);
         }
-        IEnumerator EnemyMusic()
+        /*IEnumerator EnemyMusic()
         {
             yield return new WaitUntil(() => iSeeYou);
             Background_Music.instance.IncrementSeeingPlayerCount();
@@ -617,7 +617,7 @@ namespace StarterAssets
             Background_Music.instance.DecrementSeeingPlayerCount();
             StartCoroutine(EnemyMusic());
             yield return null;
-        }
+        }*/
 
         public void Dead()
         {

@@ -58,7 +58,7 @@ public class flyingEnemy : MonoBehaviour
         animator = GetComponent<Animator>();
         healthBar = GetComponentInChildren<EnemyHealthBar>();
         audioSource = GetComponent<AudioSource>();
-        StartCoroutine(EnemyMusic());
+        //StartCoroutine(EnemyMusic());
     }
 
     // Start is called before the first frame update
@@ -250,7 +250,7 @@ public class flyingEnemy : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, seeDistance);
     }
-    IEnumerator EnemyMusic()
+    /*IEnumerator EnemyMusic()
     {
         yield return new WaitUntil(() => iSeeYou);
         Background_Music.instance.IncrementSeeingPlayerCount();
@@ -263,7 +263,7 @@ public class flyingEnemy : MonoBehaviour
         Background_Music.instance.DecrementSeeingPlayerCount();
         StartCoroutine(EnemyMusic());
         yield return null;
-    }
+    }*/
 
     public void Dead()
     {
