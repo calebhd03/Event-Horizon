@@ -97,4 +97,12 @@ public class BulletProjectile : MonoBehaviour
 
         return false;
     }
+
+    private void OnParticleCollision(GameObject other)
+    {
+        if(other.CompareTag("Bubbles"))
+        {
+            Debug.Log("bubble popped + " +  other.transform.position);
+        }
+    }
 }
