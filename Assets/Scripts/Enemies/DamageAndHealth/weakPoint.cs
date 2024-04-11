@@ -216,4 +216,14 @@ public class weakPoint : MonoBehaviour
             }
         }
     }
+
+    public void SingularityDamage()
+    {
+        if (bossPhaseTwo.noBulletDamage)
+        {
+            weakPointDamage = 0;
+            weakPointPlasmaDamage = 0;
+            knifeDamage = 0;
+        }
+    }
 }

@@ -7,12 +7,16 @@ using UnityEngine.AI;
 using JetBrains.Annotations;
 
 public class regularPoint : MonoBehaviour
-{   public float regularDamage = 10f;
+{ 
+    public float regularDamage = 10f;
     public float plasmaDamage = 15f;
     public float regularKnifeDamage = 5f;
+    public float orbDamage = 50f;
+
     public AudioClip damageSound;
 
     // Reference to the BasicEnemy script
+    [SerializeField] private bossPhaseTwo boss2;
     private basicEnemy basicEnemyScript;
     private bossEnemy bossEnemyScript;
     private flyingEnemy flyingEnemyScript;
@@ -48,6 +52,7 @@ public class regularPoint : MonoBehaviour
         healthMetrics = GetComponentInParent<HealthMetrics>();
         //regularPoints = basicEnemyScript.GetComponentsInChildren<regularPoint>();
         upgradeEffects = GetComponentInParent<UpgradeEffects>();
+        boss2 = GetComponentInParent<bossPhaseTwo>();
     }
 
     private void Update()
@@ -125,6 +130,12 @@ public class regularPoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (boss2 != null && other.CompareTag("Orb") && bossPhaseTwo.noBulletDamage)
+        {
+            Debug.Log("Hii");
+            healthMetrics.ModifyHealth(-orbDamage);
+        }
+
         if (other.CompareTag("Bullet"))
         {
             hit = true;
@@ -151,14 +162,14 @@ public class regularPoint : MonoBehaviour
                         audioSource.PlayOneShot(damageSound);
                     }
                 }
-                
+
                 if (meleeUp == true)
                 {
                     healthMetrics.ModifyHealth(-regularKnifeDamage * knifeDamageUpFactor);
                 }
                 else
                 {
-                healthMetrics.ModifyHealth(-regularKnifeDamage);
+                    healthMetrics.ModifyHealth(-regularKnifeDamage);
                 }
 
                 // Set iSeeYou to true in the BasicEnemy script
@@ -183,9 +194,9 @@ public class regularPoint : MonoBehaviour
             hit = true;
             if (upgradeEffects.stopStackDamage == false)
             {
-            upgradeEffects.DamageOverTime();
+                upgradeEffects.DamageOverTime();
             }
-            else{}
+            else { }
             upgradeEffects.PullEffect();
             upgradeEffects.OGKill();
         }
@@ -193,14 +204,14 @@ public class regularPoint : MonoBehaviour
 
     private void bulletDamage(float damage)
     {
-        if(upgradeEffects != null && upgradeEffects.stopSlowStack == false)
-            {
+        if (upgradeEffects != null && upgradeEffects.stopSlowStack == false)
+        {
             upgradeEffects.SlowDownEnemy();
             upgradeEffects.stopSlowStack = true;
-            }
+        }
 
-        if(upgradeEffects != null) upgradeEffects.knockBackAttack();
-        
+        if (upgradeEffects != null) upgradeEffects.knockBackAttack();
+
         if (healthMetrics != null)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -280,7 +291,7 @@ public class regularPoint : MonoBehaviour
         {
             if (basicEnemyScript != null)
             {
-                if(!oneTime)
+                if (!oneTime)
                 {
                     oneTime = true;
                     basicEnemyScript.SetISeeYou();
@@ -301,6 +312,16 @@ public class regularPoint : MonoBehaviour
             {
                 flyingEnemyScript.SetISeeYou();
             }
+        }
+    }
+
+    public void SingularityDamage()
+    {
+        if (bossPhaseTwo.noBulletDamage)
+        {
+            regularDamage = 0;
+            plasmaDamage = 0;
+            regularKnifeDamage = 0;
         }
     }
 

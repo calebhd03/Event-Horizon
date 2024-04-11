@@ -12,6 +12,8 @@ public class bossPhaseTwo : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] private UpgradeEffects upgrades;
     [SerializeField] private HealthMetrics health;
+    [SerializeField] private regularPoint regular;
+    [SerializeField] private weakPoint weak;
 
     private bool iSeeYou;
     public float seeDistance;
@@ -68,7 +70,12 @@ public class bossPhaseTwo : MonoBehaviour
     public static bool shootingEnding = false;
     public static bool captureEnding = false;
 
+    public static bool noBulletDamage = false;
 
+    private void OnEnable()
+    {
+        noBulletDamage = true;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -80,11 +87,15 @@ public class bossPhaseTwo : MonoBehaviour
         health = GetComponentInParent<HealthMetrics>();
         upgrades = GetComponent<UpgradeEffects>();
         upgrades.knockBackUp = false;
+        weak = GetComponentInChildren<weakPoint>();
+        regular = GetComponentInChildren<regularPoint>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        weak.SingularityDamage();
+        regular.SingularityDamage();
         SceneManagement();
         // Increase timer by Time.deltaTime each frame
         //timer += Time.deltaTime;
@@ -265,6 +276,8 @@ public class bossPhaseTwo : MonoBehaviour
 
     public void Die()
     {
+        isDead = true;
+        Debug.Log("Die Function");
         //Debug.Log("Boss Death starting");
         StartCoroutine(WaitAndDropStuff(1f));
     }
@@ -333,8 +346,14 @@ public class bossPhaseTwo : MonoBehaviour
 
     public void SceneManagement()
     {
+        if(OrbFunction.orbCount >= 2)
+        {
+            captured = true;
+        }
+
         if(captured)
         {
+            Die();
             captureEnding = true;
             shootingEnding = false;
         }
