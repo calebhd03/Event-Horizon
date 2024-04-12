@@ -162,6 +162,7 @@ public class bossPhaseTwo : MonoBehaviour
     }
     private IEnumerator summonEnemies()
     {
+        animator.SetBool("P2Attack2", true);
         yield return new WaitForSeconds(summonWindUp);
 
         Vector3 spawnOffset = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
@@ -188,25 +189,30 @@ public class bossPhaseTwo : MonoBehaviour
         {
             Debug.LogWarning("Cannot find a valid spawn position on the NavMesh.");
         }
+        animator.SetBool("P2Attack2", false);
     }
 
     private IEnumerator AOE()
     {
+        animator.SetBool("P2Attack1", true);
         //set animator
         // animator.SetTrigger("AOEAttack");
         GameObject newWarningRingAOE = Instantiate(aoeWarningPrefab, player.position, Quaternion.identity);
 
-        yield return new WaitForSeconds(aoeWindUp);
+        yield return new WaitForSeconds(8.5f);
         Debug.Log("Animation Fist Attack");
         yield return new WaitForSeconds(2f);
 
         GameObject newRingAOE = Instantiate(aoeRingPrefab, newWarningRingAOE.transform.position, Quaternion.identity);
         Destroy(newRingAOE, 5f);
         Destroy(newWarningRingAOE, 5f);
+        animator.SetBool("P2Attack1", false);
+
     }
 
     private IEnumerator PerformMeteor()
     {
+        animator.SetBool("P2Attack3", true);
         summonMeteorPortal(rightMeteor.position, Quaternion.identity);
         summonMeteorPortal(leftMeteor.position, Quaternion.identity);
         summonMeteorPortal(middleMeteor.position, Quaternion.identity);
@@ -222,6 +228,7 @@ public class bossPhaseTwo : MonoBehaviour
 
         MeteorSpawnSound();
         summonMeteor(middleMeteor.position, Quaternion.identity);
+        animator.SetBool("P2Attack3", false);
     }
 
     private void MeteorSpawnSound()
@@ -276,10 +283,14 @@ public class bossPhaseTwo : MonoBehaviour
 
     public void Die()
     {
-        isDead = true;
+        if(captured)
+        {
+            isDead = true;
+        }
+        animator.SetBool("Death", true);
         Debug.Log("Die Function");
         //Debug.Log("Boss Death starting");
-        StartCoroutine(WaitAndDropStuff(1f));
+        StartCoroutine(WaitAndDropStuff(4f));
     }
 
     private IEnumerator WaitAndDropStuff(float waitTime)

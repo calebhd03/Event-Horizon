@@ -372,10 +372,11 @@ public class bossEnemy : MonoBehaviour
             // Stop the NavMeshAgent to prevent further movement
             agent.isStopped = true;
             Debug.Log("Boss Death starting");
+            animator.SetBool("Death", true);
 
 
             // Wait for 3 seconds before dropping stuff
-            StartCoroutine(WaitAndDropStuff(1f));
+            StartCoroutine(WaitAndDropStuff(4f));
         }
 
         private IEnumerator WaitAndDropStuff(float waitTime)
