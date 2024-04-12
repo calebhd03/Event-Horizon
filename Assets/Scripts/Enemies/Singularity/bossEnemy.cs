@@ -231,7 +231,6 @@ public class bossEnemy : MonoBehaviour
 
     IEnumerator PerformMeteor()
     {
-        animator.SetBool("P1Attack1", true);
         agent.isStopped = true;
         meteorAttack = true;
         summonMeteorPortal(rightMeteor.position, Quaternion.identity);
@@ -275,7 +274,7 @@ public class bossEnemy : MonoBehaviour
         meteorAttack = false;
         agent.isStopped = false;
         timeSinceLastMeteorAttack = Time.time;
-        animator.SetBool("P1Attack1", false);
+
     }
 
     public void summonMeteor(Vector3 position, Quaternion rotation)
@@ -308,7 +307,6 @@ public class bossEnemy : MonoBehaviour
 
     IEnumerator slash()
     {
-        animator.SetBool("P1Attack3", true);
         agent.isStopped = true;
         slashAttack = true;
 
@@ -320,13 +318,11 @@ public class bossEnemy : MonoBehaviour
         slashAttack = false;
         agent.isStopped = false;
         timeSinceLastSlashAttack = Time.time;
-        animator.SetBool("P1Attack3", false);
         Debug.Log("Slash Attack from boss");
     }
 
     IEnumerator AOE()
     {
-        animator.SetBool("P1Attack2", true);
         agent.isStopped = true;
         aoeAttack = true;
         
@@ -345,7 +341,6 @@ public class bossEnemy : MonoBehaviour
         aoeAttack = false;
         agent.isStopped = false;
         timeSinceLastAOEAttack = Time.time;
-        animator.SetBool("P1Attack2", false);
     }
 
     public void updateHealth()
@@ -372,11 +367,10 @@ public class bossEnemy : MonoBehaviour
             // Stop the NavMeshAgent to prevent further movement
             agent.isStopped = true;
             Debug.Log("Boss Death starting");
-            animator.SetBool("Death", true);
 
 
             // Wait for 3 seconds before dropping stuff
-            StartCoroutine(WaitAndDropStuff(4f));
+            StartCoroutine(WaitAndDropStuff(1f));
         }
 
         private IEnumerator WaitAndDropStuff(float waitTime)

@@ -22,7 +22,6 @@ public class LogSystem : MonoBehaviour
     public Image setImage;
     public TextMeshProUGUI setText;
     public TextMeshProUGUI enemyHeadingText, memoriesHeadingText, itemsHeadingText, skillsHeadingText, journalHeadingText;
-    public GameObject journalScroll;
     public GameObject scannerCurrentObject;
     public int number;
     [SerializeField] private StarterAssetsInputs starterAssetsInputs;
@@ -352,7 +351,6 @@ public class LogSystem : MonoBehaviour
             itemsPage.SetActive(false);
             skillsPage.SetActive(false);
             journalPage.SetActive(true);
-            journalScroll.SetActive(true);
             buttonType = 4;
             enemyHeadingText.color = new Color(155f / 255f, 89f / 255f, 182f / 255f, 1f);
             memoriesHeadingText.color = new Color(155f / 255f, 89f / 255f, 182f / 255f, 1f);

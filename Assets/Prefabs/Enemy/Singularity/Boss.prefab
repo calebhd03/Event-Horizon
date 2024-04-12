@@ -61,9 +61,7 @@ MonoBehaviour:
   weakPointDamage: 20
   weakPointPlasmaDamage: 30
   knifeDamage: 10
-  BHDamage: 30
   damageSound: {fileID: 8300000, guid: 780f0a773e3715a4493f66029cd5a971, type: 3}
-  boss2: {fileID: 0}
   damageUpgrade: 0
   slowEnemy: 0
   damageOverTimeEnemy: 0
@@ -254,7 +252,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3506383531087344816
 Transform:
   m_ObjectHideFlags: 0
@@ -708,10 +706,7 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
-  orbDamage: 50
-  BHDamage: 20
   damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
-  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -855,7 +850,6 @@ Transform:
   - {fileID: 6407285430750896918}
   - {fileID: 543450652062941055}
   - {fileID: 6799879238826513568}
-  - {fileID: 5885386497696078189}
   m_Father: {fileID: 4973244207957182976}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -1103,7 +1097,7 @@ MonoBehaviour:
   aoeCloseRingPrefab: {fileID: 1060804793775053595, guid: 75853685ca2fa9148ab202dc2fc97583, type: 3}
   aoeCloseWarningPrefab: {fileID: 1060804793775053595, guid: 1d17f96380f661b4cab7c81ebbc18c33, type: 3}
   aoeSpawn: {fileID: 6407285430750896918}
-  aoeWindUp: 6.5
+  aoeWindUp: 3
   healthBar: {fileID: 0}
   meteorSpawnSound: {fileID: 8300000, guid: 204dac5665027be4e979bd008d7d4705, type: 3}
   deathAudio: {fileID: 8300000, guid: 1178852854510bc48a2e0aabb1408593, type: 3}
@@ -1403,52 +1397,6 @@ Transform:
   m_Father: {fileID: 4973244207133764573}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &8607641128104637952
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5885386497696078189}
-  - component: {fileID: 8620041807036909905}
-  m_Layer: 16
-  m_Name: Collider
-  m_TagString: Enemy
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5885386497696078189
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8607641128104637952}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4973244207133764573}
-  m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &8620041807036909905
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8607641128104637952}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 4
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &1670846612
 PrefabInstance:
   m_ObjectHideFlags: 0
