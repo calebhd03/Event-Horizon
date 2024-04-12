@@ -4,10 +4,11 @@ using StarterAssets;
 using UnityEngine.UI;
 using Unity.VisualScripting;
 using System.Collections;
+using System;
 using TMPro;
 public class ThirdPersonShooterController : MonoBehaviour 
 {
-    public PlayerData playerData;
+         public PlayerData playerData;
         [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
         [SerializeField] private float normalSensitivity;
         [SerializeField] private float aimSensitivity;
@@ -143,6 +144,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         //weapon mesh
         public NexusGun nxgun;
         //Shotgun sgun;
+        private Coroutine reloadCoroutine = null;
         public Blaster bgun;
         [SerializeField] MiniCore miniCore;
         [SerializeField] Scanning scnScr;
@@ -981,67 +983,74 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void Reload()
     {
-        if (playerData.standardAmmoLoaded != playerData.standardAmmoMax || playerData.nexusAmmoLoaded != playerData.nexusAmmoMax || playerData.shotgunAmmoLoaded != playerData.shotgunAmmoMax)
-        {
-        reloading = true;
+        // Check if already reloading to prevent multiple reloads at the same time
+        if (reloading)
+            return;
 
+        reloading = true;
         Debug.Log("Reloading!");
-        if(equippedWeapon == 0 && playerData.standardAmmo > 0 && playerData.standardAmmoLoaded < playerData.standardAmmoMax)
+
+        float reloadTime = 0f;
+        AudioClip reloadSound = null;
+
+        switch (equippedWeapon)
         {
-            StartCoroutine(ReloadTimer(standardReloadTime));
-            audioSource.PlayOneShot(blasterReloadSound);
-            ammoDifference = playerData.standardAmmoMax - playerData.standardAmmoLoaded;
-            playerData.standardAmmoLoaded += playerData.standardAmmo;
-            playerData.standardAmmo -= ammoDifference;
-            if (playerData.standardAmmo < 0)
-            {
-                playerData.standardAmmo = 0;
-            }
-            else
-            {
-                playerData.standardAmmoLoaded = playerData.standardAmmoMax;
-            }
+            case 0:
+                if (playerData.standardAmmo > 0 && playerData.standardAmmoLoaded < playerData.standardAmmoMax)
+                {
+                    ammoDifference = playerData.standardAmmoMax - playerData.standardAmmoLoaded;
+                    int ammoToLoad = Math.Min(playerData.standardAmmo, ammoDifference);
+                    playerData.standardAmmoLoaded += ammoToLoad;
+                    playerData.standardAmmo -= ammoToLoad;
+
+                    reloadTime = standardReloadTime;
+                    reloadSound = blasterReloadSound;
+                }
+                break;
+            case 1:
+                if (playerData.nexusAmmo > 0 && playerData.nexusAmmoLoaded < playerData.nexusAmmoMax)
+                {
+                    ammoDifference = playerData.nexusAmmoMax - playerData.nexusAmmoLoaded;
+                    int ammoToLoad = Math.Min(playerData.nexusAmmo, ammoDifference);
+                    playerData.nexusAmmoLoaded += ammoToLoad;
+                    playerData.nexusAmmo -= ammoToLoad;
+
+                    reloadTime = blackHoleReloadTime;
+                    reloadSound = blackHoleReloadSound;
+                }
+                break;
+            // Implement additional weapon cases as needed
         }
-        else if(equippedWeapon == 1 && playerData.nexusAmmo > 0 && playerData.nexusAmmoLoaded < playerData.nexusAmmoMax && BHGTool == false)
+
+        if (reloadTime > 0 && reloadSound != null)
         {
-            StartCoroutine(ReloadTimer(blackHoleReloadTime));
-            audioSource.PlayOneShot(blackHoleReloadSound);
-            ammoDifference = playerData.nexusAmmoMax - playerData.nexusAmmoLoaded;
-            playerData.nexusAmmoLoaded += playerData.nexusAmmo;
-            playerData.nexusAmmo -= ammoDifference;
-            if (playerData.standardAmmo < 0)
-            {
-                playerData.nexusAmmo = 0;
-            }
-            else
-            {
-                playerData.nexusAmmoLoaded = playerData.nexusAmmoMax;
-            }
+            reloadCoroutine = StartCoroutine(ReloadTimer(reloadTime));
+            audioSource.PlayOneShot(reloadSound);
         }
-        /*else if(equippedWeapon == 2 && playerData.shotgunAmmo > 0 && playerData.shotgunAmmoLoaded < playerData.shotgunAmmoMax)
+        else
         {
-            StartCoroutine(ReloadTimer(shotgunReloadTime));
-            audioSource.PlayOneShot(shotgunReloadSound);
-            ammoDifference = playerData.shotgunAmmoMax - playerData.shotgunAmmoLoaded;
-            playerData.shotgunAmmoLoaded += playerData.shotgunAmmo;
-            playerData.shotgunAmmo -= ammoDifference;
-            if (playerData.shotgunAmmo < 0)
-            {
-                playerData.shotgunAmmo = 0;
-            }
-            else
-            {
-                playerData.shotgunAmmoLoaded = playerData.shotgunAmmoMax;
-            }
-        }*/
-        UpdateAmmoCount();
+            reloading = false; // No reload needed, reset immediately
         }
+
+        UpdateAmmoCount(); // Ensure that ammo counts are updated after reloading
     }
 
     IEnumerator ReloadTimer(float reloadTime)
     {
         yield return new WaitForSeconds(reloadTime);
         reloading = false;
+        reloadCoroutine = null;
+    }
+
+    private void InterruptReload()
+    {
+        if (reloadCoroutine != null)
+        {
+            StopCoroutine(reloadCoroutine);
+            reloadCoroutine = null;
+        }
+        reloading = false;
+        Debug.Log("Reloading interrupted and reset.");
     }
 
     private void UpdateIcon()
