@@ -8,7 +8,7 @@ using System;
 using TMPro;
 public class ThirdPersonShooterController : MonoBehaviour 
 {
-    public PlayerData playerData;
+         public PlayerData playerData;
         [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
         [SerializeField] private float normalSensitivity;
         [SerializeField] private float aimSensitivity;
