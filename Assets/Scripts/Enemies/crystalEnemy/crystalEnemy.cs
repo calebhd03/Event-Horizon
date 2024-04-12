@@ -52,6 +52,9 @@ public class crystalEnemy : MonoBehaviour
 
     private bool isDead = false;//assuming it is alive
 
+    public bool isPhaseTwo = false; //only for the singularity phase two fight
+    public GameObject orbPrefab;
+
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -251,6 +254,11 @@ public class crystalEnemy : MonoBehaviour
 
     private void DropStuff()
     {
+        if (isPhaseTwo)
+        {
+            Instantiate(orbPrefab, transform.position, Quaternion.identity);
+        }
+
         if (Random.value < pickupDropChance)
         {
             Instantiate(shotGunPickupPrefab, transform.position, Quaternion.identity);
