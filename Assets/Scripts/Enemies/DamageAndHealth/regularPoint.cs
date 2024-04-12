@@ -12,6 +12,7 @@ public class regularPoint : MonoBehaviour
     public float plasmaDamage = 15f;
     public float regularKnifeDamage = 5f;
     public float orbDamage = 50f;
+    public float BHDamage = 20f;
 
     public AudioClip damageSound;
 
@@ -192,13 +193,16 @@ public class regularPoint : MonoBehaviour
         else if (other.CompareTag("BHBullet"))
         {
             hit = true;
-            if (upgradeEffects.stopStackDamage == false)
+            healthMetrics.ModifyHealth(-BHDamage);
+            if (upgradeEffects != null && upgradeEffects.stopStackDamage == false)
             {
                 upgradeEffects.DamageOverTime();
             }
-            else { }
-            upgradeEffects.PullEffect();
-            upgradeEffects.OGKill();
+            if (upgradeEffects != null)
+            {
+                upgradeEffects.PullEffect();
+                upgradeEffects.OGKill();
+            }
         }
     }
 
@@ -322,6 +326,7 @@ public class regularPoint : MonoBehaviour
             regularDamage = 0;
             plasmaDamage = 0;
             regularKnifeDamage = 0;
+            BHDamage = 0;
         }
     }
 
