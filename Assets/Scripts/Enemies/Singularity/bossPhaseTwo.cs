@@ -120,7 +120,7 @@ public class bossPhaseTwo : MonoBehaviour
 
     private void RandomAttack()
     {
-        int randomAttack = Random.Range(0, 3); // 0: SummonEnemies, 1: AOE, 2: Meteor
+        int randomAttack = Random.Range(0, 4); // 0: SummonEnemies, 1: AOE, 2: Meteor
 
         switch (randomAttack)
         {
@@ -141,6 +141,12 @@ public class bossPhaseTwo : MonoBehaviour
                 StartCoroutine(PerformMeteor());
                 StopCoroutine(summonEnemies());
                 StopCoroutine(AOE());
+                break;
+            case 3:
+                enemyBool = true;
+                StartCoroutine(summonEnemies());
+                StopCoroutine(AOE());
+                StopCoroutine(PerformMeteor());
                 break;
         }
 
