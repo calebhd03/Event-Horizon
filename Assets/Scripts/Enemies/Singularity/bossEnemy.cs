@@ -91,7 +91,7 @@ public class bossEnemy : MonoBehaviour
             armAnim = childTransform.GetComponent<Animator>();
         }
         audioSource1 = GetComponent<AudioSource>();
-        StartCoroutine(BossMusic());
+        //StartCoroutine(BossMusic());
         upgrades.knockBackUp = false;
     }
 
@@ -418,12 +418,12 @@ public class bossEnemy : MonoBehaviour
             animator.SetTrigger("EnemyHit");
         }
 
-        IEnumerator BossMusic()
-        {
-            yield return new WaitUntil(() => iSeeYou);
-            Background_Music.instance.BossMusic();
-            yield return null;
+       // IEnumerator BossMusic()
+       // {
+           // yield return new WaitUntil(() => iSeeYou);
+          //  Background_Music.instance.BossMusic();
+           // yield return null;
             
-        }
+       // }
         
 }

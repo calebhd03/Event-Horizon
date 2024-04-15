@@ -9,8 +9,8 @@ public class Background_Music : MonoBehaviour
     public static Background_Music instance;
     public AudioSource audioSource;
     public AudioClip[] audioClips;
-    public bool inCombat = false;
-    public bool inBossCombat = false;
+   // public bool inCombat = false;
+    //public bool inBossCombat = false;
     public int enemiesSeeingPlayer = 0;
     private void Awake()
     {
@@ -86,7 +86,7 @@ public class Background_Music : MonoBehaviour
         audioSource.Stop();
         audioSource.Play();
     }
-    public void EnemyMusic()
+    /*public void EnemyMusic()
     {
         if(audioSource.clip != audioClips[4])
         {
@@ -94,13 +94,13 @@ public class Background_Music : MonoBehaviour
         audioSource.Stop();
         audioSource.Play();
         }
-    }
-    public void BossMusic()
+    }*/
+   /* public void BossMusic()
     {
         audioSource.clip = audioClips[5];
         audioSource.Stop();
         audioSource.Play();
-    }
+    }*/
 
     /*IEnumerator EnemyCombat()
     {
@@ -134,7 +134,7 @@ public class Background_Music : MonoBehaviour
         enemiesSeeingPlayer++;
         if (enemiesSeeingPlayer == 1) // First enemy to see the player
         {
-            EnemyMusic();
+           // EnemyMusic();
         }
     }
 
