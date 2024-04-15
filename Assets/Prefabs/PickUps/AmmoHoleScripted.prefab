@@ -121,9 +121,11 @@ GameObject:
   - component: {fileID: 5243552519220364216}
   - component: {fileID: 5243552519220364217}
   - component: {fileID: 5243552519220364218}
-  m_Layer: 18
+  - component: {fileID: 486066218233531818}
+  - component: {fileID: 4126613579037723392}
+  m_Layer: 7
   m_Name: AmmoHoleCover
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -172,6 +174,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 3e2bd756b6c14fd42be58bbc3cb78605, type: 2}
+  - {fileID: 2100000, guid: 1e1c034e29495a24bac09fb914f02bd0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -193,6 +196,39 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &486066218233531818
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5243552519220364219}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.019826507, y: 0.0041363076, z: 0.019199884}
+  m_Center: {x: 0.00012247918, y: -0.0013404205, z: 0.00043194188}
+--- !u!114 &4126613579037723392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5243552519220364219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fca1b0dcdc1746349b15d36dbce3ba07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  number: 0
+  meshRenderer: {fileID: 5243552519220364218}
+  materials: []
+  player: {fileID: 0}
+  Scanned: 0
+  logSystem: {fileID: 0}
+  healthPlant: {fileID: 0}
+  plant: 0
 --- !u!1 &5243552519956229243
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,7 +242,6 @@ GameObject:
   - component: {fileID: 5243552519956229241}
   - component: {fileID: 5243552519956229242}
   - component: {fileID: 9188237998426714010}
-  - component: {fileID: 774365306676884657}
   - component: {fileID: 4872226281517741680}
   m_Layer: 18
   m_Name: AmmoHoleScripted
@@ -331,26 +366,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &774365306676884657
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5243552519956229243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fca1b0dcdc1746349b15d36dbce3ba07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  number: 0
-  meshRenderer: {fileID: 5243552519956229240}
-  materials: []
-  player: {fileID: 0}
-  Scanned: 0
-  logSystem: {fileID: 0}
-  healthPlant: {fileID: 0}
-  plant: 0
 --- !u!82 &4872226281517741680
 AudioSource:
   m_ObjectHideFlags: 0
