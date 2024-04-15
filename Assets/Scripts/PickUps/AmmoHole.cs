@@ -13,6 +13,7 @@ public class AmmoHole : MonoBehaviour
     //hardmode
     public GameObject player;
     public GameObject PE_AmmoHole;
+    public GameObject VE_AmmoHole;
     PlayerHealthMetric playerHealthMetric;
     public Animator animator;
     private AudioSource audioSource;
@@ -66,6 +67,7 @@ public class AmmoHole : MonoBehaviour
             // Clear the list
             instantiatedAmmo.Clear();
             Destroy(PE_AmmoHole.gameObject);
+            Destroy(VE_AmmoHole.gameObject);
         }
     }
 }
