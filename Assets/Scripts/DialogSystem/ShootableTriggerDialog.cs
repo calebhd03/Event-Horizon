@@ -74,13 +74,12 @@ public class ShootableTriggerDialog : MonoBehaviour
         audioSource.PlayOneShot(crystalSounds[randomNumber]);
         if(currentHealth <=0)
         {
-            //StartDialogue();
+            StartDialogue();
             crystalObj.SetActive(false);
             crystalsDestroyed += 1;
             if(crystalsDestroyed == 5)
             {
                 blockedRainbowRoad.SetActive(false);
-                StartDialogue();
             }
         }
     }
