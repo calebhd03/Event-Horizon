@@ -280,8 +280,8 @@ public class ThirdPersonShooterController : MonoBehaviour
                 }
                     else
                 {
-                    aimVirtualCamera.gameObject.SetActive(false);
                     thirdPersonController.SetSensitivity(normalSensitivity);
+                    aimVirtualCamera.gameObject.SetActive(false);
                     thirdPersonController.SetRotateOnMove(true);
                 // animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
                     // Set the character's rotation back to its original rotation when not aiming
@@ -294,7 +294,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 }
             }
 
-        if (starterAssetsInputs.scroll != Vector2.zero && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && playerData.hasNexus == true && playerData.hasBlaster == true)
+        if ((starterAssetsInputs.scroll != Vector2.zero || starterAssetsInputs.switchWeapon) && pauseMenuScript.paused == false && Time.time - lastSwitchTime >= switchCoolDown && thirdPersonController.deathbool == false && logSystem.log == false && playerData.hasNexus == true && playerData.hasBlaster == true)
         {
             //equippedWeapon = equippedWeapon++;
                 
@@ -335,22 +335,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                     break;
 
             }
-        }
-
-        if (starterAssetsInputs.switchWeapon && Time.time - lastSwitchTime >= switchCoolDown && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && playerData.hasNexus == true && playerData.hasBlaster == true)
-        {
-            if (equippedWeapon != 0)
-            {
-                EquipBlaster();
-            }
-            else
-            {
-                EquipBlackHoleGun();
-            }
             lastSwitchTime = Time.time;
-            shotCooldown = currentCooldown;
-            UpdateAmmoCount();
-            Debug.Log(equippedWeapon);
         }
 
         if (starterAssetsInputs.blaster && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false && playerData.hasBlaster == true)
@@ -376,11 +361,6 @@ public class ThirdPersonShooterController : MonoBehaviour
 
             }
         }
-
-        /*if (starterAssetsInputs.shotgun && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
-        {
-            EquipShotgun();
-        }*/
 
         if (starterAssetsInputs.knife && pauseMenuScript.paused == false && thirdPersonController.deathbool == false && logSystem.log == false)
         {
@@ -690,45 +670,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         RefreshWeaponIcons();
         UpdateAmmoCount();
     }
-    public void EquipShotgun()
-    {
-        animator.SetTrigger("ShotgunSwitch");
-        animator.ResetTrigger("BlasterSwitch");
-        animator.ResetTrigger("BHSwitch");
 
-
-        //resets Blaster weapon positions
-        standardWeaponObject.transform.parent = blasterHolster.transform;
-        standardWeaponObject.transform.position = blasterHolster.transform.position;
-        standardWeaponObject.transform.localEulerAngles = new Vector3(0, 0, 0);
-
-        //resets BHG weapon positions
-        blackHoleWeaponObject.transform.parent = BHGHolster.transform;
-        blackHoleWeaponObject.transform.position = BHGHolster.transform.position;
-        blackHoleWeaponObject.transform.localEulerAngles = new Vector3(90, 0, -45);
-
-        //sets shotgun position to in hand
-        /*shotgunWeaponObject.transform.parent = originalWeaponObject.transform;
-        shotgunWeaponObject.transform.position = originalWeaponObject.transform.position;
-        shotgunWeaponObject.transform.localEulerAngles = new Vector3(-90, 0, 90);*/
-
-        if (starterAssetsInputs.aim)
-        {
-            animator.SetTrigger("aimGun");
-            //standardWeaponObject.SetActive(false);
-            //blackHoleWeaponObject.SetActive(false);
-            //shotgunWeaponObject.SetActive(true);
-        }
-        else if (!starterAssetsInputs.aim)
-        {
-            animator.ResetTrigger("aimGun");
-        }
-        equippedWeapon = 2;
-        shotCooldown = currentCooldown;
-        RefreshWeaponIcons();
-        UpdateAmmoCount();
-        Debug.Log(equippedWeapon);
-    }
     public void EquipBlackHoleGun()
     {
         animator.SetTrigger("BHSwitch");

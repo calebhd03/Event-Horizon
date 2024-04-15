@@ -33,7 +33,7 @@ namespace StarterAssets
 
         [Tooltip("Acceleration and deceleration")]
         public float SpeedChangeRate = 10.0f;
-        public float Sensitivity = 1f;
+        public float Sensitivity;
 
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;

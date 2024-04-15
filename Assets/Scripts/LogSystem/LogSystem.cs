@@ -127,7 +127,7 @@ public class LogSystem : MonoBehaviour
     
     public void UpgradesUnlocked()
     {   
-        ReturnButton();
+        //ReturnButton();
         LogPage.SetActive(false);
         if (skillsUnlocked == true)
         {            
