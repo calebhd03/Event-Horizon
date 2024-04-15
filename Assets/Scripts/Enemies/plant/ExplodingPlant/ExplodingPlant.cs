@@ -11,16 +11,24 @@ public class ExplodingPlant : MonoBehaviour
     [SerializeField] private HealthMetrics healthMetrics;
     public LayerMask playerZone;
     public float triggerDistance;
+    [SerializeField] private MeshRenderer meshRenderer;
+    [SerializeField] private GameObject colliderPrefab;
 
     [Header("Exploding Variables")]
     public GameObject acidPrefab;
     private bool explode = false;
     public float explodeAnimationDuration;
     private bool acidSpawned = false;
+    [SerializeField] private GameObject explosionParticlePrefab;
+    [SerializeField] private Transform acidSpawn;
+    private bool hasExploded = false;
+    private bool explosionSouundTriggered = false;
+    private bool sound;
 
 
     [Header("Audio")]
     public AudioClip deathAudio;
+    public AudioClip ExplosionSound;
     AudioSource audioSource;
 
     [Header("Drops")]
@@ -30,12 +38,16 @@ public class ExplodingPlant : MonoBehaviour
     public GameObject healthPickupPrefab;
     public float pickupDropChance = 0.3f;
 
+    private bool isDead = false; //assuming it is alive
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         healthBar = GetComponentInChildren<EnemyHealthBar>();
         audioSource = GetComponent<AudioSource>();
+        meshRenderer = GetComponent<MeshRenderer>();
+
     }
     // Start is called before the first frame update
     void Start()
@@ -51,7 +63,7 @@ public class ExplodingPlant : MonoBehaviour
         updateHealth();
         iSeeYou = Physics.CheckSphere(transform.position, triggerDistance, playerZone);
 
-        if (iSeeYou)
+        if (iSeeYou && !explosionSouundTriggered)
         {
             TriggerPlant();
         }
@@ -59,19 +71,31 @@ public class ExplodingPlant : MonoBehaviour
 
     private void TriggerPlant()
     {
-        explode = true;
-        if(explode)
+        if (!hasExploded) 
         {
+            explosionSouundTriggered = true;
+            explode = true;
+            hasExploded = true;
             StartCoroutine(ExplodeDelay());
         }
     }
 
     private IEnumerator ExplodeDelay()
     {
-        //explode animation and spread acid
         yield return new WaitForSeconds(explodeAnimationDuration);
-        
-        if(!acidSpawned)
+        meshRenderer.enabled = false;
+        colliderPrefab.SetActive(false);
+        yield return new WaitForSeconds(.1f);
+        if(!sound)
+        {
+            sound = true;
+            audioSource.PlayOneShot(ExplosionSound);
+
+        }
+        ParticleSystem explosionParticleSystem = explosionParticlePrefab.GetComponentInChildren<ParticleSystem>();
+        explosionParticleSystem.Play();
+
+        if (!acidSpawned)
         {
             acidSpawned = true;
             SpawnAcid();
@@ -81,9 +105,9 @@ public class ExplodingPlant : MonoBehaviour
     private void SpawnAcid()
     {
         Debug.Log("Spawn acid");
-        GameObject newAcidCloud = Instantiate(acidPrefab, transform.position, Quaternion.identity);
+        GameObject newAcidCloud = Instantiate(acidPrefab, acidSpawn.position, Quaternion.identity);
         Destroy(newAcidCloud.gameObject, 10f);
-        Destroy(this.gameObject, 10f);
+        Invoke("DeactivateObject", 10f);
     }
 
     public void OneShotTop()
@@ -102,6 +126,7 @@ public class ExplodingPlant : MonoBehaviour
 
         if (healthMetrics.currentHealth <= 0)
         {
+            isDead = true;
             Die();
         }
     }
@@ -135,12 +160,36 @@ public class ExplodingPlant : MonoBehaviour
             Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
         }
 
-        Destroy(transform.parent.gameObject);
+        Dead();
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, triggerDistance);
+    }
+
+    //for shooting the top part
+    void DeactivateObject()
+    {
+        isDead = true;
+        transform.parent.gameObject.SetActive(false);
+
+    }
+
+    public void Dead()
+    {
+        if (isDead)
+        {
+            transform.parent.gameObject.SetActive(false);
+        }
+    }
+
+    public void Alive()
+    {
+        if (!isDead)
+        {
+            transform.parent.gameObject.SetActive(true);
+        }
     }
 }

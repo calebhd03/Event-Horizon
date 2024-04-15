@@ -7,6 +7,7 @@ public class Interact : MonoBehaviour
     float interactRange = 2f;
     ScannerUI scannerUI;
     public InteractText interactText;
+    public bool nexusGun;
     
     void Awake()
     {
@@ -14,13 +15,27 @@ public class Interact : MonoBehaviour
         interactText = scannerUI.GetComponentInChildren<InteractText>();
         
     }
+
     private void OnTriggerEnter(Collider other)
     {
-            if (other.CompareTag("Player"))
-                {   
-                    Debug.LogError("InteractRange");
+        if(nexusGun == true)
+            {
+                PickupNexus pickupNexus = GetComponent<PickupNexus>();
+                if(pickupNexus.isScanned == true)
+                {
+                if (other.CompareTag("Player"))
+                {
                     interactText.ShowDialogText();
                 }
+                }
+            }
+        else
+            {
+            if (other.CompareTag("Player"))
+                {   
+                    interactText.ShowDialogText();
+                }
+            }
     }
     private void OnTriggerExit(Collider other)
     {

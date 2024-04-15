@@ -112,6 +112,7 @@ namespace StarterAssets
             healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
 
             currentMag = maxMag;
+            //StartCoroutine(EnemyMusic());
         }
 
         // Update is called once per frame
@@ -457,6 +458,7 @@ namespace StarterAssets
         {
             audioSource.PlayOneShot(deathAudio);
             DropStuff();
+            iSeeYou = false;
         }
 
         private void DropStuff()
@@ -474,5 +476,19 @@ namespace StarterAssets
             }
             Destroy(gameObject);
         }
+        /*IEnumerator EnemyMusic()
+        {
+            yield return new WaitUntil(() => iSeeYou);
+            Background_Music.instance.IncrementSeeingPlayerCount();
+            StartCoroutine(LevelMusic());
+            yield return null;
+        }
+    IEnumerator LevelMusic()
+        {   
+            yield return new WaitUntil (() => !iSeeYou);
+            Background_Music.instance.DecrementSeeingPlayerCount();
+            StartCoroutine(EnemyMusic());
+            yield return null;
+        }*/
     }
 }

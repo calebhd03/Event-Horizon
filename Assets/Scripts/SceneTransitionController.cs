@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneTransitionController : MonoBehaviour
 {
+    public GameObject loadingScreen;
     public Image fadeImage;
     public float fadeDuration = 0.3f;
 
@@ -57,8 +58,36 @@ public class SceneTransitionController : MonoBehaviour
 
         fadeImage.color = endColor;
         isFading = false;
-
+        if(sceneName == "Inner")
+        {
+            Background_Music.instance.InnerMusic();
+        }
+        else if(sceneName == "The Center")
+        {
+            Background_Music.instance.CenterMusic();
+        }
+        else if (sceneName == "Start Menu")
+        {
+            Background_Music.instance.MenuMusic();
+        }
+        else if (sceneName == "OutroCutScene")
+        {
+            Background_Music.instance.audioSource.Stop();
+        }
         // Load the next scene after fading in
-        SceneManager.LoadScene(sceneName);
+         StartCoroutine(LoadSceneAsync(sceneName));
+    }
+    IEnumerator LoadSceneAsync(string sceneName)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        while (!operation.isDone)
+        {
+           if(loadingScreen != null)
+           {
+                loadingScreen.SetActive(true);
+           }
+
+           yield return null;
+        }
     }
 }

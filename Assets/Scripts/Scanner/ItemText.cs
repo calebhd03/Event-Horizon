@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class ItemText : MonoBehaviour
 {
+    [Tooltip("The number of the enemy associated text from the array.")]
+    public TextMeshProUGUI[] textToDisplay;
     void Start()
     {
         gameObject.SetActive(false);
@@ -17,17 +19,23 @@ public class ItemText : MonoBehaviour
         ItemsScript.itemText += ShowText;
     }
 
+    List<TextMeshProUGUI> activeTexts = new List<TextMeshProUGUI>();
     void ShowText()
     {
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+        ScanCam scanCam = FindObjectOfType<ScanCam>();
         gameObject.SetActive(true);
+        textToDisplay[scanCam.currentClipIndex].gameObject.SetActive(true);
+        activeTexts.Add(textToDisplay[scanCam.currentClipIndex]);
         Invoke("HideText", 3);
     }
     public void HideText()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        foreach (var text in textToDisplay)
+        {
+            text.gameObject.SetActive(false);
+        }
         gameObject.SetActive(false);
     }
 }

@@ -45,7 +45,7 @@ public class plantProjectile : MonoBehaviour
                     playerHealthMetric.ModifyHealth(-projectileDamage);
                     Debug.Log("Damage taken: " + projectileDamage);
                 }
-                //Destroy(gameObject);
+                Destroy(gameObject);
             }
 
         }
@@ -60,7 +60,7 @@ public class plantProjectile : MonoBehaviour
                 cloudSpawnedOnPlayer = true;
                 PlantCloud();
             }
-            //Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 

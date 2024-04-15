@@ -8,22 +8,26 @@ public class PlantBasedHealth : MonoBehaviour
     public float pickUpHealthAmount = 10f;
     //public float radius = 5f;
     public bool used = false;
-    ParticleSystem cloud;
+    public ParticleSystem healthCloud;
+    public ParticleSystem damageCloud;
     Renderer mesh;
     Collider[] colliderArray;
     float interactRange = 2f;
     StarterAssetsInputs starterAssetsInputs;
     GameObject player;
     PlayerHealthMetric playerHealth;
+    public bool toxicPlant;
+    private AudioSource audioSource;
+    public AudioClip healthAudio;
+    public AudioClip damageAudio;
 
 
     void Start()
     {
         player = GameObject.FindWithTag("Player");
         starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
-        cloud = GetComponentInChildren<ParticleSystem>();
-        cloud.Stop();
         mesh = GetComponent<Renderer>();
+        audioSource = GetComponent<AudioSource>();
         playerHealth = player.GetComponent<PlayerHealthMetric>();
     }
 
@@ -35,11 +39,18 @@ public class PlantBasedHealth : MonoBehaviour
                 {
                     if (starterAssetsInputs.interact)
                     {
-                        HealPlayer();
+                        if(toxicPlant == false)
+                        {
+                            HealPlayer();
+                        }
+                        else
+                        {
+                            DamagePlayer();
+                        }
 
                         if(starterAssetsInputs.interact == true)
                             {
-                                starterAssetsInputs.interact = false;
+                                //starterAssetsInputs.interact = false;
                             }
                     }
                 }
@@ -54,7 +65,26 @@ public class PlantBasedHealth : MonoBehaviour
                     used = true;
                     playerHealth.ModifyHealth(pickUpHealthAmount);
                     mesh.enabled = false;
-                    cloud.Play();
+                    audioSource.PlayOneShot(healthAudio, 1);
+                    if (!healthCloud.isPlaying)
+                    {
+                        healthCloud.Play();
+                    }
+                    StartCoroutine(StopCloud());
+                }
+        }
+    }
+    void DamagePlayer()
+    {
+        if (used == false)
+        {
+                if (playerHealth != null && playerHealth.playerData.currentHealth < playerHealth.playerData.maxHealth)
+                {
+                    used = true;
+                    playerHealth.ModifyHealth(-pickUpHealthAmount);
+                    mesh.enabled = false;
+                    audioSource.PlayOneShot(damageAudio, 1);
+                    damageCloud.Play();
                     StartCoroutine(StopCloud());
                 }
         }
@@ -62,6 +92,7 @@ public class PlantBasedHealth : MonoBehaviour
     IEnumerator StopCloud()
     {
         yield return new WaitForSeconds(3);
-        cloud.Stop();
+        healthCloud.Stop();
+        damageCloud.Stop();
     }    
 }

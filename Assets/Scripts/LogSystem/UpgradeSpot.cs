@@ -18,6 +18,7 @@ public class UpgradeSpot : MonoBehaviour
     Collider[] colliderArray;
     float interactRange = 2f;
     public int upgradeOption;
+    bool interacted;
 
     PauseMenuScript pauseMenuScript;
     void Start()
@@ -36,15 +37,15 @@ public class UpgradeSpot : MonoBehaviour
     {
         colliderArray = Physics.OverlapSphere(transform.position, interactRange);
         foreach (Collider collider in colliderArray)
-            if (collider.tag == "Player")
+            if (collider.tag == "Player" && interacted == false)
             {
                 //Debug.Log("Player in upgrade " + upgradeOption);
 
                 Debug.Log("interact input " + starterAssetsInputs.interact);
                 if (starterAssetsInputs.interact)
                 {
-                    Debug.LogError("Interacted");
                     EnableUpgrade();
+                    interacted = true;
                     if(starterAssetsInputs.interact == true)
                         {
                             //starterAssetsInputs.interact = false;
@@ -90,12 +91,11 @@ public class UpgradeSpot : MonoBehaviour
     {
         Debug.Log("Upgrade enabled " + upgradeOption);
 
-        pauseMenuScript.PauseGame();
+        //pauseMenuScript.PauseGame();
 
-        objectiveText.ShowUpgradeText();
-        Debug.LogError("text");
+        objectiveText = scannerUI.GetComponentInChildren<ObjectiveText>();
+        scannerUI.objectiveTextObj.ShowUpgradeText();
         Upgrade = true;
-        Debug.LogError("upgrade");
         if (Upgrade == true)
         {
                 switch(upgradeOption)
@@ -103,26 +103,31 @@ public class UpgradeSpot : MonoBehaviour
                     case 1:
                         logSystem.skillsUnlocked = true;
                         logSystem.upgradePage1.SetActive(true);
+                        logSystem.UpgradesUnlocked();
                     break;
                     case 2:
                         logSystem.skillsUnlocked2 = true;
                         logSystem.upgradePage2.SetActive(true);
+                        logSystem.UpgradesUnlocked();
                     break;
                     case 3:
                         logSystem.skillsUnlocked3 = true;
-                        logSystem.upgradePage3.SetActive(true);
+                        logSystem.upgradePage3.SetActive(true);   
+                        logSystem.UpgradesUnlocked();
                     break;
                     case 4:
                         logSystem.skillsUnlocked4 = true;
                         logSystem.upgradePage4.SetActive(true);
+                        logSystem.UpgradesUnlocked();
                     break;
                 }
-                Debug.LogError("switch");
+
                 Upgrade = false;
-                Destroy(gameObject);
+                
                 Time.timeScale = 0;
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
+                Destroy(gameObject);
 
         }
     }        

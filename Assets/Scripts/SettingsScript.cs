@@ -13,9 +13,9 @@ public class SettingsScript : MonoBehaviour
 {
     public AudioMixer mainMixer;
 
-    public TMP_Text mastLabel, musicLabel, sfxLabel, ambienceLabel;
+    public TMP_Text mastLabel, musicLabel, sfxLabel;
 
-    public Slider mastSlider, musicSlider, sfxSlider, ambienceSlider;
+    public Slider mastSlider, musicSlider, sfxSlider;
 
     public Slider Sens;
 
@@ -23,9 +23,19 @@ public class SettingsScript : MonoBehaviour
 
     public Slider brightness;
 
-    public Slider FOV;
+    public Slider fovSlider;
+
+    public TMPro.TMP_Dropdown qualitySelect;
 
     public Volume volume;
+
+    public Volume motionBlurVolume;
+
+    private MotionBlur motionBlur;
+
+    private bool isMotionBlurOn;
+
+    public Toggle motionBlurToggle;
 
     private ColorAdjustments postExposure;
 
@@ -41,6 +51,17 @@ public class SettingsScript : MonoBehaviour
 
 
     private StarterAssetsInputs _input;
+
+// subtitles
+    public Toggle subtitlesToggle, toggleSubSize1, toggleSubSize2, toggleSubSize3;
+    public static bool SubEnabled = false;
+    public static int subtitleState = 0;
+    public static bool subSize1 = true;
+    public static int subtitleSize1State = 1;
+    public static bool subSize2 = false;
+    public static int subtitleSize2State = 0;
+    public static bool subSize3 = false;
+    public static int subtitleSize3State = 0;
     
     void Start()
     {
@@ -58,13 +79,22 @@ public class SettingsScript : MonoBehaviour
 
         gameBackgroundSettings.SetActive(true);
 
+        int motionBlurEnabled = PlayerPrefs.GetInt("MotionBlurEnabled", 1);
+        bool isMotionBlurEnabled = motionBlurEnabled == 1;
+        motionBlurToggle.isOn = isMotionBlurEnabled; 
+        ToggleMotionBlur(isMotionBlurEnabled);
+
         brightness.enabled = false;
         brightness.value = PlayerPrefs.GetFloat("PostExposureValue", 1);
         brightness.enabled = true;
 
-        FOV.enabled = false;
-        FOV.value = PlayerPrefs.GetFloat("FOV", 30);
-        FOV.enabled = true;
+        fovSlider.enabled = false;
+        fovSlider.value = PlayerPrefs.GetFloat("FOV", 30);
+        fovSlider.enabled = true;
+
+        qualitySelect.enabled = false;
+        qualitySelect.value = PlayerPrefs.GetInt("QualityLevel", 2);
+        qualitySelect.enabled = true;
 
         Sens.enabled = false; 
         Sens.value = PlayerPrefs.GetFloat("Sensitivity", 1);
@@ -73,7 +103,6 @@ public class SettingsScript : MonoBehaviour
         aimSensitivity.enabled = false; 
         aimSensitivity.value = PlayerPrefs.GetFloat("AimSensitivity", 1);
         aimSensitivity.enabled = true;
-        
 
         float volume = 0f;
         mainMixer.GetFloat("MasterVol", out volume);
@@ -85,13 +114,9 @@ public class SettingsScript : MonoBehaviour
         mainMixer.GetFloat("SFXVol", out volume);
         sfxSlider.value = volume;
 
-        mainMixer.GetFloat("AmbienceVol", out volume);
-        ambienceSlider.value = volume;
-
         mastLabel.text = Mathf.RoundToInt(mastSlider.value + 80).ToString();
         musicLabel.text = Mathf.RoundToInt(musicSlider.value + 80).ToString();
         sfxLabel.text = Mathf.RoundToInt(sfxSlider.value + 80).ToString();
-        ambienceLabel.text = Mathf.RoundToInt(ambienceSlider.value + 80).ToString();
 
         resolutions = Screen.resolutions;
         resolutionDropdown.ClearOptions();
@@ -115,7 +140,17 @@ public class SettingsScript : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
 
         ApplySensitivity();
-        ApplyAimSensitivity();
+
+    // subtitles
+    subtitlesToggle.onValueChanged.AddListener(delegate { ToggleValueChanged(subtitlesToggle); });
+    toggleSubSize1.onValueChanged.AddListener(delegate { ToggleValueChanged(toggleSubSize1); });
+    toggleSubSize2.onValueChanged.AddListener(delegate { ToggleValueChanged(toggleSubSize2); });
+    toggleSubSize3.onValueChanged.AddListener(delegate { ToggleValueChanged(toggleSubSize3); });
+    subtitlesToggle.isOn = subtitleState == 1;
+    toggleSubSize1.isOn = subtitleSize1State == 1;
+    toggleSubSize2.isOn = subtitleSize2State == 1;
+    toggleSubSize3.isOn = subtitleSize3State == 1;
+    toggleSubSize1.interactable = false;
     }
 
     void Update()
@@ -196,15 +231,6 @@ public class SettingsScript : MonoBehaviour
 
     }
 
-    public void setAmbienceVol()
-    {
-        ambienceLabel.text = Mathf.RoundToInt(ambienceSlider.value + 80).ToString();
-
-        mainMixer.SetFloat("AmbienceVol", ambienceSlider.value);
-
-        PlayerPrefs.SetFloat("AmbienceVol", ambienceSlider.value);
-        PlayerPrefs.Save();
-    }
     public void setQuality(int qualityIndex)
     {
         QualitySettings.SetQualityLevel(qualityIndex);
@@ -257,25 +283,10 @@ public class SettingsScript : MonoBehaviour
         }
     }
 
-    public void ChangeFOV()
-    {
-        PlayerPrefs.SetFloat("FOV", FOV.value);
-        PlayerPrefs.Save();
-
-        ThirdPersonController thirdPersonController = FindObjectOfType<ThirdPersonController>();
-        /*if (thirdPersonController != null)
-        {
-            thirdPersonController.ChangeFOV(FOV.value);
-        }*/
-        thirdPersonController._cinemachineFollowCamera.m_Lens.FieldOfView = FOV.value;
-        thirdPersonController._cinemachineAimCamera.m_Lens.FieldOfView = FOV.value;
-    }
-
     public void ChangeBrightness()
     {
         PlayerPrefs.SetFloat("PostExposureValue", brightness.value);
         PlayerPrefs.Save();
-
 
         if (volume != null && volume.profile != null)
         {
@@ -293,6 +304,54 @@ public class SettingsScript : MonoBehaviour
             Debug.LogWarning("Volume is null.");
         }
 
+    }
+
+    public void ToggleMotionBlur(bool value)
+    {
+        motionBlurToggle.isOn = value;
+        isMotionBlurOn = value;
+
+        PlayerPrefs.SetInt("MotionBlurEnabled", value ? 1 : 0);
+        PlayerPrefs.Save();
+
+        if (motionBlurVolume != null && motionBlurVolume.profile != null)
+        {
+            Debug.Log("Before TryGet<MotionBlur>");
+            if (motionBlurVolume.profile.TryGet<MotionBlur>(out MotionBlur blur))
+            {
+                Debug.Log("Motion Blur effect found!");
+                blur.active = value;
+                Debug.Log("Motion Blur toggled. Active: " + blur.active);
+            }
+            else
+            {
+                Debug.LogWarning("Motion not found in the Volume.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Volume is null.");
+        }
+    }
+
+    public void ChangeFOV()
+    {
+        PlayerPrefs.SetFloat("FOV", fovSlider.value);
+        PlayerPrefs.Save();
+
+        ThirdPersonController thirdPersonController = FindObjectOfType<ThirdPersonController>();
+        /*if (thirdPersonController != null)
+        {
+            thirdPersonController.ChangeFOV(fovSlider.value);
+        }*/
+        thirdPersonController._cinemachineFollowCamera.m_Lens.FieldOfView = fovSlider.value;
+        thirdPersonController._cinemachineAimCamera.m_Lens.FieldOfView = fovSlider.value;
+    }
+
+    public void ChangeQuality()
+    {
+        QualitySettings.SetQualityLevel(qualitySelect.value);
+        PlayerPrefs.SetInt("QualityLevel", qualitySelect.value);
     }
 
     public void AudioSelection()
@@ -350,4 +409,92 @@ public class SettingsScript : MonoBehaviour
         senesitivtyDisplay.SetActive(false);
         controlsDisplay.SetActive(true);
     }
+    void ToggleValueChanged(Toggle toggle)
+{
+    if (toggle == subtitlesToggle)
+    {
+        if (toggle.isOn)
+        {
+            SubEnabled = true;
+            subtitleState = 1;
+        }
+        else
+        {
+            SubEnabled = false;
+            subtitleState = 0;
+        }
+    }
+    else if (toggle == toggleSubSize1)
+    {
+        if (toggle.isOn)
+        {
+            toggle.interactable = false;
+            toggleSubSize2.interactable = true;
+            toggleSubSize3.interactable = true;
+            subSize1 = true;
+            subtitleSize1State = 1;
+
+            // Set other sizes to false
+            subSize2 = false;
+            subtitleSize2State = 0;
+            subSize3 = false;
+            subtitleSize3State = 0;
+            toggleSubSize3.isOn = false;
+            toggleSubSize2.isOn = false;
+        }
+        else
+        {
+            subSize1 = false;
+            subtitleSize1State = 0;
+        }
+    }
+    else if (toggle == toggleSubSize2)
+    {
+        if (toggle.isOn)
+        {
+            toggle.interactable = false;
+            toggleSubSize1.interactable = true;
+            toggleSubSize3.interactable = true;
+            subSize2 = true;
+            subtitleSize2State = 1;
+
+            // Set other sizes to false
+            subSize1 = false;
+            subtitleSize1State = 0;
+            subSize3 = false;
+            subtitleSize3State = 0;
+            toggleSubSize1.isOn = false;
+            toggleSubSize3.isOn = false;
+        }
+        else
+        {
+            subSize2 = false;
+            subtitleSize2State = 0;
+        }
+    }
+    else if (toggle == toggleSubSize3)
+    {
+        if (toggle.isOn)
+        {
+            toggle.interactable = false;
+            toggleSubSize2.interactable = true;
+            toggleSubSize1.interactable = true;
+            subSize3 = true;
+            subtitleSize3State = 1;
+
+            // Set other sizes to false
+            subSize1 = false;
+            subtitleSize1State = 0;
+            subSize2 = false;
+            subtitleSize2State = 0;
+            toggleSubSize1.isOn = false;
+            toggleSubSize2.isOn = false;
+        }
+        else
+        {
+            subSize3 = false;
+            subtitleSize3State = 0;
+        }
+    }
+}
 }

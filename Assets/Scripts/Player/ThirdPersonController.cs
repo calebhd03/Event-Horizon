@@ -5,6 +5,7 @@ using Cinemachine;
 using UnityEngine.InputSystem;
 using System.Collections;
 #endif
+using UnityEditor;
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
  */
@@ -21,6 +22,7 @@ namespace StarterAssets
         public PlayerData playerData;
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
+        public bool canMove = true;
 
         [Tooltip("Sprint speed of the character in m/s")]
         public float SprintSpeed = 5.335f;
@@ -31,7 +33,7 @@ namespace StarterAssets
 
         [Tooltip("Acceleration and deceleration")]
         public float SpeedChangeRate = 10.0f;
-        public float Sensitivity = 1f;
+        public float Sensitivity;
 
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;
@@ -153,6 +155,8 @@ namespace StarterAssets
 
         private AmmoHole currentAmmoHole;
 
+        public PlayerDataManager playerDataManager;
+
         private const float _threshold = 0.01f;
 
         private bool _hasAnimator;
@@ -212,11 +216,16 @@ namespace StarterAssets
             Pause();
             JumpAndGravity();
             GroundedCheck();
-            Move();
+            if(canMove)
+            {
+                Move();
+            }
             SaveTestInputs();
             Crouch();
             Teleport();
             Interact();
+            NewSave();
+
             
         }
 
@@ -727,7 +736,7 @@ namespace StarterAssets
             }
 
             // Reset the interact input
-            _input.interact = false;
+            //_input.interact = false;
             }
         }
 
@@ -736,5 +745,28 @@ namespace StarterAssets
             _cinemachineFollowCamera.m_Lens.FieldOfView = FOV;
             _cinemachineAimCamera.m_Lens.FieldOfView = FOV;
         }
+        public void NewSave()
+        { 
+            if(_input.newSave)
+            {
+                 _input.newSave = false;
+                Debug.Log("New Save input detected");
+                ResetPlayerDataToDefault();
+            }
+                
+        }
+
+        public void ResetPlayerDataToDefault()
+        {
+            if (playerDataManager != null)
+            {
+                playerDataManager.ResetDataToDefault();
+            }
+            else
+            {
+                Debug.LogError("PlayerDataManager reference is not set in ThirdPersonController.");
+            }
+        }
+
     }
 }

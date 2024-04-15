@@ -10,6 +10,7 @@ public class bossEnemy : MonoBehaviour
     public Transform player;
     public NavMeshAgent agent;
     public Animator animator;
+    [SerializeField] private UpgradeEffects upgrades;
 
     //layerCheck
     public LayerMask playerZone;
@@ -81,6 +82,7 @@ public class bossEnemy : MonoBehaviour
         agent = GetComponentInParent<NavMeshAgent>();
         healthBar = GetComponentInChildren<EnemyHealthBar>();
         rb = GetComponent<Rigidbody>();
+        upgrades = GetComponent<UpgradeEffects>();
         //Portal.SetActive(false);
 
         Transform childTransform = transform.Find("rightArmSlash");
@@ -89,6 +91,8 @@ public class bossEnemy : MonoBehaviour
             armAnim = childTransform.GetComponent<Animator>();
         }
         audioSource1 = GetComponent<AudioSource>();
+        //StartCoroutine(BossMusic());
+        upgrades.knockBackUp = false;
     }
 
     // Update is called once per frame
@@ -100,6 +104,8 @@ public class bossEnemy : MonoBehaviour
 
         iSeeYou = Physics.CheckSphere(transform.position, seeDistance, playerZone);
         stopDistance = Physics.CheckSphere(transform.position, stopDistanceRange, playerZone);
+
+        
 
         updateHealth();
         resetTriggers();
@@ -225,6 +231,7 @@ public class bossEnemy : MonoBehaviour
 
     IEnumerator PerformMeteor()
     {
+        animator.SetBool("P1Attack1", true);
         agent.isStopped = true;
         meteorAttack = true;
         summonMeteorPortal(rightMeteor.position, Quaternion.identity);
@@ -268,7 +275,7 @@ public class bossEnemy : MonoBehaviour
         meteorAttack = false;
         agent.isStopped = false;
         timeSinceLastMeteorAttack = Time.time;
-
+        animator.SetBool("P1Attack1", false);
     }
 
     public void summonMeteor(Vector3 position, Quaternion rotation)
@@ -301,6 +308,7 @@ public class bossEnemy : MonoBehaviour
 
     IEnumerator slash()
     {
+        animator.SetBool("P1Attack3", true);
         agent.isStopped = true;
         slashAttack = true;
 
@@ -312,11 +320,13 @@ public class bossEnemy : MonoBehaviour
         slashAttack = false;
         agent.isStopped = false;
         timeSinceLastSlashAttack = Time.time;
+        animator.SetBool("P1Attack3", false);
         Debug.Log("Slash Attack from boss");
     }
 
     IEnumerator AOE()
     {
+        animator.SetBool("P1Attack2", true);
         agent.isStopped = true;
         aoeAttack = true;
         
@@ -335,6 +345,7 @@ public class bossEnemy : MonoBehaviour
         aoeAttack = false;
         agent.isStopped = false;
         timeSinceLastAOEAttack = Time.time;
+        animator.SetBool("P1Attack2", false);
     }
 
     public void updateHealth()
@@ -361,10 +372,11 @@ public class bossEnemy : MonoBehaviour
             // Stop the NavMeshAgent to prevent further movement
             agent.isStopped = true;
             Debug.Log("Boss Death starting");
+            animator.SetBool("Death", true);
 
 
             // Wait for 3 seconds before dropping stuff
-            StartCoroutine(WaitAndDropStuff(1f));
+            StartCoroutine(WaitAndDropStuff(4f));
         }
 
         private IEnumerator WaitAndDropStuff(float waitTime)
@@ -405,4 +417,13 @@ public class bossEnemy : MonoBehaviour
             //Trigger the "EnemyHit" animation
             animator.SetTrigger("EnemyHit");
         }
+
+       // IEnumerator BossMusic()
+       // {
+           // yield return new WaitUntil(() => iSeeYou);
+          //  Background_Music.instance.BossMusic();
+           // yield return null;
+            
+       // }
+        
 }

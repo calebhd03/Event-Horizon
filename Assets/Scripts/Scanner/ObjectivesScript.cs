@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using StarterAssets;
 using UnityEngine.Video;
 using UnityEngine.UIElements;
+using System;
 
 public class ObjectivesScript : MonoBehaviour
 {
@@ -18,57 +19,153 @@ public class ObjectivesScript : MonoBehaviour
     //Cutscene
     [Tooltip("Put the number associated with with the cutscene(MemoryTag)/objective(ObjectiveTag)in the array desired to play. The array is located on the video player(cutscene)/ObjectivePanel(scannerUI) game object. Array list starts with zero.")]
     public int number;
-    
+    public bool spatialAudio;
+    public bool Scanned;
+    public GameObject activateSpatialAudio;
+    [SerializeField]LogSystem logSystem;
+    ScannerUI scannerUI; 
+    public MeshRenderer meshRenderer;
+    public SkinnedMeshRenderer skinnedMeshRenderer;
+    public Material[] materials;
+    [SerializeField] bool memory, objective;
+    [SerializeField] GameObject blockedPath;
+    void Awake()
+    {   
+        scannerUI = FindObjectOfType<ScannerUI>();
+        logSystem = FindObjectOfType<LogSystem>();
+        if(meshRenderer != null && memory)
+        {
+            materials = meshRenderer.materials;
+        }
+        else if (skinnedMeshRenderer != null && objective)
+        {
+            materials = skinnedMeshRenderer.materials;
+        }
+        Invoke("GetMaterials", 1);
+    }
     void Start()
     {
+        Scanned = false;
+        if(activateSpatialAudio != null)
+        {
+        activateSpatialAudio.SetActive(false);
+        }
         NormColor();
+        if(blockedPath != null)
+        {
+            blockedPath.SetActive(true);
+        }
     }
+    /*void Update()
+    {
+        if (logSystem.memory[number].interactable == true && memory)
+        {
+            Scanned = true;
+        }
+    }*/
     private void OnEnable()
     {
         ScanCam.scannerEnabled += ScanColor;
         ScanCam.scannerDisabled += NormColor;
+        ScanCam.allUnhighlight += Unhighlight;
+        CutScene.cutsceneEnd += ShowSpatialAudio;
     }
 
     void OnDisable()
     {
         ScanCam.scannerEnabled -= ScanColor;
         ScanCam.scannerDisabled -= NormColor;
+        ScanCam.allUnhighlight -= Unhighlight;
+        CutScene.cutsceneEnd -= ShowSpatialAudio;
     }
 
     public void ScriptActive()
     {
+            if(EneSlider.eneSliderActive == false && this.Scanned == false)
+            {
             objSlider();
+            }
     }
 
     void NormColor()
     {
-        GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
+        if(meshRenderer != null && memory)
+        {
+            materials[1].SetFloat("_isHovered", 1);
+            materials[1].SetFloat("_isHighlighted", 0);
+        }
+        else if (skinnedMeshRenderer != null && objective)
+        {
+            materials[24].SetFloat("_isHovered", 1);
+            materials[24].SetFloat("_isHighlighted", 0);
+        }
     }
     public void ScanColor()
     {
-        ScannerUI scannerUI = FindObjectOfType<ScannerUI>();
-        if((gameObject.tag == "Objective" && scannerUI.currentQuest == number)||gameObject.tag == "Memory" )
+        if(objective)
         {
-        gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
+            materials[24].SetFloat("_isHighlighted", 1);
+        }
+        else if(memory)
+        {
+            materials[1].SetFloat("_isHighlighted", 1);
         }
     }
     
     public void highlight()
     {
-        ScannerUI scannerUI = FindObjectOfType<ScannerUI>();
-        if((gameObject.tag == "Objective" && scannerUI.currentQuest == number)||gameObject.tag == "Memory" )
+        if(memory)
         {
-        gameObject.GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
+            materials[1].SetFloat("_isHovered", 0);
+        }
+        else if(objective)
+        {
+            materials[24].SetFloat("_isHovered", 0);
         }
     }
 
         public void Unhighlight()
     {
-        ScanColor();
+        if(memory)
+        {
+            materials[1].SetFloat("_isHovered", 1);
+        }
+        else if(objective)
+        {
+            materials[24].SetFloat("_isHovered", 1);
+        }
     }
     public void MemoryLog()
     {
-        LogSystem logSystem = FindObjectOfType<LogSystem>();
         logSystem.UpdateMemoryLog();
+    }
+    public void JournalLog()
+    {
+        
+        logSystem.UpdateJournalLog();
+    }
+    void ShowSpatialAudio()
+    {
+        if(spatialAudio == true && Scanned == true)
+        {
+            activateSpatialAudio.SetActive(true);
+        }
+    }
+    public void OpenBlockedPath()
+    {
+        blockedPath.SetActive(false);
+    }
+    void GetMaterials()
+    {
+        if(meshRenderer != null && memory)
+        {
+            materials[1].SetFloat("_isHovered", 1);
+            materials[1].SetFloat("_isHighlighted", 0);
+        }
+        else if (skinnedMeshRenderer != null && objective)
+        {
+            materials[24].SetFloat("_isHovered", 1);
+            materials[24].SetFloat("_isHighlighted", 0);
+        }
     }
 }

@@ -10,6 +10,10 @@ public class bossPhaseTwo : MonoBehaviour
     public LayerMask playerZone;
     [SerializeField] EnemyHealthBar healthBar;
     private Rigidbody rb;
+    [SerializeField] private UpgradeEffects upgrades;
+    [SerializeField] private HealthMetrics health;
+    [SerializeField] private regularPoint regular;
+    [SerializeField] private weakPoint weak;
 
     private bool iSeeYou;
     public float seeDistance;
@@ -34,7 +38,8 @@ public class bossPhaseTwo : MonoBehaviour
     [Header("Enemy Spawns")]
     public float summonWindUp;
     public GameObject[] Enemies;
-  
+    public float maxEnemySpawnDistance = 6f;
+    public LayerMask navMeshLayer;
 
     [Header("AOE Attack")]
     public GameObject aoeRingPrefab;
@@ -56,9 +61,21 @@ public class bossPhaseTwo : MonoBehaviour
     private bool enemyBool = false;
     private bool aoeBool = false;
 
-    private float timer;
+    public bool isDead = false;//assuming it is alive
 
+    //capture
+    public bool captured = false;
 
+    //private float timer;
+    public static bool shootingEnding = false;
+    public static bool captureEnding = false;
+
+    public static bool noBulletDamage = false;
+
+    private void OnEnable()
+    {
+        noBulletDamage = true;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -67,13 +84,21 @@ public class bossPhaseTwo : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
         audioSource1 = GetComponent<AudioSource>();
+        health = GetComponentInParent<HealthMetrics>();
+        upgrades = GetComponent<UpgradeEffects>();
+        upgrades.knockBackUp = false;
+        weak = GetComponentInChildren<weakPoint>();
+        regular = GetComponentInChildren<regularPoint>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        weak.SingularityDamage();
+        regular.SingularityDamage();
+        SceneManagement();
         // Increase timer by Time.deltaTime each frame
-        timer += Time.deltaTime;
+        //timer += Time.deltaTime;
 
         // Output the timer value to the console for debugging
         //Debug.Log("Timer: " + timer.ToString("F2")); // "F2" formats the timer value to 2 decimal places
@@ -95,7 +120,7 @@ public class bossPhaseTwo : MonoBehaviour
 
     private void RandomAttack()
     {
-        int randomAttack = Random.Range(0, 3); // 0: SummonEnemies, 1: AOE, 2: Meteor
+        int randomAttack = Random.Range(0, 4); // 0: SummonEnemies, 1: AOE, 2: Meteor
 
         switch (randomAttack)
         {
@@ -117,6 +142,12 @@ public class bossPhaseTwo : MonoBehaviour
                 StopCoroutine(summonEnemies());
                 StopCoroutine(AOE());
                 break;
+            case 3:
+                enemyBool = true;
+                StartCoroutine(summonEnemies());
+                StopCoroutine(AOE());
+                StopCoroutine(PerformMeteor());
+                break;
         }
 
         StartCoroutine(attackCoolDown());
@@ -137,33 +168,57 @@ public class bossPhaseTwo : MonoBehaviour
     }
     private IEnumerator summonEnemies()
     {
+        animator.SetBool("P2Attack2", true);
         yield return new WaitForSeconds(summonWindUp);
-        foreach (GameObject enemy in Enemies)
-        {
-            Vector3 spawnOffset = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
 
-            Vector3 spawnPosition = player.position + spawnOffset;
-            Instantiate(enemy, spawnPosition, Quaternion.identity); 
+        Vector3 spawnOffset = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
+        Vector3 spawnPosition = player.position + spawnOffset;
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(spawnPosition, out hit, maxEnemySpawnDistance, navMeshLayer))
+        {
+            spawnPosition = hit.position;
+
+            if (Vector3.Distance(spawnPosition, player.position) <= maxEnemySpawnDistance)
+            {
+                foreach (GameObject enemy in Enemies)
+                {
+                    Instantiate(enemy, spawnPosition, Quaternion.identity);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Spawn position is too far from the player.");
+            }
         }
+        else
+        {
+            Debug.LogWarning("Cannot find a valid spawn position on the NavMesh.");
+        }
+        animator.SetBool("P2Attack2", false);
     }
 
     private IEnumerator AOE()
     {
+        animator.SetBool("P2Attack1", true);
         //set animator
         // animator.SetTrigger("AOEAttack");
         GameObject newWarningRingAOE = Instantiate(aoeWarningPrefab, player.position, Quaternion.identity);
 
-        yield return new WaitForSeconds(aoeWindUp);
+        yield return new WaitForSeconds(8.5f);
         Debug.Log("Animation Fist Attack");
         yield return new WaitForSeconds(2f);
 
         GameObject newRingAOE = Instantiate(aoeRingPrefab, newWarningRingAOE.transform.position, Quaternion.identity);
         Destroy(newRingAOE, 5f);
         Destroy(newWarningRingAOE, 5f);
+        animator.SetBool("P2Attack1", false);
+
     }
 
     private IEnumerator PerformMeteor()
     {
+        animator.SetBool("P2Attack3", true);
         summonMeteorPortal(rightMeteor.position, Quaternion.identity);
         summonMeteorPortal(leftMeteor.position, Quaternion.identity);
         summonMeteorPortal(middleMeteor.position, Quaternion.identity);
@@ -179,6 +234,7 @@ public class bossPhaseTwo : MonoBehaviour
 
         MeteorSpawnSound();
         summonMeteor(middleMeteor.position, Quaternion.identity);
+        animator.SetBool("P2Attack3", false);
     }
 
     private void MeteorSpawnSound()
@@ -221,25 +277,34 @@ public class bossPhaseTwo : MonoBehaviour
 
     public void updateHealth()
     {
-        HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
-        healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
+        //HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+        healthBar.updateHealthBar(health.currentHealth, health.maxHealth);
 
-        if (healthMetrics.currentHealth <= 0)
+        if (health.currentHealth <= 0)
         {
+            isDead = true;
             Die();
         }
     }
 
     public void Die()
     {
+        if(captured)
+        {
+            isDead = true;
+        }
+        animator.SetBool("Death", true);
+        Debug.Log("Die Function");
         //Debug.Log("Boss Death starting");
-        StartCoroutine(WaitAndDropStuff(1f));
+        StartCoroutine(WaitAndDropStuff(4f));
     }
 
     private IEnumerator WaitAndDropStuff(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
         audioSource1.PlayOneShot(deathAudio);
+        if (Background_Music.instance != null)
+            Background_Music.instance.CenterMusic();
 
         // Call DropStuff after waiting for 3 seconds
         DropStuff();
@@ -262,7 +327,8 @@ public class bossPhaseTwo : MonoBehaviour
 
         Portal.SetActive(true);
         //Debug.Log("Boss Death end");
-        Destroy(transform.parent.gameObject);
+        //Destroy(transform.parent.gameObject);
+        Dead();
     }
 
     private void resetTriggers()
@@ -277,6 +343,43 @@ public class bossPhaseTwo : MonoBehaviour
     {
         //Trigger the "EnemyHit" animation
         animator.SetTrigger("EnemyHit");
+    }
+
+    public void Dead()
+    {
+        if (isDead)
+        {
+            transform.parent.gameObject.SetActive(false);
+        }
+    }
+
+    public void Alive()
+    {
+        if (!isDead)
+        {
+            transform.parent.gameObject.SetActive(true);
+        }
+    }
+
+    public void SceneManagement()
+    {
+        if(OrbFunction.orbCount >= 2)
+        {
+            captured = true;
+        }
+
+        if(captured)
+        {
+            Die();
+            captureEnding = true;
+            shootingEnding = false;
+        }
+
+        else
+        {
+            shootingEnding = true;
+            captureEnding = false;
+        }
     }
 
     private void OnDrawGizmos()

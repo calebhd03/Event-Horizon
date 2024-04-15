@@ -11,6 +11,8 @@ public class Portal : MonoBehaviour
     public SceneTransitionController sceneTransition;
     public ParticleSystem portalParticle; // Reference to the Particle System
 
+    public GameObject ObjectiveTrackerObject;
+
      
     [SerializeField]
     private CinemachineVirtualCamera MainCam;
@@ -19,6 +21,7 @@ public class Portal : MonoBehaviour
     [SerializeField]
     private CinemachineVirtualCamera AimCam;
     private bool MainCamera = false;
+    private bool LevelIsComplete = false;
 
     private void Awake()
     {
@@ -36,6 +39,11 @@ public class Portal : MonoBehaviour
     {
        // AndDestroy();
     }
+    private void Update()
+    {
+        LevelCompleteCheck();
+
+    }
 
 
 
@@ -43,27 +51,29 @@ public class Portal : MonoBehaviour
     {
         if (other.CompareTag("Player") && !sceneTransition.IsFading())
         {
-            // Load the game data (assuming SaveSystemTest is attached to the player)
+            
             SaveSystemTest saveSystem = FindObjectOfType<SaveSystemTest>();
             if (saveSystem != null)
             {
-                saveSystem.SaveGame();
-                saveSystem.LoadGame();
+                //saveSystem.SaveGame();
+                //saveSystem.LoadGame();
             }
 
-            // Play the particle effect
+            
             if (portalParticle != null)
             {
                 portalParticle.Play();
             }
 
-
-            // Trigger the fade-out effect and scene transition
             sceneTransition.StartCoroutine("FadeIn", nextSceneName);
-
             MainCamera = true;
             Destroy(other.gameObject);
             PortalCamPriority();
+        }
+        else
+        {
+            Debug.Log("Level is not complete yet!");
+            
         }
     }
 
@@ -93,5 +103,17 @@ public class Portal : MonoBehaviour
             AimCam.Priority = 10;
         }
         MainCamera = !MainCamera;
+    }
+
+    private void LevelCompleteCheck()
+    {
+        if (ObjectiveTrackerObject != null)
+        {
+            ObjectiveTracker objectiveTracker = ObjectiveTrackerObject.GetComponent<ObjectiveTracker>();
+            if (objectiveTracker != null)
+            {
+                LevelIsComplete = objectiveTracker.levelComplete;
+            }
+        }
     }
 }

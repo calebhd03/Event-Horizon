@@ -23,18 +23,6 @@ public class Scanning : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    void Update()
-    {
-        if (Scan == true)
-        {
-            HudObject.SetActive(false);
-        }
-        else
-        {
-            HudObject.SetActive(true);
-        }
-    }
-
     public void SwitchCamPriority()
     {
 
@@ -42,6 +30,7 @@ public class Scanning : MonoBehaviour
         {
             audioSource.Play();
             Scan = true;
+            HudObject.SetActive(false);
             MainCam.Priority = 0;
             ScanCam.Priority = 3;
             AimCam.Priority = 0;
@@ -49,6 +38,7 @@ public class Scanning : MonoBehaviour
         else{
             audioSource.Play();
             Scan = false;
+            HudObject.SetActive(true);
             MainCam.Priority = 10;
             ScanCam.Priority = 0;
             AimCam.Priority = 10;
@@ -59,18 +49,20 @@ public class Scanning : MonoBehaviour
     {
             audioSource.Play();
             Scan = false;
+            HudObject.SetActive(true);
             MainCam.Priority = 10;
             ScanCam.Priority = 0;
             AimCam.Priority = 10;
-            MainCamera = !MainCamera;
+            MainCamera = true;
     } 
     public void ScanCamPriority()
     {
             audioSource.Play();
             Scan = true;
+            HudObject.SetActive(false);
             MainCam.Priority = 0;
             ScanCam.Priority = 3;
             AimCam.Priority = 0;
-            MainCamera = !MainCamera;
+            MainCamera = false;
     }   
 }

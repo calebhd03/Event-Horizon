@@ -46,9 +46,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularDamage: 10
+  plasmaDamage: 15
   regularKnifeDamage: 5
+  orbDamage: 50
+  BHDamage: 20
   damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
-  agent: {fileID: 0}
+  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -57,6 +60,7 @@ MonoBehaviour:
   damageOverTime: 3
   damageOverTimeDuration: 6
   meleeUp: 0
+  knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces:
   - {fileID: 2249147054426047458}
@@ -170,6 +174,8 @@ GameObject:
   - component: {fileID: 2534407773098017728}
   - component: {fileID: 5346746208900985737}
   - component: {fileID: 4274788836689742831}
+  - component: {fileID: 1423014933942152640}
+  - component: {fileID: 3708023660824277932}
   m_Layer: 9
   m_Name: crystalEnemy
   m_TagString: Enemy
@@ -195,6 +201,7 @@ Transform:
   - {fileID: 6997458553726917133}
   - {fileID: 8206939043218314849}
   - {fileID: 977500067511922916}
+  - {fileID: 2101712632420696590}
   m_Father: {fileID: 1375103746728593475}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -352,6 +359,8 @@ MonoBehaviour:
   healthPickupPrefab: {fileID: 1464895933930130252, guid: f867f91f0bffc4f4db651b1be23a1a15, type: 3}
   pickupDropChance: 0.3
   deathAudio: {fileID: 8300000, guid: 47db3882bc8a1ce4b88ea62d7f9df191, type: 3}
+  isPhaseTwo: 0
+  orbPrefab: {fileID: 0}
 --- !u!54 &5346746208900985737
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -464,6 +473,59 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1423014933942152640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375103745290613619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5977c48d755b03944a0317b8c0f36099, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Scanned: 0
+  criticalPointReveal: {fileID: 0}
+  number: 5
+  weakPointReveal: []
+  skinnedMeshRenderer: {fileID: 0}
+  materials: []
+  player: {fileID: 0}
+--- !u!114 &3708023660824277932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375103745290613619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94a141c56a692984fb7fb0e5d831dfc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  healthMetrics: {fileID: 0}
+  skillTree: {fileID: 0}
+  agent: {fileID: 0}
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 5
+  damageOverTimeDuration: 4
+  knockBackForce: 10
+  knockBackTimer: 0
+  meleeUp: 0
+  knockBackUp: 0
+  slowEnemyUp: 0
+  damageOverTimeEnemyUp: 0
+  plasmaUp: 0
+  OGKillUp: 0
+  PullUp: 0
+  stopStackDamage: 0
+  stopSlowStack: 0
+  slowEffect: {fileID: 4314430095859130899, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
+  damageOverTimeEffect: {fileID: 4314430095859130899, guid: c4b16904c72c62a41b0d9f3ba2498ae1, type: 3}
 --- !u!1 &1375103745523238436
 GameObject:
   m_ObjectHideFlags: 0
@@ -779,7 +841,7 @@ GameObject:
   - component: {fileID: 1375103746728593475}
   - component: {fileID: 1375103746728593474}
   - component: {fileID: 343839680625958190}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: crytalEnemyParent
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -832,8 +894,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: f3c8e3f0cc287624eb9a3ff5ba8b4c78, type: 2}
   healthMetrics: {fileID: 0}
+  enemyType: 0
   listIndex: 0
-  scene: 0
+  sceneIndex: 0
+  wasDeadInLastSave: 0
 --- !u!1 &2249147054426047458
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,7 +911,7 @@ GameObject:
   - component: {fileID: 3526627032240468663}
   - component: {fileID: 2876551263519648641}
   - component: {fileID: 4982233975610936429}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Crystal Armor 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -957,7 +1021,7 @@ GameObject:
   - component: {fileID: 6860198429741185862}
   - component: {fileID: 2377483218300192876}
   - component: {fileID: 1211250379393276558}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Crystal Armor 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1067,7 +1131,7 @@ GameObject:
   - component: {fileID: 8352019305403312903}
   - component: {fileID: 1492866139895717891}
   - component: {fileID: 7351935386542727329}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Crystal Armor 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1164,6 +1228,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 906b147232530c34dac87e422b4ec8c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6897840368047783920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2101712632420696590}
+  - component: {fileID: 6270325207335340539}
+  m_Layer: 16
+  m_Name: Collider
+  m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2101712632420696590
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6897840368047783920}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1375103745290613620}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &6270325207335340539
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6897840368047783920}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8611006117480415934
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,7 +1286,7 @@ GameObject:
   - component: {fileID: 789883957574676775}
   - component: {fileID: 4744334460686335329}
   - component: {fileID: 5050586947943097952}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Crystal Armor 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

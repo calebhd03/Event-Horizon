@@ -15,9 +15,11 @@ public class TutorialScript : MonoBehaviour
     public bool tutorialComplete = false, hasNexus = false, hasBlaster = false, hasNexusTool = false;
     public Vector3 teleportPlayer;
     Scene currentScene;
+    LogSystem logSystem;
 
     void Start()
     {
+        CheckTutorial();
         currentScene = SceneManager.GetActiveScene();
         thirdPersonShooterController = GetComponent<ThirdPersonShooterController>();
         playerHealthMetric = GetComponent<PlayerHealthMetric>();
@@ -25,9 +27,11 @@ public class TutorialScript : MonoBehaviour
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         thirdPersonShooterController = GetComponent<ThirdPersonShooterController>();
         skillTree = GetComponent<SkillTree>();
+        logSystem = FindObjectOfType<LogSystem>();
         if (playerHealthMetric.playerData.tutorialComplete == true)
         {
             tutorialComplete = true;
+            logSystem.skillsButton.SetActive(true);
         }
         if (currentScene.name == "TheOuterVer2" && tutorialComplete == false)
         {
@@ -36,10 +40,11 @@ public class TutorialScript : MonoBehaviour
         else if(tutorialComplete == true)
         {
             SkipTutorial();
+            logSystem.skillsButton.SetActive(true);
         }
     }
 
-    void Update()
+    public void CheckTutorial()
     {
         if (hasNexus == true && hasBlaster == true && hasNexusTool == true)
         {
@@ -70,5 +75,10 @@ public class TutorialScript : MonoBehaviour
     {
         yield return new WaitForSeconds(.1f);
         transform.position = teleportPlayer;
+    }
+    public void HasNexusTool()
+    {
+        hasNexusTool = true;
+        CheckTutorial();
     }
 }

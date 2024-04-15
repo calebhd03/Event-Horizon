@@ -9,57 +9,64 @@ using JetBrains.Annotations;
 
 public class LogSystem : MonoBehaviour
 {
-    [SerializeField] GameObject enemiesButton, memoriesButton, itemButton, skillsButton, returnButton;
-    [SerializeField] public GameObject enemiesPage, memoriesPage, itemsPage, pauseMenu, LogPage, skillsPage;
-    [SerializeField] public Button[] enemy, memory, item;
+    [SerializeField] public GameObject enemiesButton, memoriesButton, itemButton, skillsButton, journalButton, returnButton;
+    [SerializeField] public GameObject enemiesPage, memoriesPage, itemsPage, pauseMenu, LogPage, skillsPage, journalPage;
+    [SerializeField] public Button[] enemy, memory, item, journal, skillExit;
     [HideInInspector] public Image[] enemyImage, memoryImage, itemImage;
     [SerializeField] Sprite[] enemySprite, memorySprite, itemSprite;
-    [SerializeField] TextMeshProUGUI[] enemyText, memoryText, itemText;
+    [SerializeField] TextMeshProUGUI[] enemyText, memoryText, itemText, journalText;
     public Color enemyPage;
     public static int currentTab;
     private int buttonType;
     [SerializeField] GameObject displayInfo;
     public Image setImage;
     public TextMeshProUGUI setText;
-    public TextMeshProUGUI enemyHeadingText, memoriesHeadingText, itemsHeadingText, skillsHeadingText;
+    public TextMeshProUGUI enemyHeadingText, memoriesHeadingText, itemsHeadingText, skillsHeadingText, journalHeadingText;
+    public GameObject journalScroll;
     public GameObject scannerCurrentObject;
     public int number;
-    private StarterAssetsInputs starterAssetsInputs;
-    private ThirdPersonController thirdPersonController;
+    [SerializeField] private StarterAssetsInputs starterAssetsInputs;
+    [SerializeField] private ThirdPersonController thirdPersonController;
     public bool log;
     //Skills
     public bool skillsUnlocked = false, skillsUnlocked2 = false, skillsUnlocked3 = false, skillsUnlocked4 = false;
     public Button plasmaUpgradeButton, SlowEnemyButton, DamageOverTimeButton;
-    public Button meleeButton, knockBackButton, OGBHGButton, bHGToolButton, BHGPullButton;
+    public Button knockBackButton, OGBHGButton, bHGToolButton, BHGPullButton;
     public bool plasmaSkillUpgraded = false;
     public bool OGBHG = false, SlowEnemyUpgraded = false, DamageOverTimeSkillUpgraded = false;
-    public bool meleeSkillUpgraded = false, knockBackUpgraded = false, BHGToolUpgraded = false;
+    public bool knockBackUpgraded = false, BHGToolUpgraded = false;
     public bool BHGPullUpgraded = false;
     public Sprite upgradedSprite;
     AudioSource audioSource;
     public AudioClip SwitchTabSound;
-    SkillTree skillTree;
-    TutorialScript tutorialScript;
-    public GameObject player;
+    [SerializeField]SkillTree skillTree;
+    [SerializeField]TutorialScript tutorialScript;
+    //public GameObject player;
     public Scanning scnScr;
     //Upgrade option pages
     public GameObject upgradePage1, upgradePage2, upgradePage3, upgradePage4;
 
-    PauseMenuScript pauseMenuScript;
+    [SerializeField]PauseMenuScript pauseMenuScript;
+    [SerializeField]MiniCore miniCore;
 
+    void Awake()
+    {
+        miniCore = GetComponentInParent<MiniCore>();
+        //player = GameObject.FindWithTag("Player");
+        pauseMenuScript = FindObjectOfType<PauseMenuScript>();
+        starterAssetsInputs = miniCore.GetComponentInChildren<StarterAssetsInputs>();
+        thirdPersonController = miniCore.GetComponentInChildren<ThirdPersonController>();
+        tutorialScript = miniCore.GetComponentInChildren<TutorialScript>();
+        audioSource = GetComponent<AudioSource>();
+        skillTree = miniCore.GetComponentInChildren<SkillTree>();
+        scnScr = miniCore.GetComponentInChildren<Scanning>();
+    }
     void Start()
     {
-        player = GameObject.FindWithTag("Player");
-        pauseMenuScript = FindObjectOfType<PauseMenuScript>();
+        
         log = false;
-        starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
-        thirdPersonController = player.GetComponent<ThirdPersonController>();
-        tutorialScript = player.GetComponent<TutorialScript>();
         LogPage.SetActive(false);
         displayInfo.SetActive(false);
-        audioSource = GetComponent<AudioSource>();
-        skillTree = player.GetComponent<SkillTree>();
-        scnScr = player.GetComponent<Scanning>();
         upgradePage1.SetActive(false);
         upgradePage2.SetActive(false);
         upgradePage3.SetActive(false);
@@ -79,6 +86,15 @@ public class LogSystem : MonoBehaviour
         {
             button.interactable = false;
             button.gameObject.SetActive(false);
+        }
+        foreach (Button button in journal)
+        {
+            button.interactable = false;
+            button.gameObject.SetActive(false);
+        }
+        foreach(Button button in skillExit)
+        {
+            button.interactable = false;
         }
 
         
@@ -103,83 +119,23 @@ public class LogSystem : MonoBehaviour
             int index = i; // Capture the current value of i for the lambda expression
             item[i].onClick.AddListener(() => OnButtonClick(index));
         }
+        if(tutorialScript.tutorialComplete == false)
+        {
+        skillsButton.SetActive(false);
+        }
     }
     
-    void Update()
+    public void UpgradesUnlocked()
     {   
-        if (log == true)
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            Time.timeScale = 0;
-        }
-        switch (currentTab)
-        {
-        case 0:
-            enemiesPage.SetActive(true);
-            memoriesPage.SetActive(false);
-            itemsPage.SetActive(false);
-            skillsPage.SetActive(false);
-            buttonType = 0;
-            enemyHeadingText.color = new Color(1f, 0f, 0f, 1f);
-            memoriesHeadingText.color = new Color(1f, 0f, 0f, 1f);
-            itemsHeadingText.color = new Color(1f, 0f, 0f, 1f);
-            skillsHeadingText.color = new Color(1f, 0f, 0f, 1f);
-        break;
-        case 1:
-            enemiesPage.SetActive(false);
-            memoriesPage.SetActive(true);
-            itemsPage.SetActive(false);
-            skillsPage.SetActive(false);
-            buttonType = 1;
-            enemyHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
-            memoriesHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
-            itemsHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
-            skillsHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
-        break;
-        case 2:
-            enemiesPage.SetActive(false);
-            memoriesPage.SetActive(false);
-            itemsPage.SetActive(true);
-            skillsPage.SetActive(false);
-            buttonType = 2;
-            enemyHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
-            memoriesHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
-            itemsHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
-            skillsHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
-
-        break;
-        case 3:
-            enemiesPage.SetActive(false);
-            memoriesPage.SetActive(false);
-            itemsPage.SetActive(false);
-            skillsPage.SetActive(true);
-            buttonType = 3;
-            enemyHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
-            memoriesHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
-            itemsHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
-            skillsHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
-        break;
-        }
-        
+        //ReturnButton();
+        LogPage.SetActive(false);
         if (skillsUnlocked == true)
-        {
-            /*if (healthSkillUpgraded == true)
-            {
-                healthUpgradeButton.interactable = false;
-                skillsUnlocked = false;
-                upgradePage1.SetActive(false);
-            }
-            else
-            {
-                healthUpgradeButton.interactable = true;
-            }*/
-            
+        {            
             if (BHGToolUpgraded == true)
             {
                 bHGToolButton.interactable = false;
+                skillExit[0].interactable = true;
                 skillsUnlocked = false;
-                upgradePage1.SetActive(false);
             }
             else
             {
@@ -192,8 +148,9 @@ public class LogSystem : MonoBehaviour
             {
                 SlowEnemyButton.interactable = false;
                 DamageOverTimeButton.interactable = false;
+                skillExit[1].interactable = true;
                 skillsUnlocked2 = false;
-                upgradePage2.SetActive(false);
+                
             }
             else
             {
@@ -204,8 +161,8 @@ public class LogSystem : MonoBehaviour
 
                 DamageOverTimeButton.interactable = false;
                 SlowEnemyButton.interactable = false;
+                skillExit[1].interactable = true;
                 skillsUnlocked2 = false;
-                upgradePage2.SetActive(false);
             }
             else
             {
@@ -218,8 +175,8 @@ public class LogSystem : MonoBehaviour
             {
                 knockBackButton.interactable = false;
                 BHGPullButton.interactable = false;
+                skillExit[2].interactable = true;
                 skillsUnlocked3 = false;
-                upgradePage3.SetActive(false);
             }
             else
             {
@@ -229,8 +186,8 @@ public class LogSystem : MonoBehaviour
             {
                 BHGPullButton.interactable = false;
                 knockBackButton.interactable = false;
+                skillExit[2].interactable = true;
                 skillsUnlocked3 = false;
-                upgradePage3.SetActive(false);
             }
             else
             {
@@ -243,8 +200,8 @@ public class LogSystem : MonoBehaviour
             {
                 plasmaUpgradeButton.interactable = false;
                 OGBHGButton.interactable = false;
+                skillExit[3].interactable = true;
                 skillsUnlocked4 = false;
-                upgradePage4.SetActive(false);
             }
             else
             {
@@ -254,8 +211,8 @@ public class LogSystem : MonoBehaviour
             {
                 OGBHGButton.interactable = false;
                 plasmaUpgradeButton.interactable = false;
+                skillExit[3].interactable = true;
                 skillsUnlocked4 = false;
-                upgradePage4.SetActive(false);
             }
             else
             {
@@ -264,13 +221,9 @@ public class LogSystem : MonoBehaviour
         }
         else 
         {
-        //healthUpgradeButton.interactable = false;
         plasmaUpgradeButton.interactable = false;
-        //speedUpgradeButton.interactable = false;
-        //ammoCapactiyButton.interactable = false;
         SlowEnemyButton.interactable = false;
         DamageOverTimeButton.interactable = false;
-        meleeButton.interactable = false;
         knockBackButton.interactable = false;
         OGBHGButton.interactable = false;
         bHGToolButton.interactable = false;
@@ -280,10 +233,14 @@ public class LogSystem : MonoBehaviour
 
     public void SetLog()
     {
+        UpgradesUnlocked();
         log = true;
         //Debug.LogWarning("log");
         LogPage.SetActive(true);
         starterAssetsInputs.delayShoot = true;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 0;
     }
     public void CloseLog()
     {   
@@ -304,24 +261,106 @@ public class LogSystem : MonoBehaviour
     {
         audioSource.PlayOneShot(SwitchTabSound);
         currentTab = 0;
+        SetTab();
     }
 
     public void MemoriesTab()
     {
         audioSource.PlayOneShot(SwitchTabSound);
         currentTab = 1;
-        
+        SetTab();
     }
 
     public void ItemsTab()
     {
         audioSource.PlayOneShot(SwitchTabSound);
         currentTab = 2;
+        SetTab();
     }
     public void SkillsTab()
     {
         audioSource.PlayOneShot(SwitchTabSound);
         currentTab = 3;
+        SetTab();
+    }
+    public void JournalTab()
+    {
+        audioSource.PlayOneShot(SwitchTabSound);
+        currentTab = 4;
+        SetTab();
+    }
+    void SetTab()
+    {
+        switch (currentTab)
+        {
+        case 0:
+            enemiesPage.SetActive(true);
+            memoriesPage.SetActive(false);
+            itemsPage.SetActive(false);
+            skillsPage.SetActive(false);
+            journalPage.SetActive(false);
+            buttonType = 0;
+            enemyHeadingText.color = new Color(1f, 0f, 0f, 1f);
+            memoriesHeadingText.color = new Color(1f, 0f, 0f, 1f);
+            itemsHeadingText.color = new Color(1f, 0f, 0f, 1f);
+            skillsHeadingText.color = new Color(1f, 0f, 0f, 1f);
+            journalHeadingText.color = new Color(1f, 0f, 0f, 1f);
+        break;
+        case 1:
+            enemiesPage.SetActive(false);
+            memoriesPage.SetActive(true);
+            itemsPage.SetActive(false);
+            skillsPage.SetActive(false);
+            journalPage.SetActive(false);
+            buttonType = 1;
+            enemyHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
+            memoriesHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
+            itemsHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
+            skillsHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
+            journalHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
+        break;
+        case 2:
+            enemiesPage.SetActive(false);
+            memoriesPage.SetActive(false);
+            itemsPage.SetActive(true);
+            skillsPage.SetActive(false);
+            journalPage.SetActive(false);
+            buttonType = 2;
+            enemyHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
+            memoriesHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
+            itemsHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
+            skillsHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
+            journalHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
+
+        break;
+        case 3:
+            enemiesPage.SetActive(false);
+            memoriesPage.SetActive(false);
+            itemsPage.SetActive(false);
+            skillsPage.SetActive(true);
+            journalPage.SetActive(false);
+            buttonType = 3;
+            enemyHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
+            memoriesHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
+            itemsHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
+            skillsHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
+            journalHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
+        break;
+        case 4:
+            enemiesPage.SetActive(false);
+            memoriesPage.SetActive(false);
+            itemsPage.SetActive(false);
+            skillsPage.SetActive(false);
+            journalPage.SetActive(true);
+            journalScroll.SetActive(true);
+            buttonType = 4;
+            enemyHeadingText.color = new Color(155f / 255f, 89f / 255f, 182f / 255f, 1f);
+            memoriesHeadingText.color = new Color(155f / 255f, 89f / 255f, 182f / 255f, 1f);
+            itemsHeadingText.color = new Color(155f / 255f, 89f / 255f, 182f / 255f, 1f);
+            skillsHeadingText.color = new Color(155f / 255f, 89f / 255f, 182f / 255f, 1f);
+            journalHeadingText.color = new Color(155f / 255f, 89f / 255f, 182f / 255f, 1f);
+        break;
+        }
     }
     
     public void ReturnToPause()
@@ -337,10 +376,6 @@ public class LogSystem : MonoBehaviour
         enemy[number].interactable = true;
         enemy[number].gameObject.SetActive(true);
         }
-    else
-    {
-        //Debug.LogError("Invalid enemy index: " + number);
-    }
     }
     public void UpdateMemoryLog()
     {
@@ -360,6 +395,14 @@ public class LogSystem : MonoBehaviour
         item[number].gameObject.SetActive(true);
         }
     }
+    public void UpdateJournalLog()
+    {
+        if (number >= 0 && number < journal.Length)
+        {
+        journal[number].interactable = true;
+        journal[number].gameObject.SetActive(true);
+        }
+    }
 
     public void ReturnButton()
     {
@@ -374,6 +417,10 @@ public class LogSystem : MonoBehaviour
 
     public void returnToLog()
     {
+        upgradePage1.SetActive(false);
+        upgradePage2.SetActive(false);
+        upgradePage3.SetActive(false);
+        upgradePage4.SetActive(false);
         displayInfo.SetActive(false);
         LogPage.SetActive(true);
     }
@@ -414,7 +461,7 @@ public class LogSystem : MonoBehaviour
                         }
                 break;
                 case 2:
-                        Image sourceImage2 = enemy[buttonIndex].GetComponent<Image>();
+                        Image sourceImage2 = item[buttonIndex].GetComponent<Image>();
 
                         if (sourceImage2 != null)
                         {
@@ -446,6 +493,9 @@ public class LogSystem : MonoBehaviour
                 case 2:
                         setText.text = itemText[buttonIndex].text;
                 break;
+                case 4:
+                        setText.text = journalText[buttonIndex].text;
+                break;
             }
 
 
@@ -458,22 +508,6 @@ public class LogSystem : MonoBehaviour
         UpdateText(buttonIndex);
     }
 
-    /*public void UpgradeSpeed()
-    {
-        //Debug.LogWarning("IAmSpeed");
-        speedSkillUpgraded = true;
-        speedUpgradeButton.image.sprite = upgradedSprite;
-        skillTree.SpeedUpgraded();
-    }*/
-
-    /*public void UpgradeHealth()
-    {
-        //Debug.LogWarning("1Up");
-        healthSkillUpgraded = true;
-        healthUpgradeButton.image.sprite = upgradedSprite;
-        skillTree.HealthUpgraded();
-    }*/
-
     public void UpgradeToPlasma()
     {
         //Debug.LogWarning("SayHelloToMyLittleFriend");
@@ -481,14 +515,6 @@ public class LogSystem : MonoBehaviour
         plasmaUpgradeButton.image.sprite = upgradedSprite;
         skillTree.PlasmaUpgrade();
     }
-
-    /*public void UpgradeAmmoCapacity()
-    {
-        //Debug.LogWarning("Ammo capacity increase");
-        ammoSkillUpgraded = true;
-        ammoCapactiyButton.image.sprite = upgradedSprite;
-        //Put code here for ammo capacity function or call to thirdpersonshootercontroller
-    }*/
 
     public void UpgradeToDamageOverTime()
     {
@@ -505,12 +531,12 @@ public class LogSystem : MonoBehaviour
         SlowEnemyButton.image.sprite = upgradedSprite;
         skillTree.SlowEnemyUpgrade();
     }
-    public void UpgradeMeleeDamage()
+    /*public void UpgradeMeleeDamage()
     {
         meleeSkillUpgraded = true;
         meleeButton.image.sprite = upgradedSprite;
         skillTree.MeleeDamageUpgrade();
-    }
+    }*/
 
     public void UpgradeKnockBack()
     {
@@ -528,9 +554,12 @@ public class LogSystem : MonoBehaviour
     public void BHGToolUpgrade()
     {
         BHGToolUpgraded = true;
-        tutorialScript.hasNexusTool = true;
+        tutorialScript.HasNexusTool();
         bHGToolButton.image.sprite = upgradedSprite;
         skillTree.BHGToolUpgrade();
+        skillsButton.SetActive(true);
+        currentTab = 3;
+        SetTab();
     }
     public void BHGPullUpgrade()
     {
@@ -542,6 +571,13 @@ public class LogSystem : MonoBehaviour
     public void DelayShoot()
     {
         starterAssetsInputs.delayShoot = false;
+    }
+
+    public void UpgradeAlreadySelected()
+    {
+        skillsButton.SetActive(true);
+        currentTab = 3;
+        SetTab();
     }
 
 }

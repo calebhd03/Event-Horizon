@@ -8,32 +8,41 @@ using TMPro;
 
 public class EnemyText : MonoBehaviour
 {
-    private TextMeshProUGUI displayedText; 
     [Tooltip("The number of the enemy associated text from the array.")]  
     public TextMeshProUGUI[] textToDisplay;
-    void Start()
+    [SerializeField]ScanCam scanCam;
+    void Awake()
     {
-        displayedText = GetComponentInChildren<TextMeshProUGUI>();
         gameObject.SetActive(false);
+        scanCam = FindObjectOfType<ScanCam>();
     }
     private void OnEnable()
     {
         ScannerUI.eneText += ShowText;
     }
-
-    void ShowText()
+    private void OnDisable()
     {
-        ScanCam scanCam = FindObjectOfType<ScanCam>();
-        //Cursor.visible = true;
-        //Cursor.lockState = CursorLockMode.None;
+        ScannerUI.eneText -= ShowText;
+    }
+
+    List<TextMeshProUGUI> activeTexts = new List<TextMeshProUGUI>();
+    public void ShowText()
+    {
+        //ScanCam scanCam = FindObjectOfType<ScanCam>();
+
         gameObject.SetActive(true);
-        displayedText.text = textToDisplay[scanCam.currentClipIndex].text;
+        textToDisplay[scanCam.currentClipIndex].gameObject.SetActive(true);
+        activeTexts.Add(textToDisplay[scanCam.currentClipIndex]);
         Invoke("HideText", 3);
     }
     public void HideText()
     {
         //Cursor.visible = false;
         //Cursor.lockState = CursorLockMode.Locked;
+        foreach (var text in textToDisplay)
+        {
+            text.gameObject.SetActive(false);
+        }
         gameObject.SetActive(false);
     }
 }

@@ -11,7 +11,7 @@ public class PickupBlaster : MonoBehaviour
     TutorialScript tutorialScript;
     GameObject player;
     public Collider[] colliderArray;
-    float interactRange = .5f;
+    float interactRange = 2f;
     void Start()
     {
         player = GameObject.FindWithTag("Player");
@@ -19,6 +19,10 @@ public class PickupBlaster : MonoBehaviour
         starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
         TPSC = player.GetComponent<ThirdPersonShooterController>();
         tutorialScript = player.GetComponent<TutorialScript>();
+        if(playerHealthMetric.playerData.tutorialComplete == true)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     void Update()
@@ -29,10 +33,10 @@ public class PickupBlaster : MonoBehaviour
                 {
                     if (starterAssetsInputs.interact)
                     {
-                        if(starterAssetsInputs.interact == true)
-                            {
-                                starterAssetsInputs.interact = false;
-                            }
+                      //  if(starterAssetsInputs.interact == true)
+                           // {
+                               //starterAssetsInputs.interact = false;
+                           // }
                         EquipBlaster();
                     }
                 }
@@ -40,9 +44,11 @@ public class PickupBlaster : MonoBehaviour
     void EquipBlaster()
     {
         tutorialScript.hasBlaster = true;
+        tutorialScript.CheckTutorial();
         playerHealthMetric.playerData.hasBlaster = true;
         TPSC.EquipBlaster();
         TPSC.EnableBGunMesh();
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

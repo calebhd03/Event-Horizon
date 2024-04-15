@@ -11,6 +11,7 @@ public class flyingEnemy : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] EnemyHealthBar healthBar;
     public LayerMask playerZone;
+    [SerializeField] private HealthMetrics healthMetrics;
 
     //check to find player
     private bool iSeeYou;
@@ -47,6 +48,8 @@ public class flyingEnemy : MonoBehaviour
     public AudioClip deathAudio;
     AudioSource audioSource;
 
+    private bool isDead = false;//assuming it is alive
+
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -55,12 +58,13 @@ public class flyingEnemy : MonoBehaviour
         animator = GetComponent<Animator>();
         healthBar = GetComponentInChildren<EnemyHealthBar>();
         audioSource = GetComponent<AudioSource>();
+        //StartCoroutine(EnemyMusic());
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+        healthMetrics = GetComponentInParent<HealthMetrics>();
         healthMetrics.currentHealth = healthMetrics.maxHealth;
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
         currentMag = maxMag;
@@ -93,6 +97,10 @@ public class flyingEnemy : MonoBehaviour
             transform.LookAt(player);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
         }
+        if(healthMetrics.currentHealth <= 0)
+        {
+            iSeeYou = false;
+        }
     }
     public void Patrol()
     {
@@ -115,7 +123,7 @@ public class flyingEnemy : MonoBehaviour
 
     public void attackPlayer()
     {
-        if (attackAgainCoolDown == false && Time.time >= nextFire)
+        if (healthMetrics.currentHealth > 0 && attackAgainCoolDown == false && Time.time >= nextFire)
         {
             //agent.SetDestination(transform.position);
 
@@ -147,6 +155,13 @@ public class flyingEnemy : MonoBehaviour
             //destroy bullet properly for now
             Destroy(newBullet.gameObject, 5f);
         }
+
+        else if (healthMetrics.currentHealth <= 0)
+        {
+            attackAgainCoolDown = true;
+            currentMag = 0;
+            maxMag = 0;
+        }
     }
 
     private void ResetProjectiles()
@@ -173,11 +188,12 @@ public class flyingEnemy : MonoBehaviour
 
     public void updateHealth()
     {
-        HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+        healthMetrics = GetComponentInParent<HealthMetrics>();
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
 
         if (healthMetrics.currentHealth <= 0)
         {
+            isDead = true;
             Die();
             Debug.Log("Zero Health");
         }
@@ -185,7 +201,9 @@ public class flyingEnemy : MonoBehaviour
 
     public void Die()
     {
+        agent.isStopped = true;
         StartCoroutine(WaitAndDropStuff(3f));
+        iSeeYou = false;
     }
 
     private IEnumerator WaitAndDropStuff(float waitTime)
@@ -211,14 +229,17 @@ public class flyingEnemy : MonoBehaviour
             Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
         }
 
-        Destroy(transform.parent.gameObject);
+        Dead();
     }
 
     public void SetISeeYou()
     {
         iSeeYou = true;
         transform.LookAt(player);
-        chasePlayer();
+        if (iSeeYou && !withInAttackRange)
+        {
+            chasePlayer();
+        }
     }
 
     private void OnDrawGizmos()
@@ -228,5 +249,35 @@ public class flyingEnemy : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, seeDistance);
+    }
+    /*IEnumerator EnemyMusic()
+    {
+        yield return new WaitUntil(() => iSeeYou);
+        Background_Music.instance.IncrementSeeingPlayerCount();
+        StartCoroutine(LevelMusic());
+        yield return null;
+    }
+    IEnumerator LevelMusic()
+    {   
+        yield return new WaitUntil (() => !iSeeYou);
+        Background_Music.instance.DecrementSeeingPlayerCount();
+        StartCoroutine(EnemyMusic());
+        yield return null;
+    }*/
+
+    public void Dead()
+    {
+        if (isDead)
+        {
+            transform.parent.gameObject.SetActive(false);
+        }
+    }
+
+    public void Alive()
+    {
+        if (!isDead)
+        {
+            transform.parent.gameObject.SetActive(true);
+        }
     }
 }

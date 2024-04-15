@@ -48,6 +48,13 @@ public class crystalEnemy : MonoBehaviour
     [Header("Audio")]
     AudioSource audioSource;
     public AudioClip deathAudio;
+    HealthMetrics healthMetrics;
+
+    private bool isDead = false;//assuming it is alive
+
+    public bool isPhaseTwo = false; //only for the singularity phase two fight
+    public GameObject orbPrefab;
+
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -59,10 +66,11 @@ public class crystalEnemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+        healthMetrics = GetComponentInParent<HealthMetrics>();
         healthMetrics.currentHealth = healthMetrics.maxHealth;
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
         audioSource = GetComponent<AudioSource>();
+        //StartCoroutine(EnemyMusic());
     }
 
     // Update is called once per frame
@@ -77,7 +85,10 @@ public class crystalEnemy : MonoBehaviour
 
             if (distanceTarget <= viewRadius && !Physics.Raycast(transform.position, playerTarget, distanceTarget, obstacleZone))
             {
-                iSeeYou = true;
+                if(healthMetrics.currentHealth > 0)
+                    {
+                    iSeeYou = true;
+                    }
                 transform.LookAt(player);
                 Debug.DrawRay(transform.position, playerTarget * viewRadius * viewAngle, Color.blue); //debug raycast line to show if enemy can see the player
             }
@@ -220,6 +231,7 @@ public class crystalEnemy : MonoBehaviour
 
         if (healthMetrics.currentHealth <= 0)
         {
+            isDead = true;
             Die();
             Debug.Log("Zero Health");
         }
@@ -228,6 +240,7 @@ public class crystalEnemy : MonoBehaviour
     public void Die()
     {
         StartCoroutine(WaitAndDropStuff(3f));
+        iSeeYou = false;
     }
 
     private IEnumerator WaitAndDropStuff(float waitTime)
@@ -241,6 +254,11 @@ public class crystalEnemy : MonoBehaviour
 
     private void DropStuff()
     {
+        if (isPhaseTwo)
+        {
+            Instantiate(orbPrefab, transform.position, Quaternion.identity);
+        }
+
         if (Random.value < pickupDropChance)
         {
             Instantiate(shotGunPickupPrefab, transform.position, Quaternion.identity);
@@ -253,7 +271,7 @@ public class crystalEnemy : MonoBehaviour
             Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
         }
 
-        Destroy(transform.parent.gameObject);
+        Dead();
     }
 
     public void SetISeeYou()
@@ -283,5 +301,35 @@ public class crystalEnemy : MonoBehaviour
         Debug.DrawRay(startPoint, endPointRight, Color.green);
 
         Debug.DrawRay(startPoint + endPointLeft, endPointRight - endPointLeft, Color.green);
+    }
+    /*IEnumerator EnemyMusic()
+    {
+        yield return new WaitUntil(() => iSeeYou);
+        Background_Music.instance.IncrementSeeingPlayerCount();
+        StartCoroutine(LevelMusic());
+        yield return null;
+    }
+    IEnumerator LevelMusic()
+    {   
+        yield return new WaitUntil (() => !iSeeYou);
+        Background_Music.instance.DecrementSeeingPlayerCount();
+        StartCoroutine(EnemyMusic());
+        yield return null;
+    }*/
+
+    public void Dead()
+    {
+        if (isDead)
+        {
+            transform.parent.gameObject.SetActive(false);
+        }
+    }
+
+    public void Alive()
+    {
+        if (!isDead)
+        {
+            transform.parent.gameObject.SetActive(true);
+        }
     }
 }

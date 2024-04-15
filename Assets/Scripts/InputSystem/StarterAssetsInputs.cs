@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
+using System.Collections;
 #endif
 
 	public class StarterAssetsInputs : MonoBehaviour
@@ -59,8 +60,12 @@ using UnityEngine.InputSystem;
         public bool innerTP;
         public bool centerTP;
 
+		public bool newSave;
+
 		public bool delayShoot;
 		public bool interact;
+
+		private bool aimCoroutineRunning = false;
 
 		[Header("Menu Navigation")]
 		public bool R_Bumper;
@@ -70,12 +75,13 @@ using UnityEngine.InputSystem;
         public string currentControlScheme = String.Empty;
         public static Action<string> ChangedControlSchemeEvent;
       //  [HideInInspector] 
-	public PlayerInput playerInput;
+		public PlayerInput playerInput;
 
         private void Awake()
         {
             playerInput = GetComponent<PlayerInput>();
-
+			currentControlScheme = playerInput.currentControlScheme;
+			
             if (Instance == null)
                 Instance = this;
 			else
@@ -86,7 +92,7 @@ using UnityEngine.InputSystem;
         private void Update()
         {
             // Player changes control scheme
-            if (playerInput.currentControlScheme != currentControlScheme)
+            if (playerInput != null && playerInput.currentControlScheme != currentControlScheme)
             {
                 currentControlScheme = playerInput.currentControlScheme;
                 ChangedControlSchemeEvent?.Invoke(currentControlScheme);
@@ -138,10 +144,44 @@ using UnityEngine.InputSystem;
 
 		public void OnShoot(InputValue value)
 		{
-			if(delayShoot == false)
+			if (!delayShoot)
 			{
-			ShootInput(value.isPressed);
+				if (!aim)
+				{
+					
+					AimInput(true);
+					
+
+					if( aim )
+					{
+						ShootInput(value.isPressed);
+
+						StartCoroutine(ResetAimAfterDelay());
+					}
+
+					//StartCoroutine(ResetAimAfterDelay());
+				}
+				else
+				{
+					ShootInput(value.isPressed);
+				}
 			}
+		}
+
+		private IEnumerator ResetAimAfterDelay()
+		{
+			Debug.Log("Coroutine started");
+			// Wait for a short duration
+			yield return new WaitForSeconds(0.5f);
+
+			Debug.Log("ResetAimAfterDelay done");
+
+			// If aim is still not manually pressed, set it to false
+			if (aim)
+			{
+				AimInput(false);
+			}
+    
 		}
 		public void OnScan(InputValue value)
 		{
@@ -264,6 +304,10 @@ using UnityEngine.InputSystem;
 		public void OnR_Bumper(InputValue value)
 		{
 			R_BumperInput(value.isPressed);
+		}
+		public void OnNewSave(InputValue value)
+		{
+			NewSaveInput(value.isPressed);
 		}
 		
 #endif
@@ -447,6 +491,10 @@ using UnityEngine.InputSystem;
 		public void R_BumperInput(bool newR_BumperState)
 		{
 			R_Bumper = newR_BumperState;
+		}
+		public void NewSaveInput(bool newNewSaveState)
+		{
+			newSave = newNewSaveState;
 		}
 	}
 

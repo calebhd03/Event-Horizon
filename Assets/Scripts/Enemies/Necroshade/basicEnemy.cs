@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 namespace StarterAssets
 {
@@ -15,6 +16,8 @@ namespace StarterAssets
         public Transform player;
         public NavMeshAgent agent;
         public Animator animator;
+        [SerializeField] private HealthMetrics healthMetrics;
+
 
         private Rigidbody rb;
 
@@ -30,14 +33,15 @@ namespace StarterAssets
         private bool idle = false;
 
         //check to find player
-        private bool iSeeYou;
-        private bool iHearYou;
+        [SerializeField] private bool iSeeYou;
+        [SerializeField]private bool iHearYou;
 
         //attack
         private bool attackAgainCoolDown;
         private bool withInAttackRange;
         public float attackRange;
         public float attackAgainTimer;
+        public float attackCloseDistance = 1.3f;
 
         //enemy view in coned shaped
         public float viewRadius;
@@ -95,7 +99,14 @@ namespace StarterAssets
         public GameObject healthPickupPrefab;
         public float pickupDropChance = 0.3f;
 
-        private float hitAnimationDuration = 1.0f;       
+        private float hitAnimationDuration = 1.0f;
+
+        private static int enemiesSeeingPlayer = 0;
+
+        private bool isDead = false;//assuming it is alive
+
+        public bool isPhaseTwo = false; //only for the singularity phase two fight
+        public GameObject orbPrefab;
 
         private void Awake()
         {
@@ -111,10 +122,11 @@ namespace StarterAssets
         // Start is called before the first frame update
         void Start()
         {
-            HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+            healthMetrics = GetComponentInParent<HealthMetrics>();
             healthMetrics.currentHealth = healthMetrics.maxHealth;
             healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
             currentMag = maxMag;
+            //StartCoroutine(EnemyMusic());
         }
 
         // Update is called once per frame
@@ -132,8 +144,11 @@ namespace StarterAssets
                 if (distanceTarget <= viewRadius && !Physics.Raycast(transform.position, playerTarget, distanceTarget, obstacleZone))
                 {
                     animator.applyRootMotion = true;
+                    if(healthMetrics.currentHealth > 0)
+                    {
                     iSeeYou = true;
-                    hearDistance = 0;
+                    }
+                    //hearDistance = 0;
                     transform.LookAt(player);
                     Debug.DrawRay(transform.position, playerTarget * viewRadius * viewAngle, Color.blue); //debug raycast line to show if enemy can see the player
                 }
@@ -227,6 +242,7 @@ namespace StarterAssets
                 animator.SetBool("PanningIdle", false);
                 animator.SetBool("RangeAttack", false);
                 animator.SetBool("MeleeAttack", false);
+                animator.SetBool("Moving", true);
 
 
                 if (meleeAttack == true)
@@ -254,6 +270,7 @@ namespace StarterAssets
 
                 if(meleeAttack == true)
                 {
+                    animator.SetBool("MeleeAttack", true);
                     transform.LookAt(player);
                     transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
 
@@ -324,8 +341,10 @@ namespace StarterAssets
 
             if (meleeAttack == true)
             {
-                  agent.SetDestination(player.position);
-                  transform.LookAt(player);
+                //agent.SetDestination(player.position);
+                Vector3 attackPosition = player.position - transform.forward * attackCloseDistance;
+                agent.SetDestination(attackPosition);
+                transform.LookAt(player);
             }
         }
         private void attackPlayer() //atacks player if there is no cooldown
@@ -333,7 +352,7 @@ namespace StarterAssets
             //agent.SetDestination(transform.position);
             //transform.LookAt(player);
 
-            if (attackAgainCoolDown == false && rangeAttack == true && Time.time >= nextFire)
+            if (healthMetrics.currentHealth > 0 && attackAgainCoolDown == false && rangeAttack == true && Time.time >= nextFire)
             {
                 //fire Rate
                 nextFire = Time.time + 1 / fireRate;
@@ -367,14 +386,27 @@ namespace StarterAssets
                 Destroy(newBullet.gameObject, 5f);
             }
 
+            else if (rangeAttack && healthMetrics.currentHealth <= 0)
+            {
+                Debug.Log("NO BULLETS");
+                animator.SetBool("RangeAttack", false);
+                attackAgainCoolDown = true;
+                currentMag = 0;
+                maxMag = 0;
+            }
+
             if (attackAgainCoolDown == false && meleeAttack == true)
             {
-                agent.SetDestination(transform.position);
+                Vector3 attackPosition = player.position - transform.forward * attackCloseDistance;
+                agent.SetDestination(attackPosition);
+                //agent.SetDestination(transform.position);
                 transform.LookAt(player);
                 transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
                 attackAgainCoolDown = true;
+                animator.SetBool("MeleeAttack", true);
+                animator.SetBool("Moving", false);
 
-                if (attackAgainCoolDown == true)
+                /*if (attackAgainCoolDown == true)
                 {
                     animator.SetBool("MeleeAttack", true);
                 }
@@ -382,8 +414,8 @@ namespace StarterAssets
                 else
                 {
                     animator.SetBool("MeleeAttack", false);
-                }
-                
+                }*/
+
                 Invoke(nameof(meleeAttackCoolDown), attackAgainTimer);
                 //Debug.Log("Melee Atack");
             }
@@ -411,7 +443,15 @@ namespace StarterAssets
         }
         private void meleeAttackCoolDown()
         {
-            //animator.SetBool("MeleeAttack", false);
+            iSeeYou = false;
+            withInAttackRange = false;
+            iHearYou = false;
+            hearDistance = 0;
+            attackRange = 0;
+            viewRadius = 0;
+            Debug.Log("GLITCH HERE");
+            animator.SetBool("Moving", true);
+            animator.SetBool("MeleeAttack", false);
             attackAgainCoolDown = false;
             if(!isMovingBackwards)
             {
@@ -429,6 +469,8 @@ namespace StarterAssets
 
         private IEnumerator moveBackWards()
         {
+            animator.SetBool("Moving", true);
+            animator.SetBool("MeleeAttack", false);
             float Timer = 0f;
             while(Timer < backWardMoveDuration)
             {
@@ -440,15 +482,24 @@ namespace StarterAssets
             }
 
             isMovingBackwards = false;
+            yield return new WaitForSeconds(1f);
+
+            iSeeYou = true;
+            withInAttackRange = true;
+            iHearYou = true;
+            hearDistance = 20f;
+            attackRange = 2f;
+            viewRadius = 15f;
         }
 
         public void updateHealth()
         {
-            HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+            healthMetrics = GetComponentInParent<HealthMetrics>();
             healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
-           
-            if(healthMetrics.currentHealth <= 0)
+
+            if (healthMetrics.currentHealth <= 0)
             {
+                isDead = true;
                 Die();
             }
         }
@@ -482,11 +533,15 @@ namespace StarterAssets
         {
             iSeeYou = true;
             transform.LookAt(player);
-            chasePlayer();
+            if (iSeeYou && !withInAttackRange)
+            {
+                chasePlayer();
+            }
         }
             
         public void Die()
         {
+            
             // Stop the NavMeshAgent to prevent further movement
             agent.isStopped = true;
 
@@ -496,12 +551,12 @@ namespace StarterAssets
                 idleStart = 0f;
                 idleTime = 0f;
                 animator.SetBool("PanningIdle", false);
-           
+                iSeeYou = false;
 
             // Trigger the death animation
             animator.SetBool("EnemyDeath", true);
             //Debug.Log("Enemy Death playing");
-
+            
             // Wait for 3 seconds before dropping stuff
             StartCoroutine(WaitAndDropStuff(3f));
         }
@@ -510,13 +565,17 @@ namespace StarterAssets
         {
             yield return new WaitForSeconds(waitTime);
             audioSource.PlayOneShot(deathAudio);
-
             // Call DropStuff after waiting for 3 seconds
             DropStuff();
         }
 
         private void DropStuff()
         {
+            if(isPhaseTwo && meleeAttack)
+            {
+                Instantiate(orbPrefab, transform.position, Quaternion.identity);
+            }
+
             if (Random.value < pickupDropChance)
             {
                 Instantiate(shotGunPickupPrefab, transform.position, Quaternion.identity);
@@ -529,7 +588,7 @@ namespace StarterAssets
                 Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
             }
 
-               Destroy(transform.parent.gameObject);
+            Dead();
         }
 
         public void PlayEnemyHitAnimation()
@@ -546,12 +605,42 @@ namespace StarterAssets
         }
 
         private IEnumerator StopHitAnimation()
-    {
-        // Wait for the specified duration
-        yield return new WaitForSeconds(hitAnimationDuration);
+        {
+            // Wait for the specified duration
+            yield return new WaitForSeconds(hitAnimationDuration);
 
-        // Set the EnemyHit parameter back to false
-        animator.SetBool("EnemyHit", false);
+            // Set the EnemyHit parameter back to false
+            animator.SetBool("EnemyHit", false);
+        }
+        /*IEnumerator EnemyMusic()
+        {
+            yield return new WaitUntil(() => iSeeYou);
+            Background_Music.instance.IncrementSeeingPlayerCount();
+            StartCoroutine(LevelMusic());
+            yield return null;
+        }
+        IEnumerator LevelMusic()
+        {   
+            yield return new WaitUntil (() => !iSeeYou);
+            Background_Music.instance.DecrementSeeingPlayerCount();
+            StartCoroutine(EnemyMusic());
+            yield return null;
+        }*/
+
+        public void Dead()
+        {
+            if (isDead)
+            {
+                transform.parent.gameObject.SetActive(false);
+            }
+        }
+
+        public void Alive()
+        {
+            if (!isDead)
+            {
+                transform.parent.gameObject.SetActive(true);
+            }
+        }
     }
-}
 }

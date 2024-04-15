@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/PlayerData", order = 1)]
 [System.Serializable]
@@ -14,6 +15,7 @@ public class PlayerData : ScriptableObject
 
     [Header ("Ammo")]
     [SerializeField] private int standardAmmoDefault;
+    public int normalAmmo;
     public int standardAmmo;
     public int standardAmmoLoaded;
     public int standardAmmoMax;
@@ -24,11 +26,12 @@ public class PlayerData : ScriptableObject
     public int shotgunAmmoMax;
     [Space(10)]
     [SerializeField] private int nexusAmmoDefault;
+    public int normalNexusAmmo;
     public int nexusAmmo;
     public int nexusAmmoLoaded;
     public int nexusAmmoMax;
     [Header ("Skill")]
-        public bool SavePlasmaUpgrade = false, SaveMeleeDamageUpgrade = false, SaveBHGToolUpgrade = false;
+        public bool SavePlasmaUpgrade = false, SaveBHGToolUpgrade = false;
     [Header ("Skill")]
         public bool SaveDamageOverTimeUpgrade = false, SaveSlowEnemyUpgrade = false, SaveKnockBackUpgrade = false;
     [Header("Skill")]
@@ -37,6 +40,53 @@ public class PlayerData : ScriptableObject
         public bool hasBlaster = false, hasNexus = false;
     [Header("Tutorial")]
         public bool tutorialComplete = false;
+    [Header("Compass")]
+        public bool hasCompass = false;
+
+    //hardModeToggle
+    public bool hardMode = false;
+
+    public void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if ((scene.name == "TheOuterVer2") && (MenuScript.hardMode == true || hardMode == true))
+        {
+            standardAmmoDefault = normalAmmo/2;
+            nexusAmmoDefault = normalNexusAmmo/2;
+            hardMode = true;
+            MenuScript.hardMode = true;
+        }
+        else if ((scene.name == "Inner") && (MenuScript.hardMode == true || hardMode == true))
+        {
+            standardAmmoDefault = normalAmmo/2;
+            nexusAmmoDefault = normalNexusAmmo/2;
+            hardMode = true;
+            MenuScript.hardMode = true;
+        }
+        else if ((scene.name == "The Center") && (MenuScript.hardMode == true || hardMode == true))
+        {
+            standardAmmoDefault = normalAmmo/2;
+            nexusAmmoDefault = normalNexusAmmo/2;
+            hardMode = true;
+            MenuScript.hardMode = true;
+        }
+        else if ((scene.name == "TimTutorialScene") && (MenuScript.hardMode == true || hardMode == true))
+        {
+            standardAmmoDefault = normalAmmo/2;
+            nexusAmmoDefault = normalNexusAmmo/2;
+            hardMode = true;
+            MenuScript.hardMode = true;
+        }
+        else if(MenuScript.hardMode == false)
+        {
+            standardAmmoDefault = normalAmmo;
+            nexusAmmoDefault = normalNexusAmmo;
+            hardMode = false;
+        }
+    }
 
     public void ResetHealthAmmo()
     {
@@ -51,13 +101,27 @@ public class PlayerData : ScriptableObject
         hasNexus = false;
         tutorialComplete = false;
         SavePlasmaUpgrade = false;
-        SaveMeleeDamageUpgrade = false;
+        //SaveMeleeDamageUpgrade = false;
         SaveBHGToolUpgrade = false;
         SaveDamageOverTimeUpgrade = false; 
         SaveSlowEnemyUpgrade = false;
         SaveKnockBackUpgrade = false;
         SaveOGBHGUpgrade = false;
         SaveBHGPullEffect = false;
+        hardMode = false;
+        hasCompass = false;
+    }
+    public void ResetSemiHealth()
+    {
+        Debug.Log("ResetSemiHealth");
+        currentHealth = maxHealth;
+        standardAmmo = standardAmmoDefault;
+        standardAmmoLoaded = standardAmmoMax;
+        shotgunAmmo = shotgunAmmoDefault;
+        shotgunAmmoLoaded = shotgunAmmoMax;
+        nexusAmmo = nexusAmmoDefault;
+        nexusAmmoLoaded = nexusAmmoMax;
+
     }
 
 }

@@ -20,32 +20,52 @@ public class EnemiesScanScript : MonoBehaviour
     public weakPoint[] weakPointReveal;
 
     private AudioSource alertSound;
+    public SkinnedMeshRenderer skinnedMeshRenderer;
+    public Material[] materials;
+    ScanCam scanCam;
+    public GameObject player;
+    LogSystem logSystem;
+    weakPoint[] weakPointToShow;
 
+    void Awake()
+    {
+        player = GameObject.FindWithTag("Player");
+        scanCam = player.GetComponentInChildren<ScanCam>();
 
+        if(skinnedMeshRenderer != null)
+        {
+            materials = skinnedMeshRenderer.materials;
+            materials[1].SetFloat("_isHovered", 1);
+            materials[1].SetFloat("_isHighlighted", 0);
+        }
+    }
     void Start()
     {
         NormColor();
         Scanned = false;
-        criticalPointReveal.SetActive(false);
+
+        if(criticalPointReveal != null)
+            criticalPointReveal.SetActive(false);
 
         alertSound = GetComponent<AudioSource>();
         weakPointReveal = FindObjectsOfType<weakPoint>();
         
         foreach (weakPoint weakPoint in weakPointReveal)
         {
-            weakPoint.enabled = false;     
+            weakPoint.enabled = false;
         }
+        logSystem = FindObjectOfType<LogSystem>();
+        weakPointToShow = GetComponentsInChildren<weakPoint>();
     }
     void Update()
     {
-        LogSystem logSystem = FindObjectOfType<LogSystem>();
         if (logSystem.enemy[number].interactable == true)
         {
             Scanned = true;
         }
         if(Scanned == true)
         {
-            weakPoint[] weakPointToShow = GetComponentsInChildren<weakPoint>();
+            
             foreach (weakPoint weakPoint in weakPointToShow)
                 {
                     weakPoint.enabled = true;
@@ -57,17 +77,19 @@ public class EnemiesScanScript : MonoBehaviour
     {
         ScanCam.scannerEnabled += ScanColor;
         ScanCam.scannerDisabled += NormColor;
+        ScanCam.allUnhighlight += Unhighlight;
     }
 
     void OnDisable()
     {
         ScanCam.scannerEnabled -= ScanColor;
         ScanCam.scannerDisabled -= NormColor;
+        ScanCam.allUnhighlight -= Unhighlight;
     }
 
     public void ScriptActive()
     {
-        if (Scanned == false)
+        if (Scanned == false && ObjSlider.objSliderActive == false)
         {
             eneSlider();
         }
@@ -75,21 +97,28 @@ public class EnemiesScanScript : MonoBehaviour
 
     void NormColor()
     {
-        //GetComponent<Renderer>().material.SetColor("_BaseColor", normalColor);
+        if (materials.Length >= 2)
+            materials[1].SetFloat("_isHighlighted", 0);
+        if (materials.Length >= 2)
+            materials[1].SetFloat("_isHovered", 1);
     }
     public void ScanColor()
     {
-        //GetComponent<Renderer>().material.SetColor("_BaseColor", scanColor);
+        if (materials.Length >= 2)
+            materials[1].SetFloat("_isHighlighted", 1);
+
     }
     
     public void highlight()
     {
-        //GetComponent<Renderer>().material.SetColor("_BaseColor", highlightColor);
+        if (materials.Length >= 2)
+            materials[1].SetFloat("_isHovered", 0);
     }
 
     public void Unhighlight()
     {
-        //ScanColor();
+        if(materials.Length >= 2)
+            materials[1].SetFloat("_isHovered", 1);
     }
     
     public void WeakPoints()

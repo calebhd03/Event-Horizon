@@ -14,6 +14,7 @@ public class InteractText : MonoBehaviour
     public void ShowDialogText()
     {
         gameObject.SetActive(true);
+        Invoke("HideDialogText", 3);
     }
 
     public void HideDialogText()

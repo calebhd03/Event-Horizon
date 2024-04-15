@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3462753034847824748}
   - component: {fileID: 549984635469014217}
   - component: {fileID: 2325272845453447171}
+  - component: {fileID: 115200660138469020}
   m_Layer: 0
   m_Name: PM3D_Sphere3D1_10_low
   m_TagString: Untagged
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 012b4bc75c94ce841ba5a8caf7dedfba, type: 2}
+  - {fileID: -7791486788655378091, guid: c078e2c00ce006d4ebef8302921d2479, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,3 +84,30 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!205 &115200660138469020
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4271095959870697942}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.6
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 2325272845453447171}
+  - screenRelativeHeight: 0.3
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 2325272845453447171}
+  - screenRelativeHeight: 0.018251546
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 2325272845453447171}
+  m_Enabled: 1

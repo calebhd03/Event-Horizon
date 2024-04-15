@@ -8,6 +8,8 @@ using UnityEngine.Video;
 
 public class CutScene : MonoBehaviour
 {
+    public delegate void CutsceneEnd();
+    public static event CutsceneEnd cutsceneEnd;
     [Tooltip("This is where you get the number from for the cutscene you will edit on the objective object for the clip that is desired to play.")]
     public VideoClip[] videoClips;
     private VideoPlayer videoPlayer;
@@ -15,13 +17,13 @@ public class CutScene : MonoBehaviour
     public AudioMixer audioMixer;
     public string exposedParameterName = "MasterVol";
     private float initialVolume;
-    
+
     void Start()
     {
         videoPlayer = GetComponent<VideoPlayer>();
         videoPlayer.loopPointReached += OnVideoEndReached;
         float parameterValue = GetExposedParameter();
-        SetExposedParameter(-80);
+        SetExposedParameter(initialVolume);
     }
     void Update ()
     {
@@ -37,16 +39,22 @@ public class CutScene : MonoBehaviour
     }
     void OnVideoEndReached(VideoPlayer vp)
     {
-        gameObject.SetActive(false);
-        SetExposedParameter(initialVolume);
+        cutsceneEnd();
+        Invoke("HideCutscene", .3f);
+        
+        //SetExposedParameter(initialVolume);
         //Invoke("HideText", 3);
     }
-
-    void HideText()
+    void HideCutscene()
     {
-        ObjectiveText objectiveText = FindObjectOfType<ObjectiveText>();
-        objectiveText.HideText();
+        gameObject.SetActive(false);
     }
+
+    //void HideText()
+    //{
+    //    ObjectiveText objectiveText = FindObjectOfType<ObjectiveText>();
+    //    objectiveText.HideText();
+    //}
 
     void SetExposedParameter(float value)
     {

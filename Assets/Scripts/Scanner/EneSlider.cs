@@ -11,12 +11,13 @@ public class EneSlider : MonoBehaviour
     AudioSource audioSource;
     float elapsedTime;
     float volumeChangeSpeed = 0.1f;
-    ObjSlider objSlider;
+    [SerializeField]ScannerUI scannerUI;
+    public static bool eneSliderActive = false;
     
-    void Start()
+    void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
-        objSlider = FindObjectOfType<ObjSlider>();
+        audioSource = GetComponent<AudioSource>();  
+        scannerUI = GetComponentInParent<ScannerUI>();
     }
     
     void OnEnable()
@@ -26,15 +27,12 @@ public class EneSlider : MonoBehaviour
     
     void Update()
     {   
-        ScannerUI scannerUI = FindObjectOfType<ScannerUI>();
-        if(objSlider == null)
-        {
-            slider.value = scannerUI.enelapsed;
-            elapsedTime += Time.unscaledDeltaTime;
-            float newVolume = Mathf.Lerp(0f, 0.3f, elapsedTime * volumeChangeSpeed);
-            audioSource.volume = newVolume;
-        }
-        if (elapsedTime >= 5)
+        eneSliderActive = true;
+        slider.value = scannerUI.enelapsed;
+        elapsedTime += Time.unscaledDeltaTime;
+        float newVolume = Mathf.Lerp(0f, 0.3f, elapsedTime * volumeChangeSpeed);
+        audioSource.volume = newVolume;
+        if (elapsedTime >= scannerUI.enelapsedMaxTime)
         {
             elapsedTime = 0;
         }
@@ -43,5 +41,6 @@ public class EneSlider : MonoBehaviour
     void ResetTime()
     {
         elapsedTime = 0;
+        eneSliderActive = false;
     }
 }

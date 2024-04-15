@@ -9,9 +9,14 @@ public class weakPoint : MonoBehaviour
     public float weakPointDamage = 20f;
     public float weakPointPlasmaDamage = 30f;
     public float knifeDamage = 10f;
+    private float orbDamage = 50f;
+    public float BHDamage = 30f;
     public AudioClip damageSound;
+    [SerializeField] private bossPhaseTwo boss2;
     private basicEnemy basicEnemyScript;
     private bossEnemy bossEnemyScript;
+    private flyingEnemy flyingEnemyScript;
+    private dogEnemy dogEnemyScript;
     private HealthMetrics healthMetrics;
     //public NavMeshAgent agent;
     UpgradeEffects upgradeEffects;
@@ -23,20 +28,37 @@ public class weakPoint : MonoBehaviour
     public bool meleeUp, knockBackUp;
     public float knifeDamageUpFactor = 5f;
     weakPoint[] weakPoints;
+    private bool hit = false;
+    private bool oneTime = false;
 
     private void Start()
     {
         basicEnemyScript = GetComponentInParent<basicEnemy>();
         bossEnemyScript = GetComponentInParent<bossEnemy>();
+        flyingEnemyScript = GetComponentInParent<flyingEnemy>();
+        dogEnemyScript = GetComponentInParent<dogEnemy>();
         skillTree = FindObjectOfType<SkillTree>();
         healthMetrics = GetComponentInParent<HealthMetrics>();
         upgradeEffects = GetComponentInParent<UpgradeEffects>();
+        boss2 = GetComponentInParent<bossPhaseTwo>();
+    }
+
+    private void Update()
+    {
+        getISeeYou();
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (boss2 != null && other.CompareTag("Orb") && bossPhaseTwo.noBulletDamage)
+        {
+            Debug.Log("Hii");
+            healthMetrics.ModifyHealth(-orbDamage);
+        }
+
         if (other.CompareTag("Bullet"))
         {
+            hit = true;
             bulletDamage(weakPointDamage);
         }
         else if (other.CompareTag("Knife"))
@@ -88,30 +110,36 @@ public class weakPoint : MonoBehaviour
         }
         else if (other.CompareTag("Plasma Bullet"))
         {
+            hit = true;
             bulletDamage(weakPointPlasmaDamage);
         }
         else if (other.CompareTag("BHBullet"))
         {
-            
-            if (upgradeEffects.stopStackDamage == false)
+            hit = true;
+            healthMetrics.ModifyHealth(-BHDamage);
+
+            if (upgradeEffects != null && upgradeEffects.stopStackDamage == false)
             {
-            upgradeEffects.DamageOverTime();
+                upgradeEffects.DamageOverTime();
             }
-            else{}
-            upgradeEffects.PullEffect();
-            upgradeEffects.OGKill();
+            if (upgradeEffects != null)
+            {
+                upgradeEffects.PullEffect();
+                upgradeEffects.OGKill();
+            }
         }
     }
 
     private void bulletDamage(float damage)
-    {   
-        if(upgradeEffects.stopSlowStack == false)
-            {
+    {
+        if (upgradeEffects != null && upgradeEffects.stopSlowStack == false)
+        {
             upgradeEffects.SlowDownEnemy();
             upgradeEffects.stopSlowStack = true;
-            }
-            else{}
-        upgradeEffects.knockBackAttack();
+        }
+
+        if (upgradeEffects != null) upgradeEffects.knockBackAttack();
+
         if (healthMetrics != null)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -142,6 +170,75 @@ public class weakPoint : MonoBehaviour
                 Debug.Log("Called PlayEnemyHitAnimation boss");
 
             }
+        }
+    }
+
+    public void KnifeDamageFunction()
+    {
+        HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+
+        if (healthMetrics != null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+            if (player != null && damageSound != null)
+            {
+                AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
+                if (audioSource != null)
+                {
+                    audioSource.PlayOneShot(damageSound);
+                }
+            }
+
+            if (meleeUp == true)
+            {
+                healthMetrics.ModifyHealth(-knifeDamage * knifeDamageUpFactor);
+            }
+            else
+            {
+                healthMetrics.ModifyHealth(-knifeDamage);
+            }
+        }
+    }
+
+    public void getISeeYou()
+    {
+        if (hit)
+        {
+            if (basicEnemyScript != null)
+            {
+                if (!oneTime)
+                {
+                    oneTime = true;
+                    basicEnemyScript.SetISeeYou();
+                    Debug.Log("reg iSeeYou to true in BasicEnemy");
+
+                    // Call PlayEnemyHitAnimation in the BasicEnemy script
+                    basicEnemyScript.PlayEnemyHitAnimation();
+                    Debug.Log("Called PlayEnemyHitAnimation");
+                }
+            }
+
+            if (dogEnemyScript != null)
+            {
+                dogEnemyScript.SetISeeYou();
+            }
+
+            if (flyingEnemyScript != null)
+            {
+                flyingEnemyScript.SetISeeYou();
+            }
+        }
+    }
+
+    public void SingularityDamage()
+    {
+        if (bossPhaseTwo.noBulletDamage)
+        {
+            weakPointDamage = 0;
+            weakPointPlasmaDamage = 0;
+            knifeDamage = 0;
+            BHDamage = 0;
         }
     }
 }

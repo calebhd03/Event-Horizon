@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AmmoHole : MonoBehaviour
 {
@@ -9,21 +10,51 @@ public class AmmoHole : MonoBehaviour
 
     private List<GameObject> instantiatedAmmo = new List<GameObject>(); // List to store instantiated ammo objects
     private bool isOpen = false; // Flag to track if the hole is open or closed
+    //hardmode
+    public GameObject player;
+    public GameObject PE_AmmoHole;
+    public GameObject VE_AmmoHole;
+    PlayerHealthMetric playerHealthMetric;
+    public Animator animator;
+    private AudioSource audioSource;
+    public AudioClip holeAudio;
 
+    void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        player = GameObject.FindWithTag("Player");
+        playerHealthMetric = player.GetComponent<PlayerHealthMetric>();
+        //animator = player.GetComponent<Animator>();
+    }
+
+    void Start()
+    {
+        if(MenuScript.hardMode == true || playerHealthMetric.playerData.hardMode == true)
+        {
+            ToggleHole();
+        }
+    }
     public void ToggleHole()
     {
         isOpen = !isOpen;
-        holeCover.SetActive(!isOpen);
 
         // Instantiate or destroy ammo objects based on the hole state
         if (isOpen)
         {
-            // Instantiate ammo objects slightly higher than the hole position
-            foreach (GameObject prefab in ammoPrefabs)
+            if (MenuScript.hardMode == false || playerHealthMetric.playerData.hardMode == false)
             {
-                Vector3 spawnPosition = transform.position + Vector3.up * 0.5f; // Adjust the height as needed
-                GameObject ammoInstance = Instantiate(prefab, spawnPosition, transform.rotation);
-                instantiatedAmmo.Add(ammoInstance);
+                audioSource.PlayOneShot(holeAudio, 1);
+                // Instantiate ammo objects slightly higher than the hole position
+                foreach (GameObject prefab in ammoPrefabs)
+                {
+                    Vector3 spawnPosition = transform.position + Vector3.up * 0.5f; // Adjust the height as needed
+                    GameObject ammoInstance = Instantiate(prefab, spawnPosition, transform.rotation);
+                    MeshRenderer renderer = ammoInstance.GetComponentInChildren<MeshRenderer>(true);
+                    renderer.enabled = false;
+                    ammoInstance.transform.localScale = new Vector3(5, 5, 5);
+                    instantiatedAmmo.Add(ammoInstance);
+                    animator.SetBool("Ammo Picked Up", isOpen);
+                }
             }
         }
         else
@@ -35,6 +66,8 @@ public class AmmoHole : MonoBehaviour
             }
             // Clear the list
             instantiatedAmmo.Clear();
+            Destroy(PE_AmmoHole.gameObject);
+            Destroy(VE_AmmoHole.gameObject);
         }
     }
 }
