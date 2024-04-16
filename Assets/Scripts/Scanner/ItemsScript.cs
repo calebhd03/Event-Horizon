@@ -21,16 +21,19 @@ public class ItemsScript : MonoBehaviour
     public bool Scanned;
     public LogSystem logSystem;
     [SerializeField] private PlantBasedHealth healthPlant;
-    public bool plant;
-
+    public bool plant, protagDialogTrigger;
+    public GameObject protagDialog;
+    [SerializeField] MiniCore miniCore;
 
     private void Awake()
     {
-        logSystem = FindObjectOfType<LogSystem>();
+        miniCore = FindObjectOfType<MiniCore>();
+        logSystem = miniCore.GetComponentInChildren<LogSystem>();
         healthPlant = GetComponent<PlantBasedHealth>();
-        player = GameObject.FindWithTag("Player");
+        //player = GameObject.FindWithTag("Player");
         //scanCam = player.GetComponent<ScanCam>();
         materials = meshRenderer.materials;
+
 
         if (plant)
         {
@@ -44,6 +47,10 @@ public class ItemsScript : MonoBehaviour
                 }
             }
         }
+        if(protagDialog != null)
+                {
+                    protagDialog.SetActive(false);
+                }
     }
 
     void Start()
@@ -215,5 +222,12 @@ public class ItemsScript : MonoBehaviour
     {
         logSystem.UpdateItemLog();
         Scanned = true;
+        if(protagDialogTrigger == true)
+        {
+            if(protagDialog != null)
+                {
+                    protagDialog.SetActive(true);
+                }
+        }
     }
 }

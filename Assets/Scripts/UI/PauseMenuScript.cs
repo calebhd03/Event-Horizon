@@ -96,13 +96,16 @@ public class PauseMenuScript : MonoBehaviour
         if(logSystem.log == false)
         {
         HUD.SetActive(true);
-        }
-        PauseScreen.SetActive(false);
+        Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        }
+        PauseScreen.SetActive(false);
+        
         //if (dialogActive == false)
         //{
-        Time.timeScale = 1;
+        
+        
        // }
 
         starterAssetsInputs.PauseInput(false);

@@ -18,6 +18,7 @@ public class ProtagDialog : MonoBehaviour
     ObjectiveText objectiveText;
     PauseMenuScript pauseMenuScript;
     public GameObject player;
+    bool dialogDisplayed = false;
     void Awake()
     {
         pauseMenuScript = FindObjectOfType<PauseMenuScript>();
@@ -32,11 +33,12 @@ public class ProtagDialog : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if(other.CompareTag("Player") &&  dialogDisplayed == false)
         {
             objectiveText.displayedText.text = dialogText.text;
             objectiveText.ShowDialogText();
             Invoke("TurnOffText", 5);
+            dialogDisplayed = true;
         }
     }
 
