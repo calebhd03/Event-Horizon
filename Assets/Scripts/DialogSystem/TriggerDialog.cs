@@ -110,11 +110,7 @@ public class TriggerDialog : MonoBehaviour
             TurnOffText();
             nextDialog = false;
             freezeUntilDialogEnd = false;
-            if(freezeUntilDialogEnd == false)
-            {
-            thirdPersonController.MoveSpeed = normalSpeed;
-            thirdPersonController.SprintSpeed = normalSprintSpeed;
-            }
+            UnFreeze();
     }
 
     void TurnOffText()
@@ -125,5 +121,13 @@ public class TriggerDialog : MonoBehaviour
         TopObjectiveText.text = objectiveText.textToDisplay[objectiveNumber].text;
         audioSource.PlayOneShot(updateObjectiveSound);
         }
+    }
+    void UnFreeze()
+    {
+        if(freezeUntilDialogEnd == false)
+            {
+            thirdPersonController.MoveSpeed = normalSpeed;
+            thirdPersonController.SprintSpeed = normalSprintSpeed;
+            }
     }
 }

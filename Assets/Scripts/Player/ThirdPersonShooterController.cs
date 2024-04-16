@@ -131,7 +131,8 @@ public class ThirdPersonShooterController : MonoBehaviour
         private Animator animator;
 
         //movement while scanning
-        private SkinnedMeshRenderer playermesh;
+        [SerializeField]private SkinnedMeshRenderer playermesh;
+        [SerializeField] private MeshRenderer healthBar;
         //scripts
         PauseMenuScript pauseMenuScript;
         LogSystem logSystem;
@@ -1014,6 +1015,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     public void EnablePlayerMesh()
     {
         playermesh.enabled = true;
+        healthBar.enabled = true;
         if(playerData.hasNexus == true)
         {
         nxgun.EnableMesh();
@@ -1027,6 +1029,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     public void DisablePlayerMesh()
     {
         playermesh.enabled = false;
+        healthBar.enabled = false;
         nxgun.DisableMesh();
         bgun.DisableMesh();
         //sgun.DisableMesh();

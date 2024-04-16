@@ -12,10 +12,10 @@ public class NexusGun : MonoBehaviour
     void Awake()
     {
         playerHealthMetric = GetComponentInParent<PlayerHealthMetric>();
+        weaponMesh = GetComponentInChildren<MeshRenderer>();  
     }
     void Start()
-    {
-        weaponMesh = GetComponentInChildren<MeshRenderer>();            
+    {    
             if(playerHealthMetric.playerData.hasNexus == false)
             {
                 DisableMesh();
