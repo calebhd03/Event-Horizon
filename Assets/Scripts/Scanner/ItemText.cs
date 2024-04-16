@@ -18,6 +18,10 @@ public class ItemText : MonoBehaviour
     {
         ItemsScript.itemText += ShowText;
     }
+    private void OnDisable()
+    {
+        ItemsScript.itemText -= ShowText;
+    }
 
     List<TextMeshProUGUI> activeTexts = new List<TextMeshProUGUI>();
     void ShowText()
