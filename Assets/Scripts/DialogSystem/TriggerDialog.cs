@@ -64,10 +64,12 @@ public class TriggerDialog : MonoBehaviour
     void OnEnable()
     {
         TriggerDialog.dialogOverlap += StopDialogOverlap;
+        Dialog.dialogOverlap += StopDialogOverlap;
     }
     void OnDisable()
     {
         TriggerDialog.dialogOverlap -= StopDialogOverlap;
+        Dialog.dialogOverlap -= StopDialogOverlap;
     }
 
     void OnTriggerEnter(Collider other)
