@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class RockSlide : MonoBehaviour
 { 
-  public ParticleSystem rockEffect;
+   public ParticleSystem rockEffect;
     public ParticleSystem dustEffect;
     public GameObject block;
     public GameObject goal;
-
     public GameObject trigger;
+
+   
+    public GameObject objectiveChange;
 
     private bool isTriggerActive = true;
     private bool isGoalActive = true;
@@ -27,7 +29,7 @@ public class RockSlide : MonoBehaviour
             StopEffectsAndBlock();
         }
 
-        // Continuously check if the goal is active
+       
         if (!goal.activeSelf)
         {
             StopEffectsAndBlock();
@@ -42,6 +44,12 @@ public class RockSlide : MonoBehaviour
             isTriggerActive = false;
             rockEffect.Play();
             dustEffect.Play();
+
+         
+            if (objectiveChange != null)
+            {
+                objectiveChange.SetActive(true);
+            }
         }
     }
 
