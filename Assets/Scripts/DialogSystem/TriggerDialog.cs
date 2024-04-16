@@ -28,6 +28,8 @@ public class TriggerDialog : MonoBehaviour
     public static bool nextDialog;
     public bool freezeUntilDialogEnd;
     public float normalSpeed, normalSprintSpeed;
+    public delegate void DialogOverlap();
+    public static event DialogOverlap dialogOverlap;
     void Awake()
     {
         pauseMenuScript = FindObjectOfType<PauseMenuScript>();
@@ -59,6 +61,14 @@ public class TriggerDialog : MonoBehaviour
             wasPlaying = false;
         }
     }
+    void OnEnable()
+    {
+        TriggerDialog.dialogOverlap += StopDialogOverlap;
+    }
+    void OnDisable()
+    {
+        TriggerDialog.dialogOverlap -= StopDialogOverlap;
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -73,7 +83,8 @@ public class TriggerDialog : MonoBehaviour
             //pauseMenuScript.dialogActive = true;
             if(nextDialog == true)
             {
-                StartCoroutine(WaitForNextAudio());
+                dialogOverlap();
+                StartCoroutine(PlayAllAudio());
             }
             else
             {
@@ -129,5 +140,12 @@ public class TriggerDialog : MonoBehaviour
             thirdPersonController.MoveSpeed = normalSpeed;
             thirdPersonController.SprintSpeed = normalSprintSpeed;
             }
+    }
+
+    void StopDialogOverlap()
+    {
+        nextDialog = false;
+        StopAllCoroutines();
+        audioSource.Stop();
     }
 }
