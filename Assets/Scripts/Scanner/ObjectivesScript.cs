@@ -89,12 +89,12 @@ public class ObjectivesScript : MonoBehaviour
 
     void NormColor()
     {
-        if(meshRenderer != null && memory)
+        if((meshRenderer != null && memory) || (skinnedMeshRenderer != null && memory))
         {
             materials[1].SetFloat("_isHovered", 1);
             materials[1].SetFloat("_isHighlighted", 0);
         }
-        else if (skinnedMeshRenderer != null && objective)
+        else if ((skinnedMeshRenderer != null && objective) || (meshRenderer != null && objective))
         {
             materials[24].SetFloat("_isHovered", 1);
             materials[24].SetFloat("_isHighlighted", 0);
@@ -157,12 +157,12 @@ public class ObjectivesScript : MonoBehaviour
     }
     void GetMaterials()
     {
-        if(meshRenderer != null && memory)
+        if((meshRenderer != null && memory) || (skinnedMeshRenderer != null && memory))
         {
             materials[1].SetFloat("_isHovered", 1);
             materials[1].SetFloat("_isHighlighted", 0);
         }
-        else if (skinnedMeshRenderer != null && objective)
+        else if ((skinnedMeshRenderer != null && objective) || (meshRenderer != null && objective))
         {
             materials[24].SetFloat("_isHovered", 1);
             materials[24].SetFloat("_isHighlighted", 0);
