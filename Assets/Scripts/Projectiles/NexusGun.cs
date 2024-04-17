@@ -12,7 +12,6 @@ public class NexusGun : MonoBehaviour
     void Awake()
     {
         playerHealthMetric = GetComponentInParent<PlayerHealthMetric>();
-        weaponMesh = GetComponentInChildren<MeshRenderer>();  
     }
     void Start()
     {    
