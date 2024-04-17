@@ -147,4 +147,12 @@ public class Background_Music : MonoBehaviour
         // Start playing music for the new scene
         PlayLevelMusic(scene.name);
     }
+    public void PauseMusic()
+    {
+        audioSource.Pause();
+    }
+    public void ResumeMusic()
+    {
+        audioSource.Play();
+    }
 }

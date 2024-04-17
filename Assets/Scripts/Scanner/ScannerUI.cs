@@ -30,7 +30,7 @@ public class ScannerUI : MonoBehaviour
     public float enelapsed;
     public float enelapsedMaxTime;
     //VideoPlayer
-    public VideoPlayer vp;
+    //public VideoPlayer vp;
     public GameObject videoPlayer;
     private GameObject newVideoPlayer;
     public GameObject scannerCurrentObject;
@@ -259,8 +259,9 @@ public class ScannerUI : MonoBehaviour
 
     void PlayVideo()
     {
+        Background_Music.instance.PauseMusic();
         newVideoPlayer.SetActive(true);
-        Invoke("vp.Play()", 1);
+        //Invoke("vp.Play()", 1);
     }
 
     void HideText()

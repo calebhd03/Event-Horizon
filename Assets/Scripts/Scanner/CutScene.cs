@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using StarterAssets;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -15,34 +16,49 @@ public class CutScene : MonoBehaviour
     private VideoPlayer videoPlayer;
     public int currentClipIndex;
     public AudioMixer audioMixer;
-    public string exposedParameterName = "MasterVol";
+    public string exposedParameterName = "SFXVol";
     private float initialVolume;
-
-    void Start()
+    [SerializeField] MiniCore miniCore;
+    [SerializeField] ScanCam scanCam;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] ThirdPersonController thirdPersonController;
+    void Awake()
     {
-        videoPlayer = GetComponent<VideoPlayer>();
+        miniCore = FindObjectOfType<MiniCore>();
+        scanCam = miniCore.GetComponentInChildren<ScanCam>();
+        thirdPersonController = miniCore.GetComponentInChildren<ThirdPersonController>();
+        audioSource = GetComponent<AudioSource>();
+        videoPlayer = GetComponent<VideoPlayer>(); 
+        videoPlayer.SetTargetAudioSource(0, audioSource);         
         videoPlayer.loopPointReached += OnVideoEndReached;
         float parameterValue = GetExposedParameter();
-        SetExposedParameter(initialVolume);
     }
-    void Update ()
+    void OnEnable()
     {
-        ScanCam scanCam = FindObjectOfType<ScanCam>();
         if (currentClipIndex >= 0 && currentClipIndex < videoClips.Length)
         {
         videoPlayer.clip = videoClips[scanCam.currentClipIndex];
+        SetExposedParameter(-80);
+        thirdPersonController.canMove = false;
         }
         else
         {
             Debug.LogWarning("no video to play");
         }
     }
+    void OnDisable()
+    {
+        thirdPersonController.canMove = true;
+    }
     void OnVideoEndReached(VideoPlayer vp)
     {
         cutsceneEnd();
+        Background_Music.instance.ResumeMusic();
+        thirdPersonController.canMove = true;
         Invoke("HideCutscene", .3f);
         
-        //SetExposedParameter(initialVolume);
+        
+        SetExposedParameter(initialVolume);
         //Invoke("HideText", 3);
     }
     void HideCutscene()
@@ -57,9 +73,9 @@ public class CutScene : MonoBehaviour
     //}
 
     void SetExposedParameter(float value)
-    {
-        audioMixer.SetFloat(exposedParameterName, value);
-    }
+        {
+            audioMixer.SetFloat(exposedParameterName, value);
+        }
     float GetExposedParameter()
     {
         float value;
