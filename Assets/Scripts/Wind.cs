@@ -1,22 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Wind : MonoBehaviour
 {
-    public ParticleSystem wind;
-    public Vector3 windRotation;
-    public bool isBlowing = false;
-    void OnTriggerEnter(Collider other)
+    public VisualEffect wind;
+    void Start()
     {
-        if (other.CompareTag("Player"))
-        {
-            if(isBlowing == false)
-            {
-            Quaternion rotation = Quaternion.Euler(windRotation);
-            Instantiate(wind, transform.position, rotation);
-            isBlowing = true;
-            }
-        }
+        wind = GetComponent<VisualEffect>();
+        wind.Play();
     }
 }
