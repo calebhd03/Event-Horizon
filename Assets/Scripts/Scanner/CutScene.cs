@@ -40,6 +40,8 @@ public class CutScene : MonoBehaviour
         videoPlayer.clip = videoClips[scanCam.currentClipIndex];
         SetExposedParameter(-80);
         thirdPersonController.canMove = false;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         }
         else
         {
@@ -49,14 +51,16 @@ public class CutScene : MonoBehaviour
     void OnDisable()
     {
         thirdPersonController.canMove = true;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
-    void OnVideoEndReached(VideoPlayer vp)
+    void OnVideoEndReached(VideoPlayer videoPlayer)
     {
-        cutsceneEnd();
+        
         Background_Music.instance.ResumeMusic();
         thirdPersonController.canMove = true;
         Invoke("HideCutscene", .3f);
-        
+        cutsceneEnd();
         
         SetExposedParameter(initialVolume);
         //Invoke("HideText", 3);
@@ -82,5 +86,15 @@ public class CutScene : MonoBehaviour
         audioMixer.GetFloat(exposedParameterName, out value);
         initialVolume = value;
         return value;
+    }
+    public void SkipCutscene()
+    {
+        
+        Background_Music.instance.ResumeMusic();
+        thirdPersonController.canMove = true;
+        Invoke("HideCutscene", .3f);
+        cutsceneEnd();
+        
+        SetExposedParameter(initialVolume);
     }         
 }
