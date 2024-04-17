@@ -12,6 +12,14 @@ public class PickupBlaster : MonoBehaviour
     GameObject player;
     public Collider[] colliderArray;
     float interactRange = 2f;
+    [SerializeField] MiniCore miniCore;
+    [SerializeField] LogSystem LogSystem;
+
+    void Awake()
+    {
+        miniCore = FindObjectOfType<MiniCore>();
+        LogSystem = miniCore.GetComponentInChildren<LogSystem>();
+    }
     void Start()
     {
         player = GameObject.FindWithTag("Player");
@@ -48,7 +56,13 @@ public class PickupBlaster : MonoBehaviour
         playerHealthMetric.playerData.hasBlaster = true;
         TPSC.EquipBlaster();
         TPSC.EnableBGunMesh();
+        LogSystem.number = 0;
+        LogSystem.UpdateSkillsLog();
         //Destroy(gameObject);
+        Invoke("HideGameObject", .3f);
+    }
+    void HideGameObject()
+    {
         gameObject.SetActive(false);
     }
 }

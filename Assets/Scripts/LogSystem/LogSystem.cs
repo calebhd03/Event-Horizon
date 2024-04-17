@@ -11,10 +11,10 @@ public class LogSystem : MonoBehaviour
 {
     [SerializeField] public GameObject enemiesButton, memoriesButton, itemButton, skillsButton, journalButton, returnButton;
     [SerializeField] public GameObject enemiesPage, memoriesPage, itemsPage, pauseMenu, LogPage, skillsPage, journalPage;
-    [SerializeField] public Button[] enemy, memory, item, journal, skillExit;
-    [HideInInspector] public Image[] enemyImage, memoryImage, itemImage;
-    [SerializeField] Sprite[] enemySprite, memorySprite, itemSprite;
-    [SerializeField] TextMeshProUGUI[] enemyText, memoryText, itemText, journalText;
+    [SerializeField] public Button[] enemy, memory, item, journal, skillExit, skills;
+    [HideInInspector] public Image[] enemyImage, memoryImage, itemImage, skillsImage;
+    [SerializeField] Sprite[] enemySprite, memorySprite, itemSprite, skillsSprite;
+    [SerializeField] TextMeshProUGUI[] enemyText, memoryText, itemText, journalText, skillsText;
     public Color enemyPage;
     public static int currentTab;
     private int buttonType;
@@ -43,6 +43,7 @@ public class LogSystem : MonoBehaviour
     [SerializeField]TutorialScript tutorialScript;
     //public GameObject player;
     public Scanning scnScr;
+    [SerializeField] ScanCam scanCam;
     //Upgrade option pages
     public GameObject upgradePage1, upgradePage2, upgradePage3, upgradePage4;
 
@@ -60,6 +61,7 @@ public class LogSystem : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         skillTree = miniCore.GetComponentInChildren<SkillTree>();
         scnScr = miniCore.GetComponentInChildren<Scanning>();
+        //scanCam = miniCore.GetComponentInChildren<ScanCam>();
     }
     void Start()
     {
@@ -96,11 +98,17 @@ public class LogSystem : MonoBehaviour
         {
             button.interactable = false;
         }
+        foreach(Button button in skills)
+        {
+            button.interactable = false;
+            button.gameObject.SetActive(false);
+        }
 
         
         enemyImage = new Image[enemy.Length];
         memoryImage = new Image[memory.Length];
         itemImage = new Image[item.Length];
+        skillsImage = new Image[skills.Length];
 
 
         // Attach the OnClick method to each button's click event
@@ -118,6 +126,11 @@ public class LogSystem : MonoBehaviour
         {
             int index = i; // Capture the current value of i for the lambda expression
             item[i].onClick.AddListener(() => OnButtonClick(index));
+        }
+        for (int i = 0; i < skills.Length; i++)
+        {
+            int index = i; // Capture the current value of i for the lambda expression
+            skills[i].onClick.AddListener(() => OnButtonClick(index));
         }
         if(tutorialScript.tutorialComplete == false)
         {
@@ -241,11 +254,20 @@ public class LogSystem : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 0;
+        SetTab();
     }
     public void CloseLog()
     {   
         log = false;
-        if(scnScr != null) scnScr.HudObject.SetActive(true);
+        //if(scnScr != null) scnScr.HudObject.SetActive(true);
+        if(scnScr.Scan == true)
+        {
+            scnScr.ScanCamPriority();
+        }
+        else
+        {
+            scnScr.MainCamPriority();
+        }
         //Debug.LogWarning("closelog");
         LogPage.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
@@ -254,7 +276,7 @@ public class LogSystem : MonoBehaviour
         Invoke("DelayShoot", 0.1f);
 
         pauseMenuScript.UnPause();
-        GetComponent<ToolTip>().HideToolTip();
+        //GetComponent<ToolTip>().HideToolTip();
     }
 
     public void EnemiesTab()
@@ -403,6 +425,14 @@ public class LogSystem : MonoBehaviour
         journal[number].gameObject.SetActive(true);
         }
     }
+    public void UpdateSkillsLog()
+    {
+        if (number >= 0 && number < skills.Length)
+        {
+        skills[number].interactable = true;
+        skills[number].gameObject.SetActive(true);
+        }
+    }
 
     public void ReturnButton()
     {
@@ -423,6 +453,8 @@ public class LogSystem : MonoBehaviour
         upgradePage4.SetActive(false);
         displayInfo.SetActive(false);
         LogPage.SetActive(true);
+        log = true;
+        SetTab();
     }
     void UpdateImage(int buttonIndex)
     {
@@ -476,6 +508,22 @@ public class LogSystem : MonoBehaviour
                             Debug.LogError("SourceButton does not have an Image component!");
                         }
                 break;
+                case 3:
+                        Image sourceImage3 = skills[buttonIndex].GetComponent<Image>();
+
+                        if (sourceImage3 != null)
+                        {
+                            // Get the sprite from the sourceImage
+                            Sprite sourceSprite3 = sourceImage3.sprite;
+
+                            // Set the sprite to the corresponding targetImage
+                            setImage.sprite = sourceSprite3;
+                        }
+                        else
+                        {
+                            Debug.LogError("SourceButton does not have an Image component!");
+                        }
+                break;
             }
 
 
@@ -492,6 +540,9 @@ public class LogSystem : MonoBehaviour
                 break;
                 case 2:
                         setText.text = itemText[buttonIndex].text;
+                break;
+                case 3:
+                        setText.text = skillsText[buttonIndex].text;
                 break;
                 case 4:
                         setText.text = journalText[buttonIndex].text;
@@ -514,6 +565,8 @@ public class LogSystem : MonoBehaviour
         plasmaSkillUpgraded = true;
         plasmaUpgradeButton.image.sprite = upgradedSprite;
         skillTree.PlasmaUpgrade();
+        number = 3;
+        UpdateSkillsLog();
     }
 
     public void UpgradeToDamageOverTime()
@@ -522,6 +575,8 @@ public class LogSystem : MonoBehaviour
         DamageOverTimeSkillUpgraded = true;
         DamageOverTimeButton.image.sprite = upgradedSprite;
         skillTree.DamageOverTimeUpgrade();
+        number = 5;
+        UpdateSkillsLog();
     }
 
     public void UpgradeSlowEnemyBullets()
@@ -530,6 +585,8 @@ public class LogSystem : MonoBehaviour
         SlowEnemyUpgraded = true;
         SlowEnemyButton.image.sprite = upgradedSprite;
         skillTree.SlowEnemyUpgrade();
+        number = 1;
+        UpdateSkillsLog();
     }
     /*public void UpgradeMeleeDamage()
     {
@@ -543,12 +600,16 @@ public class LogSystem : MonoBehaviour
         knockBackUpgraded = true;
         knockBackButton.image.sprite = upgradedSprite;
         skillTree.KnockBackUpgrade();
+        number = 2;
+        UpdateSkillsLog();
     }
     public void OGBHGUpgrade()
     {
         OGBHG = true;
         OGBHGButton.image.sprite = upgradedSprite;
         skillTree.OGBHGUpgrade();
+        number = 7;
+        UpdateSkillsLog();
     }
 
     public void BHGToolUpgrade()
@@ -560,12 +621,16 @@ public class LogSystem : MonoBehaviour
         skillsButton.SetActive(true);
         currentTab = 3;
         SetTab();
+        number = 4;
+        UpdateSkillsLog();
     }
     public void BHGPullUpgrade()
     {
         BHGPullUpgraded = true;
         BHGPullButton.image.sprite = upgradedSprite;
         skillTree.BHGPullUpgrade();
+        number = 6;
+        UpdateSkillsLog();
     }
     
     public void DelayShoot()

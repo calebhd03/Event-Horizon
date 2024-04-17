@@ -14,6 +14,14 @@ public class PickupNexus : MonoBehaviour
     float interactRange = 2f;
     public bool isScanned = false;
     ItemsScript itemsScript;
+    [SerializeField] MiniCore miniCore;
+    [SerializeField] LogSystem LogSystem;
+
+    void Awake()
+    {
+        miniCore = FindObjectOfType<MiniCore>();
+        LogSystem = miniCore.GetComponentInChildren<LogSystem>();
+    }
     void Start()
     {
         player = GameObject.FindWithTag("Player");
@@ -58,8 +66,13 @@ public class PickupNexus : MonoBehaviour
         playerHealthMetric.playerData.hasNexus = true;
         TPSC.EquipBlackHoleGun();
         TPSC.EnableNXGunMesh();
+        LogSystem.number = 8;
+        LogSystem.UpdateSkillsLog();
         //Destroy(gameObject);
+        Invoke("HideGameObject", .3f);
+    }
+    void HideGameObject()
+    {
         gameObject.SetActive(false);
     }
-
 }
