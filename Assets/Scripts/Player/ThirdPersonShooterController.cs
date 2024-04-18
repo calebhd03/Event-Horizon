@@ -87,10 +87,14 @@ public class ThirdPersonShooterController : MonoBehaviour
         public GameObject blasterEquipped;
         public GameObject blasterSlot1;
         public GameObject blasterSlot2;
-        
+
         //public GameObject shotgunEquipped;
         //public GameObject shotgunSlot1;
         //public GameObject shotgunSlot2;
+
+        public GameObject knifeEquipped;
+        public GameObject knifeSlot1;
+        public GameObject knifeSlot2;
 
         public GameObject ammountCountIcon;
         
@@ -719,6 +723,10 @@ public class ThirdPersonShooterController : MonoBehaviour
                 bhgEquipped.SetActive(false);
                 bhgSlot1.SetActive(true);
                 bhgSlot2.SetActive(false);
+                
+                knifeEquipped.SetActive(false);
+                knifeSlot1.SetActive(false);
+                knifeSlot2.SetActive(true);
 
                 ammountCountIcon.SetActive(true);
                 break;
@@ -735,17 +743,25 @@ public class ThirdPersonShooterController : MonoBehaviour
                 bhgSlot1.SetActive(false);
                 bhgSlot2.SetActive(false);
 
+                knifeEquipped.SetActive(false);
+                knifeSlot1.SetActive(false);
+                knifeSlot2.SetActive(true);
+
                 ammountCountIcon.SetActive(true);
                 break;
             case 2:
                 Debug.Log("Knife Icon");
                 blasterEquipped.SetActive(false);
-                blasterSlot1.SetActive(false);
+                blasterSlot1.SetActive(true);
                 blasterSlot2.SetActive(false);
 
                 bhgEquipped.SetActive(false);
                 bhgSlot1.SetActive(false);
-                bhgSlot2.SetActive(false);
+                bhgSlot2.SetActive(true);
+
+                knifeEquipped.SetActive(true);
+                knifeSlot1.SetActive(false);
+                knifeSlot2.SetActive(false);
 
                 ammountCountIcon.SetActive(false);
                 break;
