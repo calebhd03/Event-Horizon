@@ -13,7 +13,7 @@ public class TachyonTranslocator : MonoBehaviour
     float interactRange = 2f;
     public bool hasCompass = false;
     public AudioClip pickupClip;
-    private AudioSource audioSource;
+    [SerializeField] private AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
