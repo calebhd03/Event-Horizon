@@ -375,11 +375,11 @@ public class LogSystem : MonoBehaviour
             skillsPage.SetActive(false);
             journalPage.SetActive(false);
             buttonType = 1;
-            enemyHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
-            memoriesHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
-            itemsHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
-            skillsHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
-            journalHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
+            enemyHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
+            memoriesHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
+            itemsHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
+            skillsHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
+            journalHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
         break;
         case 2:
             enemiesPage.SetActive(false);
@@ -388,11 +388,11 @@ public class LogSystem : MonoBehaviour
             skillsPage.SetActive(false);
             journalPage.SetActive(false);
             buttonType = 2;
-            enemyHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
-            memoriesHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
-            itemsHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
-            skillsHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
-            journalHeadingText.color = new Color(0f, 1f, 31f / 255f, 1f);
+            enemyHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
+            memoriesHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
+            itemsHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
+            skillsHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
+            journalHeadingText.color = new Color(0f, 133f / 255f, 255f / 255f, 1f);
 
         break;
         case 3:
@@ -402,11 +402,11 @@ public class LogSystem : MonoBehaviour
             skillsPage.SetActive(true);
             journalPage.SetActive(false);
             buttonType = 3;
-            enemyHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
-            memoriesHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
-            itemsHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
-            skillsHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
-            journalHeadingText.color = new Color(231f / 255f, 120f / 255f, 31f / 255f, 1f);
+            enemyHeadingText.color = new Color(155f / 255f, 89f / 255f, 182f / 255f, 1f);
+            memoriesHeadingText.color = new Color(155f / 255f, 89f / 255f, 182f / 255f, 1f);
+            itemsHeadingText.color = new Color(155f / 255f, 89f / 255f, 182f / 255f, 1f);
+            skillsHeadingText.color = new Color(155f / 255f, 89f / 255f, 182f / 255f, 1f);
+            journalHeadingText.color = new Color(155f / 255f, 89f / 255f, 182f / 255f, 1f);
         break;
         case 4:
             enemiesPage.SetActive(false);
@@ -416,11 +416,11 @@ public class LogSystem : MonoBehaviour
             journalPage.SetActive(true);
             journalScroll.SetActive(true);
             buttonType = 4;
-            enemyHeadingText.color = new Color(155f / 255f, 89f / 255f, 182f / 255f, 1f);
-            memoriesHeadingText.color = new Color(155f / 255f, 89f / 255f, 182f / 255f, 1f);
-            itemsHeadingText.color = new Color(155f / 255f, 89f / 255f, 182f / 255f, 1f);
-            skillsHeadingText.color = new Color(155f / 255f, 89f / 255f, 182f / 255f, 1f);
-            journalHeadingText.color = new Color(155f / 255f, 89f / 255f, 182f / 255f, 1f);
+            enemyHeadingText.color = new Color(1f, 1f, 1f, 1f);
+            memoriesHeadingText.color = new Color(1f, 1f, 1f, 1f);
+            itemsHeadingText.color = new Color(1f, 1f, 1f, 1f);
+            skillsHeadingText.color = new Color(1f, 1f, 1f, 1f);
+            journalHeadingText.color = new Color(1f, 1f, 1f, 1f);
         break;
         }
     }
