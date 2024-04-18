@@ -15,6 +15,7 @@ public class LogSystem : MonoBehaviour
     [SerializeField] public Button[] enemy, memory, item, journal, skillExit, skills;
     [HideInInspector] public Image[] enemyImage, memoryImage, itemImage, skillsImage;
     [SerializeField] Sprite[] enemySprite, memorySprite, itemSprite, skillsSprite;
+    [SerializeField] Sprite journalSprite;
     [SerializeField] TextMeshProUGUI[] enemyText, memoryText, itemText, journalText, skillsText;
     public Color enemyPage;
     public static int currentTab;
@@ -82,9 +83,9 @@ public class LogSystem : MonoBehaviour
             int EnemybuttonIndex = Array.IndexOf(enemy, button);
             if(playerHealthMetric.playerData.enemyBools[EnemybuttonIndex] == true)
             {
+                enemy[EnemybuttonIndex].image.sprite = enemySprite[EnemybuttonIndex];
                 button.interactable = true;
                 button.gameObject.SetActive(true);
-                playerHealthMetric.playerData.UpdateLogArrays();
             }
             else
             {
@@ -97,6 +98,7 @@ public class LogSystem : MonoBehaviour
             int MemorybuttonIndex = Array.IndexOf(memory, button);
             if(playerHealthMetric.playerData.memoryBools[MemorybuttonIndex] == true)
             {
+                memory[MemorybuttonIndex].image.sprite = memorySprite[MemorybuttonIndex];
                 button.interactable = true;
                 button.gameObject.SetActive(true);
             }
@@ -111,6 +113,7 @@ public class LogSystem : MonoBehaviour
             int ItembuttonIndex = Array.IndexOf(item, button);
             if(playerHealthMetric.playerData.itemBools[ItembuttonIndex] == true)
             {
+                item[ItembuttonIndex].image.sprite = itemSprite[ItembuttonIndex];
                 button.interactable = true;
                 button.gameObject.SetActive(true);
             }
@@ -171,6 +174,11 @@ public class LogSystem : MonoBehaviour
         {
             int index = i; // Capture the current value of i for the lambda expression
             skills[i].onClick.AddListener(() => OnButtonClick(index));
+        }
+        for (int i = 0; i < journal.Length; i++)
+        {
+            int index = i; // Capture the current value of i for the lambda expression
+            journal[i].onClick.AddListener(() => OnButtonClick(index));
         }
         if(tutorialScript.tutorialComplete == false)
         {
@@ -310,6 +318,7 @@ public class LogSystem : MonoBehaviour
         }
         //Debug.LogWarning("closelog");
         LogPage.SetActive(false);
+        displayInfo.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1;
@@ -566,6 +575,22 @@ public class LogSystem : MonoBehaviour
 
                             // Set the sprite to the corresponding targetImage
                             setImage.sprite = sourceSprite3;
+                        }
+                        else
+                        {
+                            Debug.LogError("SourceButton does not have an Image component!");
+                        }
+                break;
+                case 4:
+                        Image sourceImage4 = journal[buttonIndex].GetComponent<Image>();
+
+                        if (sourceImage4 != null)
+                        {
+                            // Get the sprite from the sourceImage
+                            Sprite sourceSprite4 = journalSprite;
+
+                            // Set the sprite to the corresponding targetImage
+                            setImage.sprite = sourceSprite4;
                         }
                         else
                         {
