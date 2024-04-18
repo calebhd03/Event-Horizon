@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using StarterAssets;
 using JetBrains.Annotations;
+using System;
 
 public class LogSystem : MonoBehaviour
 {
@@ -49,6 +50,7 @@ public class LogSystem : MonoBehaviour
 
     [SerializeField]PauseMenuScript pauseMenuScript;
     [SerializeField]MiniCore miniCore;
+    [SerializeField]PlayerHealthMetric playerHealthMetric;
 
     void Awake()
     {
@@ -62,10 +64,11 @@ public class LogSystem : MonoBehaviour
         skillTree = miniCore.GetComponentInChildren<SkillTree>();
         scnScr = miniCore.GetComponentInChildren<Scanning>();
         //scanCam = miniCore.GetComponentInChildren<ScanCam>();
+        playerHealthMetric = miniCore.GetComponentInChildren<PlayerHealthMetric>();
     }
     void Start()
     {
-        
+        playerHealthMetric.playerData.UpdateLogArrays();
         log = false;
         LogPage.SetActive(false);
         displayInfo.SetActive(false);
@@ -76,23 +79,60 @@ public class LogSystem : MonoBehaviour
         
         foreach (Button button in enemy)
         {
+            int EnemybuttonIndex = Array.IndexOf(enemy, button);
+            if(playerHealthMetric.playerData.enemyBools[EnemybuttonIndex] == true)
+            {
+                button.interactable = true;
+                button.gameObject.SetActive(true);
+                playerHealthMetric.playerData.UpdateLogArrays();
+            }
+            else
+            {
             button.interactable = false;
             button.gameObject.SetActive(false);
+            }
         }
         foreach (Button button in memory)
         {
+            int MemorybuttonIndex = Array.IndexOf(memory, button);
+            if(playerHealthMetric.playerData.memoryBools[MemorybuttonIndex] == true)
+            {
+                button.interactable = true;
+                button.gameObject.SetActive(true);
+            }
+            else
+            {
             button.interactable = false;
             button.gameObject.SetActive(false);
+            }
         }
         foreach (Button button in item)
         {
+            int ItembuttonIndex = Array.IndexOf(item, button);
+            if(playerHealthMetric.playerData.itemBools[ItembuttonIndex] == true)
+            {
+                button.interactable = true;
+                button.gameObject.SetActive(true);
+            }
+            else
+            {
             button.interactable = false;
             button.gameObject.SetActive(false);
+            }
         }
         foreach (Button button in journal)
         {
+            int JournalbuttonIndex = Array.IndexOf(journal, button);
+            if(playerHealthMetric.playerData.journalBools[JournalbuttonIndex] == true)
+            {
+                button.interactable = true;
+                button.gameObject.SetActive(true);
+            }
+            else
+            {
             button.interactable = false;
             button.gameObject.SetActive(false);
+            }
         }
         foreach(Button button in skillExit)
         {
@@ -397,6 +437,8 @@ public class LogSystem : MonoBehaviour
         enemy[number].image.sprite = enemySprite[number];
         enemy[number].interactable = true;
         enemy[number].gameObject.SetActive(true);
+        playerHealthMetric.playerData.enemyBools[number] = true;
+        playerHealthMetric.playerData.UpdateLogArrays();
         }
     }
     public void UpdateMemoryLog()
@@ -406,6 +448,8 @@ public class LogSystem : MonoBehaviour
         memory[number].image.sprite = memorySprite[number];
         memory[number].interactable = true;
         memory[number].gameObject.SetActive(true);
+        playerHealthMetric.playerData.memoryBools[number] = true;
+        playerHealthMetric.playerData.UpdateLogArrays();
         }
     }
     public void UpdateItemLog()
@@ -415,6 +459,8 @@ public class LogSystem : MonoBehaviour
         item[number].image.sprite = itemSprite[number];
         item[number].interactable = true;
         item[number].gameObject.SetActive(true);
+        playerHealthMetric.playerData.itemBools[number] = true;
+        playerHealthMetric.playerData.UpdateLogArrays();
         }
     }
     public void UpdateJournalLog()
@@ -423,6 +469,8 @@ public class LogSystem : MonoBehaviour
         {
         journal[number].interactable = true;
         journal[number].gameObject.SetActive(true);
+        playerHealthMetric.playerData.journalBools[number] = true;
+        playerHealthMetric.playerData.UpdateLogArrays();
         }
     }
     public void UpdateSkillsLog()

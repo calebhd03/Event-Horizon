@@ -21,6 +21,7 @@ public class PlayerHealthMetric : MonoBehaviour
             healthBarMaterial = healthBar.GetComponent<Renderer>().material;
         }
         InitializeHealthBar();
+        playerData.InitializeArrays();
     }
 
     private void Update()
