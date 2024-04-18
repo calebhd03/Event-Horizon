@@ -9,7 +9,6 @@ public class Blaster : MonoBehaviour
     void Awake()
     {
         playerHealthMetric = GetComponentInParent<PlayerHealthMetric>();
-        weaponMesh = GetComponentInChildren<MeshRenderer>();   
     }
     void Start()
     {
