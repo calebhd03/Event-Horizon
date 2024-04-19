@@ -475,6 +475,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                     currentCooldown = knifeCoolDown;
                     Debug.Log("Knife Animatoion");
                     knifeSlash = true;
+                    animator.SetBool("knifeSlash", knifeSlash);
                     Debug.Log("Knife Slash is true");
 
                     float maxDistanceKnife = 3f;
@@ -527,6 +528,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         {
             animator.ResetTrigger("Shoot");
             knifeSlash = false;
+            animator.SetBool("knifeSlash", knifeSlash);
         }
 
         if (isCharging == true)
