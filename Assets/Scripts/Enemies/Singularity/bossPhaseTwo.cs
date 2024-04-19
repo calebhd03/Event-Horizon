@@ -111,7 +111,7 @@ public class bossPhaseTwo : MonoBehaviour
             transform.LookAt(player);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
 
-            if(!enemyBool && !aoeBool && !meteorBool)
+            if(!enemyBool && !aoeBool && !meteorBool && health.currentHealth > 0)
             {
                 RandomAttack();
             }
@@ -293,6 +293,9 @@ public class bossPhaseTwo : MonoBehaviour
         {
             isDead = true;
         }
+        animator.SetBool("P2Attack1", false);
+        animator.SetBool("P2Attack2", false);
+        animator.SetBool("P2Attack3", false);
         animator.SetBool("Death", true);
         Debug.Log("Die Function");
         //Debug.Log("Boss Death starting");
@@ -329,6 +332,7 @@ public class bossPhaseTwo : MonoBehaviour
         //Debug.Log("Boss Death end");
         //Destroy(transform.parent.gameObject);
         Dead();
+        DestroySummons();
     }
 
     private void resetTriggers()
@@ -358,6 +362,21 @@ public class bossPhaseTwo : MonoBehaviour
         if (!isDead)
         {
             transform.parent.gameObject.SetActive(true);
+        }
+    }
+
+    public void DestroySummons()
+    {
+        GameObject[] summonedEnemies = GameObject.FindGameObjectsWithTag("SummonEnemy");
+        foreach (GameObject enemy in summonedEnemies)
+        {
+            Destroy(enemy);
+        }
+
+        GameObject[] Orbs = GameObject.FindGameObjectsWithTag("Orb");
+        foreach (GameObject Orb in Orbs)
+        {
+            Destroy(Orb);
         }
     }
 
