@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using StarterAssets;
+using Steamworks;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -30,6 +31,8 @@ public class TriggerDialog : MonoBehaviour
     public float normalSpeed, normalSprintSpeed;
     public delegate void DialogOverlap();
     public static event DialogOverlap dialogOverlap;
+    public bool afterAudioProtagDialog;
+    public GameObject astronaughtDialog;
     void Awake()
     {
         pauseMenuScript = FindObjectOfType<PauseMenuScript>();
@@ -43,6 +46,7 @@ public class TriggerDialog : MonoBehaviour
         thirdPersonController = player.GetComponent<ThirdPersonController>();
         normalSpeed = thirdPersonController.MoveSpeed;
         normalSprintSpeed = thirdPersonController.SprintSpeed;
+        astronaughtDialog.SetActive(false);
     }
 
     void Update()
@@ -116,6 +120,10 @@ public class TriggerDialog : MonoBehaviour
                     }
                 objectiveText.displayedText.text = dialogText[i].text;
                 yield return new WaitForSeconds(audioSource.clip.length);
+            }
+            if(afterAudioProtagDialog == true)
+            {
+                astronaughtDialog.SetActive(true);
             }
             number = 0;
             //dialogActive = false;

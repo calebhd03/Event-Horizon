@@ -19,9 +19,9 @@ public class ObjectivesScript : MonoBehaviour
     //Cutscene
     [Tooltip("Put the number associated with with the cutscene(MemoryTag)/objective(ObjectiveTag)in the array desired to play. The array is located on the video player(cutscene)/ObjectivePanel(scannerUI) game object. Array list starts with zero.")]
     public int number;
-    public bool spatialAudio;
+    public bool spatialAudio, protagSpeak;
     public bool Scanned;
-    public GameObject activateSpatialAudio;
+    public GameObject activateSpatialAudio, protagDialog;
     [SerializeField]LogSystem logSystem;
     ScannerUI scannerUI; 
     public MeshRenderer meshRenderer;
@@ -149,6 +149,10 @@ public class ObjectivesScript : MonoBehaviour
         if(spatialAudio == true && Scanned == true)
         {
             activateSpatialAudio.SetActive(true);
+        }
+        if(protagSpeak == true && Scanned == true && spatialAudio == false)
+        {
+            protagDialog.SetActive(true);
         }
     }
     public void OpenBlockedPath()

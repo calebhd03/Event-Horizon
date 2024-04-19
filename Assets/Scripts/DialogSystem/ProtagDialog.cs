@@ -10,24 +10,21 @@ public class ProtagDialog : MonoBehaviour
 {
     public TextMeshProUGUI dialogText;
     GameObject dialogBox;
-    //public TMP_Text TopObjectiveText;
-    //int number = 0;
-    //public int objectiveNumber;
     StarterAssetsInputs starterAssetsInputs;
     ThirdPersonShooterController thirdPersonShooterController;
-    ObjectiveText objectiveText;
+    AstronaughtText astronaughtText;
     PauseMenuScript pauseMenuScript;
     public GameObject player;
     bool dialogDisplayed = false;
     void Awake()
     {
         pauseMenuScript = FindObjectOfType<PauseMenuScript>();
-        objectiveText = FindObjectOfType<ObjectiveText>();
+        astronaughtText = FindObjectOfType<AstronaughtText>();
         player = GameObject.FindWithTag("Player");
         starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
         thirdPersonShooterController = player.GetComponent<ThirdPersonShooterController>();
 
-        dialogBox = objectiveText.gameObject;
+        dialogBox = astronaughtText.gameObject;
         
     }
 
@@ -35,8 +32,8 @@ public class ProtagDialog : MonoBehaviour
     {
         if(other.CompareTag("Player") &&  dialogDisplayed == false)
         {
-            objectiveText.displayedText.text = dialogText.text;
-            objectiveText.ShowDialogText();
+            astronaughtText.displayedText.text = dialogText.text;
+            astronaughtText.ShowDialogText();
             Invoke("TurnOffText", 5);
             dialogDisplayed = true;
         }
@@ -45,8 +42,7 @@ public class ProtagDialog : MonoBehaviour
 
     void TurnOffText()
     {
-        //TopObjectiveText.text = objectiveText.textToDisplay[objectiveNumber].text;
-        objectiveText.HideDialogText();
+        astronaughtText.HideDialogText();
     }
 }
 
