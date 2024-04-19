@@ -5,23 +5,22 @@ using UnityEngine.UI;
 
 public class PlayerHealthMetric : MonoBehaviour
 {
-    public PlayerData playerData;
+   public PlayerData playerData;
     public GameObject healthBar; // Reference to the 3D GameObject acting as the health bar
     public AudioClip healthIncreaseSound;
     public AudioClip healthDecreaseSound;
     private AudioSource audioSource;
     private Material healthBarMaterial; // Material of the health bar for color changing
+    private bool isFlashing = false; // State flag for flashing
 
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
         if (healthBar != null)
         {
-            // Use material directly to change instance-specific material properties
             healthBarMaterial = healthBar.GetComponent<Renderer>().material;
         }
         InitializeHealthBar();
-        playerData.InitializeArrays();
     }
 
     private void Update()
@@ -34,13 +33,17 @@ public class PlayerHealthMetric : MonoBehaviour
         float previousHealth = playerData.currentHealth;
         playerData.currentHealth = Mathf.Clamp(playerData.currentHealth + amount, 0, playerData.maxHealth);
 
-        UpdateHealthBar(); // Update the bar whenever health is modified
-
         if (playerData.currentHealth <= 0)
         {
             Debug.Log("Player Health 0");
+            if (isFlashing)
+            {
+                CancelInvoke("ToggleFlashColor");
+                isFlashing = false;
+            }
         }
 
+        UpdateHealthBar(); // Update the bar whenever health is modified
         PlayHealthChangeSound(previousHealth);
     }
 
@@ -68,10 +71,26 @@ public class PlayerHealthMetric : MonoBehaviour
 
     public void UpdateHealthBar()
     {
-        if (healthBarMaterial != null)
+        float healthPercent = playerData.currentHealth / playerData.maxHealth;
+        Color color = CalculateHealthColor(healthPercent);
+
+        if (healthBarMaterial != null && !isFlashing)
         {
-            float healthPercent = playerData.currentHealth / playerData.maxHealth;
-            Color color = CalculateHealthColor(healthPercent);
+            healthBarMaterial.color = color;
+            healthBarMaterial.SetColor("_EmissionColor", color);
+        }
+
+        // Manage flashing state for health 10% or below
+        if (healthPercent <= 0.10f && !isFlashing)
+        {
+            isFlashing = true;
+            InvokeRepeating("ToggleFlashColor", 0, 0.5f); // Start flashing
+        }
+        else if (healthPercent > 0.10f && isFlashing)
+        {
+            CancelInvoke("ToggleFlashColor");
+            isFlashing = false;  // Reset flashing state
+            // Reset to the correct color
             healthBarMaterial.color = color;
             healthBarMaterial.SetColor("_EmissionColor", color);
         }
@@ -79,15 +98,28 @@ public class PlayerHealthMetric : MonoBehaviour
 
     private Color CalculateHealthColor(float healthPercent)
     {
-        if (healthPercent > 0.8f)
-            return Color.green; // 100%-80%
-        else if (healthPercent > 0.58f)
-            return Color.green; // Greenish yellow (Lime) - Adjust RGB as needed
-        else if (healthPercent > 0.35f)
-            return Color.yellow; // 57%-35%
-        else if (healthPercent > 0.15f)
-            return new Color(1, 0.5f, 0); // Orange
+        if (healthPercent > 0.82f)
+            return Color.green; 
+        else if (healthPercent > 0.60f)
+            return Color.yellow; 
+        else if (healthPercent > 0.45f)
+            return new Color(1, 0.5f, 0); 
         else
-            return Color.red; // Deep red
+            return Color.red; 
+    }
+
+    void ToggleFlashColor()
+    {
+        // Toggle between red and black
+        if (healthBarMaterial.color == Color.red)
+        {
+            healthBarMaterial.color = Color.black;
+            healthBarMaterial.SetColor("_EmissionColor", Color.black);
+        }
+        else
+        {
+            healthBarMaterial.color = Color.red;
+            healthBarMaterial.SetColor("_EmissionColor", Color.red);
+        }
     }
 }
