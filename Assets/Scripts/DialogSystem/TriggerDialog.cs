@@ -46,7 +46,10 @@ public class TriggerDialog : MonoBehaviour
         thirdPersonController = player.GetComponent<ThirdPersonController>();
         normalSpeed = thirdPersonController.MoveSpeed;
         normalSprintSpeed = thirdPersonController.SprintSpeed;
-        astronaughtDialog.SetActive(false);
+        if(astronaughtDialog != null)
+        {
+            astronaughtDialog.SetActive(false);
+        }
     }
 
     void Update()
