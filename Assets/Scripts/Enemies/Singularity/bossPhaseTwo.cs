@@ -76,6 +76,8 @@ public class bossPhaseTwo : MonoBehaviour
     private bool lookCheck = true;
     public float timer = 0;
 
+    public GameObject purpleWall;
+
     private void OnEnable()
     {
         noBulletDamage = true;
@@ -401,6 +403,20 @@ public class bossPhaseTwo : MonoBehaviour
         {
             Destroy(Orb);
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        /*if(other.CompareTag("Bullet") || other.CompareTag("Plasma Bullet"))
+        {
+            Vector3 spawnOffset = new Vector3 (0, 0, -2f);
+            Vector3 collisionPoint = other.ClosestPointOnBounds(transform.position);
+
+            Vector3 spawnPosition = collisionPoint + spawnOffset;
+
+            GameObject purple = Instantiate(purpleWall, spawnPosition, Quaternion.identity);
+            Destroy(purple, 1f);
+        }*/
     }
 
     public void SceneManagement()
