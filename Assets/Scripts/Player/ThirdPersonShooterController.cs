@@ -143,10 +143,11 @@ public class ThirdPersonShooterController : MonoBehaviour
         SkillTree skillTree;
 
         //weapon mesh
-        public NexusGun nxgun;
+        public NexusGun nxgun, nxgun2;
         //Shotgun sgun;
         private Coroutine reloadCoroutine = null;
-        public Blaster bgun;
+        public Blaster bgun, bgun2;
+        public Knife knife;
         [SerializeField] MiniCore miniCore;
         [SerializeField] Scanning scnScr;
         [SerializeField] ScanCam scnCam;
@@ -171,9 +172,10 @@ public class ThirdPersonShooterController : MonoBehaviour
             logSystem = miniCore.GetComponentInChildren<LogSystem>();
             audioSource = GetComponent<AudioSource>();
             skillTree = GetComponent<SkillTree>();
-            nxgun = GetComponentInChildren<NexusGun>();
+            //nxgun = GetComponentInChildren<NexusGun>();
             //Shotgun sgun = GetComponentInChildren<Shotgun>();
-            bgun = GetComponentInChildren<Blaster>();
+            //bgun = GetComponentInChildren<Blaster>();
+            knife = GetComponentInChildren<Knife>();
             scnScr = miniCore.GetComponentInChildren<Scanning>();
             scnCam = miniCore.GetComponentInChildren<ScanCam>();
             scnzCam = miniCore.GetComponentInChildren<ScanZoom>();
@@ -955,11 +957,14 @@ public class ThirdPersonShooterController : MonoBehaviour
         if(playerData.hasNexus == true)
         {
         nxgun.EnableMesh();
+        nxgun2.EnableMesh();
         }
         if(playerData.hasBlaster == true)
         {
         bgun.EnableMesh();
+        bgun2.EnableMesh();
         }
+        knife.EnableMesh();
         //sgun.EnableMesh();
     }
     public void DisablePlayerMesh()
@@ -967,7 +972,10 @@ public class ThirdPersonShooterController : MonoBehaviour
         playermesh.enabled = false;
         healthBar.enabled = false;
         nxgun.DisableMesh();
+        nxgun2.DisableMesh();
         bgun.DisableMesh();
+        bgun2.DisableMesh();
+        knife.DisableMesh();
         //sgun.DisableMesh();
     }
 
@@ -982,9 +990,11 @@ public class ThirdPersonShooterController : MonoBehaviour
     public void EnableNXGunMesh()
     {
         nxgun.EnableMesh();
+        nxgun2.EnableMesh();
     }
     public void EnableBGunMesh()
     {
         bgun.EnableMesh();
+        bgun2.EnableMesh();
     }
 }
