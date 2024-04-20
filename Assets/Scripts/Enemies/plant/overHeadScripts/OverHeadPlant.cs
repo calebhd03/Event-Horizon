@@ -13,6 +13,7 @@ public class OverHeadPlant : MonoBehaviour
     [SerializeField] private ThirdPersonController thirdPersonController;
     [SerializeField] private ThirdPersonShooterController thirdPersonShooterController;
     [SerializeField] private OverHeadTrigger trigger;
+    [SerializeField] private Animator animator;
 
     [Header("Enemy Health")]
     [SerializeField] EnemyHealthBar healthBar;
@@ -26,6 +27,7 @@ public class OverHeadPlant : MonoBehaviour
     private bool isOn = true;
     public float playerMoveSpeed = 5f;
     public float attackCloseDistance = 1.5f;
+    public Transform grabLocation;
 
 
     [Header("Drops")]
@@ -40,6 +42,7 @@ public class OverHeadPlant : MonoBehaviour
     public AudioClip deathAudio;
 
     private bool isDead = false;//assuming it is alive
+    public int count = 0;
 
     private void Awake()
     {
@@ -49,6 +52,7 @@ public class OverHeadPlant : MonoBehaviour
         thirdPersonController = FindObjectOfType<ThirdPersonController>();
         thirdPersonShooterController = FindAnyObjectByType<ThirdPersonShooterController>();
         trigger = GetComponentInChildren<OverHeadTrigger>();
+        animator = GetComponentInChildren<Animator>();
     }
     // Start is called before the first frame update
     void Start()
@@ -98,7 +102,7 @@ public class OverHeadPlant : MonoBehaviour
             if (player != null)
             {
                 player.gameObject.transform.LookAt(transform.position);
-                player.transform.rotation = Quaternion.Euler(0f, player.transform.rotation.eulerAngles.y, player.transform.rotation.eulerAngles.z);
+                player.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
                 thirdPersonController.canMove = false;
                 Vector3 direction = transform.position - player.position;
                 direction.Normalize();
@@ -106,6 +110,12 @@ public class OverHeadPlant : MonoBehaviour
                 if (distanceToPlant > attackCloseDistance)
                 {
                     player.position += direction * Time.deltaTime * playerMoveSpeed;
+                    animator.SetBool("Grab", true);
+                }
+
+                else
+                {
+                    animator.SetBool("Attack", true);
                 }
                 Debug.Log("PLAYER MOVE NOW");
             }
@@ -127,6 +137,7 @@ public class OverHeadPlant : MonoBehaviour
 
     public void Die()
     {
+        animator.SetBool("Dead", true);
         StartCoroutine(WaitAndDropStuff(3f));
     }
 
@@ -168,8 +179,9 @@ public class OverHeadPlant : MonoBehaviour
         {
             if (thirdPersonShooterController.knifeSlash == true)
             {
+                count = count + 1;
                 knifeDeath = true;
-                if (knifeDeath && knifeCount >= 65)
+                if (knifeDeath && count >= 65)
                 {
                     isDead = true;
                     isOn = false;
@@ -191,7 +203,7 @@ public class OverHeadPlant : MonoBehaviour
     private IEnumerator DeathDelay()
     {
         yield return new WaitForSeconds(.5f);
-        Dead()
+        Die();
 ;       audioSource.PlayOneShot(deathAudio);
     }
 

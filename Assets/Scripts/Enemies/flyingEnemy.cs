@@ -55,7 +55,7 @@ public class flyingEnemy : MonoBehaviour
         player = GameObject.Find("Player").transform;
         agent = GetComponentInParent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         healthBar = GetComponentInChildren<EnemyHealthBar>();
         audioSource = GetComponent<AudioSource>();
         //StartCoroutine(EnemyMusic());
@@ -173,6 +173,7 @@ public class flyingEnemy : MonoBehaviour
 
     private void AttackMoving()
     {
+        Debug.Log("MOVEEEEEEE");
         Vector3 rightDestination = agent.transform.position + transform.right * moveDistance;
         Vector3 leftDestination = agent.transform.position - transform.right * moveDistance;
 
