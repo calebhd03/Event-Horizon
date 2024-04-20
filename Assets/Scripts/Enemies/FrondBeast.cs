@@ -93,6 +93,7 @@ public class FrondBeast : MonoBehaviour
     private bool a3p2Bool = false;
 
     private bool isDead = false;//assuming it is alive
+    public int lastAttack = -1;
 
     //updating objective
     public AudioClip updateObjectiveSound;
@@ -172,7 +173,13 @@ public class FrondBeast : MonoBehaviour
 
     private void RandomAttackPhaseOne()
     {
-        int randomAttack = Random.Range(0, 3);
+        int randomAttack;
+        do
+        {
+            randomAttack = Random.Range(0, 3);
+        } while (randomAttack == lastAttack);
+
+        lastAttack = randomAttack;
 
         switch (randomAttack)
         {
@@ -203,7 +210,13 @@ public class FrondBeast : MonoBehaviour
 
     private void RandomAttackPhaseTwo()
     {
-        int randomAttack = Random.Range(0, 3);
+        int randomAttack;
+        do
+        {
+            randomAttack = Random.Range(0, 3);
+        } while (randomAttack == lastAttack);
+
+        lastAttack = randomAttack;
 
         switch (randomAttack)
         {
@@ -310,9 +323,11 @@ public class FrondBeast : MonoBehaviour
         animator.SetBool("Att_spin", true);
         yield return new WaitForSeconds(3f);
 
-        Rigidbody newBoulder = Instantiate(boulderPrefab, boulderSpawn.position, Quaternion.identity).GetComponent<Rigidbody>();
         Vector3 directionToPlayer = player.position - transform.position;
+        directionToPlayer.y -= 2;
         directionToPlayer.Normalize();
+
+        Rigidbody newBoulder = Instantiate(boulderPrefab, boulderSpawn.position, Quaternion.identity).GetComponent<Rigidbody>();
         newBoulder.velocity = directionToPlayer * boulderSpeed;
         Destroy(newBoulder, 10f);
 

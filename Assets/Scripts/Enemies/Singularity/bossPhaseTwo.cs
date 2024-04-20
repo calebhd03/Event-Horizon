@@ -72,7 +72,7 @@ public class bossPhaseTwo : MonoBehaviour
 
     public static bool noBulletDamage = false;
 
-    public int lastAttack = -1;
+    private int lastAttack = -1;
     private bool lookCheck = true;
     public float timer = 0;
 
@@ -138,28 +138,28 @@ public class bossPhaseTwo : MonoBehaviour
         switch (randomAttack)
         {
             case 0:
-                Debug.Log("Attack1 Sumon");
+                //Debug.Log("Attack1 Sumon");
                 enemyBool = true;
                 StartCoroutine(summonEnemies());
                 StopCoroutine(AOE());
                 StopCoroutine(PerformMeteor());
                 break;
             case 1:
-                Debug.Log("Attack1 AOE");
+                //Debug.Log("Attack1 AOE");
                 aoeBool = true;
                 StartCoroutine(AOE());
                 StopCoroutine(summonEnemies());
                 StopCoroutine(PerformMeteor());
                 break;
             case 2:
-                Debug.Log("Attack1 Meteor");
+                //Debug.Log("Attack1 Meteor");
                 meteorBool = true;
                 StartCoroutine(PerformMeteor());
                 StopCoroutine(summonEnemies());
                 StopCoroutine(AOE());
                 break;
             case 3:
-                Debug.Log("Attack1 Sumon");
+                //Debug.Log("Attack1 Sumon");
                 enemyBool = true;
                 StartCoroutine(summonEnemies());
                 StopCoroutine(AOE());
