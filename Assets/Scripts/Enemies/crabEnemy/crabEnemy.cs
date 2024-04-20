@@ -260,6 +260,8 @@ public class crabEnemy : MonoBehaviour
     {
         if (isDead)
         {
+            thirdPersonController.MoveSpeed = 3f;
+            thirdPersonController.SprintSpeed = 6f;
             gameObject.SetActive(false);
             transform.parent = null;
         }
