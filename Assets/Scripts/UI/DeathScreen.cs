@@ -16,9 +16,11 @@ public class DeathScreen : MonoBehaviour
 
     // Reference to the EnemyManager script
     private EnemyManager enemyManager;
+    public GameObject HudObject;
 
     void Awake()
     {
+        UnhideHud();
         gameObject.SetActive(false);
         starterAssetsInputs = Player.GetComponent<StarterAssetsInputs>();
 
@@ -27,7 +29,27 @@ public class DeathScreen : MonoBehaviour
         if (enemyManager == null)
             Debug.LogError("EnemyManager instance not found, ensure it's initialized before this script.");
     }
-
+    public void OnEnable()
+    {
+        if(HudObject != null)
+        {
+        HudObject.SetActive(false);
+        }
+    }
+    public void OnDisable()
+    {
+        if(HudObject != null)
+        {
+        HudObject.SetActive(true);
+        }
+    }
+    void UnhideHud()
+    {
+        if(HudObject != null)
+        {
+        HudObject.SetActive(true);
+        }
+    }
     public void Replay()
     {
         // Obtain the active scene's index to pass to LoadEnemyLocations
@@ -37,7 +59,6 @@ public class DeathScreen : MonoBehaviour
 
         // Reset player health and ammo
         playerData.ResetSemiHealth();
-
         gameObject.SetActive(false);
         starterAssetsInputs.LoadInput(true);
         TPC.deathbool = false;
