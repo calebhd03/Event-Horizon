@@ -116,6 +116,18 @@ public class EnemyManager : MonoBehaviour
                         {
                             GameObject enemyPrefab = enemyPrefabs[i % enemyPrefabs.Length];
                             GameObject newEnemy = Instantiate(enemyPrefab, position, Quaternion.identity);
+
+                            // Access the HealthMetrics component of the cloned enemy and initialize its health
+                            HealthMetrics enemyHealthMetrics = newEnemy.GetComponent<HealthMetrics>();
+                            if (enemyHealthMetrics != null)
+                            {
+                                enemyHealthMetrics.currentHealth = enemyHealthMetrics.maxHealth;
+                            }
+                            else
+                            {
+                                Debug.LogError("HealthMetrics component not found on instantiated enemy.");
+                            }
+
                             enemyGameObjects.Add(newEnemy);
                         }
                     }
