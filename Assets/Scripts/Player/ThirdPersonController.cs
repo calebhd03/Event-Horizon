@@ -207,6 +207,7 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+            lastTargetRotation = transform.eulerAngles.y;
         }
 
         private void Update()
