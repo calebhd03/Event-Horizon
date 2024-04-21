@@ -72,7 +72,7 @@ public class FrondBeast : MonoBehaviour
 
     [Header("Audio")]
     public AudioClip deathAudio;
-    public AudioClip rangedAudio;
+    //public AudioClip rangedAudio;
     AudioSource audioSource;
 
     [Header("Drops")]
@@ -141,7 +141,7 @@ public class FrondBeast : MonoBehaviour
             transform.LookAt(player);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
             FollowPlayer(closeDistance);
-            audioSource.PlayOneShot(rangedAudio);
+            //audioSource.PlayOneShot(rangedAudio);
             //transition from phases depending on health.
             //Real Attack functions not for now because no animations
             if (healthMetrics.currentHealth <= 200 && healthMetrics.currentHealth > 100)

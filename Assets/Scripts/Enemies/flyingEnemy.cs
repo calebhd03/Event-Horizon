@@ -46,8 +46,8 @@ public class flyingEnemy : MonoBehaviour
 
     [Header("Audio")]
     public AudioClip deathAudio;
-    public AudioClip rangedAudio;
-    public AudioClip attackAudio;
+    //public AudioClip rangedAudio;
+    //public AudioClip attackAudio;
     AudioSource audioSource;
 
     private bool isDead = false;//assuming it is alive
@@ -89,7 +89,7 @@ public class flyingEnemy : MonoBehaviour
 
         if (iSeeYou == true && withInAttackRange == false)
         {
-            audioSource.PlayOneShot(rangedAudio);
+            //audioSource.PlayOneShot(rangedAudio);
             transform.LookAt(player);
             chasePlayer();
         }
@@ -97,7 +97,7 @@ public class flyingEnemy : MonoBehaviour
         if (iSeeYou == true && withInAttackRange == true)
         {
             attackPlayer();
-            audioSource.PlayOneShot(rangedAudio);
+            //audioSource.PlayOneShot(rangedAudio);
             transform.LookAt(player);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
         }
