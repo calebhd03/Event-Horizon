@@ -407,7 +407,7 @@ public class bossPhaseTwo : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Bullet") || other.CompareTag("Plasma Bullet"))
+        if(other.CompareTag("Bullet") || other.CompareTag("Plasma Bullet") || other.CompareTag("BHBullet"))
         {
             Vector3 spawnOffset = new Vector3 (0, 0, -1f);
             Vector3 collisionPoint = other.ClosestPointOnBounds(transform.position);
