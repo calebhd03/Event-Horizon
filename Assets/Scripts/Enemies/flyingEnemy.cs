@@ -46,6 +46,8 @@ public class flyingEnemy : MonoBehaviour
 
     [Header("Audio")]
     public AudioClip deathAudio;
+    public AudioClip rangedAudio;
+    public AudioClip attackAudio;
     AudioSource audioSource;
 
     private bool isDead = false;//assuming it is alive
@@ -55,7 +57,7 @@ public class flyingEnemy : MonoBehaviour
         player = GameObject.Find("Player").transform;
         agent = GetComponentInParent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         healthBar = GetComponentInChildren<EnemyHealthBar>();
         audioSource = GetComponent<AudioSource>();
         //StartCoroutine(EnemyMusic());
@@ -87,6 +89,7 @@ public class flyingEnemy : MonoBehaviour
 
         if (iSeeYou == true && withInAttackRange == false)
         {
+            audioSource.PlayOneShot(rangedAudio);
             transform.LookAt(player);
             chasePlayer();
         }
@@ -94,6 +97,7 @@ public class flyingEnemy : MonoBehaviour
         if (iSeeYou == true && withInAttackRange == true)
         {
             attackPlayer();
+            audioSource.PlayOneShot(rangedAudio);
             transform.LookAt(player);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
         }
@@ -152,6 +156,8 @@ public class flyingEnemy : MonoBehaviour
                 Invoke(nameof(ResetProjectiles), attackAgainTimer);
             }
 
+            audioSource.PlayOneShot(attackAudio);
+
             //destroy bullet properly for now
             Destroy(newBullet.gameObject, 5f);
         }
@@ -173,6 +179,7 @@ public class flyingEnemy : MonoBehaviour
 
     private void AttackMoving()
     {
+        Debug.Log("MOVEEEEEEE");
         Vector3 rightDestination = agent.transform.position + transform.right * moveDistance;
         Vector3 leftDestination = agent.transform.position - transform.right * moveDistance;
 

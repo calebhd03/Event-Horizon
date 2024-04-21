@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
-using Unity.VisualScripting;
 using System.IO;
 
 
@@ -19,7 +18,7 @@ public class StartMenu : MonoBehaviour
     public GameObject VSSceneButton;
     public GameObject InnerSceneButton;
     public PlayerData playerData;
-
+   
     void Awake()
     {
         Time.timeScale = 1;
@@ -73,12 +72,15 @@ public class StartMenu : MonoBehaviour
     {
         // Call ResetHealthAmmo() from PlayerData script before loading the scene
         playerData.ResetHealthAmmo();
+        playerData.ResetLogSystem();
         
         Background_Music.instance.audioSource.Stop();
         Cursor.visible = false;
         SceneManager.LoadScene("IntroCutScene");
-        // SceneManager.LoadScene("AeonDevCenter");
+       
     }
+
+
 
     public void LoadVerticalSlice()
     {

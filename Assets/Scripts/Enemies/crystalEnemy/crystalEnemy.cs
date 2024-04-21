@@ -47,6 +47,8 @@ public class crystalEnemy : MonoBehaviour
 
     [Header("Audio")]
     AudioSource audioSource;
+    public AudioClip rangedAudio;
+    public AudioClip hitAudio;
     public AudioClip deathAudio;
     HealthMetrics healthMetrics;
 
@@ -90,6 +92,7 @@ public class crystalEnemy : MonoBehaviour
                     iSeeYou = true;
                     }
                 transform.LookAt(player);
+                audioSource.PlayOneShot(rangedAudio);
                 Debug.DrawRay(transform.position, playerTarget * viewRadius * viewAngle, Color.blue); //debug raycast line to show if enemy can see the player
             }
 
@@ -108,7 +111,7 @@ public class crystalEnemy : MonoBehaviour
 
         if (iHearYou == true)
         {
-
+            audioSource.PlayOneShot(rangedAudio);
             iSeeYou = true;
         }
 
@@ -168,6 +171,7 @@ public class crystalEnemy : MonoBehaviour
             if (isAttacking == true)
             {
                 animator.SetBool("MeleeAttack", true);
+                audioSource.PlayOneShot(rangedAudio);
             }
 
             else

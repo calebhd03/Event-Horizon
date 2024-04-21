@@ -45,9 +45,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a147632990b3064ca1c79155fd0c5be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponMesh: {fileID: 0}
-  starterAssetsInputs: {fileID: 0}
-  TPSC: {fileID: 0}
+  weaponMesh: {fileID: 7761230772693863349}
+  playerHealthMetric: {fileID: 0}
+--- !u!1 &3675787099196588316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5355128960172773062}
+  m_Layer: 8
+  m_Name: BulletSpawnPoint (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5355128960172773062
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3675787099196588316}
+  m_LocalRotation: {x: 0.7071068, y: -0.000000005268356, z: -0.000000005268356, w: 0.7071068}
+  m_LocalPosition: {x: -0.22548029, y: -81.86911, z: 0.13357799}
+  m_LocalScale: {x: 112.89332, y: 133.33331, z: 93.45793}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8934651935481426138}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8968069721259579185
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -113,6 +143,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70c9dd586a1b6534cbc5792a01918f7b, type: 3}
+--- !u!23 &7761230772693863349 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 70c9dd586a1b6534cbc5792a01918f7b, type: 3}
+  m_PrefabInstance: {fileID: 8968069721259579185}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8934651935481426138 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 70c9dd586a1b6534cbc5792a01918f7b, type: 3}

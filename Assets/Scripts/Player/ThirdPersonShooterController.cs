@@ -35,11 +35,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         //[SerializeField] private float shotgunSpreadAngle = 3f; // Spread angle for shotgun pellets
         //private float lastShotgunTime;
 
-        public GameObject blasterHolster;
-        public GameObject BHGHolster;
         //public GameObject shotgunHolster;
-        public GameObject crouchedWeaponObject;
-        public GameObject originalWeaponObject;
         public GameObject BhgIcon;
         private bool isCrouching;
 
@@ -91,10 +87,14 @@ public class ThirdPersonShooterController : MonoBehaviour
         public GameObject blasterEquipped;
         public GameObject blasterSlot1;
         public GameObject blasterSlot2;
-        
+
         //public GameObject shotgunEquipped;
         //public GameObject shotgunSlot1;
         //public GameObject shotgunSlot2;
+
+        public GameObject knifeEquipped;
+        public GameObject knifeSlot1;
+        public GameObject knifeSlot2;
 
         public GameObject ammountCountIcon;
         
@@ -143,10 +143,11 @@ public class ThirdPersonShooterController : MonoBehaviour
         SkillTree skillTree;
 
         //weapon mesh
-        public NexusGun nxgun;
+        public NexusGun nxgun, nxgun2;
         //Shotgun sgun;
         private Coroutine reloadCoroutine = null;
-        public Blaster bgun;
+        public Blaster bgun, bgun2;
+        public Knife knife;
         [SerializeField] MiniCore miniCore;
         [SerializeField] Scanning scnScr;
         [SerializeField] ScanCam scnCam;
@@ -164,7 +165,6 @@ public class ThirdPersonShooterController : MonoBehaviour
             UpdateAmmoCount();
             currentCooldown = standardCooldown;
             isCrouching = false;
-            SwitchWeaponObject(originalWeaponObject);
             RefreshWeaponIcons();
             //EquipBlaster();
             SettingsScript settings = FindObjectOfType<SettingsScript>();
@@ -172,9 +172,10 @@ public class ThirdPersonShooterController : MonoBehaviour
             logSystem = miniCore.GetComponentInChildren<LogSystem>();
             audioSource = GetComponent<AudioSource>();
             skillTree = GetComponent<SkillTree>();
-            nxgun = GetComponentInChildren<NexusGun>();
+            //nxgun = GetComponentInChildren<NexusGun>();
             //Shotgun sgun = GetComponentInChildren<Shotgun>();
-            bgun = GetComponentInChildren<Blaster>();
+            //bgun = GetComponentInChildren<Blaster>();
+            knife = GetComponentInChildren<Knife>();
             scnScr = miniCore.GetComponentInChildren<Scanning>();
             scnCam = miniCore.GetComponentInChildren<ScanCam>();
             scnzCam = miniCore.GetComponentInChildren<ScanZoom>();
@@ -184,7 +185,10 @@ public class ThirdPersonShooterController : MonoBehaviour
         private void Update()
         {
             UpdateIcon();
-            
+
+            animator.SetInteger("EquippedWeapon", equippedWeapon);
+
+
             //Scanning scnScr = Scanningobject.GetComponent<Scanning>();
             //ScanCam scnCam = Scannercamera.GetComponent<ScanCam>();
             //ScanZoom scnzCam = ScannerZoomCamera.GetComponent<ScanZoom>();
@@ -215,7 +219,6 @@ public class ThirdPersonShooterController : MonoBehaviour
                 if (!isCrouching)
                 {
                     isCrouching = true;
-                    SwitchWeaponObject(crouchedWeaponObject);
                 }
             }
             else
@@ -223,7 +226,6 @@ public class ThirdPersonShooterController : MonoBehaviour
                 if (isCrouching)
                 {
                     isCrouching = false;
-                    SwitchWeaponObject(originalWeaponObject);
                 }
             }
             
@@ -475,6 +477,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                     currentCooldown = knifeCoolDown;
                     Debug.Log("Knife Animatoion");
                     knifeSlash = true;
+                    animator.SetBool("knifeSlash", knifeSlash);
                     Debug.Log("Knife Slash is true");
 
                     float maxDistanceKnife = 3f;
@@ -527,6 +530,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         {
             animator.ResetTrigger("Shoot");
             knifeSlash = false;
+            animator.SetBool("knifeSlash", knifeSlash);
         }
 
         if (isCharging == true)
@@ -639,16 +643,6 @@ public class ThirdPersonShooterController : MonoBehaviour
         animator.ResetTrigger("BHSwitch");
         //animator.ResetTrigger("ShotgunSwitch");
 
-        //sets blaster weapon position to in hand
-        standardWeaponObject.transform.parent = originalWeaponObject.transform;
-        standardWeaponObject.transform.position = originalWeaponObject.transform.position;
-        standardWeaponObject.transform.localEulerAngles = new Vector3(-90, 0, 90);
-
-        //resets BHG weapon positions
-        blackHoleWeaponObject.transform.parent = BHGHolster.transform;
-        blackHoleWeaponObject.transform.position = BHGHolster.transform.position;
-        blackHoleWeaponObject.transform.localEulerAngles = new Vector3(90, 0, -45);
-
         //resets shotgun weapon positions
         /*shotgunWeaponObject.transform.parent = shotgunHolster.transform;
         shotgunWeaponObject.transform.position = shotgunHolster.transform.position;
@@ -677,16 +671,6 @@ public class ThirdPersonShooterController : MonoBehaviour
         animator.SetTrigger("BHSwitch");
         animator.ResetTrigger("BlasterSwitch");
         //animator.ResetTrigger("ShotgunSwitch");
-
-        //resets blaster weapon positions
-        standardWeaponObject.transform.parent = blasterHolster.transform;
-        standardWeaponObject.transform.position = blasterHolster.transform.position;
-        standardWeaponObject.transform.localEulerAngles = new Vector3(0, 0, 0);
-
-        //sets blaster weapon position to in hand
-        blackHoleWeaponObject.transform.parent = originalWeaponObject.transform;
-        blackHoleWeaponObject.transform.position = originalWeaponObject.transform.position;
-        blackHoleWeaponObject.transform.localEulerAngles = new Vector3(-90, 0, 90);
 
         //resets shotgun weapon positions
         /*shotgunWeaponObject.transform.parent = shotgunHolster.transform;
@@ -717,20 +701,12 @@ public class ThirdPersonShooterController : MonoBehaviour
         animator.ResetTrigger("BlasterSwitch");
         //animator.ResetTrigger("ShotgunSwitch");
 
-        //resets blaster weapon positions
-        standardWeaponObject.transform.parent = blasterHolster.transform;
-        standardWeaponObject.transform.position = blasterHolster.transform.position;
-        standardWeaponObject.transform.localEulerAngles = new Vector3(0, 0, 0);
 
         //resets shotgun weapon positions
         /*shotgunWeaponObject.transform.parent = shotgunHolster.transform;
         shotgunWeaponObject.transform.position = shotgunHolster.transform.position;
         shotgunWeaponObject.transform.localEulerAngles = new Vector3(0, 90, 0);*/
 
-        //resets BHG weapon positions
-        blackHoleWeaponObject.transform.parent = BHGHolster.transform;
-        blackHoleWeaponObject.transform.position = BHGHolster.transform.position;
-        blackHoleWeaponObject.transform.localEulerAngles = new Vector3(90, 0, -45);
         equippedWeapon = 2;
         RefreshWeaponIcons();
         shotCooldown = currentCooldown;
@@ -751,6 +727,10 @@ public class ThirdPersonShooterController : MonoBehaviour
                 bhgEquipped.SetActive(false);
                 bhgSlot1.SetActive(true);
                 bhgSlot2.SetActive(false);
+                
+                knifeEquipped.SetActive(false);
+                knifeSlot1.SetActive(false);
+                knifeSlot2.SetActive(true);
 
                 ammountCountIcon.SetActive(true);
                 break;
@@ -767,17 +747,25 @@ public class ThirdPersonShooterController : MonoBehaviour
                 bhgSlot1.SetActive(false);
                 bhgSlot2.SetActive(false);
 
+                knifeEquipped.SetActive(false);
+                knifeSlot1.SetActive(false);
+                knifeSlot2.SetActive(true);
+
                 ammountCountIcon.SetActive(true);
                 break;
             case 2:
                 Debug.Log("Knife Icon");
                 blasterEquipped.SetActive(false);
-                blasterSlot1.SetActive(false);
+                blasterSlot1.SetActive(true);
                 blasterSlot2.SetActive(false);
 
                 bhgEquipped.SetActive(false);
                 bhgSlot1.SetActive(false);
-                bhgSlot2.SetActive(false);
+                bhgSlot2.SetActive(true);
+
+                knifeEquipped.SetActive(true);
+                knifeSlot1.SetActive(false);
+                knifeSlot2.SetActive(false);
 
                 ammountCountIcon.SetActive(false);
                 break;
@@ -840,56 +828,6 @@ public class ThirdPersonShooterController : MonoBehaviour
                 totalAmmoCounter.text = "";
                 loadedAmmoCounter.text = "";
             }
-        }
-        
-
-         public void SwitchWeaponObject(GameObject newWeaponObject)
-        {
-            reloading = false;
-            // Disable all weapon objects
-            originalWeaponObject.SetActive(false);
-            crouchedWeaponObject.SetActive(false);
-
-            // Enable the specified weapon object
-            newWeaponObject.SetActive(true);
-                    // Disable all weapon objects
- 
-
-            // Update the transform of the weapon game objects based on the active weapon
-           /* if (newWeaponObject == originalWeaponObject)
-            {
-                spawnBulletPosition = spawnBulletPositionOg; // Use the crouch bullet position
-            }
-            else if (newWeaponObject == crouchedWeaponObject)
-            {
-                spawnBulletPosition = spawnBulletPositionCrouch; // Use the crouch bullet position
-            }*/
-
-            // Update the transform of the weapon game objects based on the active weapon
-            /*
-            if (newWeaponObject == originalWeaponObject)
-            {
-                // Set the transforms for the original weapon here
-                standardWeaponObject.transform.position = originalWeaponObject.transform.position;
-                standardWeaponObject.transform.rotation = originalWeaponObject.transform.rotation;
-                // Update other weapon transforms similarly if needed
-                shotgunWeaponObject.transform.position = originalWeaponObject.transform.position;
-                shotgunWeaponObject.transform.rotation = originalWeaponObject.transform.rotation;
-                blackHoleWeaponObject.transform.position = originalWeaponObject.transform.position;
-                blackHoleWeaponObject.transform.rotation = originalWeaponObject.transform.rotation;
-            }
-            else if (newWeaponObject == crouchedWeaponObject)
-            {
-                // Set the transforms for the crouched weapon here
-                standardWeaponObject.transform.position = crouchedWeaponObject.transform.position;
-                standardWeaponObject.transform.rotation = crouchedWeaponObject.transform.rotation;
-                // Update other weapon transforms similarly if needed
-                shotgunWeaponObject.transform.position = crouchedWeaponObject.transform.position;
-                shotgunWeaponObject.transform.rotation = crouchedWeaponObject.transform.rotation;
-                blackHoleWeaponObject.transform.position = crouchedWeaponObject.transform.position;
-                blackHoleWeaponObject.transform.rotation = crouchedWeaponObject.transform.rotation;
-            }
-            */
         }
 
     public void BHGcharging()
@@ -1019,11 +957,14 @@ public class ThirdPersonShooterController : MonoBehaviour
         if(playerData.hasNexus == true)
         {
         nxgun.EnableMesh();
+        nxgun2.EnableMesh();
         }
         if(playerData.hasBlaster == true)
         {
         bgun.EnableMesh();
+        bgun2.EnableMesh();
         }
+        knife.EnableMesh();
         //sgun.EnableMesh();
     }
     public void DisablePlayerMesh()
@@ -1031,7 +972,10 @@ public class ThirdPersonShooterController : MonoBehaviour
         playermesh.enabled = false;
         healthBar.enabled = false;
         nxgun.DisableMesh();
+        nxgun2.DisableMesh();
         bgun.DisableMesh();
+        bgun2.DisableMesh();
+        knife.DisableMesh();
         //sgun.DisableMesh();
     }
 
@@ -1046,9 +990,11 @@ public class ThirdPersonShooterController : MonoBehaviour
     public void EnableNXGunMesh()
     {
         nxgun.EnableMesh();
+        nxgun2.EnableMesh();
     }
     public void EnableBGunMesh()
     {
         bgun.EnableMesh();
+        bgun2.EnableMesh();
     }
 }

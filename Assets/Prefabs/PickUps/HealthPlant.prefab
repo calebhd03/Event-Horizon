@@ -101,12 +101,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   number: 1
   meshRenderer: {fileID: 2638473377474505513}
-  materials: []
+  materials:
+  - {fileID: 2100000, guid: 700930bc510a19944b3dbc75d11e824d, type: 2}
   player: {fileID: 0}
   Scanned: 0
   logSystem: {fileID: 0}
   healthPlant: {fileID: 0}
   plant: 1
+  protagDialogTrigger: 0
+  protagDialog: {fileID: 0}
+  miniCore: {fileID: 0}
 --- !u!82 &1782164504274656881
 AudioSource:
   m_ObjectHideFlags: 0
@@ -380,6 +384,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.size
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b06c178ecc20dde408df9ee76c024fd6, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 700930bc510a19944b3dbc75d11e824d, type: 2}
     - target: {fileID: -7511558181221131132, guid: b06c178ecc20dde408df9ee76c024fd6, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 

@@ -72,6 +72,12 @@ public class bossPhaseTwo : MonoBehaviour
 
     public static bool noBulletDamage = false;
 
+    private int lastAttack = -1;
+    private bool lookCheck = true;
+    public float timer = 0;
+
+    public GameObject purpleWall;
+
     private void OnEnable()
     {
         noBulletDamage = true;
@@ -101,17 +107,20 @@ public class bossPhaseTwo : MonoBehaviour
         //timer += Time.deltaTime;
 
         // Output the timer value to the console for debugging
-        //Debug.Log("Timer: " + timer.ToString("F2")); // "F2" formats the timer value to 2 decimal places
+        //Debug.Log("Attack1 Timer: " + timer.ToString("F2")); // "F2" formats the timer value to 2 decimal places
 
         iSeeYou = Physics.CheckSphere(transform.position, seeDistance, playerZone);
         updateHealth();
         resetTriggers();
         if (iSeeYou)
         {
-            transform.LookAt(player);
-            transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+            if(lookCheck)
+            {
+                transform.LookAt(player);
+                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+            }
 
-            if(!enemyBool && !aoeBool && !meteorBool)
+            if (!enemyBool && !aoeBool && !meteorBool && health.currentHealth > 0)
             {
                 RandomAttack();
             }
@@ -120,29 +129,39 @@ public class bossPhaseTwo : MonoBehaviour
 
     private void RandomAttack()
     {
-        int randomAttack = Random.Range(0, 4); // 0: SummonEnemies, 1: AOE, 2: Meteor
+        int randomAttack;
+        do
+        {
+            randomAttack = Random.Range(0, 4); // 0: SummonEnemies, 1: AOE, 2: Meteor
+        } while (randomAttack == lastAttack);
+
+        lastAttack = randomAttack;
 
         switch (randomAttack)
         {
             case 0:
+                //Debug.Log("Attack1 Sumon");
                 enemyBool = true;
                 StartCoroutine(summonEnemies());
                 StopCoroutine(AOE());
                 StopCoroutine(PerformMeteor());
                 break;
             case 1:
+                //Debug.Log("Attack1 AOE");
                 aoeBool = true;
                 StartCoroutine(AOE());
                 StopCoroutine(summonEnemies());
                 StopCoroutine(PerformMeteor());
                 break;
             case 2:
+                //Debug.Log("Attack1 Meteor");
                 meteorBool = true;
                 StartCoroutine(PerformMeteor());
                 StopCoroutine(summonEnemies());
                 StopCoroutine(AOE());
                 break;
             case 3:
+                //Debug.Log("Attack1 Sumon");
                 enemyBool = true;
                 StartCoroutine(summonEnemies());
                 StopCoroutine(AOE());
@@ -200,14 +219,20 @@ public class bossPhaseTwo : MonoBehaviour
 
     private IEnumerator AOE()
     {
+        lookCheck = false;
         animator.SetBool("P2Attack1", true);
         //set animator
         // animator.SetTrigger("AOEAttack");
         GameObject newWarningRingAOE = Instantiate(aoeWarningPrefab, player.position, Quaternion.identity);
+        transform.LookAt(newWarningRingAOE.transform.position);
+        transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
 
         yield return new WaitForSeconds(8.5f);
+        lookCheck = true;
+        transform.LookAt(player);
+        transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
         Debug.Log("Animation Fist Attack");
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(.5f);
 
         GameObject newRingAOE = Instantiate(aoeRingPrefab, newWarningRingAOE.transform.position, Quaternion.identity);
         Destroy(newRingAOE, 5f);
@@ -293,6 +318,9 @@ public class bossPhaseTwo : MonoBehaviour
         {
             isDead = true;
         }
+        animator.SetBool("P2Attack1", false);
+        animator.SetBool("P2Attack2", false);
+        animator.SetBool("P2Attack3", false);
         animator.SetBool("Death", true);
         Debug.Log("Die Function");
         //Debug.Log("Boss Death starting");
@@ -329,6 +357,7 @@ public class bossPhaseTwo : MonoBehaviour
         //Debug.Log("Boss Death end");
         //Destroy(transform.parent.gameObject);
         Dead();
+        DestroySummons();
     }
 
     private void resetTriggers()
@@ -358,6 +387,37 @@ public class bossPhaseTwo : MonoBehaviour
         if (!isDead)
         {
             transform.parent.gameObject.SetActive(true);
+        }
+    }
+
+    public void DestroySummons()
+    {
+        GameObject[] summonedEnemies = GameObject.FindGameObjectsWithTag("SummonEnemy");
+        foreach (GameObject enemy in summonedEnemies)
+        {
+            Destroy(enemy);
+        }
+
+        GameObject[] Orbs = GameObject.FindGameObjectsWithTag("Orb");
+        foreach (GameObject Orb in Orbs)
+        {
+            Destroy(Orb);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Bullet") || other.CompareTag("Plasma Bullet") || other.CompareTag("BHBullet"))
+        {
+            Vector3 spawnOffset = new Vector3 (0, 0, -1f);
+            Vector3 collisionPoint = other.ClosestPointOnBounds(transform.position);
+
+            Vector3 spawnPosition = collisionPoint + spawnOffset;
+
+            GameObject purple = Instantiate(purpleWall, spawnPosition, Quaternion.identity);
+            purple.transform.LookAt(player);
+            purple.transform.rotation = Quaternion.Euler(0f, purple.transform.rotation.eulerAngles.y, purple.transform.rotation.eulerAngles.z);
+            Destroy(purple, 1f);
         }
     }
 
