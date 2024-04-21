@@ -407,16 +407,18 @@ public class bossPhaseTwo : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        /*if(other.CompareTag("Bullet") || other.CompareTag("Plasma Bullet"))
+        if(other.CompareTag("Bullet") || other.CompareTag("Plasma Bullet"))
         {
-            Vector3 spawnOffset = new Vector3 (0, 0, -2f);
+            Vector3 spawnOffset = new Vector3 (0, 0, -1f);
             Vector3 collisionPoint = other.ClosestPointOnBounds(transform.position);
 
             Vector3 spawnPosition = collisionPoint + spawnOffset;
 
             GameObject purple = Instantiate(purpleWall, spawnPosition, Quaternion.identity);
+            purple.transform.LookAt(player);
+            purple.transform.rotation = Quaternion.Euler(0f, purple.transform.rotation.eulerAngles.y, purple.transform.rotation.eulerAngles.z);
             Destroy(purple, 1f);
-        }*/
+        }
     }
 
     public void SceneManagement()
