@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TriggerCameraController : MonoBehaviour
 {
-   public LowCameraController lowCameraController;
+    public LowCameraController lowCameraController;
     public GameObject goalObject;
     public float triggerDelay = 10f;
     public bool enableDolly = true;
@@ -15,6 +15,16 @@ public class TriggerCameraController : MonoBehaviour
     public float distance = 10f;
     public float rotation = 0f;
 
+    private ObjectMover objectMover; // Reference to ObjectMover component on newFocusTarget
+
+    void Start()
+    {
+        if (newFocusTarget != null)
+        {
+            objectMover = newFocusTarget.GetComponent<ObjectMover>(); // Get the ObjectMover component
+        }
+    }
+
     void Update()
     {
         if (goalObject == null || !goalObject.activeInHierarchy) // Checks if the goal object is destroyed or inactive
@@ -24,15 +34,28 @@ public class TriggerCameraController : MonoBehaviour
         }
     }
 
-void TriggerCamera()
-{
-    if (lowCameraController != null)
+    void TriggerCamera()
     {
-        lowCameraController.TriggerCamera(triggerDelay, enableDolly, dollyAmount, enablePan, panAmount, newFocusTarget, distance, rotation);
+        if (lowCameraController != null)
+        {
+            lowCameraController.TriggerCamera(triggerDelay, enableDolly, dollyAmount, enablePan, panAmount, newFocusTarget, distance, rotation);
+            
+            // Check if objectMover is not null and call MoveUp or MoveDown accordingly
+            if (objectMover != null)
+            {
+                if (dollyAmount > 0f)
+                {
+                    objectMover.MoveUp(); // MoveUp if dollyAmount is positive
+                }
+                else if (dollyAmount < 0f)
+                {
+                    objectMover.MoveDown(); // MoveDown if dollyAmount is negative
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("LowCameraController is not assigned.");
+        }
     }
-    else
-    {
-        Debug.LogError("LowCameraController is not assigned.");
-    }
-}
 }
