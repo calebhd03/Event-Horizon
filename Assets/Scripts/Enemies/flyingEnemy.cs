@@ -156,7 +156,7 @@ public class flyingEnemy : MonoBehaviour
                 Invoke(nameof(ResetProjectiles), attackAgainTimer);
             }
 
-            audioSource.PlayOneShot(attackAudio);
+            //audioSource.PlayOneShot(attackAudio);
 
             //destroy bullet properly for now
             Destroy(newBullet.gameObject, 5f);
