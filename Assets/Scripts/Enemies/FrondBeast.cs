@@ -75,11 +75,7 @@ public class FrondBeast : MonoBehaviour
     AudioSource audioSource;
 
     [Header("Drops")]
-    public GameObject blasterPickupPrefab;
-    public GameObject shotGunPickupPrefab;
-    public GameObject bHPickupPrefab;
-    public GameObject healthPickupPrefab;
-    public float pickupDropChance = 0.3f;
+    public GameObject dropItem;
     //public GameObject Portal;
 
     //Phase 1 Attack Bools
@@ -459,27 +455,14 @@ public class FrondBeast : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         audioSource.PlayOneShot(deathAudio);
 
-        // Call DropStuff after waiting for 3 seconds
+        // Call DropStuff after waiting for 4 seconds
         DropStuff();
     }
 
     private void DropStuff()
     {
-        if (Random.value < pickupDropChance)
-        {
-            Instantiate(shotGunPickupPrefab, transform.position, Quaternion.identity);
-            Instantiate(blasterPickupPrefab, transform.position, Quaternion.identity);
-            Instantiate(bHPickupPrefab, transform.position, Quaternion.identity);
-        }
-
-        if (Random.value < pickupDropChance / 2)
-        {
-            Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
-        }
-
-
-        //Portal.SetActive(true);
-        //Debug.Log("Boss Death end");
+        Instantiate(dropItem, transform.position, Quaternion.identity);
+        
         Dead();
     }
 

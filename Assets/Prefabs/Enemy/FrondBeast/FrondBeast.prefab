@@ -446,11 +446,7 @@ MonoBehaviour:
   a3p2WindUp: 2
   a3p2AnimDuration: 2
   deathAudio: {fileID: 8300000, guid: 47db3882bc8a1ce4b88ea62d7f9df191, type: 3}
-  blasterPickupPrefab: {fileID: 2386002193791810672, guid: 7c96418087cb35d45820ea94edc4c74f, type: 3}
-  shotGunPickupPrefab: {fileID: 3616794700435168829, guid: 8202146b65b22bb4fb80945099e41b86, type: 3}
-  bHPickupPrefab: {fileID: 1464895933930130252, guid: 8f0d8942908b01c41b83f3c8c7be7cef, type: 3}
-  healthPickupPrefab: {fileID: 1464895933930130252, guid: f867f91f0bffc4f4db651b1be23a1a15, type: 3}
-  pickupDropChance: 0.3
+  dropItem: {fileID: 4860855929597828578, guid: 7e79e7e8f7481c942b4e3ab9f51aff44, type: 3}
   lastAttack: -1
   updateObjectiveSound: {fileID: 8300000, guid: c263fac6b7ec450449136780f4f05905, type: 3}
   TopObjectiveText: {fileID: 0}
@@ -858,8 +854,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00602cefa79d4c44d946af2e04e4cbe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 200
-  currentHealth: 200
+  maxHealth: 750
+  currentHealth: 750
   healthBar: {fileID: 0}
   isHealthBarActive: 1
 --- !u!114 &343839680625958190
@@ -1015,7 +1011,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.25
+  m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
