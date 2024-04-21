@@ -48,7 +48,9 @@ public class dogEnemy : MonoBehaviour
 
     [Header("Audio")]
     AudioSource audioSource;
+    public AudioClip rangedAudio;
     public AudioClip deathAudio;
+    public AudioClip hitAudio;
     HealthMetrics healthMetrics;
 
     private bool isDead = false;//assuming it is alive
@@ -92,6 +94,7 @@ public class dogEnemy : MonoBehaviour
                     iSeeYou = true;
                     }
                 transform.LookAt(player);
+                audioSource.PlayOneShot(rangedAudio);
                 Debug.DrawRay(transform.position, playerTarget * viewRadius * viewAngle, Color.blue); //debug raycast line to show if enemy can see the player
             }
 
@@ -109,7 +112,7 @@ public class dogEnemy : MonoBehaviour
         iHearYou = Physics.CheckSphere(transform.position, hearDistance, playerZone);
         if (iHearYou == true)
         {
-
+            audioSource.PlayOneShot(rangedAudio);
             iSeeYou = true;
         }
 
@@ -128,12 +131,14 @@ public class dogEnemy : MonoBehaviour
         {
             transform.LookAt(player);
             chasePlayer();
+            audioSource.PlayOneShot(rangedAudio);
         }
 
         if (iSeeYou == true && withInAttackRange == true)
         {
             //animator.SetBool("Attack", true);
             attackPlayer();
+            audioSource.PlayOneShot(rangedAudio);
             transform.LookAt(player);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
         }
@@ -189,6 +194,7 @@ public class dogEnemy : MonoBehaviour
             Invoke(nameof(MoveBackAfterAttack), attackAnimationDuration);
             InvokeRepeating("AttackMoving", animationEndDelay, 1f);
             Invoke(nameof(CancelAttackMoving), attackCooldown - .1f);
+            audioSource.PlayOneShot(hitAudio);
         }
     }
 
