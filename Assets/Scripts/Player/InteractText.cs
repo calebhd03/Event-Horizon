@@ -6,19 +6,25 @@ using TMPro;
 
 public class InteractText : MonoBehaviour
 {
+    [SerializeField] GameObject toolTips;
+    Image image;
     void Start()
     {
-        gameObject.SetActive(false);
+        image = GetComponent<Image>();
+        image.enabled = false;
+        toolTips.SetActive(false);
     }
 
     public void ShowDialogText()
     {
-        gameObject.SetActive(true);
+        image.enabled = true;
+        toolTips.SetActive(true);
         Invoke("HideDialogText", 3);
     }
 
     public void HideDialogText()
     {
-        gameObject.SetActive(false);
+        image.enabled = false;
+        toolTips.SetActive(false);
     }
 }
