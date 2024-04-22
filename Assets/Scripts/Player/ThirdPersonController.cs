@@ -85,7 +85,7 @@ namespace StarterAssets
         public bool LockCameraPosition = false;
 
         private Vector3 lastForwardDirection = Vector3.forward;
-        private float lastTargetRotation;
+        [HideInInspector] public float lastTargetRotation;
         private float noInputTransitionSpeed = 0.2f; 
         public float rotationSmoothTime = 0.1f; // Tweak the value
         private Vector3 rotationVelocity = Vector3.zero;

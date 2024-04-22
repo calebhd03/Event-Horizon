@@ -252,6 +252,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                     // Use Lerp to smoothly interpolate between the original rotation and a tilted rotation
                     transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(aimDirection), Time.deltaTime * 5f);
 
+                    thirdPersonController.lastTargetRotation = transform.eulerAngles.y;
                     // Disable all weapon objects first
                     //standardWeaponObject.SetActive(false);
                     //blackHoleWeaponObject.SetActive(false);
