@@ -110,10 +110,6 @@ public class crystalEnemy : MonoBehaviour
 
         if (iHearYou == true)
         {
-<<<<<<< Updated upstream
-            //audioSource.PlayOneShot(rangedAudio);
-=======
->>>>>>> Stashed changes
             iSeeYou = true;
         }
 
@@ -173,10 +169,6 @@ public class crystalEnemy : MonoBehaviour
             if (isAttacking == true)
             {
                 animator.SetBool("MeleeAttack", true);
-<<<<<<< Updated upstream
-                //audioSource.PlayOneShot(rangedAudio);
-=======
->>>>>>> Stashed changes
             }
 
             else
