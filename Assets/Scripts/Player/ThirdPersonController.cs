@@ -154,6 +154,7 @@ namespace StarterAssets
         public PauseMenuScript pauseMenuScript;
 
         private AmmoHole currentAmmoHole;
+        public int crabsOnPlayer;
 
         public PlayerDataManager playerDataManager;
 

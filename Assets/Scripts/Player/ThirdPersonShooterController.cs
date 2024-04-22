@@ -6,6 +6,8 @@ using Unity.VisualScripting;
 using System.Collections;
 using System;
 using TMPro;
+using Steamworks;
+
 public class ThirdPersonShooterController : MonoBehaviour 
 {
          public PlayerData playerData;
@@ -390,6 +392,12 @@ public class ThirdPersonShooterController : MonoBehaviour
                     currentCooldown = standardCooldown;
                     thirdPersonController.SwitchCameraTarget();
                     blasterFlash.Play();
+
+                    int currentBulletsFired;
+                    Steamworks.SteamUserStats.GetStat("STAT_BULLETS_FIRED", out currentBulletsFired);
+                    currentBulletsFired++;
+                    Steamworks.SteamUserStats.SetStat("STAT_BULLETS_FIRED", currentBulletsFired);
+                    Steamworks.SteamUserStats.StoreStats();
 
                     if(!playerData.SavePlasmaUpgrade)
                     {

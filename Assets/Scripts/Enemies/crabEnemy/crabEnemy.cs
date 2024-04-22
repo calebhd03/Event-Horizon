@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using StarterAssets;
+using Steamworks;
 
 public class crabEnemy : MonoBehaviour
 {
@@ -200,6 +201,12 @@ public class crabEnemy : MonoBehaviour
                 thirdPersonController.SprintSpeed = 1.5f;
                 Debug.Log("Speed has been changed");
 
+                thirdPersonController.crabsOnPlayer++;
+                if(thirdPersonController.crabsOnPlayer >= 3)
+                {
+                    SteamUserStats.SetAchievement("ACH_BABIES");
+                    Steamworks.SteamUserStats.StoreStats();
+                }
             }
             else
             {
@@ -236,6 +243,8 @@ public class crabEnemy : MonoBehaviour
                         thirdPersonController.MoveSpeed = 3f;
                         thirdPersonController.SprintSpeed = 6f;
                         Debug.Log("Speed has been changed back");
+
+                        thirdPersonController.crabsOnPlayer = 0;
                     }
                 }
             }

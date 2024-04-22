@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Steamworks;
 
 public class dogEnemy : MonoBehaviour
 {
@@ -281,6 +282,12 @@ public class dogEnemy : MonoBehaviour
 
     public void Die()
     {
+        int currentDogKills;
+        Steamworks.SteamUserStats.GetStat("STAT_DOG_KILLS", out currentDogKills);
+        currentDogKills++;
+        Steamworks.SteamUserStats.SetStat("STAT_DOG_KILLS", currentDogKills);
+        Steamworks.SteamUserStats.StoreStats();
+
         agent.isStopped = true;
         StartCoroutine(WaitAndDropStuff(3f));
         iSeeYou = false;

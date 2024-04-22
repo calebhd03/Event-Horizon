@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Steamworks;
 
 public class HealthMetrics : MonoBehaviour
 {
@@ -37,6 +38,14 @@ public class HealthMetrics : MonoBehaviour
 
     private void Die()
     {
+        int currentEnemyKills;
+        Steamworks.SteamUserStats.GetStat("STAT_ENEMIES_KILLED", out currentEnemyKills);
+        currentEnemyKills++;
+        Steamworks.SteamUserStats.SetStat("STAT_ENEMIES_KILLED", currentEnemyKills);
+
+        SteamUserStats.SetAchievement("ACH_KILL_ENEMY");
+
+        Steamworks.SteamUserStats.StoreStats();
         Destroy(gameObject);
     }
 
