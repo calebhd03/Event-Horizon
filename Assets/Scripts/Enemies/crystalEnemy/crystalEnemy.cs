@@ -78,6 +78,8 @@ public class crystalEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        animator.SetFloat("Speed", agent.velocity.magnitude);
+
         updateHealth();
         Vector3 playerTarget = (player.position - transform.position).normalized;
 
@@ -168,12 +170,7 @@ public class crystalEnemy : MonoBehaviour
 
             if (isAttacking == true)
             {
-                animator.SetBool("MeleeAttack", true);
-            }
-
-            else
-            {
-                animator.SetBool("MeleeAttack", false);
+                animator.SetTrigger("Swipe");
             }
 
             Invoke(nameof(meleeAttackCoolDown), attackAnimationDuration);
@@ -240,6 +237,7 @@ public class crystalEnemy : MonoBehaviour
 
     public void Die()
     {
+        animator.SetTrigger("Die");
         StartCoroutine(WaitAndDropStuff(3f));
         iSeeYou = false;
     }
@@ -332,5 +330,10 @@ public class crystalEnemy : MonoBehaviour
         {
             transform.parent.gameObject.SetActive(true);
         }
+    }
+
+    public void ArmorBroke()
+    {
+        animator.SetTrigger("Broken");
     }
 }

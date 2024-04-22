@@ -5,20 +5,13 @@ using UnityEngine;
 public class crystalArmor : MonoBehaviour
 {
     private int shotOnArmor = 0;
+    [SerializeField] crystalEnemy crystalEnemy;
     // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(shotOnArmor == 4)
-        {
-            Destroy(this.gameObject);
-        }
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -26,6 +19,14 @@ public class crystalArmor : MonoBehaviour
         {
             shotOnArmor += 1;
             Debug.Log("Shots on armor" + shotOnArmor);
+        }
+    }
+
+    private void UpdateArmorHealth()
+    {
+        if (shotOnArmor == 4)
+        {
+            crystalEnemy.ArmorBroke();
         }
     }
 }
