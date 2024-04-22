@@ -236,6 +236,8 @@ public class ThirdPersonShooterController : MonoBehaviour
 
             if (scnScr.Scan == false)
             {
+                AnimatorAim();
+
                 if (starterAssetsInputs.aim)
                 {
 
@@ -649,22 +651,18 @@ public class ThirdPersonShooterController : MonoBehaviour
         shotgunWeaponObject.transform.position = shotgunHolster.transform.position;
         shotgunWeaponObject.transform.localEulerAngles = new Vector3(0, 90, 0);*/
 
+        AnimatorAim();
 
-        if (starterAssetsInputs.aim)
-        {
-            animator.SetTrigger("aimGun");
-            //standardWeaponObject.SetActive(true);
-            //blackHoleWeaponObject.SetActive(false);
-            //shotgunWeaponObject.SetActive(false);
-        }
-        else if (!starterAssetsInputs.aim)
-        {
-            animator.ResetTrigger("aimGun");
-        }
+
         equippedWeapon = 0;
         shotCooldown = currentCooldown;
         RefreshWeaponIcons();
         UpdateAmmoCount();
+    }
+
+    private void AnimatorAim()
+    {
+        animator.SetBool("aimGun", starterAssetsInputs.aim);
     }
 
     public void EquipBlackHoleGun()
@@ -678,17 +676,9 @@ public class ThirdPersonShooterController : MonoBehaviour
         shotgunWeaponObject.transform.position = shotgunHolster.transform.position;
         shotgunWeaponObject.transform.localEulerAngles = new Vector3(0, 90, 0);*/
 
-        if (starterAssetsInputs.aim)
-        {
-            animator.SetTrigger("aimGun");
-            //standardWeaponObject.SetActive(false);
-            //blackHoleWeaponObject.SetActive(false);
-            //shotgunWeaponObject.SetActive(true);
-        }
-        else if (!starterAssetsInputs.aim)
-        {
-            animator.ResetTrigger("aimGun");
-        }
+
+        AnimatorAim();
+
         equippedWeapon = 1;
         shotCooldown = currentCooldown;
         RefreshWeaponIcons();
