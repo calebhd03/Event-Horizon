@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using StarterAssets;
-using Steamworks;
 
 public class PlantBasedHealth : MonoBehaviour
 {
@@ -79,11 +78,8 @@ public class PlantBasedHealth : MonoBehaviour
     {
         if (used == false)
         {
-                if (playerHealth != null)
+                if (playerHealth != null && playerHealth.playerData.currentHealth < playerHealth.playerData.maxHealth)
                 {
-                    SteamUserStats.SetAchievement("ACH_DAMAGE_PLANT");
-                    Steamworks.SteamUserStats.StoreStats();
-
                     used = true;
                     playerHealth.ModifyHealth(-pickUpHealthAmount);
                     mesh.enabled = false;
