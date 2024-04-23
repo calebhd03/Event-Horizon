@@ -46,7 +46,6 @@ public class ExplodingPlant : MonoBehaviour
         animator = GetComponent<Animator>();
         healthBar = GetComponentInChildren<EnemyHealthBar>();
         audioSource = GetComponent<AudioSource>();
-        meshRenderer = GetComponent<MeshRenderer>();
 
     }
     // Start is called before the first frame update
@@ -69,6 +68,7 @@ public class ExplodingPlant : MonoBehaviour
         }
     }
 
+
     private void TriggerPlant()
     {
         if (!hasExploded) 
@@ -76,14 +76,27 @@ public class ExplodingPlant : MonoBehaviour
             explosionSouundTriggered = true;
             explode = true;
             hasExploded = true;
+            GetComponent<Animator>().SetTrigger("Expload");
             StartCoroutine(ExplodeDelay());
         }
+    }
+
+    [SerializeField] AudioSource exploadingCharging;
+    [SerializeField] AudioClip imploadingSound;
+
+    public void ImploadingSound()
+    {
+        exploadingCharging.PlayOneShot(imploadingSound);
+    }
+
+    public void HideObj()
+    {
+        meshRenderer.enabled = false;
     }
 
     private IEnumerator ExplodeDelay()
     {
         yield return new WaitForSeconds(explodeAnimationDuration);
-        meshRenderer.enabled = false;
         colliderPrefab.SetActive(false);
         yield return new WaitForSeconds(.1f);
         if(!sound)
