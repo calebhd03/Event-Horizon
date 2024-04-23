@@ -6,6 +6,7 @@ public class TriggerCameraController : MonoBehaviour
 {
     public LowCameraController lowCameraController;
     public GameObject goalObject;
+    public GameObject safetyBox; // Public reference to the safety box object
     public float triggerDelay = 10f;
     public bool enableDolly = true;
     public float dollyAmount = 0f;
@@ -22,6 +23,12 @@ public class TriggerCameraController : MonoBehaviour
         if (newFocusTarget != null)
         {
             objectMover = newFocusTarget.GetComponent<ObjectMover>(); // Get the ObjectMover component
+        }
+
+        // Ensure safety box is initially set to false
+        if (safetyBox != null)
+        {
+            safetyBox.SetActive(false);
         }
     }
 
@@ -57,5 +64,18 @@ public class TriggerCameraController : MonoBehaviour
         {
             Debug.LogError("LowCameraController is not assigned.");
         }
+
+        // Toggle safety box state
+        if (safetyBox != null)
+        {
+            StartCoroutine(ToggleSafetyBox());
+        }
+    }
+
+    IEnumerator ToggleSafetyBox()
+    {
+        safetyBox.SetActive(true); // Set safety box to true
+        yield return new WaitForSecondsRealtime(triggerDelay);
+        safetyBox.SetActive(false); // Set safety box to false after triggerDelay
     }
 }
