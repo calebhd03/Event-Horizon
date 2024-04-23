@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Steamworks;
 
 public class crystalEnemy : MonoBehaviour
 {
@@ -240,6 +241,15 @@ public class crystalEnemy : MonoBehaviour
 
     public void Die()
     {
+        int currentEnemyKills;
+        Steamworks.SteamUserStats.GetStat("STAT_ENEMIES_KILLED", out currentEnemyKills);
+        currentEnemyKills++;
+        Steamworks.SteamUserStats.SetStat("STAT_ENEMIES_KILLED", currentEnemyKills);
+
+        SteamUserStats.SetAchievement("ACH_KILL_ENEMY");
+
+        Steamworks.SteamUserStats.StoreStats();
+
         StartCoroutine(WaitAndDropStuff(3f));
         iSeeYou = false;
     }

@@ -51,7 +51,7 @@ public class ExplodeAcid : MonoBehaviour
             HealthMetrics healthMetrics = other.GetComponentInParent<HealthMetrics>();
             if(healthMetrics != null)
             {
-                healthMetrics.ModifyHealth(-20f);
+                healthMetrics.ModifyHealth(-20f, 4);
                 hasDamagedEnemy = true;
             }
         }
@@ -73,7 +73,7 @@ public class ExplodeAcid : MonoBehaviour
             HealthMetrics healthMetrics = other.GetComponentInParent<HealthMetrics>();
             if (healthMetrics != null)
             {
-                healthMetrics.ModifyHealth(-20f);
+                healthMetrics.ModifyHealth(-20f, 4);
                 hasDamagedEnemy = true;
             }
         }

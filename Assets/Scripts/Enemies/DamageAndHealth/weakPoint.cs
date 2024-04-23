@@ -53,7 +53,7 @@ public class weakPoint : MonoBehaviour
         if (boss2 != null && other.CompareTag("Orb") && bossPhaseTwo.noBulletDamage)
         {
             Debug.Log("Hii");
-            healthMetrics.ModifyHealth(-orbDamage);
+            healthMetrics.ModifyHealth(-orbDamage, 1);
         }
 
         if (other.CompareTag("Bullet"))
@@ -80,11 +80,11 @@ public class weakPoint : MonoBehaviour
 
                 if (meleeUp == true)
                 {
-                    healthMetrics.ModifyHealth(-knifeDamage * knifeDamageUpFactor);
+                    healthMetrics.ModifyHealth(-knifeDamage * knifeDamageUpFactor, 2);
                 }
                 else
                 {
-                healthMetrics.ModifyHealth(-knifeDamage);
+                healthMetrics.ModifyHealth(-knifeDamage, 2);
                 }
                 
                 Debug.Log("A  WeakPoint");
@@ -116,7 +116,7 @@ public class weakPoint : MonoBehaviour
         else if (other.CompareTag("BHBullet"))
         {
             hit = true;
-            healthMetrics.ModifyHealth(-BHDamage);
+            healthMetrics.ModifyHealth(-BHDamage, 1);
 
             if (upgradeEffects != null && upgradeEffects.stopStackDamage == false)
             {
@@ -153,7 +153,7 @@ public class weakPoint : MonoBehaviour
                 }
             }
 
-            healthMetrics.ModifyHealth(-damage);
+            healthMetrics.ModifyHealth(-damage, 0);
             Debug.Log("A  WeakPoint");
                 // Set iSeeYou to true in the BasicEnemy script
             if (basicEnemyScript != null)
@@ -192,11 +192,11 @@ public class weakPoint : MonoBehaviour
 
             if (meleeUp == true)
             {
-                healthMetrics.ModifyHealth(-knifeDamage * knifeDamageUpFactor);
+                healthMetrics.ModifyHealth(-knifeDamage * knifeDamageUpFactor, 2);
             }
             else
             {
-                healthMetrics.ModifyHealth(-knifeDamage);
+                healthMetrics.ModifyHealth(-knifeDamage, 2);
             }
         }
     }
