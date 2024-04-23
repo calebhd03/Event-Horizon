@@ -64,7 +64,10 @@ public class SceneTransitionController : MonoBehaviour
         }
         else if(sceneName == "The Center")
         {
-            Background_Music.instance.CenterMusic();
+            if (Background_Music.instance != null)
+                {
+                    Background_Music.instance.PauseMusic();
+                }
         }
         else if (sceneName == "Start Menu")
         {
