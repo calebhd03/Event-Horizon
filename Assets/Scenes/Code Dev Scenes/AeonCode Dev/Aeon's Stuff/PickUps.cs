@@ -33,6 +33,9 @@ public class PickUps : MonoBehaviour
 
             // Set soundPlayed to true to ensure it only plays once
             soundPlayed = true;
+
+            // Destroy the game object after playing the sound
+            Destroy(gameObject);
         }
     }
 }
