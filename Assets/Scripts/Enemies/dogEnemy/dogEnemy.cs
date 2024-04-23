@@ -366,14 +366,22 @@ public class dogEnemy : MonoBehaviour
 
     public void Dead()
     {
-        int currentEnemyKills;
-        Steamworks.SteamUserStats.GetStat("STAT_ENEMIES_KILLED", out currentEnemyKills);
-        currentEnemyKills++;
-        Steamworks.SteamUserStats.SetStat("STAT_ENEMIES_KILLED", currentEnemyKills);
+        if(SteamManager.Initialized)
+        {
+            int currentEnemyKills;
+            Steamworks.SteamUserStats.GetStat("STAT_ENEMIES_KILLED", out currentEnemyKills);
+            currentEnemyKills++;
+            Steamworks.SteamUserStats.SetStat("STAT_ENEMIES_KILLED", currentEnemyKills);
 
-        SteamUserStats.SetAchievement("ACH_KILL_ENEMY");
+            int currentDogKills;
+            Steamworks.SteamUserStats.GetStat("STAT_DOG_KILLS", out currentDogKills);
+            currentDogKills++;
+            Steamworks.SteamUserStats.SetStat("STAT_DOG_KILLS", currentDogKills);
 
-        Steamworks.SteamUserStats.StoreStats();
+            SteamUserStats.SetAchievement("ACH_KILL_ENEMY");
+
+            Steamworks.SteamUserStats.StoreStats();
+        }
         
         if (isDead)
         {

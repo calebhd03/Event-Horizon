@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using StarterAssets;
 using UnityEngine;
+using Steamworks;
 
 public class SkillTree : MonoBehaviour
 {
@@ -40,6 +41,12 @@ public class SkillTree : MonoBehaviour
         {
             upgrades.SetUpgrades();
         }
+
+        if(SteamManager.Initialized)
+        {
+            SteamUserStats.SetAchievement("ACH_UPGRADE_TOOL");
+            Steamworks.SteamUserStats.StoreStats();
+        }
     }
 
     public void SlowEnemyUpgrade()
@@ -50,6 +57,12 @@ public class SkillTree : MonoBehaviour
         {
             upgrades.SetUpgrades();
         }
+
+        if(SteamManager.Initialized)
+        {
+            SteamUserStats.SetAchievement("ACH_UPGRADE_SLOW");
+            Steamworks.SteamUserStats.StoreStats();
+        }
     }
 
     public void DamageOverTimeUpgrade()
@@ -59,6 +72,12 @@ public class SkillTree : MonoBehaviour
         foreach(UpgradeEffects upgrades in upgradeEffects)
         {
             upgrades.SetUpgrades();
+        }
+
+        if(SteamManager.Initialized)
+        {
+            SteamUserStats.SetAchievement("ACH_UPGRADE_DOT");
+            Steamworks.SteamUserStats.StoreStats();
         }
     }
 
@@ -89,6 +108,12 @@ public class SkillTree : MonoBehaviour
         {
             upgrades.SetUpgrades();
         }
+
+        if(SteamManager.Initialized)
+        {
+            SteamUserStats.SetAchievement("ACH_UPGRADE_BHG");
+            Steamworks.SteamUserStats.StoreStats();
+        }
     }
     public void BHGPullUpgrade()
     {
@@ -98,6 +123,12 @@ public class SkillTree : MonoBehaviour
         {
             upgrades.SetUpgrades();
         }
+
+        if(SteamManager.Initialized)
+        {
+            SteamUserStats.SetAchievement("ACH_UPGRADE_GRAVITY");
+            Steamworks.SteamUserStats.StoreStats();
+        }
     }
     public void PlasmaUpgrade()
     {
@@ -106,6 +137,12 @@ public class SkillTree : MonoBehaviour
         foreach(UpgradeEffects upgrades in upgradeEffects)
         {
             upgrades.SetUpgrades();
+        }
+
+        if(SteamManager.Initialized)
+        {
+            SteamUserStats.SetAchievement("ACH_UPGRADE_PLASMA");
+            Steamworks.SteamUserStats.StoreStats();
         }
     }
     private void SetUpgradesOnLoad()

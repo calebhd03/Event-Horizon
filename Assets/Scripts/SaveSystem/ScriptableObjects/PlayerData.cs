@@ -83,35 +83,38 @@ public class PlayerData : ScriptableObject
         ammoHole = itemBools[0]; healthPlant = itemBools[1]; poisonPlant = itemBools[2]; spaceSuit1 = itemBools[3]; spaceSuit2 = itemBools[4]; spaceSuit3 = itemBools[5]; spaceSuit4 = itemBools[6]; spaceSuit5 = itemBools[7]; spaceSuit6 = itemBools[8]; wreakedShip1 = itemBools[9]; wreakedShip2 = itemBools[10]; memo = itemBools[11]; memo1 = itemBools[12]; memo2 = itemBools[13]; memo3 = itemBools[14]; memo4 = itemBools[15]; memo5 = itemBools[16]; memo6 = itemBools[17]; tachyonTranslocator = itemBools[18]; dogTag = itemBools[19]; quantumStabilizer = itemBools[20]; nexusGun = itemBools[21];
         objective = journalBools[0]; objective1 = journalBools[1]; objective2 = journalBools[2]; objective3 = journalBools[3]; objective4 = journalBools[4]; objective5 = journalBools[5]; objective6 = journalBools[6]; objective7 = journalBools[7]; objective8 = journalBools[8]; objective9 = journalBools[9]; objective10 = journalBools[10]; objective11 = journalBools[11]; objective12 = journalBools[12]; objective13 = journalBools[13]; objective14 = journalBools[14]; objective15 = journalBools[15]; objective16 = journalBools[16]; objective17 = journalBools[16];
 
-        SteamUserStats.SetAchievement("ACH_FIRST_SCAN");
+        if(SteamManager.Initialized)
+        {
+            SteamUserStats.SetAchievement("ACH_FIRST_SCAN");
 
-        int enemiesUnlocked = 0;
-        foreach(var enemy in enemyBools)
-        {
-            if(enemy == true) enemiesUnlocked++;
-        }
-        int memoriesUnlocked = 0;
-        foreach(var memory in memoryBools)
-        {
-            if(memory == true) memoriesUnlocked++;
-        }
-        int itemsUnlocked = 0;
-        foreach(var item in itemBools)
-        {
-            if(item == true) itemsUnlocked++;
-        }
-        int journalsUnlocked = 0;
-        foreach(var journal in journalBools)
-        {
-            if(journal == true) journalsUnlocked++;
-        }
+            int enemiesUnlocked = 0;
+            foreach(var enemy in enemyBools)
+            {
+                if(enemy == true) enemiesUnlocked++;
+            }
+            int memoriesUnlocked = 0;
+            foreach(var memory in memoryBools)
+            {
+                if(memory == true) memoriesUnlocked++;
+            }
+            int itemsUnlocked = 0;
+            foreach(var item in itemBools)
+            {
+                if(item == true) itemsUnlocked++;
+            }
+            int journalsUnlocked = 0;
+            foreach(var journal in journalBools)
+            {
+                if(journal == true) journalsUnlocked++;
+            }
 
-        if(enemiesUnlocked == enemyBools.Length && memoriesUnlocked == memoryBools.Length && itemsUnlocked == itemBools.Length && journalsUnlocked == journalBools.Length)
-        {
-            SteamUserStats.SetAchievement("ACH_LOG_COMPLETE");
+            if(enemiesUnlocked == enemyBools.Length && memoriesUnlocked == memoryBools.Length && itemsUnlocked == itemBools.Length && journalsUnlocked == journalBools.Length)
+            {
+                SteamUserStats.SetAchievement("ACH_LOG_COMPLETE");
+            }
+            
+            SteamUserStats.StoreStats();
         }
-        
-        SteamUserStats.StoreStats();
     }   
 
 

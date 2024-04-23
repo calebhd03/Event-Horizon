@@ -18,11 +18,15 @@ public class SteamTest : MonoBehaviour
 
     public void TestAchievement()
     {
-        SteamUserStats.SetAchievement("ACH_START_GAME");
-        SteamUserStats.SetAchievement("ACH_WIN_ONE_GAME");
+        if(SteamManager.Initialized)
+        {
+            SteamUserStats.SetAchievement("ACH_START_GAME");
+            SteamUserStats.SetAchievement("ACH_WIN_ONE_GAME");
 
-        SteamUserStats.StoreStats();
+            SteamUserStats.StoreStats();
 
-        Debug.Log("Test Achievement");
+            Debug.Log("Test Achievement");
+        }
+
     }
 }

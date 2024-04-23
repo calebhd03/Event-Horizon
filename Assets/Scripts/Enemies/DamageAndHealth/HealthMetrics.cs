@@ -33,13 +33,16 @@ public class HealthMetrics : MonoBehaviour
     {
         currentHealth = Mathf.Clamp(currentHealth + amount, 0f, maxHealth);
 
-        if(currentHealth <= 0 && weaponType == 2)
+        if(SteamManager.Initialized)
         {
-            int currentKnifeKills;
-            Steamworks.SteamUserStats.GetStat("STAT_KNIFE_KILLS", out currentKnifeKills);
-            currentKnifeKills++;
-            Steamworks.SteamUserStats.SetStat("STAT_KNIFE_KILLS", currentKnifeKills);
-            Steamworks.SteamUserStats.StoreStats();
+            if(currentHealth <= 0 && weaponType == 2)
+            {
+                int currentKnifeKills;
+                Steamworks.SteamUserStats.GetStat("STAT_KNIFE_KILLS", out currentKnifeKills);
+                currentKnifeKills++;
+                Steamworks.SteamUserStats.SetStat("STAT_KNIFE_KILLS", currentKnifeKills);
+                Steamworks.SteamUserStats.StoreStats();
+            }
         }
 
         OnHealthChanged?.Invoke(currentHealth, maxHealth);

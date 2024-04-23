@@ -86,6 +86,16 @@ public class PlantBasedHealth : MonoBehaviour
                     audioSource.PlayOneShot(damageAudio, 1);
                     damageCloud.Play();
                     StartCoroutine(StopCloud());
+
+                    if(SteamManager.Initialized)
+                    {
+                        int currentPlantUses;
+                        Steamworks.SteamUserStats.GetStat("STAT_DAMAGE_PLANT", out currentPlantUses);
+                        currentPlantUses++;
+                        Steamworks.SteamUserStats.SetStat("STAT_DAMAGE_PLANT", currentPlantUses);
+
+                        Steamworks.SteamUserStats.StoreStats();
+                    }
                 }
         }
     }

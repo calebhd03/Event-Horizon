@@ -319,14 +319,17 @@ public class crystalEnemy : MonoBehaviour
 
     public void Dead()
     {
-        int currentEnemyKills;
-        Steamworks.SteamUserStats.GetStat("STAT_ENEMIES_KILLED", out currentEnemyKills);
-        currentEnemyKills++;
-        Steamworks.SteamUserStats.SetStat("STAT_ENEMIES_KILLED", currentEnemyKills);
+        if(SteamManager.Initialized)
+        {
+            int currentEnemyKills;
+            Steamworks.SteamUserStats.GetStat("STAT_ENEMIES_KILLED", out currentEnemyKills);
+            currentEnemyKills++;
+            Steamworks.SteamUserStats.SetStat("STAT_ENEMIES_KILLED", currentEnemyKills);
 
-        SteamUserStats.SetAchievement("ACH_KILL_ENEMY");
+            SteamUserStats.SetAchievement("ACH_KILL_ENEMY");
 
-        Steamworks.SteamUserStats.StoreStats();
+            Steamworks.SteamUserStats.StoreStats();
+        }
         
         if (isDead)
         {
