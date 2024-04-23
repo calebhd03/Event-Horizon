@@ -5278,6 +5278,29 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 7.111816
   m_Center: {x: 0, y: 0, z: -54.967766}
+--- !u!114 &1123760960466296291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4008464132832532558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 906b147232530c34dac87e422b4ec8c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  armorMaxHealth: 0
+  crystalEnemy: {fileID: 3657632521585384086}
+  breakSound: {fileID: 0}
+  breakParticle: {fileID: 0}
+  hitSound: {fileID: 1284554040}
+  model: {fileID: 8795879362997802681}
+  crystalHitSounds:
+  - {fileID: 8300000, guid: b924a203dc7034c468eb7dc3ca6131fe, type: 3}
+  - {fileID: 8300000, guid: add1d82c5e5223e45b670ac44735f189, type: 3}
+  - {fileID: 8300000, guid: 96267ecc07891ea4da090e34465c39c2, type: 3}
+  - {fileID: 8300000, guid: 252317a193951884e8fc67840d09b50c, type: 3}
 --- !u!82 &1284554040
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5288,9 +5311,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 5748461615803123587, guid: cc46b327e10c02d46b24182aae5e9e5f, type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: a5d2ecc50a0f3d9478b72f09f0a15270, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.78
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
