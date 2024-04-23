@@ -6,12 +6,11 @@ public class TriggeredGameObject : MonoBehaviour
 {
     public float heightIncrease = 10.0f; // Amount of units to increase height
     public float spinSpeedSlow = 3.0f; // Initial speed at which the object spins around the Y-axis
-    public float spinSpeedFast = 30.0f; // Speed after 19 seconds
+    public float spinSpeedFast = 30.0f; // Speed after 8 seconds
     public GameObject explosionPrefab; // Particle effect prefab
     public AudioClip explosionSound; // Sound to play on explosion
 
     private bool triggered = false;
-    private bool speedingUp = false;
     private Rigidbody rb;
 
     private void OnTriggerEnter(Collider other)
@@ -28,17 +27,17 @@ public class TriggeredGameObject : MonoBehaviour
             // Start spinning
             StartSpinning(spinSpeedSlow);
 
-            // Invoke method to speed up spinning after 19 seconds
-            Invoke("SpeedUpSpinning", 19.0f);
+            // Invoke method to speed up spinning after 8 seconds
+            Invoke("SpeedUpSpinning", 8.0f);
 
             // Instantiate particle effect after a delay
-            Invoke("Explode", 19.0f);
+            Invoke("Explode", 8.0f);
 
             // Play sound effect
             AudioSource.PlayClipAtPoint(explosionSound, transform.position);
 
             // Destroy this object after a delay
-            Destroy(gameObject, 20.0f);
+            Destroy(gameObject, 8.0f);
         }
     }
 

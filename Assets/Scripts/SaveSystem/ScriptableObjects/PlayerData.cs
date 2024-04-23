@@ -47,6 +47,9 @@ public class PlayerData : ScriptableObject
     //hardModeToggle
     public bool hardMode = false;
 
+    public bool PickUp1 = false;
+    public bool PickUp2 = false;
+
     public bool[] enemyBools, memoryBools, itemBools, journalBools;
     //LogSystemSave
     //logenemies
@@ -147,6 +150,8 @@ public class PlayerData : ScriptableObject
         SaveBHGPullEffect = false;
         hardMode = false;
         hasCompass = false;
+        PickUp1 = false;
+        PickUp2 = false;
     }
     public void ResetSemiHealth()
     {

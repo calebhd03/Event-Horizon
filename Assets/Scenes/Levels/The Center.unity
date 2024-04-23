@@ -9618,6 +9618,32 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -3838504945528930300, guid: 4aa59bbc45e2fd7479d6af9cfc8131f1, type: 3}
+--- !u!114 &330240973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330240971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5cce18a05558d24999b65b8a8ddace0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: 6ed2d50279210ac4d94671f1c8b74678, type: 2}
+--- !u!65 &330240976
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330240971}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 7.92511, y: 4.8631306, z: 5.0776844}
+  m_Center: {x: -1.3046265, y: -4.0625024, z: 1.548861}
 --- !u!1001 &339677315
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19698,31 +19724,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 963749980, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: Damping.x
-      value: 0
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 963749980, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: Damping.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 963749980, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: Damping.z
-      value: 0
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 963749980, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: CameraDistance
-      value: 0
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 963749980, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: ShoulderOffset.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 963749980, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: ShoulderOffset.y
-      value: 0
+      value: -0.4
       objectReference: {fileID: 0}
     - target: {fileID: 963749980, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: VerticalArmLength
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1961895482, guid: f866f564909ad034299d28e06c9b272f, type: 3}
       propertyPath: healthBar
