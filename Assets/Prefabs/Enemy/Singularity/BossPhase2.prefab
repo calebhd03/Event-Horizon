@@ -61,9 +61,7 @@ MonoBehaviour:
   weakPointDamage: 20
   weakPointPlasmaDamage: 30
   knifeDamage: 10
-  BHDamage: 30
   damageSound: {fileID: 8300000, guid: 780f0a773e3715a4493f66029cd5a971, type: 3}
-  boss2: {fileID: 0}
   damageUpgrade: 0
   slowEnemy: 0
   damageOverTimeEnemy: 0
@@ -574,10 +572,7 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
-  orbDamage: 50
-  BHDamage: 20
   damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
-  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -973,10 +968,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   healthBar: {fileID: 0}
-  upgrades: {fileID: 0}
-  health: {fileID: 0}
-  regular: {fileID: 0}
-  weak: {fileID: 0}
   seeDistance: 34.95
   allAttackCoolDown: 20
   meteorPortalPrefab: {fileID: 6820707611387592768, guid: 11da55da96c400b439a033baa03f052e, type: 3}
@@ -994,7 +985,6 @@ MonoBehaviour:
   Enemies:
   - {fileID: 2858620025199205393, guid: 833f05e868d659e4fbb4fde05a50fa9f, type: 3}
   - {fileID: 1375103746728593473, guid: 1ac1eff0c18f8da44951cebea42e244e, type: 3}
-  - {fileID: 1375103746728593473, guid: 0efdfba0dc4c355409a502497e597cee, type: 3}
   maxEnemySpawnDistance: 6
   navMeshLayer:
     serializedVersion: 2
@@ -1009,10 +999,6 @@ MonoBehaviour:
   healthPickupPrefab: {fileID: 0}
   pickupDropChance: 0.3
   Portal: {fileID: 1464895933930130252, guid: f867f91f0bffc4f4db651b1be23a1a15, type: 3}
-  isDead: 0
-  captured: 0
-  timer: 0
-  purpleWall: {fileID: 0}
 --- !u!114 &4420257633283562907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1243,10 +1229,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: f3c8e3f0cc287624eb9a3ff5ba8b4c78, type: 2}
   healthMetrics: {fileID: 4973244207957182977}
-  enemyType: 0
   listIndex: 0
-  sceneIndex: 0
-  wasDeadInLastSave: 0
+  scene: 0
 --- !u!1 &6736512306054190801
 GameObject:
   m_ObjectHideFlags: 0

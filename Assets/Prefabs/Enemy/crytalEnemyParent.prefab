@@ -148,7 +148,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3033667219593020291, guid: 2374e07e60e45b34f9cecdf867335813, type: 3}
+  - {fileID: 2100000, guid: b6b6854b7ac8b394b920cb85a7a2ae18, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5252,6 +5252,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_CrystalGuard_WeakSpot
       objectReference: {fileID: 0}
+    - target: {fileID: 3418002285673343216, guid: a8229a215e7b85547880b2efa87f7b74, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1d9ee383ee0beab4b9c1575918ad7753, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8229a215e7b85547880b2efa87f7b74, type: 3}
 --- !u!1 &4008464132832532558 stripped
@@ -5368,132 +5372,8 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1123760960466296291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4008464132832532558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 906b147232530c34dac87e422b4ec8c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  armorMaxHealth: 0
-  crystalEnemy: {fileID: 3657632521585384086}
-  breakSound: {fileID: 7631343829163235614}
-  breakParticle: {fileID: 0}
-  hitSound: {fileID: 1284554040}
-  model: {fileID: 8795879362997802681}
-  crystalHitSounds:
-  - {fileID: 8300000, guid: b924a203dc7034c468eb7dc3ca6131fe, type: 3}
-  - {fileID: 8300000, guid: add1d82c5e5223e45b670ac44735f189, type: 3}
-  - {fileID: 8300000, guid: 96267ecc07891ea4da090e34465c39c2, type: 3}
-  - {fileID: 8300000, guid: 252317a193951884e8fc67840d09b50c, type: 3}
---- !u!82 &7631343829163235614
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4008464132832532558}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 5748461615803123587, guid: cc46b327e10c02d46b24182aae5e9e5f, type: 2}
-  m_audioClip: {fileID: 8300000, guid: a5d2ecc50a0f3d9478b72f09f0a15270, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 0.8
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!4 &4389668543999820532 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a8229a215e7b85547880b2efa87f7b74, type: 3}
-  m_PrefabInstance: {fileID: 4278847587826378015}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8795879362997802681 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -4507900262165122138, guid: a8229a215e7b85547880b2efa87f7b74, type: 3}
   m_PrefabInstance: {fileID: 4278847587826378015}
   m_PrefabAsset: {fileID: 0}
