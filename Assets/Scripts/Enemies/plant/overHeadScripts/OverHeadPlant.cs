@@ -44,6 +44,9 @@ public class OverHeadPlant : MonoBehaviour
     private bool isDead = false;//assuming it is alive
     public int count = 0;
 
+    private bool playOnce = false;
+    public AudioClip grabSound;
+
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -80,6 +83,11 @@ public class OverHeadPlant : MonoBehaviour
     {
         if (trigger != null && trigger.atActivated && isOn)
         {
+            if(!playOnce)
+            {
+                playOnce = true;
+                audioSource.PlayOneShot(grabSound);
+            }
            healthMetrics.currentHealth = 100f;
            healthMetrics.maxHealth = 100f;
            if (thirdPersonShooterController.knifeSlash == true)

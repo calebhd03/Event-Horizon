@@ -42,6 +42,9 @@ public class crabEnemy : MonoBehaviour
     public AudioClip stickAudio;
     HealthMetrics healthMetrics;
 
+    GameObject playerr;
+    PlayerHealthMetric playerHealthMetric;
+
     private bool isDead = false;//assuming it is alive
     private void Awake()
     {
@@ -52,6 +55,11 @@ public class crabEnemy : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         thirdPersonController = FindObjectOfType<ThirdPersonController>();
         ThirdPersonShooterController = FindAnyObjectByType<ThirdPersonShooterController>();
+
+        playerr = GameObject.FindWithTag("Player");
+        playerHealthMetric = playerr.GetComponent<PlayerHealthMetric>();
+
+
     }
     // Start is called before the first frame update
     void Start()
@@ -66,6 +74,7 @@ public class crabEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CheckPlayer();
         KnifeDestroy();
         updateHealth();
         iSeeYou = Physics.CheckSphere(transform.position, seeDistance, playerZone);
@@ -272,6 +281,17 @@ public class crabEnemy : MonoBehaviour
         if (!isDead)
         {
             gameObject.SetActive(true);
+        }
+    }
+
+    public void CheckPlayer()
+    {
+        if(playerHealthMetric.playerData.currentHealth <= 0)
+        {
+            thirdPersonController.MoveSpeed = 3f;
+            thirdPersonController.SprintSpeed = 6f;
+            isDead = true;
+            Dead();
         }
     }
 }
