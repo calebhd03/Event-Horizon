@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 
 public class Background_Music : MonoBehaviour
@@ -9,13 +8,13 @@ public class Background_Music : MonoBehaviour
     public static Background_Music instance;
     public AudioSource audioSource;
     public AudioClip[] audioClips;
-    public bool inCombat = false;
-    public bool inBossCombat = false;
-    public int enemiesSeeingPlayer = 0;
+    public float fadeDuration = 2f; // Duration of fade in/out in seconds
+
+    private int enemiesSeeingPlayer = 0;
+
     private void Awake()
     {
-        string sceneName = SceneManager.GetActiveScene().name;
-        if(instance == null)
+        if (instance == null)
         {
             DontDestroyOnLoad(this.gameObject);
             instance = this;
@@ -24,121 +23,106 @@ public class Background_Music : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
         audioSource = GetComponent<AudioSource>();
-        PlayLevelMusic(sceneName);
-        //StartCoroutine(EnemyCombat());
-        //StartCoroutine(BossCombat());
+
+        // Play music for the initial scene
+        PlayLevelMusic(SceneManager.GetActiveScene().name);
+
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     public void MenuMusic()
-    {   
-        audioSource.clip = audioClips[0];
-        audioSource.Stop();
-        audioSource.Play();
-    }
-    public void PlayLevelMusic(string sceneName)
     {
-        switch(sceneName)
-        {
-            case "TheOuterVer2":
-                audioSource.clip = audioClips[1];
-                audioSource.Stop();
-                audioSource.Play();
-            break;
-            case "Inner":
-                audioSource.clip = audioClips[2];
-                audioSource.Stop();
-                audioSource.Play();
-            break;
-            case "The Center":
-                audioSource.clip = audioClips[3];
-                audioSource.Stop();
-                audioSource.Play();
-            break;
-            case "Start Menu":
-                audioSource.clip = audioClips[0];
-                audioSource.Stop();
-                audioSource.Play();
-            break;
-            case "TimTutorialScene":
-                audioSource.clip = audioClips[1];
-                audioSource.Stop();
-                audioSource.Play();
-            break;
-        }
-    }
-    public void OuterMusic()
-    {
-        audioSource.clip = audioClips[1];
-        audioSource.Stop();
-        audioSource.Play();
-    }
-    public void InnerMusic()
-    {
-        audioSource.clip = audioClips[2];
-        audioSource.Stop();
-        audioSource.Play();
-    }
-    public void CenterMusic()
-    {
-        audioSource.clip = audioClips[3];
-        audioSource.Stop();
-        audioSource.Play();
+        StartCoroutine(FadeMusic(audioClips[0]));
     }
     public void EnemyMusic()
     {
         if(audioSource.clip != audioClips[4])
         {
-        audioSource.clip = audioClips[4];
-        audioSource.Stop();
-        audioSource.Play();
+            StartCoroutine(FadeMusic(audioClips[4]));
         }
     }
     public void BossMusic()
     {
-        audioSource.clip = audioClips[5];
-        audioSource.Stop();
-        audioSource.Play();
+        StartCoroutine(FadeMusic(audioClips[5]));
     }
 
-    /*IEnumerator EnemyCombat()
+    public void PlayLevelMusic(string sceneName)
     {
-        yield return new WaitUntil(() => inCombat);
-        EnemyMusic();
-        StartCoroutine(LevelMusic());
+        AudioClip clipToPlay = null;
+
+        switch (sceneName)
+        {
+            case "TheOuterVer2":
+                clipToPlay = audioClips[1];
+                break;
+            case "Inner":
+                clipToPlay = audioClips[2];
+                break;
+            case "The Center":
+                clipToPlay = audioClips[3];
+                break;
+            case "Start Menu":
+                clipToPlay = audioClips[0];
+                break;
+            case "TimTutorialScene":
+                clipToPlay = audioClips[1];
+                break;
+        }
+
+        if (clipToPlay != null)
+        {
+            StartCoroutine(FadeMusic(clipToPlay));
+        }
     }
-    IEnumerator BossCombat()
+    //these are for the dev buttons
+    public void OuterMusic()
     {
-        yield return new WaitUntil(() => inBossCombat);
-        BossMusic();
-        StartCoroutine(BossLevelMusic());
+        StartCoroutine(FadeMusic(audioClips[1]));
     }
-    IEnumerator LevelMusic()
+    public void InnerMusic()
     {
-        yield return new WaitUntil(() => !inCombat);
-        string sceneName = SceneManager.GetActiveScene().name;
-        PlayLevelMusic(sceneName);
-        StartCoroutine(EnemyCombat());
+        StartCoroutine(FadeMusic(audioClips[2]));
     }
-    IEnumerator BossLevelMusic()
+    public void CenterMusic()
     {
-        yield return new WaitUntil(() => !inBossCombat);
-        string sceneName = SceneManager.GetActiveScene().name;
-        PlayLevelMusic(sceneName);
-        StartCoroutine(BossCombat());
-    }*/
+        StartCoroutine(FadeMusic(audioClips[3]));
+    }
+
+    IEnumerator FadeMusic(AudioClip newClip)
+    {
+        // Fade out current music
+        float startVolume = audioSource.volume;
+        for (float t = 0; t < fadeDuration; t += Time.deltaTime)
+        {
+            audioSource.volume = Mathf.Lerp(startVolume, 0f, t / fadeDuration);
+            yield return null;
+        }
+        audioSource.volume = 0f;
+
+        // Change clip and start fading in new music
+        audioSource.clip = newClip;
+        audioSource.Play();
+
+        // Fade in new music
+        for (float t = 0; t < fadeDuration; t += Time.deltaTime)
+        {
+            audioSource.volume = Mathf.Lerp(0f, startVolume, t / fadeDuration);
+            yield return null;
+        }
+        audioSource.volume = startVolume;
+    }
 
     public void IncrementSeeingPlayerCount()
     {
         enemiesSeeingPlayer++;
         if (enemiesSeeingPlayer == 1) // First enemy to see the player
         {
-            EnemyMusic();
+            // Implement if needed
         }
     }
 
-    // Decrement the count of enemies seeing the player
     public void DecrementSeeingPlayerCount()
     {
         enemiesSeeingPlayer--;
@@ -148,6 +132,7 @@ public class Background_Music : MonoBehaviour
             PlayLevelMusic(sceneName);
         }
     }
+
     private void OnDestroy()
     {
         // Unregister the method from the sceneLoaded event to prevent memory leaks
@@ -158,8 +143,16 @@ public class Background_Music : MonoBehaviour
     {
         // Reset the count of enemies seeing the player when a new scene is loaded
         enemiesSeeingPlayer = 0;
-        
+
         // Start playing music for the new scene
         PlayLevelMusic(scene.name);
+    }
+    public void PauseMusic()
+    {
+        audioSource.Pause();
+    }
+    public void ResumeMusic()
+    {
+        audioSource.Play();
     }
 }

@@ -22,6 +22,7 @@ namespace StarterAssets
         public PlayerData playerData;
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
+        public bool canMove = true;
 
         [Tooltip("Sprint speed of the character in m/s")]
         public float SprintSpeed = 5.335f;
@@ -32,7 +33,7 @@ namespace StarterAssets
 
         [Tooltip("Acceleration and deceleration")]
         public float SpeedChangeRate = 10.0f;
-        public float Sensitivity = 1f;
+        public float Sensitivity;
 
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;
@@ -84,7 +85,7 @@ namespace StarterAssets
         public bool LockCameraPosition = false;
 
         private Vector3 lastForwardDirection = Vector3.forward;
-        private float lastTargetRotation;
+        [HideInInspector] public float lastTargetRotation;
         private float noInputTransitionSpeed = 0.2f; 
         public float rotationSmoothTime = 0.1f; // Tweak the value
         private Vector3 rotationVelocity = Vector3.zero;
@@ -206,6 +207,7 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+            lastTargetRotation = transform.eulerAngles.y;
         }
 
         private void Update()
@@ -215,7 +217,10 @@ namespace StarterAssets
             Pause();
             JumpAndGravity();
             GroundedCheck();
-            Move();
+            if(canMove)
+            {
+                Move();
+            }
             SaveTestInputs();
             Crouch();
             Teleport();
@@ -732,7 +737,7 @@ namespace StarterAssets
             }
 
             // Reset the interact input
-            _input.interact = false;
+            //_input.interact = false;
             }
         }
 
@@ -742,7 +747,7 @@ namespace StarterAssets
             _cinemachineAimCamera.m_Lens.FieldOfView = FOV;
         }
         public void NewSave()
-        {
+        { 
             if(_input.newSave)
             {
                  _input.newSave = false;

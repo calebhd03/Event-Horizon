@@ -35,6 +35,8 @@ public class plantEnemy : MonoBehaviour
     public AudioClip projectileSpawnSound;
     public AudioClip deathAudio;
 
+    Animator animator;
+
     private bool isDead = false;//assuming it is alive
 
     private void Awake()
@@ -42,6 +44,7 @@ public class plantEnemy : MonoBehaviour
         player = GameObject.Find("Player").transform;
         healthBar = GetComponentInChildren<EnemyHealthBar>();
         audioSource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
     }
     // Start is called before the first frame update
     void Start()
@@ -77,10 +80,10 @@ public class plantEnemy : MonoBehaviour
     private IEnumerator ShootProjectile()
     {
         canShoot = false;
-
+        animator.SetTrigger("Attack");
         // Windup time
         yield return new WaitForSeconds(windUp);
-
+        animator.ResetTrigger("Attack");
         Rigidbody newProjectile = Instantiate(plantProjectilePrefab, projectileSpawn.position, Quaternion.identity).GetComponent<Rigidbody>();
 
         Vector3 directionToPlayer = (player.position + Vector3.up * 0.5f) - projectileSpawn.position;

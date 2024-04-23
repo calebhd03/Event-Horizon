@@ -8,11 +8,13 @@ public class NexusGun : MonoBehaviour
     public MeshRenderer weaponMesh;
     //public StarterAssetsInputs starterAssetsInputs;
     //public ThirdPersonShooterController TPSC;
-    PlayerHealthMetric playerHealthMetric;
+    [SerializeField]PlayerHealthMetric playerHealthMetric;
     void Awake()
     {
         playerHealthMetric = GetComponentInParent<PlayerHealthMetric>();
-        weaponMesh = GetComponentInChildren<MeshRenderer>();            
+    }
+    void Start()
+    {    
             if(playerHealthMetric.playerData.hasNexus == false)
             {
                 DisableMesh();

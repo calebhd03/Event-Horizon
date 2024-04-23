@@ -123,10 +123,10 @@ public class UpgradeEffects : MonoBehaviour
         {
             damageOverTimeEnemyUp = true;
         }
-        if (skillTree.meleeDamage == true)
+        /*if (skillTree.meleeDamage == true)
         {
             meleeUp = true;
-        }
+        }*/
         if (skillTree.knockBack == true)
         {
             knockBackUp = true;
@@ -197,7 +197,6 @@ public class UpgradeEffects : MonoBehaviour
             {       
                 stopStackDamage = true;
                 damageOverTimeEffect.Play();              
-                Debug.LogError("Burning Sensation");
                 Invoke("StopDamageOverTime", damageOverTimeDuration);
                 float elapsedTime = 0f;
                 while (elapsedTime < damageOverTimeDuration)

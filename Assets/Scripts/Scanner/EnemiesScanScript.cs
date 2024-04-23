@@ -89,7 +89,7 @@ public class EnemiesScanScript : MonoBehaviour
 
     public void ScriptActive()
     {
-        if (Scanned == false)
+        if (Scanned == false && ObjSlider.objSliderActive == false)
         {
             eneSlider();
         }

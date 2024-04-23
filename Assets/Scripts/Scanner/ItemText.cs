@@ -10,6 +10,13 @@ public class ItemText : MonoBehaviour
 {
     [Tooltip("The number of the enemy associated text from the array.")]
     public TextMeshProUGUI[] textToDisplay;
+    [SerializeField] ScanCam scanCam;
+    [SerializeField] MiniCore miniCore;
+    void Awake()
+    {
+        miniCore = GetComponentInParent<MiniCore>();
+        scanCam = miniCore.GetComponentInChildren<ScanCam>();
+    }
     void Start()
     {
         gameObject.SetActive(false);
@@ -18,11 +25,15 @@ public class ItemText : MonoBehaviour
     {
         ItemsScript.itemText += ShowText;
     }
+    private void OnDisable()
+    {
+        //ItemsScript.itemText -= ShowText;
+    }
 
     List<TextMeshProUGUI> activeTexts = new List<TextMeshProUGUI>();
     void ShowText()
     {
-        ScanCam scanCam = FindObjectOfType<ScanCam>();
+        scanCam = FindObjectOfType<ScanCam>();
         gameObject.SetActive(true);
         textToDisplay[scanCam.currentClipIndex].gameObject.SetActive(true);
         activeTexts.Add(textToDisplay[scanCam.currentClipIndex]);

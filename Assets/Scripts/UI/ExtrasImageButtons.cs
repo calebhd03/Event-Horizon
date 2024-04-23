@@ -3,32 +3,68 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Video;
 
 public class ExtrasImageButtons : MonoBehaviour
 {
-    public GameObject panel;
+    public GameObject imagePanel;
+    public GameObject videoPanel;
     public List<Sprite> largeImages;
     public List<string> imageTitles;
     public Image largeImage;
     public TextMeshProUGUI text;
+    public TextMeshProUGUI videoText;
     public List<Image> thumbnailImages;
     public GameObject returnButton, header, scrollView;
 
-    public void OpenPanel(int index)
+    public VideoPlayer videoPlayer;
+    public List<VideoClip> videoClips;
+    public List<string> videoTitles;
+
+    public void OpenImagePanel(int index)
     {
         largeImage.sprite = largeImages[index];
         text.text = imageTitles[index];
-        panel.SetActive(true);
+        imagePanel.SetActive(true);
         returnButton.SetActive(false);
         header.SetActive(false);
         scrollView.SetActive(false);
     }
 
-    public void ClosePanel()
+    public void OpenVideoPanel(int index)
     {
-        panel.SetActive(false);
+
+        videoPlayer.clip = videoClips[index]; 
+        videoPlayer.Play();  
+        videoText.text = videoTitles[index];
+        videoPanel.SetActive(true);
+        returnButton.SetActive(true);
+        header.SetActive(false); 
+        scrollView.SetActive(false);
+        
+    }
+
+    public void CloseImagePanel()
+    {
+        imagePanel.SetActive(false);
+        returnButton.SetActive(true);
+        header.SetActive(true);
+        scrollView.SetActive(true);         
+    }
+
+    public void CloseVideoPanel()
+    {
+
+        videoPanel.SetActive(false);
         returnButton.SetActive(true);
         header.SetActive(true);
         scrollView.SetActive(true);
+
+        if (videoPlayer.isPlaying)
+        {
+            videoPlayer.Stop();
+        }
+
     }
+   
 }

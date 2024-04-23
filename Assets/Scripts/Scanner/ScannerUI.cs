@@ -30,17 +30,21 @@ public class ScannerUI : MonoBehaviour
     public float enelapsed;
     public float enelapsedMaxTime;
     //VideoPlayer
-    public VideoPlayer vp;
+    //public VideoPlayer vp;
     public GameObject videoPlayer;
     private GameObject newVideoPlayer;
     public GameObject scannerCurrentObject;
     public int quest = 0;
     public int currentQuest = 0;
     [SerializeField] Compass compass;
+    [SerializeField]EnemyText enemyText;
+    [SerializeField] MiniCore miniCore;
+    [SerializeField] ScanCam ScanCam;
 
 
     void Awake()
     {   
+        miniCore = GetComponentInParent<MiniCore>();
         AudioSource audioSource = GetComponent<AudioSource>();
         if (gameObject == null)
             {
@@ -61,13 +65,13 @@ public class ScannerUI : MonoBehaviour
         newSlider2.SetActive(false);
         enelapsed = 0;
         newSliderProgress2.value = enelapsed;
-        compass = FindObjectOfType<Compass>();
-
+        compass = miniCore.GetComponentInChildren<Compass>();
+        enemyText = miniCore.GetComponentInChildren<EnemyText>();
+        ScanCam = miniCore.GetComponentInChildren<ScanCam>();
     }
-    
     void Update()
     {   
-        ScanCam ScanCam = FindObjectOfType<ScanCam>();
+        //ScanCam ScanCam = FindObjectOfType<ScanCam>();
         scannerCurrentObject = ScanCam.scannerCurrentObject;
         if (scannerCurrentObject == null)
         {
@@ -77,12 +81,12 @@ public class ScannerUI : MonoBehaviour
     }
     public void SetSliderValue()
     {   
-        ScanCam ScanCam = FindObjectOfType<ScanCam>();
+        //ScanCam ScanCam = FindObjectOfType<ScanCam>();
         Vector3 direction = Vector3.forward;
         Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
         Debug.DrawRay(scanRay.origin, scanRay.direction * ScanCam.range, Color.blue);
-
-        Physics.Raycast(scanRay, out RaycastHit hit, ScanCam.range);
+        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","Dialog"));
+        Physics.Raycast(scanRay, out RaycastHit hit, ScanCam.range, layerMask);
         ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
         if(hit.collider != null)
         {   
@@ -93,24 +97,31 @@ public class ScannerUI : MonoBehaviour
             {   
                 if (hit.collider.tag == "Objective" && currentQuest < quest)
                 {
+                    objScr.Scanned = true;
+                    objScr.OpenBlockedPath();
+                    LogJournal();
                     currentQuest = quest;
                     SwitchQuest();
                 }            
                 else if(hit.collider.tag == "Objective" && currentQuest == quest)
                 {
+                    objScr.Scanned = true;
+                    objScr.OpenBlockedPath();
+                    LogJournal();
                     SwitchQuest();
                 }
                 if (ScanCam.scannerCurrentObject.tag == "Memory")
                 {
-                LogMemories();
-                PlayVideo();
+                    objScr.Scanned = true;
+                    LogMemories();
+                    PlayVideo();
                 }
                 else 
                 {
                     objectiveText?.Invoke();
                     Invoke("HideText", 3);
                 }
-                Destroy(ScanCam.scannerCurrentObject);
+                //Destroy(ScanCam.scannerCurrentObject);
                 DisableSlider();
             }
         }
@@ -118,12 +129,13 @@ public class ScannerUI : MonoBehaviour
 
     public void SetEnemySlider()
     {
-        EnemiesScanScript eneScr = FindObjectOfType<EnemiesScanScript>();
+        //EnemiesScanScript eneScr = FindObjectOfType<EnemiesScanScript>();
         enelapsed += Time.deltaTime;
 
         if (enelapsed >= enelapsedMaxTime)
         {
-            eneText();
+            //eneText();
+            enemyText.ShowText();
             DisableEnemySlider();
             WeakPoints();
         }
@@ -167,12 +179,12 @@ public class ScannerUI : MonoBehaviour
     }
     void ObjectiveSlider()
     {
-        ScanCam ScanCam = FindObjectOfType<ScanCam>();
+        //ScanCam ScanCam = FindObjectOfType<ScanCam>();
         Vector3 direction = Vector3.forward;
         Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
         Debug.DrawRay(scanRay.origin, scanRay.direction * ScanCam.range, Color.blue);
-
-        Physics.Raycast(scanRay, out RaycastHit hit, ScanCam.range);
+        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","Dialog"));
+        Physics.Raycast(scanRay, out RaycastHit hit, ScanCam.range, layerMask);
         ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
         if(hit.collider.tag == "Memory")
         {
@@ -202,12 +214,12 @@ public class ScannerUI : MonoBehaviour
 
     void WeakPoints()
     {   
-        ScanCam sc = FindObjectOfType<ScanCam>();
+        //ScanCam sc = FindObjectOfType<ScanCam>();
         Vector3 direction = Vector3.forward;
         Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
-        Debug.DrawRay(scanRay.origin, scanRay.direction * sc.range, Color.blue);
-
-        Physics.Raycast(scanRay, out RaycastHit hit, sc.range);
+        Debug.DrawRay(scanRay.origin, scanRay.direction * ScanCam.range, Color.blue);
+        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","Dialog"));
+        Physics.Raycast(scanRay, out RaycastHit hit, ScanCam.range, layerMask);
         EnemiesScanScript eneScr = hit.collider.GetComponent<EnemiesScanScript>() ?? hit.collider.GetComponentInParent<EnemiesScanScript>() ?? hit.collider.GetComponentInChildren<EnemiesScanScript>();
         if(hit.collider != null)
         {
@@ -218,12 +230,12 @@ public class ScannerUI : MonoBehaviour
 
     void LogMemories()
     {
-        ScanCam sc = FindObjectOfType<ScanCam>();
+        //ScanCam sc = FindObjectOfType<ScanCam>();
         Vector3 direction = Vector3.forward;
         Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
-        Debug.DrawRay(scanRay.origin, scanRay.direction * sc.range, Color.blue);
-
-        Physics.Raycast(scanRay, out RaycastHit hit, sc.range);
+        Debug.DrawRay(scanRay.origin, scanRay.direction * ScanCam.range, Color.blue);
+        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","Dialog"));
+        Physics.Raycast(scanRay, out RaycastHit hit, ScanCam.range, layerMask);
         ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
         if(hit.collider != null)
         {
@@ -231,10 +243,25 @@ public class ScannerUI : MonoBehaviour
         }
     }
 
+    void LogJournal()
+    {
+        Vector3 direction = Vector3.forward;
+        Ray scanRay = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f,0));
+        Debug.DrawRay(scanRay.origin, scanRay.direction * ScanCam.range, Color.blue);
+        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","Dialog"));
+        Physics.Raycast(scanRay, out RaycastHit hit, ScanCam.range, layerMask);
+        ObjectivesScript objScr = hit.collider.GetComponent<ObjectivesScript>();
+        if(hit.collider != null)
+        {
+            objScr.JournalLog();
+        }
+    }
+
     void PlayVideo()
     {
+        Background_Music.instance.PauseMusic();
         newVideoPlayer.SetActive(true);
-        Invoke("vp.Play()", 1);
+        //Invoke("vp.Play()", 1);
     }
 
     void HideText()

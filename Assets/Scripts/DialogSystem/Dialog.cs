@@ -21,6 +21,8 @@ public class Dialog : MonoBehaviour
     public bool dialogActive = false, wasPlaying = false;
     public Collider[] colliderArray;
     float interactRange = 2f;
+    public delegate void DialogOverlap();
+    public static event DialogOverlap dialogOverlap;
 
     void Awake()
     {
@@ -43,9 +45,9 @@ public class Dialog : MonoBehaviour
                     {
                         TriggerDialogue();
 
-                        if(starterAssetsInputs.interact == true)
+                       if(starterAssetsInputs.interact == true)
                             {
-                                //starterAssetsInputs.interact = false;
+                                starterAssetsInputs.interact = false;
                             }
                     }
                 }
@@ -64,10 +66,12 @@ public class Dialog : MonoBehaviour
             wasPlaying = false;
         }
     }
-
     public void TriggerDialogue()
     {
-
+                    if(TriggerDialog.nextDialog == true)
+                    {
+                        dialogOverlap();
+                    }
                     dialogActive = true;
                     pauseMenuScript.dialogActive = true;
                     Time.timeScale = 1;

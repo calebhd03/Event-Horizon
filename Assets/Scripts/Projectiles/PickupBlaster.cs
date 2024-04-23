@@ -12,6 +12,14 @@ public class PickupBlaster : MonoBehaviour
     GameObject player;
     public Collider[] colliderArray;
     float interactRange = 2f;
+    [SerializeField] MiniCore miniCore;
+    [SerializeField] LogSystem LogSystem;
+
+    void Awake()
+    {
+        miniCore = FindObjectOfType<MiniCore>();
+        LogSystem = miniCore.GetComponentInChildren<LogSystem>();
+    }
     void Start()
     {
         player = GameObject.FindWithTag("Player");
@@ -19,6 +27,10 @@ public class PickupBlaster : MonoBehaviour
         starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
         TPSC = player.GetComponent<ThirdPersonShooterController>();
         tutorialScript = player.GetComponent<TutorialScript>();
+        if(playerHealthMetric.playerData.tutorialComplete == true)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     void Update()
@@ -29,10 +41,10 @@ public class PickupBlaster : MonoBehaviour
                 {
                     if (starterAssetsInputs.interact)
                     {
-                        if(starterAssetsInputs.interact == true)
-                            {
+                      //  if(starterAssetsInputs.interact == true)
+                           // {
                                //starterAssetsInputs.interact = false;
-                            }
+                           // }
                         EquipBlaster();
                     }
                 }
@@ -40,9 +52,17 @@ public class PickupBlaster : MonoBehaviour
     void EquipBlaster()
     {
         tutorialScript.hasBlaster = true;
+        tutorialScript.CheckTutorial();
         playerHealthMetric.playerData.hasBlaster = true;
         TPSC.EquipBlaster();
         TPSC.EnableBGunMesh();
-        Destroy(gameObject);
+        LogSystem.number = 0;
+        LogSystem.UpdateSkillsLog();
+        //Destroy(gameObject);
+        Invoke("HideGameObject", .3f);
+    }
+    void HideGameObject()
+    {
+        gameObject.SetActive(false);
     }
 }

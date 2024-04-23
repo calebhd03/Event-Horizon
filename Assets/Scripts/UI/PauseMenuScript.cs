@@ -93,14 +93,20 @@ public class PauseMenuScript : MonoBehaviour
         upgradeScreen.SetActive(false);
 
         paused = false;
+        if(logSystem.log == false)
+        {
         HUD.SetActive(true);
-        PauseScreen.SetActive(false);
+        Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        if (dialogActive == false)
-        {
-        Time.timeScale = 1;
         }
+        PauseScreen.SetActive(false);
+        
+        //if (dialogActive == false)
+        //{
+        
+        
+       // }
 
         starterAssetsInputs.PauseInput(false);
         PauseFalse();

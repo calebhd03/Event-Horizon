@@ -9,8 +9,10 @@ public class Blaster : MonoBehaviour
     void Awake()
     {
         playerHealthMetric = GetComponentInParent<PlayerHealthMetric>();
-        weaponMesh = GetComponentInChildren<MeshRenderer>();
-            if(playerHealthMetric.playerData.hasBlaster == false)
+    }
+    void Start()
+    {
+        if(playerHealthMetric.playerData.hasBlaster == false)
             {
                 DisableMesh();
             }

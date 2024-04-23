@@ -9,7 +9,10 @@ public class weakPoint : MonoBehaviour
     public float weakPointDamage = 20f;
     public float weakPointPlasmaDamage = 30f;
     public float knifeDamage = 10f;
+    private float orbDamage = 50f;
+    public float BHDamage = 30f;
     public AudioClip damageSound;
+    [SerializeField] private bossPhaseTwo boss2;
     private basicEnemy basicEnemyScript;
     private bossEnemy bossEnemyScript;
     private flyingEnemy flyingEnemyScript;
@@ -26,6 +29,7 @@ public class weakPoint : MonoBehaviour
     public float knifeDamageUpFactor = 5f;
     weakPoint[] weakPoints;
     private bool hit = false;
+    private bool oneTime = false;
 
     private void Start()
     {
@@ -36,6 +40,7 @@ public class weakPoint : MonoBehaviour
         skillTree = FindObjectOfType<SkillTree>();
         healthMetrics = GetComponentInParent<HealthMetrics>();
         upgradeEffects = GetComponentInParent<UpgradeEffects>();
+        boss2 = GetComponentInParent<bossPhaseTwo>();
     }
 
     private void Update()
@@ -45,6 +50,12 @@ public class weakPoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (boss2 != null && other.CompareTag("Orb") && bossPhaseTwo.noBulletDamage)
+        {
+            Debug.Log("Hii");
+            healthMetrics.ModifyHealth(-orbDamage);
+        }
+
         if (other.CompareTag("Bullet"))
         {
             hit = true;
@@ -105,26 +116,30 @@ public class weakPoint : MonoBehaviour
         else if (other.CompareTag("BHBullet"))
         {
             hit = true;
-            
-            if (upgradeEffects.stopStackDamage == false)
+            healthMetrics.ModifyHealth(-BHDamage);
+
+            if (upgradeEffects != null && upgradeEffects.stopStackDamage == false)
             {
-            upgradeEffects.DamageOverTime();
+                upgradeEffects.DamageOverTime();
             }
-            else{}
-            upgradeEffects.PullEffect();
-            upgradeEffects.OGKill();
+            if (upgradeEffects != null)
+            {
+                upgradeEffects.PullEffect();
+                upgradeEffects.OGKill();
+            }
         }
     }
 
     private void bulletDamage(float damage)
-    {   
-        if(upgradeEffects.stopSlowStack == false)
-            {
+    {
+        if (upgradeEffects != null && upgradeEffects.stopSlowStack == false)
+        {
             upgradeEffects.SlowDownEnemy();
             upgradeEffects.stopSlowStack = true;
-            }
-            else{}
-        upgradeEffects.knockBackAttack();
+        }
+
+        if (upgradeEffects != null) upgradeEffects.knockBackAttack();
+
         if (healthMetrics != null)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -158,18 +173,50 @@ public class weakPoint : MonoBehaviour
         }
     }
 
+    public void KnifeDamageFunction()
+    {
+        HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+
+        if (healthMetrics != null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+            if (player != null && damageSound != null)
+            {
+                AudioSource audioSource = player.GetComponentInChildren<AudioSource>();
+                if (audioSource != null)
+                {
+                    audioSource.PlayOneShot(damageSound);
+                }
+            }
+
+            if (meleeUp == true)
+            {
+                healthMetrics.ModifyHealth(-knifeDamage * knifeDamageUpFactor);
+            }
+            else
+            {
+                healthMetrics.ModifyHealth(-knifeDamage);
+            }
+        }
+    }
+
     public void getISeeYou()
     {
         if (hit)
         {
             if (basicEnemyScript != null)
             {
-                basicEnemyScript.SetISeeYou();
-                Debug.Log("reg iSeeYou to true in BasicEnemy");
+                if (!oneTime)
+                {
+                    oneTime = true;
+                    basicEnemyScript.SetISeeYou();
+                    Debug.Log("reg iSeeYou to true in BasicEnemy");
 
-                // Call PlayEnemyHitAnimation in the BasicEnemy script
-                basicEnemyScript.PlayEnemyHitAnimation();
-                Debug.Log("Called PlayEnemyHitAnimation");
+                    // Call PlayEnemyHitAnimation in the BasicEnemy script
+                    basicEnemyScript.PlayEnemyHitAnimation();
+                    Debug.Log("Called PlayEnemyHitAnimation");
+                }
             }
 
             if (dogEnemyScript != null)
@@ -181,6 +228,17 @@ public class weakPoint : MonoBehaviour
             {
                 flyingEnemyScript.SetISeeYou();
             }
+        }
+    }
+
+    public void SingularityDamage()
+    {
+        if (bossPhaseTwo.noBulletDamage)
+        {
+            weakPointDamage = 0;
+            weakPointPlasmaDamage = 0;
+            knifeDamage = 0;
+            BHDamage = 0;
         }
     }
 }

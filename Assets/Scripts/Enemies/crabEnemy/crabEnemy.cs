@@ -40,6 +40,7 @@ public class crabEnemy : MonoBehaviour
     AudioSource audioSource;
     public AudioClip deathAudio;
     public AudioClip stickAudio;
+    HealthMetrics healthMetrics;
 
     private bool isDead = false;//assuming it is alive
     private void Awake()
@@ -55,11 +56,11 @@ public class crabEnemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+        healthMetrics = GetComponentInParent<HealthMetrics>();
         healthMetrics.currentHealth = healthMetrics.maxHealth;
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
         audioSource = GetComponent<AudioSource>();
-        StartCoroutine(EnemyMusic());
+        //StartCoroutine(EnemyMusic());
     }
 
     // Update is called once per frame
@@ -81,6 +82,10 @@ public class crabEnemy : MonoBehaviour
             AttackPlayer();
             transform.LookAt(player);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        }
+        if(healthMetrics.currentHealth <= 0)
+        {
+            iSeeYou = false;
         }
     }
     
@@ -236,7 +241,7 @@ public class crabEnemy : MonoBehaviour
             }
         }
     }
-    IEnumerator EnemyMusic()
+    /*IEnumerator EnemyMusic()
     {
         yield return new WaitUntil(() => iSeeYou);
         Background_Music.instance.IncrementSeeingPlayerCount();
@@ -249,12 +254,14 @@ public class crabEnemy : MonoBehaviour
         Background_Music.instance.DecrementSeeingPlayerCount();
         StartCoroutine(EnemyMusic());
         yield return null;
-    }
+    }*/
 
     public void Dead()
     {
         if (isDead)
         {
+            thirdPersonController.MoveSpeed = 3f;
+            thirdPersonController.SprintSpeed = 6f;
             gameObject.SetActive(false);
             transform.parent = null;
         }

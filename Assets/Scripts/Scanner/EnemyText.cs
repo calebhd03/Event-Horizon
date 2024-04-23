@@ -10,9 +10,11 @@ public class EnemyText : MonoBehaviour
 {
     [Tooltip("The number of the enemy associated text from the array.")]  
     public TextMeshProUGUI[] textToDisplay;
-    void Start()
+    [SerializeField]ScanCam scanCam;
+    void Awake()
     {
         gameObject.SetActive(false);
+        scanCam = FindObjectOfType<ScanCam>();
     }
     private void OnEnable()
     {
@@ -24,9 +26,9 @@ public class EnemyText : MonoBehaviour
     }
 
     List<TextMeshProUGUI> activeTexts = new List<TextMeshProUGUI>();
-    void ShowText()
+    public void ShowText()
     {
-        ScanCam scanCam = FindObjectOfType<ScanCam>();
+        //ScanCam scanCam = FindObjectOfType<ScanCam>();
 
         gameObject.SetActive(true);
         textToDisplay[scanCam.currentClipIndex].gameObject.SetActive(true);

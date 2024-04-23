@@ -53,7 +53,7 @@ public class Scanning : MonoBehaviour
             MainCam.Priority = 10;
             ScanCam.Priority = 0;
             AimCam.Priority = 10;
-            MainCamera = !MainCamera;
+            MainCamera = true;
     } 
     public void ScanCamPriority()
     {
@@ -63,6 +63,6 @@ public class Scanning : MonoBehaviour
             MainCam.Priority = 0;
             ScanCam.Priority = 3;
             AimCam.Priority = 0;
-            MainCamera = !MainCamera;
+            MainCamera = false;
     }   
 }

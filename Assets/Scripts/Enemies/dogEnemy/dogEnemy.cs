@@ -48,9 +48,15 @@ public class dogEnemy : MonoBehaviour
 
     [Header("Audio")]
     AudioSource audioSource;
+    //public AudioClip rangedAudio;
     public AudioClip deathAudio;
+    //public AudioClip hitAudio;
+    HealthMetrics healthMetrics;
 
     private bool isDead = false;//assuming it is alive
+
+    public bool isPhaseTwo = false; //only for the singularity phase two fight
+    public GameObject orbPrefab;
 
     private void Awake()
     {
@@ -64,11 +70,11 @@ public class dogEnemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+        healthMetrics = GetComponentInParent<HealthMetrics>();
         healthMetrics.currentHealth = healthMetrics.maxHealth;
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
         audioSource = GetComponent<AudioSource>();
-        StartCoroutine(EnemyMusic());
+        //StartCoroutine(EnemyMusic());
     }
 
     // Update is called once per frame
@@ -83,8 +89,12 @@ public class dogEnemy : MonoBehaviour
 
             if (distanceTarget <= viewRadius && !Physics.Raycast(transform.position, playerTarget, distanceTarget, obstacleZone))
             {
-                iSeeYou = true;
+                if(healthMetrics.currentHealth > 0)
+                    {
+                    iSeeYou = true;
+                    }
                 transform.LookAt(player);
+                //audioSource.PlayOneShot(rangedAudio);
                 Debug.DrawRay(transform.position, playerTarget * viewRadius * viewAngle, Color.blue); //debug raycast line to show if enemy can see the player
             }
 
@@ -102,7 +112,7 @@ public class dogEnemy : MonoBehaviour
         iHearYou = Physics.CheckSphere(transform.position, hearDistance, playerZone);
         if (iHearYou == true)
         {
-
+            //audioSource.PlayOneShot(rangedAudio);
             iSeeYou = true;
         }
 
@@ -121,12 +131,14 @@ public class dogEnemy : MonoBehaviour
         {
             transform.LookAt(player);
             chasePlayer();
+            //audioSource.PlayOneShot(rangedAudio);
         }
 
         if (iSeeYou == true && withInAttackRange == true)
         {
             //animator.SetBool("Attack", true);
             attackPlayer();
+            //audioSource.PlayOneShot(rangedAudio);
             transform.LookAt(player);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
         }
@@ -182,6 +194,7 @@ public class dogEnemy : MonoBehaviour
             Invoke(nameof(MoveBackAfterAttack), attackAnimationDuration);
             InvokeRepeating("AttackMoving", animationEndDelay, 1f);
             Invoke(nameof(CancelAttackMoving), attackCooldown - .1f);
+            //audioSource.PlayOneShot(hitAudio);
         }
     }
 
@@ -284,6 +297,11 @@ public class dogEnemy : MonoBehaviour
 
     private void DropStuff()
     {
+        if(isPhaseTwo)
+        {
+            Instantiate(orbPrefab, transform.position, Quaternion.identity);
+        }
+
         if (Random.value < pickupDropChance)
         {
             Instantiate(shotGunPickupPrefab, transform.position, Quaternion.identity);
@@ -330,7 +348,7 @@ public class dogEnemy : MonoBehaviour
 
         Debug.DrawRay(startPoint + endPointLeft, endPointRight - endPointLeft, Color.green);
     }
-    IEnumerator EnemyMusic()
+    /*IEnumerator EnemyMusic()
     {
         yield return new WaitUntil(() => iSeeYou);
         Background_Music.instance.IncrementSeeingPlayerCount();
@@ -343,7 +361,7 @@ public class dogEnemy : MonoBehaviour
         Background_Music.instance.DecrementSeeingPlayerCount();
         StartCoroutine(EnemyMusic());
         yield return null;
-    }
+    }*/
 
     public void Dead()
     {

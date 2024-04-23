@@ -61,7 +61,9 @@ MonoBehaviour:
   weakPointDamage: 20
   weakPointPlasmaDamage: 30
   knifeDamage: 10
+  BHDamage: 30
   damageSound: {fileID: 8300000, guid: 780f0a773e3715a4493f66029cd5a971, type: 3}
+  boss2: {fileID: 0}
   damageUpgrade: 0
   slowEnemy: 0
   damageOverTimeEnemy: 0
@@ -73,103 +75,6 @@ MonoBehaviour:
   meleeUp: 0
   knockBackUp: 0
   knifeDamageUpFactor: 5
---- !u!1 &3787874207407574268
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8859562716232091135}
-  - component: {fileID: 810451809248359255}
-  - component: {fileID: 300213958927982214}
-  - component: {fileID: 4298413422319226003}
-  m_Layer: 9
-  m_Name: Sphere
-  m_TagString: Enemy
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8859562716232091135
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3787874207407574268}
-  m_LocalRotation: {x: -0, y: 0.99881756, z: -0, w: -0.04861632}
-  m_LocalPosition: {x: 0.012, y: 0.11, z: 0.031}
-  m_LocalScale: {x: 0.6385902, y: 0.6402981, z: 0.6261301}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6111425175308292233}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &810451809248359255
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3787874207407574268}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &300213958927982214
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3787874207407574268}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &4298413422319226003
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3787874207407574268}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6111425174447714650
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,8 +139,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: f3c8e3f0cc287624eb9a3ff5ba8b4c78, type: 2}
   healthMetrics: {fileID: 6111425174447714645}
+  enemyType: 0
   listIndex: 0
-  scene: 0
+  sceneIndex: 0
+  wasDeadInLastSave: 0
 --- !u!1 &6111425174583352918
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,7 +172,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6111425175308292233}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6111425174942431046
 GameObject:
@@ -300,7 +207,7 @@ RectTransform:
   m_Children:
   - {fileID: 6111425176431420885}
   m_Father: {fileID: 6111425175308292233}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -408,7 +315,6 @@ Transform:
   - {fileID: 1111493813141248344}
   - {fileID: 3221077913278568618}
   - {fileID: 6111425175888305877}
-  - {fileID: 8859562716232091135}
   - {fileID: 6111425174942431047}
   - {fileID: 6111425174583352919}
   - {fileID: 5382069037487665963}
@@ -494,15 +400,17 @@ MonoBehaviour:
     m_Bits: 1
   playerZone:
     serializedVersion: 2
-    m_Bits: 72
+    m_Bits: 8
   obstacleZone:
     serializedVersion: 2
     m_Bits: 128
   movePoints: []
   idleTime: 10
   iSeeYou: 0
+  iHearYou: 0
   attackRange: 10
   attackAgainTimer: 2.8
+  attackCloseDistance: 1.3
   viewRadius: 15
   viewAngle: 80
   hearDistance: 5
@@ -524,6 +432,8 @@ MonoBehaviour:
   bHPickupPrefab: {fileID: 1464895933930130252, guid: 8f0d8942908b01c41b83f3c8c7be7cef, type: 3}
   healthPickupPrefab: {fileID: 1464895933930130252, guid: f867f91f0bffc4f4db651b1be23a1a15, type: 3}
   pickupDropChance: 0.3
+  isPhaseTwo: 0
+  orbPrefab: {fileID: 0}
 --- !u!114 &6111425175308292231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,7 +461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Scanned: 0
-  criticalPointReveal: {fileID: 3787874207407574268}
+  criticalPointReveal: {fileID: 0}
   number: 1
   weakPointReveal: []
   skinnedMeshRenderer: {fileID: 8819264394452343757}
@@ -792,7 +702,10 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
+  orbDamage: 50
+  BHDamage: 20
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
+  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -1106,7 +1019,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5382069037487665963}
   - component: {fileID: 3563207596920851972}
-  m_Layer: 9
+  m_Layer: 16
   m_Name: Colider
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -1126,7 +1039,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6111425175308292233}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &3563207596920851972
 CapsuleCollider:
@@ -1138,7 +1051,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.2
+  m_Radius: 0.5
   m_Height: 0.5
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -2016,8 +1929,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.025299866, y: 0.020872341, z: 0.02048938}
-  m_Center: {x: 0.0059757177, y: -0.0047240565, z: -0.019727476}
+  m_Size: {x: 0.025299866, y: 0.020872341, z: 0.017884439}
+  m_Center: {x: 0.0059757177, y: -0.004724057, z: -0.021029938}
 --- !u!65 &4485363176668853181
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2029,8 +1942,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.016165515, y: 0.018269613, z: 0.01853768}
-  m_Center: {x: 0.004723881, y: -0.0045541637, z: 0.021041358}
+  m_Size: {x: 0.016165515, y: 0.018269613, z: 0.016819632}
+  m_Center: {x: 0.004723881, y: -0.0045541883, z: 0.021900386}
 --- !u!114 &3202907574519345229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2046,7 +1959,10 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
+  orbDamage: 50
+  BHDamage: 20
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
+  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -2091,7 +2007,10 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
+  orbDamage: 50
+  BHDamage: 20
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
+  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -2136,7 +2055,10 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
+  orbDamage: 50
+  BHDamage: 20
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
+  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -2164,8 +2086,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.010259887, y: 0.014070297, z: 0.010956945}
-  m_Center: {x: 0.00131347, y: 0.0065221163, z: 0.0009595608}
+  m_Size: {x: 0.010259887, y: 0.007653017, z: 0.010956945}
+  m_Center: {x: 0.001313472, y: 0.0033134527, z: 0.00095956057}
 --- !u!114 &2833218157996323674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2181,7 +2103,10 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
+  orbDamage: 50
+  BHDamage: 20
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
+  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -2209,8 +2134,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.011658896, y: 0.024349567, z: 0.009641706}
-  m_Center: {x: 0.0002953085, y: 0.0067647314, z: -0.0002153934}
+  m_Size: {x: 0.011658896, y: 0.011272751, z: 0.009641708}
+  m_Center: {x: 0.0002953096, y: 0.008147942, z: -0.00021539305}
 --- !u!114 &1638212880512060289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2226,7 +2151,10 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
+  orbDamage: 50
+  BHDamage: 20
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
+  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -2271,7 +2199,9 @@ MonoBehaviour:
   weakPointDamage: 20
   weakPointPlasmaDamage: 30
   knifeDamage: 10
+  BHDamage: 30
   damageSound: {fileID: 8300000, guid: 780f0a773e3715a4493f66029cd5a971, type: 3}
+  boss2: {fileID: 0}
   damageUpgrade: 0
   slowEnemy: 0
   damageOverTimeEnemy: 0
@@ -2299,8 +2229,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.010480123, y: 0.015040459, z: 0.01214109}
-  m_Center: {x: 0.00059591705, y: 0.005303201, z: -0.00014255707}
+  m_Size: {x: 0.010480123, y: 0.012802043, z: 0.01214109}
+  m_Center: {x: 0.00059591664, y: 0.004183995, z: -0.00014255711}
 --- !u!114 &782168674278483578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2316,7 +2246,10 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
+  orbDamage: 50
+  BHDamage: 20
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
+  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -2344,8 +2277,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.013162354, y: 0.021639192, z: 0.007491102}
-  m_Center: {x: 0.0008285736, y: 0.006923508, z: 0.00047984676}
+  m_Size: {x: 0.013162354, y: 0.015746148, z: 0.007491102}
+  m_Center: {x: 0.0008285738, y: 0.0081474325, z: 0.00047984687}
 --- !u!114 &2186162677823825766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2361,7 +2294,10 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
+  orbDamage: 50
+  BHDamage: 20
   damageSound: {fileID: 8300000, guid: ad51fb34f8554654c99b21d433139db9, type: 3}
+  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6

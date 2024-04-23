@@ -12,7 +12,7 @@ public class PlayerDataManager : MonoBehaviour
         {
             // Reset boolean fields
             playerData.SavePlasmaUpgrade = false;
-            playerData.SaveMeleeDamageUpgrade = false;
+            //playerData.SaveMeleeDamageUpgrade = false;
             playerData.SaveBHGToolUpgrade = false;
             playerData.SaveDamageOverTimeUpgrade = false;
             playerData.SaveSlowEnemyUpgrade = false;

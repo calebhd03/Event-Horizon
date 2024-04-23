@@ -25,7 +25,17 @@ public class SettingsScript : MonoBehaviour
 
     public Slider fovSlider;
 
+    public TMPro.TMP_Dropdown qualitySelect;
+
     public Volume volume;
+
+    public Volume motionBlurVolume;
+
+    private MotionBlur motionBlur;
+
+    private bool isMotionBlurOn;
+
+    public Toggle motionBlurToggle;
 
     private ColorAdjustments postExposure;
 
@@ -69,6 +79,11 @@ public class SettingsScript : MonoBehaviour
 
         gameBackgroundSettings.SetActive(true);
 
+        int motionBlurEnabled = PlayerPrefs.GetInt("MotionBlurEnabled", 1);
+        bool isMotionBlurEnabled = motionBlurEnabled == 1;
+        motionBlurToggle.isOn = isMotionBlurEnabled; 
+        ToggleMotionBlur(isMotionBlurEnabled);
+
         brightness.enabled = false;
         brightness.value = PlayerPrefs.GetFloat("PostExposureValue", 1);
         brightness.enabled = true;
@@ -76,6 +91,10 @@ public class SettingsScript : MonoBehaviour
         fovSlider.enabled = false;
         fovSlider.value = PlayerPrefs.GetFloat("FOV", 30);
         fovSlider.enabled = true;
+
+        qualitySelect.enabled = false;
+        qualitySelect.value = PlayerPrefs.GetInt("QualityLevel", 2);
+        qualitySelect.enabled = true;
 
         Sens.enabled = false; 
         Sens.value = PlayerPrefs.GetFloat("Sensitivity", 1);
@@ -269,7 +288,6 @@ public class SettingsScript : MonoBehaviour
         PlayerPrefs.SetFloat("PostExposureValue", brightness.value);
         PlayerPrefs.Save();
 
-
         if (volume != null && volume.profile != null)
         {
             if (volume.profile.TryGet<ColorAdjustments>(out postExposure))
@@ -288,6 +306,34 @@ public class SettingsScript : MonoBehaviour
 
     }
 
+    public void ToggleMotionBlur(bool value)
+    {
+        motionBlurToggle.isOn = value;
+        isMotionBlurOn = value;
+
+        PlayerPrefs.SetInt("MotionBlurEnabled", value ? 1 : 0);
+        PlayerPrefs.Save();
+
+        if (motionBlurVolume != null && motionBlurVolume.profile != null)
+        {
+            Debug.Log("Before TryGet<MotionBlur>");
+            if (motionBlurVolume.profile.TryGet<MotionBlur>(out MotionBlur blur))
+            {
+                Debug.Log("Motion Blur effect found!");
+                blur.active = value;
+                Debug.Log("Motion Blur toggled. Active: " + blur.active);
+            }
+            else
+            {
+                Debug.LogWarning("Motion not found in the Volume.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Volume is null.");
+        }
+    }
+
     public void ChangeFOV()
     {
         PlayerPrefs.SetFloat("FOV", fovSlider.value);
@@ -300,6 +346,12 @@ public class SettingsScript : MonoBehaviour
         }*/
         thirdPersonController._cinemachineFollowCamera.m_Lens.FieldOfView = fovSlider.value;
         thirdPersonController._cinemachineAimCamera.m_Lens.FieldOfView = fovSlider.value;
+    }
+
+    public void ChangeQuality()
+    {
+        QualitySettings.SetQualityLevel(qualitySelect.value);
+        PlayerPrefs.SetInt("QualityLevel", qualitySelect.value);
     }
 
     public void AudioSelection()

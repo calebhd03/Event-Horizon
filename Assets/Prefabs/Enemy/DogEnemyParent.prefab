@@ -234,7 +234,11 @@ MonoBehaviour:
   bHPickupPrefab: {fileID: 1464895933930130252, guid: 8f0d8942908b01c41b83f3c8c7be7cef, type: 3}
   healthPickupPrefab: {fileID: 1464895933930130252, guid: f867f91f0bffc4f4db651b1be23a1a15, type: 3}
   pickupDropChance: 0.3
+  rangedAudio: {fileID: 8300000, guid: c7e733df8e583534f97cc0c08b191051, type: 3}
   deathAudio: {fileID: 8300000, guid: 47db3882bc8a1ce4b88ea62d7f9df191, type: 3}
+  hitAudio: {fileID: 8300000, guid: 4e1f16921fc8a8145a61b2ef9c46008c, type: 3}
+  isPhaseTwo: 0
+  orbPrefab: {fileID: 0}
 --- !u!195 &2144006111566547632
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -298,7 +302,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 6.9506226
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -811,8 +815,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: f3c8e3f0cc287624eb9a3ff5ba8b4c78, type: 2}
   healthMetrics: {fileID: 1375103746728593474}
+  enemyType: 0
   listIndex: 0
-  scene: 0
+  sceneIndex: 0
+  wasDeadInLastSave: 0
 --- !u!1 &8714083696115963917
 GameObject:
   m_ObjectHideFlags: 0
@@ -823,7 +829,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4280811797112207556}
   - component: {fileID: 1794772063821971214}
-  m_Layer: 9
+  m_Layer: 16
   m_Name: Colider
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -2057,7 +2063,10 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
+  orbDamage: 50
+  BHDamage: 20
   damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
+  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -2102,7 +2111,10 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
+  orbDamage: 50
+  BHDamage: 20
   damageSound: {fileID: 0}
+  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -2128,7 +2140,7 @@ BoxCollider:
   m_GameObject: {fileID: 1116100742499244677}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.063921295, y: 0.0763338, z: 0.10151008}
   m_Center: {x: 0.002018503, y: 0.12406884, z: 0.10989822}
@@ -2139,7 +2151,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1116100742499244677}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb989e409f6a474499c428ebf7b55be7, type: 3}
   m_Name: 
@@ -2147,7 +2159,9 @@ MonoBehaviour:
   weakPointDamage: 20
   weakPointPlasmaDamage: 30
   knifeDamage: 10
+  BHDamage: 30
   damageSound: {fileID: 8300000, guid: 780f0a773e3715a4493f66029cd5a971, type: 3}
+  boss2: {fileID: 0}
   damageUpgrade: 0
   slowEnemy: 0
   damageOverTimeEnemy: 0
@@ -2197,7 +2211,10 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
+  orbDamage: 50
+  BHDamage: 20
   damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
+  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -2242,7 +2259,10 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
+  orbDamage: 50
+  BHDamage: 20
   damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
+  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -2287,7 +2307,10 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
+  orbDamage: 50
+  BHDamage: 20
   damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
+  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -2332,7 +2355,10 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
+  orbDamage: 50
+  BHDamage: 20
   damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
+  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -2377,7 +2403,10 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
+  orbDamage: 50
+  BHDamage: 20
   damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
+  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -2422,7 +2451,10 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
+  orbDamage: 50
+  BHDamage: 20
   damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
+  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6
@@ -2467,6 +2499,35 @@ MonoBehaviour:
   biteDamage: 20
   damageInterval: 1
   damageSound: {fileID: 8300000, guid: c907e43ee6d99274da0f20d7c4207476, type: 3}
+--- !u!114 &9188218687332081781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6714002434218654803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb989e409f6a474499c428ebf7b55be7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weakPointDamage: 20
+  weakPointPlasmaDamage: 30
+  knifeDamage: 10
+  BHDamage: 30
+  damageSound: {fileID: 8300000, guid: 780f0a773e3715a4493f66029cd5a971, type: 3}
+  boss2: {fileID: 0}
+  damageUpgrade: 0
+  slowEnemy: 0
+  damageOverTimeEnemy: 0
+  slowDuration: 6
+  slowFactor: 0.7
+  priorSpeed: 0
+  damageOverTime: 5
+  damageOverTimeDuration: 4
+  meleeUp: 0
+  knockBackUp: 0
+  knifeDamageUpFactor: 5
 --- !u!4 &6802629884641240516 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 713611081023492920, guid: dbab8af436ee8674a93e66c84cb46f73, type: 3}
@@ -2505,7 +2566,10 @@ MonoBehaviour:
   regularDamage: 10
   plasmaDamage: 15
   regularKnifeDamage: 5
+  orbDamage: 50
+  BHDamage: 20
   damageSound: {fileID: 8300000, guid: 873274f3b4a48184bab34710453314c8, type: 3}
+  boss2: {fileID: 0}
   slowEnemy: 0
   damageOverTimeEnemy: 0
   slowDuration: 6

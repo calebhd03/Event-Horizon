@@ -5,65 +5,55 @@ using UnityEngine.UI;
 
 public class PlayerHealthMetric : MonoBehaviour
 {
-    public PlayerData playerData;
-
-    public RectTransform healthBar; // Reference to the UI RectTransform for the health bar
-
-    public delegate void HealthChangeAction(float currentHealth, float maxHealth);
-    public event HealthChangeAction OnHealthChanged;
-
-    public bool isHealthBarActive = true; // Public toggle for the health bar
-
-    private SaveSystemTest saveSystemTest;
+   public PlayerData playerData;
+    public GameObject healthBar; // Reference to the 3D GameObject acting as the health bar
     public AudioClip healthIncreaseSound;
     public AudioClip healthDecreaseSound;
-    AudioSource audioSource;
-    public GameObject healthMeter;
+    private AudioSource audioSource;
+    private Material healthBarMaterial; // Material of the health bar for color changing
+    private bool isFlashing = false; // State flag for flashing
 
     private void Start()
     {
-        InitializeHealthBar(); // Initialize the health bar
-        saveSystemTest = FindObjectOfType<SaveSystemTest>();
         audioSource = GetComponent<AudioSource>();
+        if (healthBar != null)
+        {
+            healthBarMaterial = healthBar.GetComponent<Renderer>().material;
+        }
+        InitializeHealthBar();
     }
 
     private void Update()
     {
-        // Check for changes in currentHealth and update the health bar accordingly
-        if (playerData.currentHealth != (healthBar != null ? healthBar.sizeDelta.y * playerData.maxHealth : 0f))
-        {
-            UpdateHealthBar();
-        }
-        if (playerData.currentHealth > playerData.maxHealth * (2f/3f))
-        {
-            healthMeter.GetComponent<Image>().color = Color.white;
-        }
-        if (playerData.currentHealth < playerData.maxHealth * (2f/3f) && playerData.currentHealth > playerData.maxHealth * (1f/3f))
-        {
-            healthMeter.GetComponent<Image>().color = Color.yellow;
-        }
-        if (playerData.currentHealth < playerData.maxHealth * (1f/3f))
-        {
-            healthMeter.GetComponent<Image>().color = Color.red;
-        }
+        UpdateHealthBar();
     }
 
     public void ModifyHealth(float amount)
     {
         float previousHealth = playerData.currentHealth;
-        playerData.currentHealth = Mathf.Clamp(playerData.currentHealth + amount, 0f, playerData.maxHealth);
-        OnHealthChanged?.Invoke(playerData.currentHealth, playerData.maxHealth);
+        playerData.currentHealth = Mathf.Clamp(playerData.currentHealth + amount, 0, playerData.maxHealth);
 
-        if (playerData.currentHealth <= 0f)
+        if (playerData.currentHealth <= 0)
         {
             Debug.Log("Player Health 0");
+            if (isFlashing)
+            {
+                CancelInvoke("ToggleFlashColor");
+                isFlashing = false;
+            }
         }
 
+        UpdateHealthBar(); // Update the bar whenever health is modified
+        PlayHealthChangeSound(previousHealth);
+    }
+
+    private void PlayHealthChangeSound(float previousHealth)
+    {
         if (playerData.currentHealth < previousHealth)
         {
             audioSource.PlayOneShot(healthDecreaseSound);
         }
-        else if(playerData.currentHealth > previousHealth)
+        else if (playerData.currentHealth > previousHealth)
         {
             audioSource.PlayOneShot(healthIncreaseSound);
         }
@@ -71,31 +61,65 @@ public class PlayerHealthMetric : MonoBehaviour
 
     private void InitializeHealthBar()
     {
-        // Ensure the health bar exists
-        if (healthBar != null)
+        if (healthBarMaterial != null)
         {
-            // Set the initial state based on the public toggle
-            healthBar.gameObject.SetActive(isHealthBarActive);
-        }
-    }
-
-    public void ToggleHealthBar(bool active)
-    {
-        if (healthBar != null)
-        {
-            healthBar.gameObject.SetActive(active);
-            isHealthBarActive = active; // Update the public toggle when toggling the health bar
+            Color color = CalculateHealthColor(playerData.currentHealth / playerData.maxHealth);
+            healthBarMaterial.color = color;
+            healthBarMaterial.SetColor("_EmissionColor", color);
         }
     }
 
     public void UpdateHealthBar()
     {
-        // Ensure the health bar exists and is active
-        if (healthBar != null && isHealthBarActive)
+        float healthPercent = playerData.currentHealth / playerData.maxHealth;
+        Color color = CalculateHealthColor(healthPercent);
+
+        if (healthBarMaterial != null && !isFlashing)
         {
-            // Calculate the normalized value for the bar's size
-            float normalizedHealth = playerData.currentHealth / playerData.maxHealth;
-            healthBar.sizeDelta = new Vector2(healthBar.sizeDelta.x, normalizedHealth * 100f);
+            healthBarMaterial.color = color;
+            healthBarMaterial.SetColor("_EmissionColor", color);
+        }
+
+        // Manage flashing state for health 10% or below
+        if (healthPercent <= 0.10f && !isFlashing)
+        {
+            isFlashing = true;
+            InvokeRepeating("ToggleFlashColor", 0, 0.5f); // Start flashing
+        }
+        else if (healthPercent > 0.10f && isFlashing)
+        {
+            CancelInvoke("ToggleFlashColor");
+            isFlashing = false;  // Reset flashing state
+            // Reset to the correct color
+            healthBarMaterial.color = color;
+            healthBarMaterial.SetColor("_EmissionColor", color);
+        }
+    }
+
+    private Color CalculateHealthColor(float healthPercent)
+    {
+        if (healthPercent > 0.82f)
+            return Color.green; 
+        else if (healthPercent > 0.60f)
+            return Color.yellow; 
+        else if (healthPercent > 0.45f)
+            return new Color(1, 0.5f, 0); 
+        else
+            return Color.red; 
+    }
+
+    void ToggleFlashColor()
+    {
+        // Toggle between red and black
+        if (healthBarMaterial.color == Color.red)
+        {
+            healthBarMaterial.color = Color.black;
+            healthBarMaterial.SetColor("_EmissionColor", Color.black);
+        }
+        else
+        {
+            healthBarMaterial.color = Color.red;
+            healthBarMaterial.SetColor("_EmissionColor", Color.red);
         }
     }
 }

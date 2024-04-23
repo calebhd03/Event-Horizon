@@ -47,9 +47,15 @@ public class crystalEnemy : MonoBehaviour
 
     [Header("Audio")]
     AudioSource audioSource;
+    //public AudioClip rangedAudio;
+    //public AudioClip hitAudio;
     public AudioClip deathAudio;
+    HealthMetrics healthMetrics;
 
     private bool isDead = false;//assuming it is alive
+
+    public bool isPhaseTwo = false; //only for the singularity phase two fight
+    public GameObject orbPrefab;
 
     private void Awake()
     {
@@ -62,16 +68,18 @@ public class crystalEnemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+        healthMetrics = GetComponentInParent<HealthMetrics>();
         healthMetrics.currentHealth = healthMetrics.maxHealth;
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
         audioSource = GetComponent<AudioSource>();
-        StartCoroutine(EnemyMusic());
+        //StartCoroutine(EnemyMusic());
     }
 
     // Update is called once per frame
     void Update()
     {
+        animator.SetFloat("Speed", agent.velocity.magnitude);
+
         updateHealth();
         Vector3 playerTarget = (player.position - transform.position).normalized;
 
@@ -81,7 +89,10 @@ public class crystalEnemy : MonoBehaviour
 
             if (distanceTarget <= viewRadius && !Physics.Raycast(transform.position, playerTarget, distanceTarget, obstacleZone))
             {
-                iSeeYou = true;
+                if(healthMetrics.currentHealth > 0)
+                    {
+                    iSeeYou = true;
+                    }
                 transform.LookAt(player);
                 Debug.DrawRay(transform.position, playerTarget * viewRadius * viewAngle, Color.blue); //debug raycast line to show if enemy can see the player
             }
@@ -101,7 +112,6 @@ public class crystalEnemy : MonoBehaviour
 
         if (iHearYou == true)
         {
-
             iSeeYou = true;
         }
 
@@ -160,12 +170,7 @@ public class crystalEnemy : MonoBehaviour
 
             if (isAttacking == true)
             {
-                animator.SetBool("MeleeAttack", true);
-            }
-
-            else
-            {
-                animator.SetBool("MeleeAttack", false);
+                animator.SetTrigger("Swipe");
             }
 
             Invoke(nameof(meleeAttackCoolDown), attackAnimationDuration);
@@ -232,6 +237,7 @@ public class crystalEnemy : MonoBehaviour
 
     public void Die()
     {
+        animator.SetTrigger("Die");
         StartCoroutine(WaitAndDropStuff(3f));
         iSeeYou = false;
     }
@@ -247,6 +253,11 @@ public class crystalEnemy : MonoBehaviour
 
     private void DropStuff()
     {
+        if (isPhaseTwo)
+        {
+            Instantiate(orbPrefab, transform.position, Quaternion.identity);
+        }
+
         if (Random.value < pickupDropChance)
         {
             Instantiate(shotGunPickupPrefab, transform.position, Quaternion.identity);
@@ -290,7 +301,7 @@ public class crystalEnemy : MonoBehaviour
 
         Debug.DrawRay(startPoint + endPointLeft, endPointRight - endPointLeft, Color.green);
     }
-    IEnumerator EnemyMusic()
+    /*IEnumerator EnemyMusic()
     {
         yield return new WaitUntil(() => iSeeYou);
         Background_Music.instance.IncrementSeeingPlayerCount();
@@ -303,7 +314,7 @@ public class crystalEnemy : MonoBehaviour
         Background_Music.instance.DecrementSeeingPlayerCount();
         StartCoroutine(EnemyMusic());
         yield return null;
-    }
+    }*/
 
     public void Dead()
     {
@@ -319,5 +330,10 @@ public class crystalEnemy : MonoBehaviour
         {
             transform.parent.gameObject.SetActive(true);
         }
+    }
+
+    public void ArmorBroke()
+    {
+        animator.SetTrigger("Broken");
     }
 }

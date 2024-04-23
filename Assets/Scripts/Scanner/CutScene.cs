@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using StarterAssets;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -8,55 +9,93 @@ using UnityEngine.Video;
 
 public class CutScene : MonoBehaviour
 {
+    public delegate void CutsceneEnd();
+    public static event CutsceneEnd cutsceneEnd;
     [Tooltip("This is where you get the number from for the cutscene you will edit on the objective object for the clip that is desired to play.")]
     public VideoClip[] videoClips;
     private VideoPlayer videoPlayer;
     public int currentClipIndex;
     public AudioMixer audioMixer;
-    public string exposedParameterName = "MasterVol";
+    public string exposedParameterName = "SFXVol";
     private float initialVolume;
-    
-    void Start()
+    [SerializeField] MiniCore miniCore;
+    [SerializeField] ScanCam scanCam;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] ThirdPersonController thirdPersonController;
+    void Awake()
     {
-        videoPlayer = GetComponent<VideoPlayer>();
+        miniCore = FindObjectOfType<MiniCore>();
+        scanCam = miniCore.GetComponentInChildren<ScanCam>();
+        thirdPersonController = miniCore.GetComponentInChildren<ThirdPersonController>();
+        audioSource = GetComponent<AudioSource>();
+        videoPlayer = GetComponent<VideoPlayer>(); 
+        videoPlayer.SetTargetAudioSource(0, audioSource);         
         videoPlayer.loopPointReached += OnVideoEndReached;
-        float parameterValue = GetExposedParameter();
-        SetExposedParameter(-80);
+        float initialVolume = GetExposedParameter();
     }
-    void Update ()
+    void OnEnable()
     {
-        ScanCam scanCam = FindObjectOfType<ScanCam>();
         if (currentClipIndex >= 0 && currentClipIndex < videoClips.Length)
         {
         videoPlayer.clip = videoClips[scanCam.currentClipIndex];
+        SetExposedParameter(-80);
+        thirdPersonController.canMove = false;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         }
         else
         {
             Debug.LogWarning("no video to play");
         }
     }
-    void OnVideoEndReached(VideoPlayer vp)
+    void OnDisable()
     {
-        gameObject.SetActive(false);
+        thirdPersonController.canMove = true;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        SetExposedParameter(initialVolume);
+    }
+    void OnVideoEndReached(VideoPlayer videoPlayer)
+    {
+        
+        Background_Music.instance.ResumeMusic();
+        thirdPersonController.canMove = true;
+        Invoke("HideCutscene", .3f);
+        cutsceneEnd();
+        
         SetExposedParameter(initialVolume);
         //Invoke("HideText", 3);
     }
-
-    void HideText()
+    void HideCutscene()
     {
-        ObjectiveText objectiveText = FindObjectOfType<ObjectiveText>();
-        objectiveText.HideText();
+        gameObject.SetActive(false);
     }
+
+    //void HideText()
+    //{
+    //    ObjectiveText objectiveText = FindObjectOfType<ObjectiveText>();
+    //    objectiveText.HideText();
+    //}
 
     void SetExposedParameter(float value)
-    {
-        audioMixer.SetFloat(exposedParameterName, value);
-    }
+        {
+            audioMixer.SetFloat(exposedParameterName, value);
+        }
     float GetExposedParameter()
     {
         float value;
         audioMixer.GetFloat(exposedParameterName, out value);
         initialVolume = value;
         return value;
+    }
+    public void SkipCutscene()
+    {
+        
+        Background_Music.instance.ResumeMusic();
+        thirdPersonController.canMove = true;
+        Invoke("HideCutscene", .3f);
+        cutsceneEnd();
+        
+        SetExposedParameter(initialVolume);
     }         
 }
