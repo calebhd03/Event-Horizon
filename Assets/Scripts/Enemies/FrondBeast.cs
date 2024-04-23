@@ -144,7 +144,7 @@ public class FrondBeast : MonoBehaviour
             //audioSource.PlayOneShot(rangedAudio);
             //transition from phases depending on health.
             //Real Attack functions not for now because no animations
-            if (healthMetrics.currentHealth <= 200 && healthMetrics.currentHealth > 100)
+            if (healthMetrics.currentHealth > 350)
             {
                 Debug.Log("PHASE ONE");
                 if (!a1p1Bool && !a2p1Bool && !a3p1Bool)
@@ -156,7 +156,7 @@ public class FrondBeast : MonoBehaviour
                 }
             }
 
-            if (healthMetrics.currentHealth <= 100)
+            else
             {
                 Debug.Log("PHASE TWO");
                 if (!a1p2Bool && !a2p2Bool && !a3p2Bool)
