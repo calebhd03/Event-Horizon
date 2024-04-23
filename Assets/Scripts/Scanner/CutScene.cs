@@ -57,8 +57,8 @@ public class CutScene : MonoBehaviour
     }
     void OnVideoEndReached(VideoPlayer videoPlayer)
     {
-        
-        Background_Music.instance.ResumeMusic();
+
+        if (Background_Music.instance != null) Background_Music.instance.ResumeMusic();
         thirdPersonController.canMove = true;
         Invoke("HideCutscene", .3f);
         cutsceneEnd();
@@ -90,8 +90,8 @@ public class CutScene : MonoBehaviour
     }
     public void SkipCutscene()
     {
-        
-        Background_Music.instance.ResumeMusic();
+
+        if (Background_Music.instance != null) Background_Music.instance.ResumeMusic();
         thirdPersonController.canMove = true;
         Invoke("HideCutscene", .3f);
         cutsceneEnd();

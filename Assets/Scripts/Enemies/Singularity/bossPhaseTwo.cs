@@ -363,10 +363,6 @@ public class bossPhaseTwo : MonoBehaviour
 
     private void resetTriggers()
     {
-        animator.ResetTrigger("EnemyHit");
-        animator.ResetTrigger("SlashAttack");
-        animator.ResetTrigger("Attack2");
-        animator.ResetTrigger("AOEAttack");
     }
 
     public void PlayEnemyHitAnimation()

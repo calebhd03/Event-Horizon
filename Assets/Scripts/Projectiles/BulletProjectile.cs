@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletProjectile : MonoBehaviour
-{
-   [SerializeField] private Transform vfxHit;
+{    
+        [SerializeField] private Transform vfxHit;
 
     private Rigidbody bulletRigidbody;
     private Vector3 lastPosition;
@@ -25,57 +25,84 @@ public class BulletProjectile : MonoBehaviour
 
     private void FixedUpdate()
     {
-        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","EnemyColider","EnemyLayer","Dialog"));
-        if (Physics.Linecast(transform.position, lastPosition, out RaycastHit hitInfo, layerMask))
+        // Perform a Linecast from the current position to the last position of the bullet
+        RaycastHit hitInfo;
+        if (Physics.Linecast(lastPosition, transform.position, out hitInfo))
         {
-            transform.position = lastPosition;
-            OnTriggerEnter(hitInfo.collider);
-            Debug.Log("Raycast triggered");
+            // Check if the collider is on any of the specified layers
+            if (IsLayerIgnored(hitInfo.collider.gameObject.layer))
+            {
+                // Do nothing if the collider is on the specified layers
+                return;
+            }
+
+            // Debug what the bullet hit
+            Debug.Log("Bullet hit: " + hitInfo.collider.gameObject.name);
+
+            // Handle collision with bubbles
+            if (hitInfo.collider.CompareTag("Bubbles"))
+            {
+               // Instantiate(vfxHit, hitInfo.point, Quaternion.identity);
+                Debug.Log("In Bubbles");
+                return;
+            }
+            else
+            {
+                // Handle collision with other objects
+                HealthMetrics healthMetrics = hitInfo.collider.GetComponent<HealthMetrics>();
+                if (healthMetrics != null)
+                {
+                    Instantiate(vfxHit, hitInfo.point, Quaternion.identity);
+                    // Damage done on enemy hit boxes with tag bullets
+                    healthMetrics.ModifyHealth(-20f); // Apply 20 damage to the object
+                }
+                else
+                {
+                    Instantiate(vfxHit, hitInfo.point, Quaternion.identity);
+                    // Handle hitting something else logic here, if needed.
+                }
+
+                Destroy(gameObject);
+                return;
+            }
         }
+
+        // Update the last position after the Linecast
         lastPosition = transform.position;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private bool IsLayerIgnored(int layer)
     {
-        int layerMask = other.gameObject.layer;
-        // Check if the collider is on any of the specified layers
-        if (layerMask == LayerMask.NameToLayer("Bullets") ||
-            layerMask == LayerMask.NameToLayer("CheckPoints") ||
-            layerMask == LayerMask.NameToLayer("Player") ||
-            layerMask == LayerMask.NameToLayer("GunLayer")||
-            layerMask == LayerMask.NameToLayer("WallBullet")||
-            layerMask == LayerMask.NameToLayer("EnemyColider")||
-            layerMask == LayerMask.NameToLayer("EnemyLayer")||
-            layerMask == LayerMask.NameToLayer("Dialog"))
-
+        // List of layers to ignore
+        int[] ignoredLayers = new int[]
         {
-            // Do nothing if the collider is on the specified layers
-            return;
-        }
+            LayerMask.NameToLayer("Bullets"),
+            LayerMask.NameToLayer("CheckPoints"),
+            LayerMask.NameToLayer("Player"),
+            LayerMask.NameToLayer("GunLayer"),
+            LayerMask.NameToLayer("WallBullet"),
+            LayerMask.NameToLayer("EnemyCollider"),
+            LayerMask.NameToLayer("EnemyLayer"),
+            LayerMask.NameToLayer("Dialog")
+        };
 
-        Debug.LogWarning("hit " + other);
-        if (other.GetComponent<HealthMetrics>() != null)
+        // Check if the layer is in the ignored layers
+        foreach (int ignoredLayer in ignoredLayers)
         {
-            HealthMetrics healthMetrics = other.GetComponent<HealthMetrics>();
-            if (healthMetrics != null)
+            if (layer == ignoredLayer)
             {
-                Instantiate(vfxHit, transform.position, Quaternion.identity);
-                // damage done on enemy hit boxes with tag bullets
-                // healthMetrics.ModifyHealth(-20f); // Apply 20 damage to the object
+                return true;
             }
-            // Handle the hit target logic here, if needed.
         }
-        else
+
+        return false;
+    }
+
+    private void OnParticleCollision(GameObject other)
+    {
+        if(other.CompareTag("Bubbles"))
         {
-            Instantiate(vfxHit, lastPosition, Quaternion.identity);
-            // Handle hitting something else logic here, if needed.
+            Debug.Log("bubble popped + " +  other.transform.position);
         }
-        Destroy(gameObject);
     }
 }
-
-
-
-
-
-

@@ -73,8 +73,8 @@ public class StartMenu : MonoBehaviour
         // Call ResetHealthAmmo() from PlayerData script before loading the scene
         playerData.ResetHealthAmmo();
         playerData.ResetLogSystem();
-        
-        Background_Music.instance.audioSource.Stop();
+
+        if (Background_Music.instance != null) Background_Music.instance.audioSource.Stop();
         Cursor.visible = false;
         SceneManager.LoadScene("IntroCutScene");
        
@@ -100,14 +100,14 @@ public class StartMenu : MonoBehaviour
 
     public void LoadTheOuterVer2Scene()
     {
-        Background_Music.instance.OuterMusic();
+        if (Background_Music.instance != null) Background_Music.instance.OuterMusic();
         Cursor.visible = false;
         SceneManager.LoadScene("TheOuterVer2");
     }
 
     public void LoadInnerScene()
     {
-        Background_Music.instance.InnerMusic();
+        if (Background_Music.instance != null) Background_Music.instance.InnerMusic();
         playerData.tutorialComplete = true;
         Cursor.visible = false;
         SceneManager.LoadScene("Inner");
@@ -115,7 +115,7 @@ public class StartMenu : MonoBehaviour
 
     public void LoadCenterScene()
     {
-        Background_Music.instance.CenterMusic();
+        if (Background_Music.instance != null) Background_Music.instance.CenterMusic();
         playerData.tutorialComplete = true;
         Cursor.visible = false;
         SceneManager.LoadScene("The Center");

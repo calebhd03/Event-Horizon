@@ -8,7 +8,7 @@ public class InnerToCenter : MonoBehaviour
     public GameObject loadingScreen;
     private void OnEnable()
     {
-        Background_Music.instance.CenterMusic();
+        if (Background_Music.instance != null) Background_Music.instance.CenterMusic();
         StartCoroutine(LoadSceneAsync("The Center"));
     }
 
