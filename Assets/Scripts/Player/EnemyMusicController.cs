@@ -24,13 +24,13 @@ public class EnemyMusicController : MonoBehaviour
         // If music is not playing and there are enemy colliders in range, play music
         if (!enemymusicplaying && colliderArray.Length > 0)
         {
-            Background_Music.instance.EnemyMusic();
+            if (Background_Music.instance != null) Background_Music.instance.EnemyMusic();
             enemymusicplaying = true;
         }
         // If music is playing and there are no enemy colliders in range, stop music
         else if (enemymusicplaying && colliderArray.Length == 0)
         {
-            Background_Music.instance.PlayLevelMusic(sceneName);
+            if (Background_Music.instance != null) Background_Music.instance.PlayLevelMusic(sceneName);
             enemymusicplaying = false;
         }
     }

@@ -65,10 +65,11 @@ public class Portal : MonoBehaviour
                 portalParticle.Play();
             }
 
-            Background_Music.instance.PauseMusic();
-            sceneTransition.StartCoroutine("FadeIn", nextSceneName);
+            if(Background_Music.instance != null) Background_Music.instance.PauseMusic();
+
+            sceneTransition.StartCoroutine(sceneTransition.FadeIn(nextSceneName));
             MainCamera = true;
-            Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
             PortalCamPriority();
         }
         else
@@ -115,6 +116,10 @@ public class Portal : MonoBehaviour
             {
                 LevelIsComplete = objectiveTracker.levelComplete;
             }
+        }
+        else
+        {
+            LevelIsComplete = true;
         }
     }
 }

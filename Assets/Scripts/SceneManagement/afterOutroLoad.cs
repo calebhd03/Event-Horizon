@@ -9,7 +9,7 @@ public class afterOutroLoad : MonoBehaviour
 
     private void OnEnable()
     {
-        Background_Music.instance.MenuMusic();
+        if (Background_Music.instance != null) Background_Music.instance.MenuMusic();
         StartCoroutine(LoadSceneAsync("Start Menu"));
     }
 

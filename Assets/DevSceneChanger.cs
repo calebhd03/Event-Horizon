@@ -20,17 +20,17 @@ public class DevSceneChanger : MonoBehaviour
     {
         if(starterAssetsInputs.outerTP)
         {
-            Background_Music.instance.OuterMusic();
+            if (Background_Music.instance != null) Background_Music.instance.OuterMusic();
             SceneManager.LoadScene(tp1);
         }
         if(starterAssetsInputs.innerTP)
         {
-            Background_Music.instance.InnerMusic();
+            if (Background_Music.instance != null) Background_Music.instance.InnerMusic();
             SceneManager.LoadScene(tp2);
         }
         if(starterAssetsInputs.centerTP)
         {
-            Background_Music.instance.CenterMusic();
+            if (Background_Music.instance != null) Background_Music.instance.CenterMusic();
             SceneManager.LoadScene(tp3);
         }
     }

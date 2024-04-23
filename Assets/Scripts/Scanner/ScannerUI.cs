@@ -259,7 +259,7 @@ public class ScannerUI : MonoBehaviour
 
     void PlayVideo()
     {
-        Background_Music.instance.PauseMusic();
+        if (Background_Music.instance != null) Background_Music.instance.PauseMusic();
         newVideoPlayer.SetActive(true);
         //Invoke("vp.Play()", 1);
     }
