@@ -15,12 +15,13 @@ public class TriggerDialog : MonoBehaviour
     public TextMeshProUGUI[] dialogText;
     GameObject dialogBox;
     public TMP_Text TopObjectiveText;
+    public TMP_Text objectiveTextToDisplay;
     int number = 0;
-    public int objectiveNumber;
+    //public int objectiveNumber;
     StarterAssetsInputs starterAssetsInputs;
     ThirdPersonShooterController thirdPersonShooterController;
     AudioSource audioSource;
-    ObjectiveText objectiveText;
+    [SerializeField] ObjectiveText objectiveText;
     PauseMenuScript pauseMenuScript;
     ThirdPersonController thirdPersonController;
     public GameObject player;
@@ -133,26 +134,23 @@ public class TriggerDialog : MonoBehaviour
             pauseMenuScript.dialogActive = false;
             TurnOffText();
             nextDialog = false;
-            freezeUntilDialogEnd = false;
             UnFreeze();
     }
 
     void TurnOffText()
     {
+        UnFreeze();
         objectiveText.HideDialogText();
-        if(motherBoardDialog == true)
-        {
-        TopObjectiveText.text = objectiveText.textToDisplay[objectiveNumber].text;
-        audioSource.PlayOneShot(updateObjectiveSound);
+        if(motherBoardDialog == true && objectiveTextToDisplay.text != null)
+        {          
+            TopObjectiveText.text = objectiveTextToDisplay.text;
+            audioSource.PlayOneShot(updateObjectiveSound);
         }
     }
     void UnFreeze()
     {
-        if(freezeUntilDialogEnd == false)
-            {
             thirdPersonController.MoveSpeed = normalSpeed;
             thirdPersonController.SprintSpeed = normalSprintSpeed;
-            }
     }
 
     void StopDialogOverlap()

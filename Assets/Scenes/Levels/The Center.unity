@@ -956,7 +956,6 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-76614
-  m_Name: pb_Mesh-392048
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -8691,6 +8690,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -3838504945528930300, guid: 4aa59bbc45e2fd7479d6af9cfc8131f1, type: 3}
+--- !u!137 &319220991 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1464839552200705507, guid: 92f1e2a2199efff49b3bdee4786cd4bd, type: 3}
+  m_PrefabInstance: {fileID: 474088874}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &319395693 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6085949450471232135, guid: 92f1e2a2199efff49b3bdee4786cd4bd, type: 3}
@@ -13222,6 +13226,18 @@ PrefabInstance:
       propertyPath: m_Avatar
       value: 
       objectReference: {fileID: 9000000, guid: ef16bf6a5fe958b4993038f397fc9304, type: 3}
+    - target: {fileID: 1464839552200705507, guid: 92f1e2a2199efff49b3bdee4786cd4bd, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1464839552200705507, guid: 92f1e2a2199efff49b3bdee4786cd4bd, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1464839552200705507, guid: 92f1e2a2199efff49b3bdee4786cd4bd, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 47e347403a1acb749bd56447f1ef3b9c, type: 2}
     - target: {fileID: 2638827133996500542, guid: 92f1e2a2199efff49b3bdee4786cd4bd, type: 3}
       propertyPath: slowEffect
       value: 
@@ -13258,6 +13274,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.022
       objectReference: {fileID: 0}
+    - target: {fileID: 4609908195246783261, guid: 92f1e2a2199efff49b3bdee4786cd4bd, type: 3}
+      propertyPath: skinnedMeshRenderer
+      value: 
+      objectReference: {fileID: 319220991}
     - target: {fileID: 4973244207133764571, guid: 92f1e2a2199efff49b3bdee4786cd4bd, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -39723,6 +39743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lowCameraController: {fileID: 1211203993}
   goalObject: {fileID: 880321893}
+  safetyBox: {fileID: 0}
   triggerDelay: 3
   enableDolly: 1
   dollyAmount: 0
