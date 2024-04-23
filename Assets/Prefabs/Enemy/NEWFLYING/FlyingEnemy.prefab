@@ -461,8 +461,6 @@ MonoBehaviour:
   healthPickupPrefab: {fileID: 1464895933930130252, guid: f867f91f0bffc4f4db651b1be23a1a15, type: 3}
   pickupDropChance: 0.3
   deathAudio: {fileID: 8300000, guid: 8929aa8bf85a7e4459b3ca93b07d992e, type: 3}
-  rangedAudio: {fileID: 8300000, guid: adc9e3e0d524f604ba5160730681285c, type: 3}
-  attackAudio: {fileID: 8300000, guid: d22e052ed611db448bb35d2131bef1d4, type: 3}
 --- !u!114 &2356559552349388256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -511,9 +509,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Scanned: 0
   criticalPointReveal: {fileID: 0}
-  number: 5
+  number: 8
   weakPointReveal: []
-  skinnedMeshRenderer: {fileID: 0}
+  skinnedMeshRenderer: {fileID: 3349100800974712718}
+  meshRenderer: {fileID: 0}
   materials: []
   player: {fileID: 0}
 --- !u!1 &1375103745523238436
@@ -1068,6 +1067,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 29254758913317179, guid: cb797659d2d28cb488ad05f521e1e22f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 29254758913317179, guid: cb797659d2d28cb488ad05f521e1e22f, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 29254758913317179, guid: cb797659d2d28cb488ad05f521e1e22f, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 47e347403a1acb749bd56447f1ef3b9c, type: 2}
     - target: {fileID: 919132149155446097, guid: cb797659d2d28cb488ad05f521e1e22f, type: 3}
       propertyPath: m_Name
       value: SK_FRE_model
@@ -1153,6 +1164,11 @@ MonoBehaviour:
   knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
+--- !u!137 &3349100800974712718 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 29254758913317179, guid: cb797659d2d28cb488ad05f521e1e22f, type: 3}
+  m_PrefabInstance: {fileID: 3322964259991090869}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4851950924514855157 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1348795327372558784, guid: cb797659d2d28cb488ad05f521e1e22f, type: 3}

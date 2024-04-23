@@ -627,9 +627,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Scanned: 0
   criticalPointReveal: {fileID: 0}
-  number: 7
+  number: 11
   weakPointReveal: []
-  skinnedMeshRenderer: {fileID: 0}
+  skinnedMeshRenderer: {fileID: 2264212087299466701}
+  meshRenderer: {fileID: 0}
   materials: []
   player: {fileID: 0}
 --- !u!114 &758603790771937854
@@ -1926,9 +1927,21 @@ PrefabInstance:
       value: 84.32464
       objectReference: {fileID: 0}
     - target: {fileID: 4495825821368653932, guid: 8de4af9690b7b3a4199e91bae94ceaa2, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825821368653932, guid: 8de4af9690b7b3a4199e91bae94ceaa2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495825821368653932, guid: 8de4af9690b7b3a4199e91bae94ceaa2, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d5da73e4052497f4ab80de815f11b336, type: 2}
+    - target: {fileID: 4495825821368653932, guid: 8de4af9690b7b3a4199e91bae94ceaa2, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 47e347403a1acb749bd56447f1ef3b9c, type: 2}
     - target: {fileID: 4543626362876550853, guid: 8de4af9690b7b3a4199e91bae94ceaa2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 69.550446
@@ -2175,6 +2188,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8de4af9690b7b3a4199e91bae94ceaa2, type: 3}
+--- !u!137 &2264212087299466701 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4495825821368653932, guid: 8de4af9690b7b3a4199e91bae94ceaa2, type: 3}
+  m_PrefabInstance: {fileID: 2380285607601798561}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2774991819227339338 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8de4af9690b7b3a4199e91bae94ceaa2, type: 3}
@@ -2256,6 +2274,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c7f2f25810ccc90429fac97e5db2563e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1206874426333947015, guid: c7f2f25810ccc90429fac97e5db2563e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c7f2f25810ccc90429fac97e5db2563e, type: 3}
       propertyPath: m_Name
