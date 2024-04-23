@@ -12,7 +12,8 @@ public class BackTracking : MonoBehaviour
         // Deactivate objects in IgnoreUntilGoal array
         foreach (GameObject obj in IgnoreUntilGoal)
         {
-            obj.SetActive(false);
+            if(obj != null)
+                obj.SetActive(false);
         }
     }
 
