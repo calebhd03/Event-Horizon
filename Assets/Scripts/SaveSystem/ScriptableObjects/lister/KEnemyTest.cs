@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class KEnemyTest : MonoBehaviour
-{
+{   
     public float speed = 5.0f;
     public float rotationSpeed = 2.0f;
     public List<Transform> waypoints;
@@ -13,43 +13,31 @@ public class KEnemyTest : MonoBehaviour
 
     private Transform targetWaypoint;
     public bool fight = false;
-    
-    // Attack configuration
-    public float attack1Cooldown = 5f;
-    public float attack2Cooldown = 7f;
-    public float attack3Cooldown = 10f;
-
-    private float attack1Timer;
-    private float attack2Timer;
-    private float attack3Timer;
 
     public Transform player; // Reference to the player's transform
-    public GameObject bubbleProjectile; // Bubble projectile prefab
-    public float bubbleRange = 10.0f; // Range within which to perform the bubble attack
-    public float bubbleProjectileSpeed = 15.0f; // Speed of the bubble projectile
-    public int bubbleAttackDuration = 12; // Duration of the bubble attack phase
-    public float bubbleShotInterval = 3.0f; // Interval between bubble shots
-    public float bubbleAttackCooldown = 8.0f; // Cooldown after the bubble attack
+    public GameObject bubbleBulletPrefab; // Bubble bullet prefab
+    public float bubbleBulletSpeed = 10.0f; // Speed of the bubble bullet
+    public float shootInterval = 1.0f; // Interval between shooting bubble bullets
+    public float distanceFromPlayer = 10.0f; // Distance to maintain from the player
+    public float yOffsetAbovePlayer = 5.0f; // Editable distance above the player
+    public float xOffsetFromPlayer = 3.0f; // Editable horizontal offset from the player
+    public Transform bubbleBulletSpawnPoint; // Public spawn point for the bubble bullet
+    public GameObject portal; // Portal game object
+    public GameObject rewards; // Rewards game object
 
+    private float shootTimer = 0.0f;
+    private Vector3 centerPosition; // Center position of the bounds
 
-    public Vector3 splashAttackPosition; // Position to move to for Splash Attack
-    public GameObject reticlePrefab; // Prefab for the reticle object
-    public GameObject splashSeedPrefab; // Prefab for the Splash Seed projectile
-    public float splashAttackCooldown = 9.0f; // Cooldown duration after Splash Attack
-    private GameObject reticleInstance;
-
-    public GameObject bubbleWallPrefab; // Prefab for the Bubble Wall particle effect
-    public GameObject doublePrefab; // Prefab for the doubles of the enemy
-    public float schoolAttackCooldown = 7.0f; // Cooldown for the School Phase attack
-    private List<GameObject> doubles = new List<GameObject>();
-
-    void Start()
+    private void Start()
     {
         if (waypoints.Count > 0)
             targetWaypoint = waypoints[currentWaypointIndex];
+
+        // Calculate the center position of the bounds
+        centerPosition = (minBounds + maxBounds) / 2;
     }
 
-    void Update()
+    private void Update()
     {
         if (!fight)
         {
@@ -57,208 +45,83 @@ public class KEnemyTest : MonoBehaviour
         }
         else
         {
-            if (attack1Timer > 0) attack1Timer -= Time.deltaTime;
-            if (attack2Timer > 0) attack2Timer -= Time.deltaTime;
-            if (attack3Timer > 0) attack3Timer -= Time.deltaTime;
-
-            // Execute attacks if timers are zero and no other attack is active
-            if (attack1Timer <= 0 && attack2Timer > 0 && attack3Timer > 0)
+            // Switch between moving to the player and moving between waypoints
+            float randomValue = Random.value;
+            if (randomValue < 0.5f)
             {
-                StartCoroutine(PerformAttack1());
-            }
-            else if (attack2Timer <= 0 && attack1Timer > 0 && attack3Timer > 0)
-            {
-                StartCoroutine(PerformAttack2());
-            }
-            else if (attack3Timer <= 0 && attack1Timer > 0 && attack2Timer > 0)
-            {
-                StartCoroutine(PerformAttack3());
+                MoveTowardsPlayer();
             }
             else
             {
-                MoveToBottomOfBounds();
+                MoveBetweenWaypoints();
             }
+
+            ShootAtPlayer();
         }
     }
 
-    IEnumerator PerformAttack1()
+    private void MoveTowardsPlayer()
     {
-        Debug.Log("Performing Attack 1");
-      
-    
-        float attackTime = 0f;
+        if (player == null)
+            return;
 
-        // Move to attack range
-        while (Vector3.Distance(transform.position, player.position) > bubbleRange)
-        {
-            Vector3 dirToPlayer = (player.position - transform.position).normalized;
-            Vector3 newPos = transform.position + dirToPlayer * speed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, newPos, speed * Time.deltaTime);
-            yield return null; // Wait for next frame
-        }
+        // Calculate the target position based on the player's position
+        Vector3 targetPosition = player.position;
+        targetPosition.y = Mathf.Clamp(targetPosition.y + yOffsetAbovePlayer, minBounds.y, maxBounds.y); // Move to y distance above the player
+        targetPosition.x = Mathf.Clamp(targetPosition.x + xOffsetFromPlayer, minBounds.x, maxBounds.x); // Move to x distance away from the player
 
-        // Start attacking
-        while (attackTime < bubbleAttackDuration)
+        // Move towards the target position
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+
+        // Calculate direction to the player
+        Vector3 directionToPlayer = (player.position - transform.position).normalized;
+
+        // Calculate rotation to face the player
+        Quaternion targetRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0f, directionToPlayer.z));
+
+        // Apply rotation only around the Y-axis
+        transform.rotation = Quaternion.Euler(0f, targetRotation.eulerAngles.y, 0f);
+    }
+
+    private void ShootAtPlayer()
+    {
+        if (player == null || bubbleBulletPrefab == null)
+            return;
+
+        shootTimer -= Time.deltaTime;
+        if (shootTimer <= 0)
         {
-            if (Vector3.Distance(transform.position, player.position) <= bubbleRange)
+            if (bubbleBulletSpawnPoint != null)
             {
-                // Spawn and shoot a bubble projectile
-                GameObject projectile = Instantiate(bubbleProjectile, transform.position, Quaternion.identity);
-                Rigidbody rb = projectile.GetComponent<Rigidbody>();
-                Vector3 shootDir = (player.position - transform.position).normalized;
-                rb.velocity = shootDir * bubbleProjectileSpeed;
+                // Instantiate bubble bullet at the spawn point
+                GameObject bullet = Instantiate(bubbleBulletPrefab, bubbleBulletSpawnPoint.position, Quaternion.identity);
+                Rigidbody rb = bullet.GetComponent<Rigidbody>();
 
-                attackTime += bubbleShotInterval;
-                yield return new WaitForSeconds(bubbleShotInterval); // Wait for interval before next shot
+                // Calculate direction towards the player
+                Vector3 direction = (player.position - bubbleBulletSpawnPoint.position).normalized;
+                rb.velocity = direction * bubbleBulletSpeed;
             }
             else
             {
-                // Move back into range if player moved away
-                yield return new WaitForSeconds(0.5f);
+                Debug.LogWarning("Bubble bullet spawn point is not assigned!");
             }
+
+            // Reset the shoot timer
+            shootTimer = shootInterval;
         }
-
-        // Cooldown phase
-        Debug.Log("Bubble attack cooldown started.");
-        attack1Timer = bubbleAttackCooldown;
-
     }
 
-    IEnumerator PerformAttack2()
-    {
-        Debug.Log("Performing Attack 2");
-           // Move to the specific coordinates
-        while (Vector3.Distance(transform.position, splashAttackPosition) > 0.1f)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, splashAttackPosition, speed * Time.deltaTime);
-            yield return null;
-        }
-
-        // Stop movement and orient towards the player
-        transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
-
-        // Create the reticle and follow the player
-        if (reticlePrefab)
-        {
-            reticleInstance = Instantiate(reticlePrefab, new Vector3(player.position.x, 0, player.position.z), Quaternion.identity);
-        }
-
-        float trackingTime = 0f;
-        while (trackingTime < 5f)
-        {
-            if (reticleInstance)
-            {
-                Vector3 playerFloorPosition = new Vector3(player.position.x, 0, player.position.z);
-                reticleInstance.transform.position = Vector3.Lerp(reticleInstance.transform.position, playerFloorPosition, 0.1f); // 1-second delay in following
-            }
-            trackingTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // Lock the reticle and spawn the Splash Seed
-        if (splashSeedPrefab && reticleInstance)
-        {
-            Vector3 seedSpawnPosition = reticleInstance.transform.position + Vector3.up * 60;
-            Instantiate(splashSeedPrefab, seedSpawnPosition, Quaternion.identity);
-        }
-
-        // Wait 3 seconds
-        yield return new WaitForSeconds(3);
-
-        // Clean up the reticle
-        if (reticleInstance)
-        {
-            Destroy(reticleInstance);
-        }
-
-        // Start cooldown
-        attack2Timer = splashAttackCooldown;
-    
-    }
-
-    IEnumerator PerformAttack3()
-    {
-        Debug.Log("Performing Attack 3");
-            // Instantiate the Bubble Wall effect
-        GameObject bubbleWall = Instantiate(bubbleWallPrefab, transform.position, Quaternion.identity);
-        
-        // Instantiate doubles
-        int numberOfDoubles = Random.Range(2, 5); // Generates 2 to 4 doubles
-        Vector3 basePosition = transform.position - new Vector3(1f * numberOfDoubles / 2, 0, 0); // Start position for the first double
-        for (int i = 0; i < numberOfDoubles; i++)
-        {
-            Vector3 doublePosition = basePosition + new Vector3(1f * i, 0, 0); // Position each double next to each other
-            GameObject newDouble = Instantiate(doublePrefab, doublePosition, Quaternion.identity);
-            doubles.Add(newDouble);
-        }
-
-        // Wait until all doubles are destroyed or 15 seconds pass
-        float elapsedTime = 0;
-        while (elapsedTime < 15f && doubles.Exists(d => d != null))
-        {
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // Clean up
-        foreach (GameObject d in doubles)
-        {
-            if (d != null)
-            {
-                Destroy(d);
-            }
-        }
-        doubles.Clear();
-
-        if (bubbleWall != null)
-        {
-            Destroy(bubbleWall);
-            // Instantiate the Bubble Wall effect again
-            Instantiate(bubbleWallPrefab, transform.position, Quaternion.identity);
-        }
-
-        // Start cooldown
-        attack3Timer = schoolAttackCooldown;
-
-    }
-
-    void MoveToBottomOfBounds()
-    {
-        Vector3 bottomPosition = new Vector3(transform.position.x, minBounds.y, transform.position.z);
-        transform.position = Vector3.MoveTowards(transform.position, bottomPosition, speed * Time.deltaTime);
-    }
-
-    public void SetFightTrue()
-    {
-        fight = true;
-    }
-
-    public void SetFightFalse()
-    {
-        fight = false;
-    }
-
-    void MoveBetweenWaypoints()
+    private void MoveBetweenWaypoints()
     {
         if (targetWaypoint == null)
             return;
 
         Vector3 targetPosition = targetWaypoint.position;
-        // Ensure that the target position is at the same Y level as the enemy to avoid tilting up or down.
         targetPosition.y = transform.position.y;
 
         Vector3 direction = (targetPosition - transform.position).normalized;
         transform.position += direction * speed * Time.deltaTime;
 
-        // Rotate only on the Y axis
-        Vector3 flatDirection = new Vector3(direction.x, 0, direction.z).normalized;
-        if (flatDirection != Vector3.zero)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(flatDirection);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-        }
-
-        // Check for proximity to the waypoint considering only the X and Z coordinates
         if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(targetWaypoint.position.x, targetWaypoint.position.z)) < 0.1f)
         {
             currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
@@ -273,24 +136,42 @@ public class KEnemyTest : MonoBehaviour
             currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
             targetWaypoint = waypoints[currentWaypointIndex];
         }
+
+        if (other.CompareTag("Bullet"))
+        {
+            ModifyHealth(-10f); // Decrease health by 10 for a regular bullet
+        }
+        else if (other.CompareTag("Plasma Bullet"))
+        {
+            ModifyHealth(-15f); // Decrease health by 15 for a plasma bullet
+        }
+        else if (other.CompareTag("BHBullet"))
+        {
+            ModifyHealth(-20f); // Decrease health by 20 for a BHBullet
+        }
     }
 
-    void MoveInBounds()
+    private void ModifyHealth(float amount)
     {
-        Vector3 newPosition = transform.position + transform.forward * speed * Time.deltaTime;
-        newPosition = ClampPosition(newPosition);
-        transform.position = newPosition;
+        HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+        if (healthMetrics != null)
+        {
+            healthMetrics.ModifyHealth(amount);
+            if (healthMetrics.currentHealth <= 0)
+            {
+                fight = false;
+              //  portal.SetActive(true);
+               // rewards.SetActive(true);
+                gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Parent object does not have a HealthMetrics component.");
+        }
     }
 
-    Vector3 ClampPosition(Vector3 position)
-    {
-        position.x = Mathf.Clamp(position.x, minBounds.x, maxBounds.x);
-        position.y = Mathf.Clamp(position.y, minBounds.y, maxBounds.y);
-        position.z = Mathf.Clamp(position.z, minBounds.z, maxBounds.z);
-        return position;
-    }
-
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube((minBounds + maxBounds) / 2, maxBounds - minBounds);
