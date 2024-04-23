@@ -46,6 +46,7 @@ public class LogSystem : MonoBehaviour
     //public GameObject player;
     public Scanning scnScr;
     [SerializeField] ScanCam scanCam;
+    public GameObject scannerUI;
     //Upgrade option pages
     public GameObject upgradePage1, upgradePage2, upgradePage3, upgradePage4;
 
@@ -296,6 +297,7 @@ public class LogSystem : MonoBehaviour
     {
         UpgradesUnlocked();
         log = true;
+        scannerUI.SetActive(false);
         //Debug.LogWarning("log");
         LogPage.SetActive(true);
         starterAssetsInputs.delayShoot = true;
@@ -319,6 +321,7 @@ public class LogSystem : MonoBehaviour
         //Debug.LogWarning("closelog");
         LogPage.SetActive(false);
         displayInfo.SetActive(false);
+        scannerUI.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1;
