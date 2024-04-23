@@ -31,7 +31,7 @@ public class CutScene : MonoBehaviour
         videoPlayer = GetComponent<VideoPlayer>(); 
         videoPlayer.SetTargetAudioSource(0, audioSource);         
         videoPlayer.loopPointReached += OnVideoEndReached;
-        float parameterValue = GetExposedParameter();
+        float initialVolume = GetExposedParameter();
     }
     void OnEnable()
     {
@@ -53,6 +53,7 @@ public class CutScene : MonoBehaviour
         thirdPersonController.canMove = true;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        SetExposedParameter(initialVolume);
     }
     void OnVideoEndReached(VideoPlayer videoPlayer)
     {

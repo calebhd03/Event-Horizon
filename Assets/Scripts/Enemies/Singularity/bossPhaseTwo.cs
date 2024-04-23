@@ -433,7 +433,7 @@ public class bossPhaseTwo : MonoBehaviour
 
     public void SceneManagement()
     {
-        if(OrbFunction.orbCount >= 2)
+        if(OrbFunction.orbCount >= 4)
         {
             captured = true;
         }

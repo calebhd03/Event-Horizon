@@ -3,7 +3,6 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
 using System.IO;
-using Steamworks;
 
 public static class SaveSystem 
 {
@@ -58,8 +57,6 @@ public static void SavePlayer(PlayerSaveData saveData)
         SavePlayerData(saveData.playerData);
         SavePlayerAmmoData(saveData.ammoData);
         SavePlayerHealth(saveData.healthData);
-
-        SteamUserStats.StoreStats();
     }
 
     public static PlayerSaveData LoadPlayer()

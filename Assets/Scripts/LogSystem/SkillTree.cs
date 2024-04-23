@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using StarterAssets;
 using UnityEngine;
-using Steamworks;
 
 public class SkillTree : MonoBehaviour
 {
@@ -16,7 +15,6 @@ public class SkillTree : MonoBehaviour
     public bool slowEffectEnemy = false, damageOverTime = false, knockBack = false, bHGTool = false, plasma = false;
     public bool OGBHG = false, BHGPull = false;
     UpgradeEffects[] upgradeEffects;
-    private int upgradesUnlocked = 0;
     
     void Start()
     {
@@ -42,8 +40,6 @@ public class SkillTree : MonoBehaviour
         {
             upgrades.SetUpgrades();
         }
-        SteamUserStats.SetAchievement("ACH_UPGRADE_TOOL");
-        UpdateAchievement();
     }
 
     public void SlowEnemyUpgrade()
@@ -54,8 +50,6 @@ public class SkillTree : MonoBehaviour
         {
             upgrades.SetUpgrades();
         }
-        SteamUserStats.SetAchievement("ACH_UPGRADE_SLOW");
-        UpdateAchievement();
     }
 
     public void DamageOverTimeUpgrade()
@@ -66,8 +60,6 @@ public class SkillTree : MonoBehaviour
         {
             upgrades.SetUpgrades();
         }
-        SteamUserStats.SetAchievement("ACH_UPGRADE_DOT");
-        UpdateAchievement();
     }
 
     /*public void MeleeDamageUpgrade()
@@ -88,7 +80,6 @@ public class SkillTree : MonoBehaviour
         {
             upgrades.SetUpgrades();
         }
-        UpdateAchievement();
     }
     public void OGBHGUpgrade()
     {
@@ -98,8 +89,6 @@ public class SkillTree : MonoBehaviour
         {
             upgrades.SetUpgrades();
         }
-        SteamUserStats.SetAchievement("ACH_UPGRADE_BHG");
-        UpdateAchievement();
     }
     public void BHGPullUpgrade()
     {
@@ -109,8 +98,6 @@ public class SkillTree : MonoBehaviour
         {
             upgrades.SetUpgrades();
         }
-        SteamUserStats.SetAchievement("ACH_UPGRADE_GRAVITY");
-        UpdateAchievement();
     }
     public void PlasmaUpgrade()
     {
@@ -120,8 +107,6 @@ public class SkillTree : MonoBehaviour
         {
             upgrades.SetUpgrades();
         }
-        SteamUserStats.SetAchievement("ACH_UPGRADE_PLASMA");
-        UpdateAchievement();
     }
     private void SetUpgradesOnLoad()
     {
@@ -129,6 +114,7 @@ public class SkillTree : MonoBehaviour
         {
             logSystem.plasmaSkillUpgraded = true;
             PlasmaUpgrade();
+
         }
         if(playerHealthMetric.playerData.SaveDamageOverTimeUpgrade == true)
         {
@@ -165,15 +151,5 @@ public class SkillTree : MonoBehaviour
             logSystem.BHGPullUpgraded = true;
             BHGPullUpgrade();
         }
-    }
-
-    private void UpdateAchievement()
-    {
-        upgradesUnlocked++;
-        if(upgradesUnlocked >= 4);
-        {
-            SteamUserStats.SetAchievement("ACH_ALL_UPGRADES");
-        }
-        SteamUserStats.StoreStats();
     }
 }

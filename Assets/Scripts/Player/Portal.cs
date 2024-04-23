@@ -65,6 +65,7 @@ public class Portal : MonoBehaviour
                 portalParticle.Play();
             }
 
+            Background_Music.instance.PauseMusic();
             sceneTransition.StartCoroutine("FadeIn", nextSceneName);
             MainCamera = true;
             Destroy(other.gameObject);

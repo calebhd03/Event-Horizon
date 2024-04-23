@@ -79,6 +79,8 @@ public class crystalEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        animator.SetFloat("Speed", agent.velocity.magnitude);
+
         updateHealth();
         Vector3 playerTarget = (player.position - transform.position).normalized;
 
@@ -169,12 +171,7 @@ public class crystalEnemy : MonoBehaviour
 
             if (isAttacking == true)
             {
-                animator.SetBool("MeleeAttack", true);
-            }
-
-            else
-            {
-                animator.SetBool("MeleeAttack", false);
+                animator.SetTrigger("Swipe");
             }
 
             Invoke(nameof(meleeAttackCoolDown), attackAnimationDuration);
@@ -241,15 +238,7 @@ public class crystalEnemy : MonoBehaviour
 
     public void Die()
     {
-        int currentEnemyKills;
-        Steamworks.SteamUserStats.GetStat("STAT_ENEMIES_KILLED", out currentEnemyKills);
-        currentEnemyKills++;
-        Steamworks.SteamUserStats.SetStat("STAT_ENEMIES_KILLED", currentEnemyKills);
-
-        SteamUserStats.SetAchievement("ACH_KILL_ENEMY");
-
-        Steamworks.SteamUserStats.StoreStats();
-
+        animator.SetTrigger("Die");
         StartCoroutine(WaitAndDropStuff(3f));
         iSeeYou = false;
     }
@@ -330,6 +319,15 @@ public class crystalEnemy : MonoBehaviour
 
     public void Dead()
     {
+        int currentEnemyKills;
+        Steamworks.SteamUserStats.GetStat("STAT_ENEMIES_KILLED", out currentEnemyKills);
+        currentEnemyKills++;
+        Steamworks.SteamUserStats.SetStat("STAT_ENEMIES_KILLED", currentEnemyKills);
+
+        SteamUserStats.SetAchievement("ACH_KILL_ENEMY");
+
+        Steamworks.SteamUserStats.StoreStats();
+        
         if (isDead)
         {
             transform.parent.gameObject.SetActive(false);
@@ -342,5 +340,10 @@ public class crystalEnemy : MonoBehaviour
         {
             transform.parent.gameObject.SetActive(true);
         }
+    }
+
+    public void ArmorBroke()
+    {
+        animator.SetTrigger("Broken");
     }
 }
