@@ -149,7 +149,6 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: -3033667219593020291, guid: 2374e07e60e45b34f9cecdf867335813, type: 3}
-  - {fileID: 2100000, guid: 47e347403a1acb749bd56447f1ef3b9c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2253,8 +2252,7 @@ MonoBehaviour:
   criticalPointReveal: {fileID: 0}
   number: 5
   weakPointReveal: []
-  skinnedMeshRenderer: {fileID: 223490897835783483}
-  meshRenderer: {fileID: 0}
+  skinnedMeshRenderer: {fileID: 0}
   materials: []
   player: {fileID: 0}
 --- !u!114 &6661096068282490533
@@ -5254,10 +5252,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_CrystalGuard_WeakSpot
       objectReference: {fileID: 0}
-    - target: {fileID: 3418002285673343216, guid: a8229a215e7b85547880b2efa87f7b74, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8229a215e7b85547880b2efa87f7b74, type: 3}
 --- !u!1 &4008464132832532558 stripped
@@ -5397,29 +5391,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1123760960466296291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4008464132832532558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 906b147232530c34dac87e422b4ec8c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  armorMaxHealth: 0
-  crystalEnemy: {fileID: 3657632521585384086}
-  breakSound: {fileID: 0}
-  breakParticle: {fileID: 0}
-  hitSound: {fileID: 1284554040}
-  model: {fileID: 8795879362997802681}
-  crystalHitSounds:
-  - {fileID: 8300000, guid: b924a203dc7034c468eb7dc3ca6131fe, type: 3}
-  - {fileID: 8300000, guid: add1d82c5e5223e45b670ac44735f189, type: 3}
-  - {fileID: 8300000, guid: 96267ecc07891ea4da090e34465c39c2, type: 3}
-  - {fileID: 8300000, guid: 252317a193951884e8fc67840d09b50c, type: 3}
 --- !u!4 &4389668543999820532 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a8229a215e7b85547880b2efa87f7b74, type: 3}

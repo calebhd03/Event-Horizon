@@ -446,6 +446,7 @@ MonoBehaviour:
   a3p2WindUp: 2
   a3p2AnimDuration: 2
   deathAudio: {fileID: 8300000, guid: f1716f7ec272f2440b8bca58c6da5195, type: 3}
+  rangedAudio: {fileID: 8300000, guid: 933da36a9c07ac045a3bf1b405f9d6ac, type: 3}
   dropItem: {fileID: 4860855929597828578, guid: 7e79e7e8f7481c942b4e3ab9f51aff44, type: 3}
   lastAttack: -1
   updateObjectiveSound: {fileID: 8300000, guid: c263fac6b7ec450449136780f4f05905, type: 3}
@@ -467,8 +468,7 @@ MonoBehaviour:
   criticalPointReveal: {fileID: 0}
   number: 4
   weakPointReveal: []
-  skinnedMeshRenderer: {fileID: 7278422598712478788}
-  meshRenderer: {fileID: 0}
+  skinnedMeshRenderer: {fileID: 0}
   materials: []
   player: {fileID: 0}
 --- !u!114 &5958229837112839082
@@ -1449,14 +1449,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
-    - target: {fileID: -2599531847097691762, guid: 877099af21a10fd43a6f284e0bea72d2, type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: -2599531847097691762, guid: 877099af21a10fd43a6f284e0bea72d2, type: 3}
-      propertyPath: m_Materials.Array.data[1]
-      value: 
-      objectReference: {fileID: 2100000, guid: 47e347403a1acb749bd56447f1ef3b9c, type: 2}
     - target: {fileID: -2572089310006190904, guid: 877099af21a10fd43a6f284e0bea72d2, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -1622,10 +1614,6 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 877099af21a10fd43a6f284e0bea72d2, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 877099af21a10fd43a6f284e0bea72d2, type: 3}
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
@@ -1640,10 +1628,6 @@ PrefabInstance:
     - target: {fileID: 1264286918534338876, guid: 877099af21a10fd43a6f284e0bea72d2, type: 3}
       propertyPath: m_Layer
       value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 1264286918534338876, guid: 877099af21a10fd43a6f284e0bea72d2, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1264286918534338876, guid: 877099af21a10fd43a6f284e0bea72d2, type: 3}
       propertyPath: m_TagString
@@ -2263,11 +2247,6 @@ MonoBehaviour:
   knockBackUp: 0
   knifeDamageUpFactor: 5
   armorPieces: []
---- !u!137 &7278422598712478788 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -2599531847097691762, guid: 877099af21a10fd43a6f284e0bea72d2, type: 3}
-  m_PrefabInstance: {fileID: 4534769977349348810}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7570364133189015635 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2890770733526071911, guid: 877099af21a10fd43a6f284e0bea72d2, type: 3}

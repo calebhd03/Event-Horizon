@@ -21,7 +21,6 @@ public class EnemiesScanScript : MonoBehaviour
 
     private AudioSource alertSound;
     public SkinnedMeshRenderer skinnedMeshRenderer;
-    public MeshRenderer meshRenderer;
     public Material[] materials;
     ScanCam scanCam;
     public GameObject player;
@@ -36,12 +35,6 @@ public class EnemiesScanScript : MonoBehaviour
         if(skinnedMeshRenderer != null)
         {
             materials = skinnedMeshRenderer.materials;
-            materials[1].SetFloat("_isHovered", 1);
-            materials[1].SetFloat("_isHighlighted", 0);
-        }
-        else if(meshRenderer != null)
-        {
-            materials = meshRenderer.materials;
             materials[1].SetFloat("_isHovered", 1);
             materials[1].SetFloat("_isHighlighted", 0);
         }
