@@ -60,19 +60,19 @@ public class SceneTransitionController : MonoBehaviour
         isFading = false;
         if(sceneName == "Inner")
         {
-            Background_Music.instance.InnerMusic();
+            if (Background_Music.instance != null) Background_Music.instance.InnerMusic();
         }
         else if(sceneName == "The Center")
         {
-            Background_Music.instance.CenterMusic();
+            if (Background_Music.instance != null) Background_Music.instance.CenterMusic();
         }
         else if (sceneName == "Start Menu")
         {
-            Background_Music.instance.MenuMusic();
+            if (Background_Music.instance != null) Background_Music.instance.MenuMusic();
         }
         else if (sceneName == "OutroCutScene")
         {
-            Background_Music.instance.audioSource.Stop();
+            if(Background_Music.instance != null) Background_Music.instance.audioSource.Stop();
         }
         // Load the next scene after fading in
          StartCoroutine(LoadSceneAsync(sceneName));
@@ -82,6 +82,7 @@ public class SceneTransitionController : MonoBehaviour
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
         while (!operation.isDone)
         {
+            Debug.Log("Loading " + sceneName);
            if(loadingScreen != null)
            {
                 loadingScreen.SetActive(true);

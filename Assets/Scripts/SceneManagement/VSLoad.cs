@@ -8,7 +8,7 @@ public class VSLoad : MonoBehaviour
     public GameObject loadingScreen;
     private void OnEnable()
     {
-        Background_Music.instance.OuterMusic();
+        if (Background_Music.instance != null) Background_Music.instance.OuterMusic();
         StartCoroutine(LoadSceneAsync("TheOuterVer2"));
     }
 

@@ -15,11 +15,11 @@ public class skipScene : MonoBehaviour
         //loadingScreen.SetActive(true);
         if (skipSceneTo == "TheOuterVer2")
         {
-            Background_Music.instance.OuterMusic();
+            if (Background_Music.instance != null) Background_Music.instance.OuterMusic();
         }
         else if (skipSceneTo == "Start Menu")
         {
-            Background_Music.instance.MenuMusic();
+            if (Background_Music.instance != null) Background_Music.instance.MenuMusic();
         }
 
         StartCoroutine(LoadSceneAsync(skipSceneTo));
