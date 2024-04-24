@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Steamworks;
 
 public class ItemsScript : MonoBehaviour
 {
@@ -229,5 +230,7 @@ public class ItemsScript : MonoBehaviour
                     protagDialog.SetActive(true);
                 }
         }
+        SteamUserStats.SetAchievement("ACH_FIRST_SCAN");      
+        SteamUserStats.StoreStats();
     }
 }

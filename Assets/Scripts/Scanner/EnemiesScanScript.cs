@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using StarterAssets;
+using Steamworks;
 
 public class EnemiesScanScript : MonoBehaviour
 {
@@ -134,6 +135,9 @@ public class EnemiesScanScript : MonoBehaviour
     {
         LogSystem logSystem = FindObjectOfType<LogSystem>();
         logSystem.UpdateEnemyLog();
+
+        SteamUserStats.SetAchievement("ACH_FIRST_SCAN");      
+        SteamUserStats.StoreStats();
     }
 
     /*IEnumerator ShowWeakPoints()

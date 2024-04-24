@@ -8,6 +8,7 @@ using StarterAssets;
 using UnityEngine.Video;
 using UnityEngine.UIElements;
 using System;
+using Steamworks;
 
 public class ObjectivesScript : MonoBehaviour
 {
@@ -138,11 +139,16 @@ public class ObjectivesScript : MonoBehaviour
     public void MemoryLog()
     {
         logSystem.UpdateMemoryLog();
+
+        SteamUserStats.SetAchievement("ACH_FIRST_SCAN");      
+        SteamUserStats.StoreStats();
     }
     public void JournalLog()
     {
-        
         logSystem.UpdateJournalLog();
+
+        SteamUserStats.SetAchievement("ACH_FIRST_SCAN");      
+        SteamUserStats.StoreStats();
     }
     void ShowSpatialAudio()
     {

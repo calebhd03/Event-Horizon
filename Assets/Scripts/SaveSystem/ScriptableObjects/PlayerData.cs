@@ -88,8 +88,6 @@ public class PlayerData : ScriptableObject
 
         if(SteamManager.Initialized)
         {
-            SteamUserStats.SetAchievement("ACH_FIRST_SCAN");
-
             int enemiesUnlocked = 0;
             foreach(var enemy in enemyBools)
             {
