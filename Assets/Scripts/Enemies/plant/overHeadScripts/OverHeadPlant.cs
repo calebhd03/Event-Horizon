@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using StarterAssets;
+using Steamworks;
 
 public class OverHeadPlant : MonoBehaviour
 {
@@ -109,6 +110,12 @@ public class OverHeadPlant : MonoBehaviour
 
             if (player != null)
             {
+                if(SteamManager.Initialized)
+                {
+                    SteamUserStats.SetAchievement("ACH_TRAP");
+                    Steamworks.SteamUserStats.StoreStats();
+                }
+
                 player.gameObject.transform.LookAt(transform.position);
                 player.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
                 thirdPersonController.canMove = false;
@@ -217,6 +224,18 @@ public class OverHeadPlant : MonoBehaviour
 
     public void Dead()
     {
+        if(SteamManager.Initialized)
+        { 
+            int currentEnemyKills;
+            Steamworks.SteamUserStats.GetStat("STAT_ENEMIES_KILLED", out currentEnemyKills);
+            currentEnemyKills++;
+            Steamworks.SteamUserStats.SetStat("STAT_ENEMIES_KILLED", currentEnemyKills);
+
+            SteamUserStats.SetAchievement("ACH_KILL_ENEMY");
+
+            Steamworks.SteamUserStats.StoreStats();
+        }
+
         if (isDead)
         {
             transform.parent.gameObject.SetActive(false);

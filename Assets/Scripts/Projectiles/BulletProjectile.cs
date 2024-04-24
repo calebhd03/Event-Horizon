@@ -54,7 +54,7 @@ public class BulletProjectile : MonoBehaviour
                 {
                     Instantiate(vfxHit, hitInfo.point, Quaternion.identity);
                     // Damage done on enemy hit boxes with tag bullets
-                    healthMetrics.ModifyHealth(-20f); // Apply 20 damage to the object
+                    healthMetrics.ModifyHealth(-20f, 0); // Apply 20 damage to the object
                 }
                 else
                 {

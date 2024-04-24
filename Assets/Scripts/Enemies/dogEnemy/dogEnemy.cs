@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Steamworks;
 
 public class dogEnemy : MonoBehaviour
 {
@@ -365,6 +366,23 @@ public class dogEnemy : MonoBehaviour
 
     public void Dead()
     {
+        if(SteamManager.Initialized)
+        {
+            int currentEnemyKills;
+            Steamworks.SteamUserStats.GetStat("STAT_ENEMIES_KILLED", out currentEnemyKills);
+            currentEnemyKills++;
+            Steamworks.SteamUserStats.SetStat("STAT_ENEMIES_KILLED", currentEnemyKills);
+
+            int currentDogKills;
+            Steamworks.SteamUserStats.GetStat("STAT_DOG_KILLS", out currentDogKills);
+            currentDogKills++;
+            Steamworks.SteamUserStats.SetStat("STAT_DOG_KILLS", currentDogKills);
+
+            SteamUserStats.SetAchievement("ACH_KILL_ENEMY");
+
+            Steamworks.SteamUserStats.StoreStats();
+        }
+        
         if (isDead)
         {
             transform.parent.gameObject.SetActive(false);

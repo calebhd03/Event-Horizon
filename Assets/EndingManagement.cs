@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
+using Steamworks;
 
 public class EndingManagement : MonoBehaviour
 {
@@ -10,11 +11,24 @@ public class EndingManagement : MonoBehaviour
 
     public VideoPlayer killCutScene;
     public afterOutroLoad killSceneLoader;
+
+    [SerializeField]private PlayerData playerData;
    
     private void Awake()
     {
         if(bossPhaseTwo.captureEnding == true && bossPhaseTwo.shootingEnding == false)
         {
+            if(SteamManager.Initialized)
+            {
+                if(playerData.currentHealth >= playerData.maxHealth)
+                {
+                    SteamUserStats.SetAchievement("ACH_FULL_HEALTH");
+                }
+
+                SteamUserStats.SetAchievement("ACH_ENDING_1");
+                Steamworks.SteamUserStats.StoreStats();
+            }
+
             captureSceneLoader.enabled = true;
             captureCutScene.enabled = true;
 
@@ -24,6 +38,17 @@ public class EndingManagement : MonoBehaviour
 
         if (bossPhaseTwo.shootingEnding == true && bossPhaseTwo.captureEnding == false)
         {
+            if(SteamManager.Initialized)
+            {
+                if(playerData.currentHealth >= playerData.maxHealth)
+                {
+                    SteamUserStats.SetAchievement("ACH_FULL_HEALTH");
+                }
+
+                SteamUserStats.SetAchievement("ACH_ENDING_2");
+                Steamworks.SteamUserStats.StoreStats();
+            }
+
             captureSceneLoader.enabled = false;
             captureCutScene.enabled = false;
 

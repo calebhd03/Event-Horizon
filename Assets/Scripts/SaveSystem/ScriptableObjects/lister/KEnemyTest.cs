@@ -139,24 +139,24 @@ public class KEnemyTest : MonoBehaviour
 
         if (other.CompareTag("Bullet"))
         {
-            ModifyHealth(-10f); // Decrease health by 10 for a regular bullet
+            ModifyHealth(-10f, 0); // Decrease health by 10 for a regular bullet
         }
         else if (other.CompareTag("Plasma Bullet"))
         {
-            ModifyHealth(-15f); // Decrease health by 15 for a plasma bullet
+            ModifyHealth(-15f, 0); // Decrease health by 15 for a plasma bullet
         }
         else if (other.CompareTag("BHBullet"))
         {
-            ModifyHealth(-20f); // Decrease health by 20 for a BHBullet
+            ModifyHealth(-20f, 1); // Decrease health by 20 for a BHBullet
         }
     }
 
-    private void ModifyHealth(float amount)
+    private void ModifyHealth(float amount, int weaponType)
     {
         HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
         if (healthMetrics != null)
         {
-            healthMetrics.ModifyHealth(amount);
+            healthMetrics.ModifyHealth(amount, weaponType);
             if (healthMetrics.currentHealth <= 0)
             {
                 fight = false;

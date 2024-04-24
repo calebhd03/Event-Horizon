@@ -134,7 +134,7 @@ public class regularPoint : MonoBehaviour
         if (boss2 != null && other.CompareTag("Orb") && bossPhaseTwo.noBulletDamage)
         {
             Debug.Log("Hii");
-            healthMetrics.ModifyHealth(-orbDamage);
+            healthMetrics.ModifyHealth(-orbDamage, 1);
         }
 
         if (other.CompareTag("Bullet"))
@@ -166,11 +166,11 @@ public class regularPoint : MonoBehaviour
 
                 if (meleeUp == true)
                 {
-                    healthMetrics.ModifyHealth(-regularKnifeDamage * knifeDamageUpFactor);
+                    healthMetrics.ModifyHealth(-regularKnifeDamage * knifeDamageUpFactor, 2);
                 }
                 else
                 {
-                    healthMetrics.ModifyHealth(-regularKnifeDamage);
+                    healthMetrics.ModifyHealth(-regularKnifeDamage, 2);
                 }
 
                 // Set iSeeYou to true in the BasicEnemy script
@@ -193,7 +193,7 @@ public class regularPoint : MonoBehaviour
         else if (other.CompareTag("BHBullet"))
         {
             hit = true;
-            healthMetrics.ModifyHealth(-BHDamage);
+            healthMetrics.ModifyHealth(-BHDamage, 1);
             if (upgradeEffects != null && upgradeEffects.stopStackDamage == false)
             {
                 upgradeEffects.DamageOverTime();
@@ -230,7 +230,7 @@ public class regularPoint : MonoBehaviour
             }
             if (armorPieces.Length == 0)
             {
-                healthMetrics.ModifyHealth(-damage);
+                healthMetrics.ModifyHealth(-damage, 0);
                 return;
             }
 
@@ -238,12 +238,12 @@ public class regularPoint : MonoBehaviour
             {
                 if (armorPiece != null)
                 {
-                    healthMetrics.ModifyHealth(-5);
+                    healthMetrics.ModifyHealth(-5, 0);
                     Debug.Log("Armor Damage");
                 }
                 else
                 {
-                    healthMetrics.ModifyHealth(-damage);
+                    healthMetrics.ModifyHealth(-damage, 0);
                 }
             }
 
@@ -280,11 +280,11 @@ public class regularPoint : MonoBehaviour
 
             if (meleeUp == true)
             {
-                healthMetrics.ModifyHealth(-regularKnifeDamage * knifeDamageUpFactor);
+                healthMetrics.ModifyHealth(-regularKnifeDamage * knifeDamageUpFactor, 2);
             }
             else
             {
-                healthMetrics.ModifyHealth(-regularKnifeDamage);
+                healthMetrics.ModifyHealth(-regularKnifeDamage, 2);
             }
         }
     }

@@ -394,6 +394,16 @@ public class ThirdPersonShooterController : MonoBehaviour
                     thirdPersonController.SwitchCameraTarget();
                     blasterFlash.Play();
 
+                    if(SteamManager.Initialized)
+                    {
+                        int currentBulletsFired;
+                        Steamworks.SteamUserStats.GetStat("STAT_BULLETS_FIRED", out currentBulletsFired);
+                        currentBulletsFired++;
+                        Steamworks.SteamUserStats.SetStat("STAT_BULLETS_FIRED", currentBulletsFired);
+
+                        Steamworks.SteamUserStats.StoreStats();
+                    }
+
                     if(!playerData.SavePlasmaUpgrade)
                     {
                         Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));

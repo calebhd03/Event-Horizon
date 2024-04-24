@@ -201,7 +201,7 @@ public class UpgradeEffects : MonoBehaviour
                 float elapsedTime = 0f;
                 while (elapsedTime < damageOverTimeDuration)
                 {
-                   healthMetrics.ModifyHealth(-damageOverTime * Time.deltaTime);
+                   healthMetrics.ModifyHealth(-damageOverTime * Time.deltaTime, 0);
                    elapsedTime += Time.deltaTime;
                    
                    yield return null; 
