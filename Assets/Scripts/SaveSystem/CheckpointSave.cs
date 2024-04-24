@@ -5,6 +5,7 @@ using TMPro;
 
 public class CheckpointSave : MonoBehaviour
 {
+    public int LogNumber;
     public bool objectiveTriggered = false;
     public TMP_Text objectiveText;
     public string objective;
@@ -30,6 +31,9 @@ public class CheckpointSave : MonoBehaviour
             audioSource.PlayOneShot(audioClip);
             saveIcon.SetActive(true);
             Invoke("TurnOffSaveIcon", 3f);
+
+            LogSystem.Instance.number = LogNumber;
+            LogSystem.Instance.UpdateJournalLog();
         }
         if (saveSystemTest != null)
         {

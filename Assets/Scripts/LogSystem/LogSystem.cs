@@ -53,6 +53,8 @@ public class LogSystem : MonoBehaviour
     [SerializeField]MiniCore miniCore;
     [SerializeField]PlayerHealthMetric playerHealthMetric;
 
+    public static LogSystem Instance;
+
     void Awake()
     {
         miniCore = GetComponentInParent<MiniCore>();
@@ -66,6 +68,16 @@ public class LogSystem : MonoBehaviour
         scnScr = miniCore.GetComponentInChildren<Scanning>();
         //scanCam = miniCore.GetComponentInChildren<ScanCam>();
         playerHealthMetric = miniCore.GetComponentInChildren<PlayerHealthMetric>();
+
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Debug.LogError("Two log systems in" + gameObject.name + " " + LogSystem.Instance.gameObject.name);
+            Destroy(gameObject);
+        }
     }
     void Start()
     {
