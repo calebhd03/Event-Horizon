@@ -113,10 +113,16 @@ public class PlayerData : ScriptableObject
 
             if(enemiesUnlocked == enemyBools.Length && memoriesUnlocked == memoryBools.Length && itemsUnlocked == itemBools.Length && journalsUnlocked == journalBools.Length)
             {
-                SteamUserStats.SetAchievement("ACH_LOG_COMPLETE");
+                if (SteamManager.Initialized) 
+                {
+                    SteamUserStats.SetAchievement("ACH_LOG_COMPLETE");
+                }
             }
-            
-            SteamUserStats.StoreStats();
+
+            if (SteamManager.Initialized)
+            {
+                SteamUserStats.StoreStats();
+            }
         }
     }   
 

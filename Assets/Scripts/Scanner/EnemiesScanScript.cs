@@ -136,8 +136,11 @@ public class EnemiesScanScript : MonoBehaviour
         LogSystem logSystem = FindObjectOfType<LogSystem>();
         logSystem.UpdateEnemyLog();
 
-        SteamUserStats.SetAchievement("ACH_FIRST_SCAN");      
-        SteamUserStats.StoreStats();
+        if (SteamManager.Initialized)
+        {
+            SteamUserStats.SetAchievement("ACH_FIRST_SCAN");
+            SteamUserStats.StoreStats();
+        }
     }
 
     /*IEnumerator ShowWeakPoints()

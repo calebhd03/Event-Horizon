@@ -230,7 +230,10 @@ public class ItemsScript : MonoBehaviour
                     protagDialog.SetActive(true);
                 }
         }
-        SteamUserStats.SetAchievement("ACH_FIRST_SCAN");      
-        SteamUserStats.StoreStats();
+        if (SteamManager.Initialized)
+        {
+            SteamUserStats.SetAchievement("ACH_FIRST_SCAN");
+            SteamUserStats.StoreStats();
+        }
     }
 }
