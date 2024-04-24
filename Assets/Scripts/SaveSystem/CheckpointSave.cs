@@ -21,23 +21,25 @@ public class CheckpointSave : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-
-        saveSystemTest = other.GetComponent<SaveSystemTest>();
-        if (objectiveTriggered  == false)
+        if(other.CompareTag("Player"))
         {
-            objectiveText.SetText(objective);
-            objectiveTriggered = true;
-            audioSource.clip = audioClip;
-            audioSource.PlayOneShot(audioClip);
-            saveIcon.SetActive(true);
-            Invoke("TurnOffSaveIcon", 3f);
+            saveSystemTest = other.GetComponent<SaveSystemTest>();
+            if (objectiveTriggered  == false)
+            {
+                objectiveText.SetText(objective);
+                objectiveTriggered = true;
+                audioSource.clip = audioClip;
+                audioSource.PlayOneShot(audioClip);
+                saveIcon.SetActive(true);
+                Invoke("TurnOffSaveIcon", 3f);
 
-            LogSystem.Instance.number = LogNumber;
-            LogSystem.Instance.UpdateJournalLog();
-        }
-        if (saveSystemTest != null)
-        {
-            saveSystemTest.SaveGame();
+                LogSystem.Instance.number = LogNumber;
+                LogSystem.Instance.UpdateJournalLog();
+            }
+            if (saveSystemTest != null)
+            {
+                saveSystemTest.SaveGame();
+            }
         }
     }
 
