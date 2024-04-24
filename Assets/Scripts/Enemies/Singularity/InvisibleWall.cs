@@ -14,10 +14,16 @@ public class InvisibleWall : MonoBehaviour
     [SerializeField] private InvisibleWall thisScript;
     [SerializeField] private PauseMenuScript pauseMenuScript;
 
+    PlayerHealthMetric playerHealthMetric;
+    GameObject player;
+
     private void Awake()
     {
         thisScript = GetComponent<InvisibleWall>();
         pauseMenuScript = FindObjectOfType<PauseMenuScript>();
+
+        player = GameObject.FindWithTag("Player");
+        playerHealthMetric = player.GetComponent<PlayerHealthMetric>();
     }
 
     // Start is called before the first frame update
@@ -33,6 +39,7 @@ public class InvisibleWall : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CheckPlayer();
         if(triggerWall)
         {
             wall.SetActive(true);
@@ -56,14 +63,14 @@ public class InvisibleWall : MonoBehaviour
 
     void PauseGame()
     {
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
         isPaused = true;
         StartCoroutine(UnpauseAfterDelay());
     }
     IEnumerator UnpauseAfterDelay()
     {
         yield return new WaitForSecondsRealtime(Delay);
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
         isPaused = false;
         if (boss != null)
         {
@@ -72,6 +79,17 @@ public class InvisibleWall : MonoBehaviour
         // Reset triggerWall to prevent repeating the pause/unpause cycle
         triggerWall = false;
         yield return new WaitForSeconds(2f);
-        thisScript.enabled = false;
+        //thisScript.enabled = false;
+    }
+
+    public void CheckPlayer()
+    {
+        if (playerHealthMetric.playerData.currentHealth <= 0)
+        {
+            triggerWall = false;
+            isTriggered = false;
+            isPaused = false;
+            wall.SetActive(false);
+        }
     }
 }
