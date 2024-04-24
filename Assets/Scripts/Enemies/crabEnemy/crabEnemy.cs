@@ -204,6 +204,14 @@ public class crabEnemy : MonoBehaviour
             jump = true;
             StartCoroutine(StickyDelay());
 
+            playerHealthMetric.playerData.crabsStuck++;
+            if(SteamManager.Initialized && playerHealthMetric.playerData.crabsStuck >= 3)
+            {
+                SteamUserStats.SetAchievement("ACH_BABIES");
+                SteamUserStats.StoreStats();
+            }
+
+
             if(thirdPersonController != null)
             {
                 thirdPersonController.MoveSpeed = 1.5f;
@@ -237,7 +245,16 @@ public class crabEnemy : MonoBehaviour
                 knifeDeath = true;
                 if(knifeDeath)
                 {
+                    if(SteamManager.Initialized)
+                    {
+                        int currentKnifeKills;
+                        Steamworks.SteamUserStats.GetStat("STAT_KNIFE_KILLS", out currentKnifeKills);
+                        currentKnifeKills++;
+                        Steamworks.SteamUserStats.SetStat("STAT_KNIFE_KILLS", currentKnifeKills);
+                        Steamworks.SteamUserStats.StoreStats();
+                    }
                     Debug.Log("Crab is Destroyed with Knife");
+                    playerHealthMetric.playerData.crabsStuck = 0;
                     isDead = true;
                     Dead();
                     audioSource.PlayOneShot(deathAudio);

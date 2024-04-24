@@ -16,6 +16,8 @@ public class SkillTree : MonoBehaviour
     public bool slowEffectEnemy = false, damageOverTime = false, knockBack = false, bHGTool = false, plasma = false;
     public bool OGBHG = false, BHGPull = false;
     UpgradeEffects[] upgradeEffects;
+
+    private int totalUpgrades;
     
     void Start()
     {
@@ -34,6 +36,7 @@ public class SkillTree : MonoBehaviour
 
     public void BHGToolUpgrade()
     {
+        totalUpgrades++;
         bHGTool = true;
         logSystem.BHGToolUpgraded = true;
         playerHealthMetric.playerData.SaveBHGToolUpgrade = true;
@@ -45,12 +48,17 @@ public class SkillTree : MonoBehaviour
         if(SteamManager.Initialized)
         {
             SteamUserStats.SetAchievement("ACH_UPGRADE_TOOL");
+            if(totalUpgrades >= 4)
+            {
+                SteamUserStats.SetAchievement("ACH_ALL_UPGRADES");
+            }
             Steamworks.SteamUserStats.StoreStats();
         }
     }
 
     public void SlowEnemyUpgrade()
     {
+        totalUpgrades++;
         slowEffectEnemy = true;
         playerHealthMetric.playerData.SaveSlowEnemyUpgrade = true;
         foreach(UpgradeEffects upgrades in upgradeEffects)
@@ -61,12 +69,17 @@ public class SkillTree : MonoBehaviour
         if(SteamManager.Initialized)
         {
             SteamUserStats.SetAchievement("ACH_UPGRADE_SLOW");
+            if(totalUpgrades >= 4)
+            {
+                SteamUserStats.SetAchievement("ACH_ALL_UPGRADES");
+            }
             Steamworks.SteamUserStats.StoreStats();
         }
     }
 
     public void DamageOverTimeUpgrade()
     {
+        totalUpgrades++;
         damageOverTime = true;
         playerHealthMetric.playerData.SaveDamageOverTimeUpgrade = true;
         foreach(UpgradeEffects upgrades in upgradeEffects)
@@ -77,6 +90,10 @@ public class SkillTree : MonoBehaviour
         if(SteamManager.Initialized)
         {
             SteamUserStats.SetAchievement("ACH_UPGRADE_DOT");
+            if(totalUpgrades >= 4)
+            {
+                SteamUserStats.SetAchievement("ACH_ALL_UPGRADES");
+            }
             Steamworks.SteamUserStats.StoreStats();
         }
     }
@@ -93,15 +110,27 @@ public class SkillTree : MonoBehaviour
 
     public void KnockBackUpgrade()
     {
+        totalUpgrades++;
         knockBack = true;
         playerHealthMetric.playerData.SaveKnockBackUpgrade = true;
         foreach(UpgradeEffects upgrades in upgradeEffects)
         {
             upgrades.SetUpgrades();
         }
+
+        if(SteamManager.Initialized)
+        {
+            SteamUserStats.SetAchievement("ACH_UPGRADE_KNOCKBACK");
+            if(totalUpgrades >= 4)
+            {
+                SteamUserStats.SetAchievement("ACH_ALL_UPGRADES");
+            }
+            Steamworks.SteamUserStats.StoreStats();
+        }
     }
     public void OGBHGUpgrade()
     {
+        totalUpgrades++;
         OGBHG = true;
         playerHealthMetric.playerData.SaveOGBHGUpgrade = true;
         foreach(UpgradeEffects upgrades in upgradeEffects)
@@ -112,11 +141,16 @@ public class SkillTree : MonoBehaviour
         if(SteamManager.Initialized)
         {
             SteamUserStats.SetAchievement("ACH_UPGRADE_BHG");
+            if(totalUpgrades >= 4)
+            {
+                SteamUserStats.SetAchievement("ACH_ALL_UPGRADES");
+            }
             Steamworks.SteamUserStats.StoreStats();
         }
     }
     public void BHGPullUpgrade()
     {
+        totalUpgrades++;
         BHGPull = true;
         playerHealthMetric.playerData.SaveBHGPullEffect = true;
         foreach(UpgradeEffects upgrades in upgradeEffects)
@@ -127,11 +161,16 @@ public class SkillTree : MonoBehaviour
         if(SteamManager.Initialized)
         {
             SteamUserStats.SetAchievement("ACH_UPGRADE_GRAVITY");
+            if(totalUpgrades >= 4)
+            {
+                SteamUserStats.SetAchievement("ACH_ALL_UPGRADES");
+            }
             Steamworks.SteamUserStats.StoreStats();
         }
     }
     public void PlasmaUpgrade()
     {
+        totalUpgrades++;
         plasma = true;
         playerHealthMetric.playerData.SavePlasmaUpgrade = true;
         foreach(UpgradeEffects upgrades in upgradeEffects)
@@ -142,6 +181,10 @@ public class SkillTree : MonoBehaviour
         if(SteamManager.Initialized)
         {
             SteamUserStats.SetAchievement("ACH_UPGRADE_PLASMA");
+            if(totalUpgrades >= 4)
+            {
+                SteamUserStats.SetAchievement("ACH_ALL_UPGRADES");
+            }
             Steamworks.SteamUserStats.StoreStats();
         }
     }

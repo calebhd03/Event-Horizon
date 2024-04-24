@@ -39,7 +39,7 @@ public class PlantBasedHealth : MonoBehaviour
                 {
                     if (starterAssetsInputs.interact)
                     {
-                        if(toxicPlant == false)
+                        if(!toxicPlant)
                         {
                             HealPlayer();
                         }
@@ -78,25 +78,26 @@ public class PlantBasedHealth : MonoBehaviour
     {
         if (used == false)
         {
-                if (playerHealth != null && playerHealth.playerData.currentHealth < playerHealth.playerData.maxHealth)
+            if (playerHealth != null)
+            {
+                if(SteamManager.Initialized)
                 {
-                    used = true;
-                    playerHealth.ModifyHealth(-pickUpHealthAmount);
-                    mesh.enabled = false;
-                    audioSource.PlayOneShot(damageAudio, 1);
-                    damageCloud.Play();
-                    StartCoroutine(StopCloud());
+                    int currentPlantUses;
+                    Steamworks.SteamUserStats.GetStat("STAT_DAMAGE_PLANT", out currentPlantUses);
+                    currentPlantUses++;
+                    Steamworks.SteamUserStats.SetStat("STAT_DAMAGE_PLANT", currentPlantUses);
 
-                    if(SteamManager.Initialized)
-                    {
-                        int currentPlantUses;
-                        Steamworks.SteamUserStats.GetStat("STAT_DAMAGE_PLANT", out currentPlantUses);
-                        currentPlantUses++;
-                        Steamworks.SteamUserStats.SetStat("STAT_DAMAGE_PLANT", currentPlantUses);
-
-                        Steamworks.SteamUserStats.StoreStats();
-                    }
+                    Steamworks.SteamUserStats.StoreStats();
+                    Debug.Log("Damaged" + currentPlantUses);
                 }
+                
+                used = true;
+                playerHealth.ModifyHealth(-pickUpHealthAmount);
+                mesh.enabled = false;
+                audioSource.PlayOneShot(damageAudio, 1);
+                damageCloud.Play();
+                StartCoroutine(StopCloud());
+            }
         }
     }
     IEnumerator StopCloud()

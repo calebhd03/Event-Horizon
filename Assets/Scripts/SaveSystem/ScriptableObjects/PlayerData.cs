@@ -68,6 +68,8 @@ public class PlayerData : ScriptableObject
     public bool objective6 , objective7 , objective8 , objective9 , objective10 , objective11 ;
     public bool objective12 , objective13 , objective14 , objective15 , objective16 , objective17 ;
 
+    public int crabsStuck;
+
 
 
     public void InitializeArrays()
@@ -122,6 +124,7 @@ public class PlayerData : ScriptableObject
     public void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        crabsStuck = 0;
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
