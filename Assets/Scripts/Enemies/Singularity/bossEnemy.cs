@@ -73,7 +73,7 @@ public class bossEnemy : MonoBehaviour
     public Vector3 deathParticleOffset;
     public float timeTillDestroyOnDeath;
 
-    bool isDead = false;
+    public bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -406,7 +406,7 @@ public class bossEnemy : MonoBehaviour
             Portal.SetActive(true);
             Instantiate(deathParticle, transform.position + deathParticleOffset, Quaternion.identity);
             Debug.Log("Boss Death end");
-            Destroy(transform.parent.gameObject, timeTillDestroyOnDeath);
+            StartCoroutine(DeactivateAfterDelay());
         }
          public void PlayEnemyHitAnimation()
         {
@@ -414,12 +414,18 @@ public class bossEnemy : MonoBehaviour
             animator.SetTrigger("EnemyHit");
         }
 
-       // IEnumerator BossMusic()
-       // {
-           // yield return new WaitUntil(() => iSeeYou);
-          //  Background_Music.instance.BossMusic();
-           // yield return null;
-            
-       // }
-        
+        IEnumerator DeactivateAfterDelay()
+         {
+            yield return new WaitForSeconds(timeTillDestroyOnDeath);
+            transform.parent.gameObject.SetActive(false);
+        }
+
+    // IEnumerator BossMusic()
+    // {
+    // yield return new WaitUntil(() => iSeeYou);
+    //  Background_Music.instance.BossMusic();
+    // yield return null;
+
+    // }
+
 }

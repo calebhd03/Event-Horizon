@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -78,6 +78,22 @@ public class bossPhaseTwo : MonoBehaviour
 
     public GameObject purpleWall;
 
+    PlayerHealthMetric playerHealthMetric;
+    GameObject playerr;
+
+    public GameObject SingularityTransition;
+
+    public GameObject bossPhaseGameObject;
+    public bossEnemy boss1Script;
+    public HealthMetrics boss1health;
+    public Transform spawnOrginal;
+
+    [SerializeField] GameObject[] ObstaclesToHide;
+    [SerializeField] GameObject[] ObstaclesToNOTHide;
+
+
+
+
     private void OnEnable()
     {
         noBulletDamage = true;
@@ -95,11 +111,15 @@ public class bossPhaseTwo : MonoBehaviour
         upgrades.knockBackUp = false;
         weak = GetComponentInChildren<weakPoint>();
         regular = GetComponentInChildren<regularPoint>();
+
+        playerr = GameObject.FindWithTag("Player");
+        playerHealthMetric = player.GetComponent<PlayerHealthMetric>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        CheckPlayer();
         weak.SingularityDamage();
         regular.SingularityDamage();
         SceneManagement();
@@ -442,5 +462,51 @@ public class bossPhaseTwo : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, seeDistance);
+    }
+
+    public void CheckPlayer()
+    {
+        if (playerHealthMetric.playerData.currentHealth <= 0)
+        {
+            DestroySummons();
+            health.currentHealth = health.maxHealth;
+            Vector3 ResetLoaction = new Vector3(-3.06f, -38.7f, -0.78f);
+            ResetLocationForPhase2(ResetLoaction);
+            boss1Script.isDead = false;
+            boss1health.currentHealth = boss1health.maxHealth;
+            bossPhaseGameObject.SetActive(true);
+            bossPhaseGameObject.transform.parent.gameObject.SetActive(true);
+            ResetLocationForPhase1();
+            StartCoroutine(DelayToReset());
+            OrbFunction.orbCount = 0;
+
+            foreach (GameObject obj in ObstaclesToHide)
+            {
+                obj.SetActive(false);
+            }
+            foreach (GameObject obj in ObstaclesToNOTHide)
+            {
+                obj.SetActive(true);
+            }
+
+
+        }
+    }
+
+    IEnumerator DelayToReset()
+    {
+        yield return new WaitForSeconds(1f);
+        transform.parent.gameObject.SetActive(false);
+        SingularityTransition.SetActive(false);
+    }
+
+    public void ResetLocationForPhase2(Vector3 reset)
+    {
+        transform.position = reset;
+    }
+
+    public void ResetLocationForPhase1()
+    {
+        bossPhaseGameObject.transform.position = spawnOrginal.position;
     }
 }
