@@ -87,6 +87,7 @@ public class bossPhaseTwo : MonoBehaviour
     public bossEnemy boss1Script;
     public HealthMetrics boss1health;
     public Transform spawnOrginal;
+    public Transform spawnOrginal2;
 
     [SerializeField] GameObject[] ObstaclesToHide;
     [SerializeField] GameObject[] ObstaclesToNOTHide;
@@ -471,7 +472,7 @@ public class bossPhaseTwo : MonoBehaviour
             DestroySummons();
             health.currentHealth = health.maxHealth;
             Vector3 ResetLoaction = new Vector3(-3.06f, -38.7f, -0.78f);
-            ResetLocationForPhase2(ResetLoaction);
+            ResetLocationForPhase2();
             boss1Script.isDead = false;
             boss1health.currentHealth = boss1health.maxHealth;
             bossPhaseGameObject.SetActive(true);
@@ -500,9 +501,9 @@ public class bossPhaseTwo : MonoBehaviour
         SingularityTransition.SetActive(false);
     }
 
-    public void ResetLocationForPhase2(Vector3 reset)
+    public void ResetLocationForPhase2()
     {
-        transform.position = reset;
+        transform.position = spawnOrginal2.position;
     }
 
     public void ResetLocationForPhase1()
