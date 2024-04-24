@@ -37,7 +37,7 @@ public class TriggerDialog : MonoBehaviour
     void Awake()
     {
         pauseMenuScript = FindObjectOfType<PauseMenuScript>();
-        objectiveText = FindObjectOfType<ObjectiveText>();
+        objectiveText = FindObjectOfType<ObjectiveText>(true);
         player = GameObject.FindWithTag("Player");
         starterAssetsInputs = player.GetComponent<StarterAssetsInputs>();
         thirdPersonShooterController = player.GetComponent<ThirdPersonShooterController>();
