@@ -45,7 +45,7 @@ public class Background_Music : MonoBehaviour
     }
     public void BossMusic()
     {
-        StartCoroutine(FadeMusic(audioClips[5]));
+        StartCoroutine(SingularityDelay());
     }
     public void FrondBeast()
     {
@@ -116,6 +116,13 @@ public class Background_Music : MonoBehaviour
             yield return null;
         }
         audioSource.volume = startVolume;
+
+    }
+
+    IEnumerator SingularityDelay()
+    {
+        yield return new WaitForSeconds(50);
+        StartCoroutine(FadeMusic(audioClips[5]));
     }
 
     public void IncrementSeeingPlayerCount()
