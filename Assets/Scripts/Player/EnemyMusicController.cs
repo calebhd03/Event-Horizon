@@ -9,7 +9,7 @@ public class EnemyMusicController : MonoBehaviour
     [SerializeField] private Collider[] colliderArray;
     private bool enemymusicplaying = false; // Flag to track music state
     string sceneName;
-    public LayerMask layerMask;
+    public LayerMask layerMask, arena;
     bool isEnemyPresent = false;
     bool isFrontBeastPresent = false;
     bool isSingularityPresent = false;
@@ -101,6 +101,6 @@ public class EnemyMusicController : MonoBehaviour
     // Update colliderArray with colliders in range
     private void UpdateColliderArray()
     {
-        colliderArray = Physics.OverlapSphere(transform.position, range, layerMask);
+        colliderArray = Physics.OverlapSphere(transform.position, range, layerMask | arena);
     }
 }
