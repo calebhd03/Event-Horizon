@@ -13,6 +13,20 @@ public class PlayerHealthMetric : MonoBehaviour
     private Material healthBarMaterial; // Material of the health bar for color changing
     private bool isFlashing = false; // State flag for flashing
 
+    public static PlayerHealthMetric Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
