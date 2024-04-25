@@ -10,6 +10,9 @@ public class EnemyMusicController : MonoBehaviour
     private bool enemymusicplaying = false; // Flag to track music state
     string sceneName;
     public LayerMask layerMask;
+    bool isEnemyPresent = false;
+    bool isFrontBeastPresent = false;
+    bool isSingularityPresent = false;
 
     private void Start()
     {
@@ -20,19 +23,53 @@ public class EnemyMusicController : MonoBehaviour
     private void Update()
     {
         UpdateColliderArray();
+        
 
-        // If music is not playing and there are enemy colliders in range, play music
-        if (!enemymusicplaying && colliderArray.Length > 0)
+    // Check for each type of enemy in the colliderArray
+        foreach (Collider collider in colliderArray)
+    {
+        if (collider.CompareTag("FrondBeast"))
+        {
+            isFrontBeastPresent = true;
+        }
+        else if (collider.CompareTag("Singularity"))
+        {
+            isSingularityPresent = true;
+        }
+        else if (collider.CompareTag("Enemy"))
+        {
+            isEnemyPresent = true;
+        }
+    }
+
+    // If music is not playing and there are enemy colliders in range, play music
+    if (!enemymusicplaying && colliderArray.Length > 0 && (isFrontBeastPresent || isSingularityPresent || isEnemyPresent))
+    {
+        if (isFrontBeastPresent)
+        {
+            if (Background_Music.instance != null) Background_Music.instance.FrondBeast();
+        }
+        else if (isSingularityPresent)
+        {
+            if (Background_Music.instance != null) Background_Music.instance.BossMusic();
+        }
+        else if (isEnemyPresent)
         {
             if (Background_Music.instance != null) Background_Music.instance.EnemyMusic();
-            enemymusicplaying = true;
         }
-        // If music is playing and there are no enemy colliders in range, stop music
-        else if (enemymusicplaying && colliderArray.Length == 0)
-        {
-            if (Background_Music.instance != null) Background_Music.instance.PlayLevelMusic(sceneName);
-            enemymusicplaying = false;
-        }
+        enemymusicplaying = true;
+    }
+    // If music is playing and there are no enemy colliders in range, stop music
+    else if (enemymusicplaying && colliderArray.Length == 0)
+    {
+        if (Background_Music.instance != null) Background_Music.instance.PlayLevelMusic(sceneName);
+        enemymusicplaying = false;
+
+        // Reset the boolean flags
+        isEnemyPresent = false;
+        isFrontBeastPresent = false;
+        isSingularityPresent = false;
+    }
     }
 
     /*private void OnTriggerEnter(Collider other)

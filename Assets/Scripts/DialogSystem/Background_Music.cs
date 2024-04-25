@@ -47,6 +47,10 @@ public class Background_Music : MonoBehaviour
     {
         StartCoroutine(FadeMusic(audioClips[5]));
     }
+    public void FrondBeast()
+    {
+        StartCoroutine(FadeMusic(audioClips[6]));
+    }
 
     public void PlayLevelMusic(string sceneName)
     {
