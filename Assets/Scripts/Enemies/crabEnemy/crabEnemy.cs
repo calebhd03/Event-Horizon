@@ -8,8 +8,8 @@ using Steamworks;
 public class crabEnemy : MonoBehaviour
 {
     [SerializeField] EnemyHealthBar healthBar;
-    public Transform player;
     public NavMeshAgent agent;
+    Transform player;
     private Rigidbody rb;
     [SerializeField] private ThirdPersonController thirdPersonController;
     [SerializeField] private ThirdPersonShooterController ThirdPersonShooterController;
@@ -43,25 +43,17 @@ public class crabEnemy : MonoBehaviour
     public AudioClip stickAudio;
     HealthMetrics healthMetrics;
 
-    GameObject playerr;
     PlayerHealthMetric playerHealthMetric;
 
     private bool isDead = false;//assuming it is alive
     private void Awake()
     {
-        player = GameObject.Find("Player").transform;
         healthBar = GetComponentInChildren<EnemyHealthBar>();
         agent = GetComponentInParent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        thirdPersonController = FindObjectOfType<ThirdPersonController>();
-        ThirdPersonShooterController = FindAnyObjectByType<ThirdPersonShooterController>();
-
-        playerr = GameObject.FindWithTag("Player");
-        playerHealthMetric = playerr.GetComponent<PlayerHealthMetric>();
-
-
     }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -69,6 +61,11 @@ public class crabEnemy : MonoBehaviour
         healthMetrics.currentHealth = healthMetrics.maxHealth;
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
         audioSource = GetComponent<AudioSource>();
+
+        playerHealthMetric = PlayerHealthMetric.Instance;
+        thirdPersonController = playerHealthMetric.GetComponent<ThirdPersonController>();
+        ThirdPersonShooterController = playerHealthMetric.GetComponent<ThirdPersonShooterController>();
+        player = playerHealthMetric.gameObject.transform;
         //StartCoroutine(EnemyMusic());
     }
 
@@ -140,6 +137,10 @@ public class crabEnemy : MonoBehaviour
     public void updateHealth()
     {
         HealthMetrics healthMetrics = GetComponentInParent<HealthMetrics>();
+        if(healthMetrics == null)
+        {
+            healthMetrics = GetComponent<HealthMetrics>();
+        }
         healthBar.updateHealthBar(healthMetrics.currentHealth, healthMetrics.maxHealth);
 
         if (healthMetrics.currentHealth <= 0)
