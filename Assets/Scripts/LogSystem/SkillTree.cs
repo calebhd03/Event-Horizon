@@ -19,19 +19,19 @@ public class SkillTree : MonoBehaviour
 
     private int totalUpgrades;
     
-    void Start()
+    void Awake()
     {
         playerHealthMetric = GetComponent<PlayerHealthMetric>();
         thirdPersonController = GetComponent<ThirdPersonController>();
         regularPointdamage = FindObjectsOfType<regularPoint>();
         weakPointdamage = FindObjectsOfType<weakPoint>();
         logSystem = FindObjectOfType<LogSystem>();
-        upgradeEffects = FindObjectsOfType<UpgradeEffects>();
+        upgradeEffects = FindObjectsOfType<UpgradeEffects>();        
+    }
 
+    private void Start()
+    {
         SetUpgradesOnLoad();
-
-
-        
     }
 
     public void BHGToolUpgrade()

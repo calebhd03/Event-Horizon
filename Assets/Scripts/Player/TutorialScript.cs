@@ -59,12 +59,19 @@ public class TutorialScript : MonoBehaviour
         hasBlaster = true;
         hasNexus = true;
         hasNexusTool = true;
+
+        skillTree = GetComponent<SkillTree>();
         skillTree.BHGToolUpgrade();
+
+        thirdPersonShooterController = GetComponent<ThirdPersonShooterController>();
         thirdPersonShooterController.bgun.EnableMesh();
         thirdPersonShooterController.nxgun.EnableMesh();
         thirdPersonShooterController.EquipBlaster();
+
+        playerHealthMetric = GetComponent<PlayerHealthMetric>();
         playerHealthMetric.playerData.hasBlaster = true;
         playerHealthMetric.playerData.hasNexus = true;
+
         skipTutorial.SetActive(false);
         if (currentScene.name == "TheOuterVer2")
         {

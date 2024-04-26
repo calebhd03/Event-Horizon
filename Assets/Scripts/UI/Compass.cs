@@ -79,7 +79,11 @@ public class Compass : MonoBehaviour
         }
 
         // Initialize current marker
-        SetCurrentMarker(questMarkers[0]);
+        if(questMarkers.Count >= 1)
+        {
+            SetCurrentMarker(questMarkers[0]);
+
+        }
     }
 
     private void Update()
