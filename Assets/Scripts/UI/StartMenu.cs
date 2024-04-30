@@ -12,7 +12,6 @@ public class StartMenu : MonoBehaviour
     private bool menuOpen = false;
 
     public GameObject start;
-    public GameObject accessibilityMenu;
     public GameObject menu;
     public GameObject startButton;
     public GameObject VSSceneButton;
@@ -30,30 +29,17 @@ public class StartMenu : MonoBehaviour
         start.SetActive(true);
         menu.SetActive(false);
         string path = Application.persistentDataPath + "/playerData.data";
-        if (!File.Exists(path))
-        {
-            accessibilityMenu.SetActive(true);
-        }
-        else
-        {
-            accessibilityMenu.SetActive(false);
-        }
     }
 
     void Update()
     {
-        if (Input.anyKey && menuOpen == false && accessibilityMenu.active == false)
+        if (Input.anyKey && menuOpen == false)
         {
             start.SetActive(false);
             menu.SetActive(true);
             menuOpen = true;
             SetSelected(startButton);
         }
-    }
-
-    public void CloseAccessibilityMenu()
-    {
-        accessibilityMenu.SetActive(false);
     }
 
     public void LoadCodePrototype()
