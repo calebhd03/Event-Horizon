@@ -18,13 +18,11 @@ public class Interact : MonoBehaviour
         if(nexusGun == true)
         {
             PickupNexus pickupNexus = GetComponent<PickupNexus>();
-            if(pickupNexus.isScanned == true)
+            if (other.CompareTag("Player"))
             {
-                if (other.CompareTag("Player"))
-                {
-                    scannerUI.GetComponentInChildren<InteractText>(true).ShowDialogText();
-                }
+                scannerUI.GetComponentInChildren<InteractText>(true).ShowDialogText();
             }
+            
         }
         else
         {

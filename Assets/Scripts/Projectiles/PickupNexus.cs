@@ -12,7 +12,6 @@ public class PickupNexus : MonoBehaviour
     GameObject player;
     public Collider[] colliderArray;
     float interactRange = 2f;
-    public bool isScanned = false;
     ItemsScript itemsScript;
     [SerializeField] MiniCore miniCore;
     [SerializeField] LogSystem LogSystem;
@@ -32,7 +31,6 @@ public class PickupNexus : MonoBehaviour
         itemsScript = GetComponent<ItemsScript>();
         if(playerHealthMetric.playerData.tutorialComplete == true)
         {
-            isScanned = true;
             gameObject.SetActive(false);
         }
         
@@ -40,23 +38,18 @@ public class PickupNexus : MonoBehaviour
 
     void Update()
     {
-        
-        if(itemsScript.Scanned == true)
-        {
-            isScanned = true;
         colliderArray = Physics.OverlapSphere(transform.position, interactRange);
         foreach (Collider collider in colliderArray)
-                if (collider.tag == "Player")
-                {
-                    if (starterAssetsInputs.interact)
-                    {
-                        //if(starterAssetsInputs.interact == true)
-                           // {
-                                //starterAssetsInputs.interact = false;
-                            //}
-                        EquipNexusGun();
-                    }
-                }
+        if (collider.tag == "Player")
+        {
+            if (starterAssetsInputs.interact)
+            {
+                //if(starterAssetsInputs.interact == true)
+                    // {
+                        //starterAssetsInputs.interact = false;
+                    //}
+                EquipNexusGun();
+            }
         }
     }
     void EquipNexusGun()

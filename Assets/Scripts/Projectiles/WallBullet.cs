@@ -19,14 +19,14 @@ public class WallBullet : MonoBehaviour
     private void Start()
     {
         bulletRigidbody.velocity = transform.forward * speed;
-        Object.Destroy(gameObject,2.0f);
+        Destroy(gameObject,2.0f);
         lastPosition = transform.position;
         Debug.Log("WallBullet");
     }
 
     private void FixedUpdate()
     {
-        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","EnemyColider"));
+        int layerMask = ~(LayerMask.GetMask("Bullets", "CheckPoints", "Player", "GunLayer","WallBullet","EnemyColider", "Dialog", "Arena", "Interact", "MemoryLayer"));
         if (Physics.Linecast(transform.position, lastPosition, out RaycastHit hitInfo, layerMask))
         {
             transform.position = lastPosition;
@@ -39,21 +39,25 @@ public class WallBullet : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-         int layerMask = other.gameObject.layer;
+        Debug.LogWarning("hit " + other);
+        int layerMask = other.gameObject.layer;
         // Check if the collider is on any of the specified layers
         if (layerMask == LayerMask.NameToLayer("Bullets") ||
             layerMask == LayerMask.NameToLayer("CheckPoints") ||
             layerMask == LayerMask.NameToLayer("Player") ||
             layerMask == LayerMask.NameToLayer("GunLayer")||
             layerMask == LayerMask.NameToLayer("WallBullet")||
-            layerMask == LayerMask.NameToLayer("EnemyColider"))
+            layerMask == LayerMask.NameToLayer("EnemyColider") ||
+            layerMask == LayerMask.NameToLayer("Dialog") ||
+            layerMask == LayerMask.NameToLayer("Arena") ||
+            layerMask == LayerMask.NameToLayer("Interact") ||
+            layerMask == LayerMask.NameToLayer("MemoryLayer"))
         {
             // Do nothing if the collider is on the specified layers
             return;
         }
              
         GameObject otherObject = other.gameObject;
-         Debug.LogWarning("hit " + other);
 
         if (otherObject.CompareTag("Barrier"))
         {
@@ -65,7 +69,7 @@ public class WallBullet : MonoBehaviour
         }
         else if (otherObject.CompareTag("Enemy") || otherObject.CompareTag("WeakPoint"))
         {
-           
+            Debug.LogWarning("Stopped moving on: " + otherObject.name);
             bulletRigidbody.constraints = RigidbodyConstraints.FreezePosition; // Stops projectile
             transform.position = lastPosition;
             StartCoroutine(ScaleOverTime(effectTime));
