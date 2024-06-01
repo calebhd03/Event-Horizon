@@ -18,6 +18,9 @@ public class Feesh : MonoBehaviour
     private bool iSeeYou;
     public float seeDistance;
 
+    public GameObject particleEffectPrefab;
+    public GameObject HealthBar;
+
     [Header("Patrol")]
     public Transform[] movePoints;
     private int destinationPoints = 0;
@@ -44,6 +47,7 @@ public class Feesh : MonoBehaviour
     public GameObject bHPickupPrefab;
     public GameObject healthPickupPrefab;
     public float pickupDropChance = 0.3f;
+    public GameObject[] Prize;
 
     [Header("Audio")]
     public AudioClip deathAudio;
@@ -207,35 +211,55 @@ public class Feesh : MonoBehaviour
     public void Die()
     {
         agent.isStopped = true;
-        StartCoroutine(WaitAndDropStuff(3f));
         iSeeYou = false;
+        Destroy(HealthBar);
+        StartCoroutine(MoveAndSpin());
     }
 
-    private IEnumerator WaitAndDropStuff(float waitTime)
+    private IEnumerator MoveAndSpin()
     {
-        yield return new WaitForSeconds(waitTime);
-        audioSource.PlayOneShot(deathAudio);
+        Vector3 startPosition = transform.position;
+        Vector3 targetPosition = startPosition + Vector3.up * 10f;
+        float duration = 11f;
+        float elapsedTime = 0f;
+        float startSpinSpeed = 1f;
+        float endSpinSpeed = 20f;
+        float totalRotations = 5f; // Number of full rotations
 
-        // Call DropStuff after waiting for 3 seconds
-        DropStuff();
-    }
-
-    private void DropStuff()
-    {
-        if (Random.value < pickupDropChance)
+        while (elapsedTime < duration)
         {
-            Instantiate(shotGunPickupPrefab, transform.position, Quaternion.identity);
-            Instantiate(blasterPickupPrefab, transform.position, Quaternion.identity);
-            Instantiate(bHPickupPrefab, transform.position, Quaternion.identity);
+            float t = elapsedTime / duration;
+
+            // Move up
+            transform.position = Vector3.Lerp(startPosition, targetPosition, t);
+
+            // Spin
+            float currentSpinSpeed = Mathf.Lerp(startSpinSpeed, endSpinSpeed, t);
+            float angle = Mathf.Lerp(0, totalRotations * 360f, t); // Full rotation over time
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
 
-        if (Random.value < pickupDropChance / 2)
+        // Instantiate particle effect
+        Instantiate(particleEffectPrefab, transform.position, Quaternion.identity);
+
+        foreach (GameObject prize in Prize)
         {
-            Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
+            if (prize != null)
+            {
+                prize.SetActive(true);
+            }
         }
 
-        Dead();
+        // Destroy the game object
+        Destroy(gameObject);
     }
+
+
+
+
 
     public void SetISeeYou()
     {

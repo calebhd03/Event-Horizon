@@ -224,5 +224,19 @@ public class PlayerData : ScriptableObject
     objective6 = false; objective7 = false; objective8 = false; objective9 = false; objective10 = false; objective11 = false;
     objective12 = false; objective13 = false; objective14 = false; objective15 = false; objective16 = false; objective17 = false;
     }
+    
+    public void FullUpgrades()
+    {
+        currentHealth = maxHealth;
+   
+       
+        SavePlasmaUpgrade = true;
+        SaveBHGToolUpgrade = true;
+        SaveDamageOverTimeUpgrade = true;
+        SaveSlowEnemyUpgrade = true;
+        SaveKnockBackUpgrade = true;
+        SaveOGBHGUpgrade = true;
+        SaveBHGPullEffect = true;
+    }
 
 }
